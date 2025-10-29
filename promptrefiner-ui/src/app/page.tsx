@@ -1,6 +1,7 @@
 'use client';
 
-import { FormEvent, useMemo, useState } from "react";
+import { FormEvent, ReactNode, useMemo, useState } from "react";
+import { useTheme } from "@/components/theme-provider";
 import type {
   PromptAnalysisResult,
   PromptRefinementResult,
@@ -66,7 +67,126 @@ function ThinkingIndicator({ color = "cyan" }: { color?: "cyan" | "emerald" | "s
   );
 }
 
+function SocialIcon({
+  href,
+  label,
+  children,
+}: {
+  href: string;
+  label: string;
+  children: ReactNode;
+}) {
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={label}
+      className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-[rgba(148,163,184,0.35)] bg-[var(--surface-card-soft)] text-soft transition duration-300 hover:-translate-y-0.5 hover:scale-[1.05] hover:border-[rgba(148,163,184,0.65)] hover:text-white"
+    >
+      {children}
+    </a>
+  );
+}
+
+function ThemeToggle() {
+  const { theme, toggleTheme } = useTheme();
+  const isLight = theme === "light";
+
+  return (
+    <button
+      type="button"
+      onClick={toggleTheme}
+      className="group relative inline-flex items-center gap-3 rounded-full border border-[var(--surface-border)] bg-[var(--surface-card-soft)] px-3 py-1.5 text-xs font-semibold tracking-[0.28em] uppercase text-soft transition duration-300 hover:shadow-[0_18px_45px_-28px_rgba(56,189,248,0.55)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-400"
+      aria-label="Toggle theme"
+    >
+      <span className="hidden sm:inline">{isLight ? "Light" : "Dark"}</span>
+      <span className="relative flex h-8 w-16 items-center justify-start overflow-hidden rounded-full bg-[var(--surface-card)] px-1 py-0.5">
+        <span className="absolute inset-0 rounded-full bg-gradient-to-r from-cyan-400/40 via-emerald-400/30 to-cyan-400/40 opacity-20 blur" />
+        <span
+          className={`relative z-10 flex h-6 w-6 items-center justify-center rounded-full bg-gradient-to-br from-cyan-400 to-emerald-400 text-slate-900 shadow-lg transition-transform duration-500 ease-out ${
+            isLight ? "translate-x-8" : "translate-x-0"
+          }`}
+        >
+          {isLight ? (
+            <svg
+              className="h-3 w-3"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <circle cx="12" cy="12" r="5" />
+              <line x1="12" y1="1" x2="12" y2="3" />
+              <line x1="12" y1="21" x2="12" y2="23" />
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+              <line x1="1" y1="12" x2="3" y2="12" />
+              <line x1="21" y1="12" x2="23" y2="12" />
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+            </svg>
+          ) : (
+            <svg
+              className="h-3 w-3"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+            </svg>
+          )}
+        </span>
+      </span>
+    </button>
+  );
+}
+
 export default function Home() {
+  const navLinks = [
+    { label: "Features", href: "#features" },
+    { label: "Blueprints", href: "#blueprint" },
+    { label: "Workflow", href: "#workflow" },
+    { label: "Docs", href: "#docs" },
+  ];
+
+  const socialLinks = [
+    {
+      label: "Twitter",
+      href: "https://twitter.com",
+      icon: (
+        <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="currentColor">
+          <path d="M22.46 6c-.77.35-1.6.58-2.46.69a4.18 4.18 0 0 0 1.84-2.31 8.36 8.36 0 0 1-2.65 1.04 4.14 4.14 0 0 0-7.06 3.77A11.73 11.73 0 0 1 3.16 4.9a4.12 4.12 0 0 0 1.28 5.52 4.11 4.11 0 0 1-1.87-.52v.05a4.14 4.14 0 0 0 3.32 4.06 4.2 4.2 0 0 1-1.86.07 4.15 4.15 0 0 0 3.87 2.88A8.33 8.33 0 0 1 2 19.54a11.75 11.75 0 0 0 6.29 1.84c7.55 0 11.68-6.26 11.68-11.68 0-.18 0-.35-.01-.53A8.35 8.35 0 0 0 22.46 6Z" />
+        </svg>
+      ),
+    },
+    {
+      label: "GitHub",
+      href: "https://github.com",
+      icon: (
+        <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="currentColor">
+          <path
+            fillRule="evenodd"
+            d="M12 2a10 10 0 0 0-3.16 19.48c.5.09.68-.22.68-.48v-1.7c-2.78.61-3.37-1.34-3.37-1.34-.45-1.16-1.1-1.47-1.1-1.47-.9-.62.07-.6.07-.6 1 .07 1.53 1.05 1.53 1.05.88 1.52 2.32 1.08 2.88.83.09-.64.35-1.08.63-1.33-2.22-.25-4.55-1.11-4.55-4.95 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02a9.6 9.6 0 0 1 2.5-.34c.85 0 1.7.11 2.5.34 1.9-1.29 2.74-1.02 2.74-1.02.56 1.37.21 2.39.1 2.64.65.7 1.03 1.59 1.03 2.68 0 3.85-2.34 4.7-4.57 4.95.36.32.68.94.68 1.9v2.82c0 .27.18.58.69.48A10 10 0 0 0 12 2Z"
+          />
+        </svg>
+      ),
+    },
+    {
+      label: "Dribbble",
+      href: "https://dribbble.com",
+      icon: (
+        <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="currentColor">
+          <path d="M12 2C6.49 2 2 6.49 2 12s4.49 10 10 10 10-4.49 10-10S17.51 2 12 2Zm6.6 4.81a8.15 8.15 0 0 1 1.86 5.15c-.28-.06-3-.62-5.76-.27-.12-.29-.23-.6-.37-.9-.37-.87-.8-1.71-1.24-2.52 3.37-1.45 5.38-1.4 5.51-1.39ZM12 3.65c2 0 3.83.76 5.2 2-1.13-.03-2.74.16-4.7.92a31.9 31.9 0 0 0-3.63-4.44c.37-.05.73-.08 1.13-.08Zm-2.22.32a30.76 30.76 0 0 1 3.48 4.26c-4.61 1.73-8.7 1.67-8.96 1.67a8.33 8.33 0 0 1 5.48-5.93ZM3.62 12.1v-.1c.25.01 4.9.03 9.34-1.6.3.53.57 1.1.82 1.67-.1.03-.2.06-.3.1-4.7 1.52-7.26 5.1-7.44 5.36A8.3 8.3 0 0 1 3.62 12.1Zm2.77 6.3c.14-.23 2.06-3.2 6.93-4.75 1.85 4.81 2.61 8.75 2.72 9.43-1.26.54-2.64.84-4.04.84-2.27 0-4.35-.8-5.96-2.14Zm11.36.75c-.07-.46-.8-4.23-2.54-8.64 2.51-.4 4.7.25 4.96.33a8.3 8.3 0 0 1-2.42 8.3Z" />
+        </svg>
+      ),
+    },
+  ];
   const [form, setForm] = useState(() => ({ ...INITIAL_FORM }));
   const [analysis, setAnalysis] = useState<PromptAnalysisResult | null>(null);
   const [answers, setAnswers] = useState<Record<string, string>>({});
@@ -251,30 +371,81 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100">
+    <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)] transition-colors duration-500">
       <main className="mx-auto flex w-full max-w-5xl flex-col gap-10 px-6 py-12">
-        <header className="space-y-3">
-          <p className="text-sm uppercase tracking-[0.3em] text-slate-400">
-            promptrefiner
-          </p>
-          <h1 className="text-4xl font-semibold text-white md:text-5xl">
-            Turn rough ideas into AI-ready prompts.
-          </h1>
-          <p className="max-w-3xl text-lg text-slate-300">
-            Paste the prompt you&apos;re working on, select the target model,
-            and let Gemini highlight the gaps, ask clarifying questions, and
-            craft the final optimized prompt for you.
-          </p>
-        </header>
+        <nav className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+          <div className="flex items-center justify-between gap-4">
+            <span className="text-sm font-semibold uppercase tracking-[0.4em] text-soft">
+              PromptTriage
+            </span>
+            <div className="flex items-center gap-3 md:hidden">
+              <ThemeToggle />
+            </div>
+          </div>
+          <div className="hidden items-center gap-8 text-xs font-medium text-muted md:flex">
+            {navLinks.map((link) => (
+              <a
+                key={link.label}
+                href={link.href}
+                className="tracking-[0.36em] uppercase transition duration-300 hover:text-soft"
+              >
+                {link.label}
+              </a>
+            ))}
+          </div>
+          <div className="hidden items-center gap-3 md:flex">
+            <ThemeToggle />
+            {socialLinks.map((item) => (
+              <SocialIcon key={item.label} href={item.href} label={item.label}>
+                {item.icon}
+              </SocialIcon>
+            ))}
+          </div>
+        </nav>
 
-        <form
-          onSubmit={handleAnalyze}
-          className="space-y-6 rounded-3xl border border-slate-800 bg-slate-900/60 p-8 shadow-xl shadow-slate-950/40 backdrop-blur"
-        >
+        <section className="flex flex-col items-center gap-6 text-center">
+          <p className="text-xs uppercase tracking-[0.4em] text-muted">
+            Precision prompt engineering
+          </p>
+          <h1 className="hero-gradient-text text-4xl font-semibold md:text-6xl">
+            A Fast Prompt. <br className="hidden md:block" /> Scalable Guidance.
+          </h1>
+          <h2 className="text-3xl font-semibold text-soft md:text-5xl">
+            Designed for clarity. Crafted for results.
+          </h2>
+          <p className="max-w-2xl text-base leading-relaxed text-muted md:text-lg">
+            From quick iterations to production-ready briefs, PromptTriage refines your ideas
+            into crisp instructions tailored for any model. Turn vague requests into structured,
+            high-impact prompts—without losing your creative spark.
+          </p>
+          <div className="flex flex-wrap items-center justify-center gap-4">
+            <a className="cta-primary" href="#prompt-refiner">
+              Get started
+            </a>
+            <a className="cta-secondary" href="#blueprint">
+              View blueprint
+            </a>
+          </div>
+        </section>
+
+        <div className="flex items-center justify-center gap-3 md:hidden">
+          {socialLinks.map((item) => (
+            <SocialIcon key={item.label} href={item.href} label={item.label}>
+              {item.icon}
+            </SocialIcon>
+          ))}
+        </div>
+
+        <div className="prompt-panel-shell">
+          <form
+            id="prompt-refiner"
+            onSubmit={handleAnalyze}
+            className="prompt-panel space-y-6 rounded-3xl theme-card p-8 shadow-xl shadow-slate-950/40"
+          >
           <div className="space-y-2">
             <label
               htmlFor="prompt"
-              className="text-sm font-medium text-slate-200"
+              className="text-sm font-medium text-soft"
             >
               Prompt to refine
             </label>
@@ -284,7 +455,7 @@ export default function Home() {
               rows={8}
               required
               placeholder="Describe the task you want an AI to complete..."
-              className="w-full rounded-2xl border border-slate-800 bg-slate-950/70 p-4 text-base text-slate-100 placeholder:text-slate-500 transition-all duration-300 ease-out focus:-translate-y-0.5 focus:scale-[1.01] focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/30"
+              className="w-full rounded-2xl border border-[var(--surface-border)] bg-[var(--surface-card-strong)] p-4 text-base text-[var(--foreground)] placeholder:text-muted transition-all duration-300 ease-out focus:-translate-y-0.5 focus:scale-[1.01] focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/30"
               value={form.prompt}
               onChange={(event) => handleFormChange("prompt", event.target.value)}
             />
@@ -294,7 +465,7 @@ export default function Home() {
             <div className="space-y-2">
               <label
                 htmlFor="targetModel"
-                className="text-sm font-medium text-slate-200"
+                className="text-sm font-medium text-soft"
               >
                 Target AI model
               </label>
@@ -302,7 +473,7 @@ export default function Home() {
                 <select
                   id="targetModel"
                   name="targetModel"
-                  className="flex-1 rounded-2xl border border-slate-800 bg-slate-950/70 px-4 py-2.5 text-base text-slate-100 transition-all duration-300 ease-out focus:-translate-y-0.5 focus:scale-[1.01] focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/30"
+                  className="flex-1 rounded-2xl border border-[var(--surface-border)] bg-[var(--surface-card-strong)] px-4 py-2.5 text-base text-[var(--foreground)] placeholder:text-muted transition-all duration-300 ease-out focus:-translate-y-0.5 focus:scale-[1.01] focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/30"
                   value={form.targetModel}
                   onChange={(event) =>
                     handleFormChange("targetModel", event.target.value)
@@ -315,7 +486,7 @@ export default function Home() {
                   ))}
                 </select>
               </div>
-              <p className="text-sm text-slate-500">
+              <p className="text-sm text-muted">
                 Tailor the prompt format and structure to the model you plan to
                 use, or pick &quot;None / Not sure yet&quot; if you&apos;re undecided.
               </p>
@@ -324,7 +495,7 @@ export default function Home() {
             <div className="space-y-2">
               <label
                 htmlFor="context"
-                className="text-sm font-medium text-slate-200"
+                className="text-sm font-medium text-soft"
               >
                 Extra context (optional)
               </label>
@@ -333,7 +504,7 @@ export default function Home() {
                 name="context"
                 rows={4}
                 placeholder="Domain knowledge, constraints, success metrics, or any background the model should know."
-                className="w-full rounded-2xl border border-slate-800 bg-slate-950/70 p-3 text-base text-slate-100 placeholder:text-slate-500 transition-all duration-300 ease-out focus:-translate-y-0.5 focus:scale-[1.01] focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/30"
+                className="w-full rounded-2xl border border-[var(--surface-border)] bg-[var(--surface-card-strong)] p-3 text-base text-[var(--foreground)] placeholder:text-muted transition-all duration-300 ease-out focus:-translate-y-0.5 focus:scale-[1.01] focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/30"
                 value={form.context}
                 onChange={(event) =>
                   handleFormChange("context", event.target.value)
@@ -344,7 +515,7 @@ export default function Home() {
 
           <div className="grid gap-6 md:grid-cols-2">
             <div className="space-y-2">
-              <label htmlFor="tone" className="text-sm font-medium text-slate-200">
+              <label htmlFor="tone" className="text-sm font-medium text-soft">
                 Desired tone (optional)
               </label>
               <input
@@ -352,7 +523,7 @@ export default function Home() {
                 name="tone"
                 type="text"
                 placeholder="e.g. friendly, expert, concise, marketing-savvy"
-                className="w-full rounded-2xl border border-slate-800 bg-slate-950/70 px-4 py-2.5 text-base text-slate-100 placeholder:text-slate-500 transition-all duration-300 ease-out focus:-translate-y-0.5 focus:scale-[1.01] focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/30"
+                className="w-full rounded-2xl border border-[var(--surface-border)] bg-[var(--surface-card-strong)] px-4 py-2.5 text-base text-[var(--foreground)] placeholder:text-muted transition-all duration-300 ease-out focus:-translate-y-0.5 focus:scale-[1.01] focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/30"
                 value={form.tone}
                 onChange={(event) => handleFormChange("tone", event.target.value)}
               />
@@ -360,7 +531,7 @@ export default function Home() {
             <div className="space-y-2">
               <label
                 htmlFor="outputRequirements"
-                className="text-sm font-medium text-slate-200"
+                className="text-sm font-medium text-soft"
               >
                 Output requirements (optional)
               </label>
@@ -369,7 +540,7 @@ export default function Home() {
                 name="outputRequirements"
                 type="text"
                 placeholder="Formatting, length, structure, evaluation criteria..."
-                className="w-full rounded-2xl border border-slate-800 bg-slate-950/70 px-4 py-2.5 text-base text-slate-100 placeholder:text-slate-500 transition-all duration-300 ease-out focus:-translate-y-0.5 focus:scale-[1.01] focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/30"
+                className="w-full rounded-2xl border border-[var(--surface-border)] bg-[var(--surface-card-strong)] px-4 py-2.5 text-base text-[var(--foreground)] placeholder:text-muted transition-all duration-300 ease-out focus:-translate-y-0.5 focus:scale-[1.01] focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/30"
                 value={form.outputRequirements}
                 onChange={(event) =>
                   handleFormChange("outputRequirements", event.target.value)
@@ -378,22 +549,22 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="rounded-2xl border border-slate-800 bg-slate-950/60 p-4">
+          <div className="rounded-2xl border border-[var(--surface-border)] bg-[var(--surface-card-soft)] p-4">
             <label
               htmlFor="useWebSearch"
-              className="flex items-center gap-3 text-sm font-medium text-slate-200"
+              className="flex items-center gap-3 text-sm font-medium text-soft"
             >
               <input
                 id="useWebSearch"
                 name="useWebSearch"
                 type="checkbox"
-                className="h-4 w-4 rounded border-slate-700 bg-slate-900 text-cyan-400 transition duration-200 ease-out focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:ring-offset-0 checked:shadow-[0_0_12px_rgba(56,189,248,0.45)]"
+                className="h-4 w-4 rounded border-[var(--surface-border)] bg-[var(--surface-card-strong)] text-cyan-400 transition duration-200 ease-out focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:ring-offset-0 checked:shadow-[0_0_12px_rgba(56,189,248,0.45)]"
                 checked={form.useWebSearch}
                 onChange={(event) => handleWebSearchToggle(event.target.checked)}
               />
               Enrich analysis with web search (Firecrawl)
             </label>
-            <p className="mt-2 text-xs text-slate-400">
+            <p className="mt-2 text-xs text-muted">
               Pulls supporting facts from the web to help Gemini identify missing context.
               Requires a valid FIRECRAWL_API_KEY.
             </p>
@@ -409,7 +580,7 @@ export default function Home() {
             <button
               type="submit"
               disabled={isAnalyzing || !form.prompt.trim()}
-              className="inline-flex items-center justify-center rounded-2xl bg-cyan-500/90 px-6 py-3 text-base font-semibold text-slate-950 shadow-[0_20px_45px_-28px_rgba(34,211,238,0.85)] transition-transform duration-300 ease-out hover:-translate-y-0.5 hover:scale-[1.03] hover:bg-cyan-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-400 disabled:translate-y-0 disabled:scale-100 disabled:cursor-not-allowed disabled:bg-slate-700 disabled:text-slate-400"
+              className="inline-flex items-center justify-center rounded-2xl bg-cyan-500/90 px-6 py-3 text-base font-semibold text-slate-900 shadow-[0_20px_45px_-28px_rgba(34,211,238,0.85)] transition-transform duration-300 ease-out hover:-translate-y-0.5 hover:scale-[1.03] hover:bg-cyan-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-400 disabled:translate-y-0 disabled:scale-100 disabled:cursor-not-allowed disabled:bg-[var(--surface-card-soft)] disabled:text-muted"
             >
               <span className="flex items-center gap-2">
                 <span>{isAnalyzing ? "Analyzing prompt..." : "Analyze prompt"}</span>
@@ -419,39 +590,40 @@ export default function Home() {
             <button
               type="button"
               onClick={handleReset}
-              className="inline-flex items-center justify-center rounded-2xl border border-slate-700 px-6 py-3 text-base font-semibold text-slate-200 transition-transform duration-300 ease-out hover:-translate-y-0.5 hover:scale-[1.02] hover:border-slate-500 hover:text-white"
+              className="inline-flex items-center justify-center rounded-2xl border border-[var(--surface-border)] px-6 py-3 text-base font-semibold text-soft transition-transform duration-300 ease-out hover:-translate-y-0.5 hover:scale-[1.02] hover:border-[rgba(148,163,184,0.65)] hover:text-[var(--foreground)]"
             >
               Reset
             </button>
           </div>
         </form>
+      </div>
 
         {analysis ? (
-          <section className="space-y-8 rounded-3xl border border-slate-800 bg-slate-900/40 p-8 shadow-[0_45px_120px_-80px_rgba(15,118,110,0.65)] transition duration-500 hover:border-slate-700">
+          <section className="space-y-8 rounded-3xl theme-card p-8 shadow-[0_45px_120px_-80px_rgba(15,118,110,0.65)] transition duration-500">
             <header className="space-y-2">
               <p className="text-xs uppercase tracking-[0.3em] text-cyan-300">
                 phase 02
               </p>
-              <h2 className="text-2xl font-semibold text-white md:text-3xl">
+              <h2 className="text-2xl font-semibold text-soft md:text-3xl">
                 Gemini&apos;s take on your prompt
               </h2>
-              <p className="text-slate-300">
+              <p className="text-muted">
                 Review the critique and provide answers so we can tailor the
                 final prompt perfectly for {form.targetModel}.
               </p>
             </header>
 
             <div className="grid gap-6 md:grid-cols-[2fr,3fr]">
-              <div className="space-y-4 rounded-2xl border border-slate-800 bg-slate-950/40 p-6 backdrop-blur-sm transition duration-300 hover:border-slate-700 hover:bg-slate-950/55">
-                <h3 className="text-lg font-semibold text-white">
+              <div className="space-y-4 rounded-2xl theme-card-strong p-6 transition duration-300">
+                <h3 className="text-lg font-semibold text-soft">
                   Strengths & gaps
                 </h3>
-                <p className="text-slate-300">{analysis.analysis}</p>
+                <p className="text-muted">{analysis.analysis}</p>
                 <div className="space-y-2">
-                  <p className="text-sm font-medium text-slate-200">
+                  <p className="text-sm font-medium text-soft">
                     Missing details to address
                   </p>
-                  <ul className="list-disc space-y-2 pl-5 text-sm text-slate-300">
+                  <ul className="list-disc space-y-2 pl-5 text-sm text-muted">
                     {analysis.improvementAreas?.map((item) => (
                       <li key={item}>{item}</li>
                     ))}
@@ -464,46 +636,46 @@ export default function Home() {
                 ) : null}
 
                 {analysis.externalContextError ? (
-                  <p className="rounded-xl border border-sky-500/30 bg-sky-500/10 px-4 py-3 text-xs text-sky-100">
+                  <p className="rounded-xl theme-info px-4 py-3 text-xs text-muted">
                     {analysis.externalContextError}
                   </p>
                 ) : null}
 
                 {blueprint ? (
-                  <div className="space-y-4 rounded-2xl border border-slate-800 bg-slate-950/60 p-5">
-                    <h4 className="text-base font-semibold text-white">
+                  <div className="space-y-4 rounded-2xl theme-card-soft p-5">
+                    <h4 className="text-base font-semibold text-soft">
                       Blueprint summary
                     </h4>
                     <div className="grid gap-4 md:grid-cols-2">
                       <div className="space-y-1">
-                        <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">
+                        <p className="text-xs font-semibold uppercase tracking-[0.3em] text-muted">
                           Intent
                         </p>
-                        <p className="text-sm text-slate-200">
+                        <p className="text-sm text-soft">
                           {blueprint.intent}
                         </p>
                       </div>
                       <div className="space-y-1">
-                        <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">
+                        <p className="text-xs font-semibold uppercase tracking-[0.3em] text-muted">
                           Audience
                         </p>
-                        <p className="text-sm text-slate-200">
+                        <p className="text-sm text-soft">
                           {blueprint.audience}
                         </p>
                       </div>
                       <div className="space-y-1">
-                        <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">
+                        <p className="text-xs font-semibold uppercase tracking-[0.3em] text-muted">
                           Tone
                         </p>
-                        <p className="text-sm text-slate-200">
+                        <p className="text-sm text-soft">
                           {blueprint.tone}
                         </p>
                       </div>
                       <div className="space-y-1">
-                        <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">
+                        <p className="text-xs font-semibold uppercase tracking-[0.3em] text-muted">
                           Output format
                         </p>
-                        <p className="text-sm text-slate-200">
+                        <p className="text-sm text-soft">
                           {blueprint.outputFormat}
                         </p>
                       </div>
@@ -511,20 +683,20 @@ export default function Home() {
 
                     <div className="grid gap-6 md:grid-cols-2">
                       <div className="space-y-2">
-                        <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">
+                        <p className="text-xs font-semibold uppercase tracking-[0.3em] text-muted">
                           Success criteria
                         </p>
-                        <ul className="list-disc space-y-2 pl-5 text-sm text-slate-300">
+                        <ul className="list-disc space-y-2 pl-5 text-sm text-muted">
                           {blueprint.successCriteria.map((item) => (
                             <li key={item}>{item}</li>
                           ))}
                         </ul>
                       </div>
                       <div className="space-y-2">
-                        <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">
+                        <p className="text-xs font-semibold uppercase tracking-[0.3em] text-muted">
                           Required inputs
                         </p>
-                        <ul className="list-disc space-y-2 pl-5 text-sm text-slate-300">
+                        <ul className="list-disc space-y-2 pl-5 text-sm text-muted">
                           {blueprint.requiredInputs.map((item) => (
                             <li key={item}>{item}</li>
                           ))}
@@ -532,10 +704,10 @@ export default function Home() {
                       </div>
                     </div>
                     <div className="space-y-2">
-                      <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">
+                      <p className="text-xs font-semibold uppercase tracking-[0.3em] text-muted">
                         Domain context
                       </p>
-                      <ul className="list-disc space-y-2 pl-5 text-sm text-slate-300">
+                      <ul className="list-disc space-y-2 pl-5 text-sm text-muted">
                         {blueprint.domainContext.map((item) => (
                           <li key={item}>{item}</li>
                         ))}
@@ -543,20 +715,20 @@ export default function Home() {
                     </div>
                     <div className="grid gap-6 md:grid-cols-2">
                       <div className="space-y-2">
-                        <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">
+                        <p className="text-xs font-semibold uppercase tracking-[0.3em] text-muted">
                           Constraints & guardrails
                         </p>
-                        <ul className="list-disc space-y-2 pl-5 text-sm text-slate-300">
+                        <ul className="list-disc space-y-2 pl-5 text-sm text-muted">
                           {blueprint.constraints.map((item) => (
                             <li key={item}>{item}</li>
                           ))}
                         </ul>
                       </div>
                       <div className="space-y-2">
-                        <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">
+                        <p className="text-xs font-semibold uppercase tracking-[0.3em] text-muted">
                           Risks to watch
                         </p>
-                        <ul className="list-disc space-y-2 pl-5 text-sm text-slate-300">
+                        <ul className="list-disc space-y-2 pl-5 text-sm text-muted">
                           {blueprint.risks.map((item) => (
                             <li key={item}>{item}</li>
                           ))}
@@ -564,10 +736,10 @@ export default function Home() {
                       </div>
                     </div>
                     <div className="space-y-2">
-                      <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">
+                      <p className="text-xs font-semibold uppercase tracking-[0.3em] text-muted">
                         Evaluation checklist
                       </p>
-                      <ul className="list-disc space-y-2 pl-5 text-sm text-slate-300">
+                      <ul className="list-disc space-y-2 pl-5 text-sm text-muted">
                         {blueprint.evaluationChecklist.map((item) => (
                           <li key={item}>{item}</li>
                         ))}
@@ -577,22 +749,22 @@ export default function Home() {
                 ) : null}
 
                 {analysis.externalContext?.length ? (
-                  <div className="space-y-2 rounded-2xl border border-sky-500/20 bg-sky-500/5 p-5">
-                    <p className="text-sm font-semibold text-sky-100">
+                  <div className="space-y-2 rounded-2xl theme-info p-5 text-muted">
+                    <p className="text-sm font-semibold text-soft">
                       Supporting sources
                     </p>
-                    <ul className="space-y-3 text-xs text-sky-50/90">
+                    <ul className="space-y-3 text-xs">
                       {analysis.externalContext.map((item) => (
                         <li key={item.url} className="space-y-1">
                           <a
                             href={item.url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="font-medium text-sky-200 underline underline-offset-2 hover:text-sky-100"
+                            className="font-medium text-soft underline underline-offset-2 transition hover:text-white"
                           >
                             {item.title}
                           </a>
-                          <p className="leading-relaxed text-slate-200">
+                          <p className="leading-relaxed text-muted">
                             {item.snippet}
                           </p>
                         </li>
@@ -604,9 +776,9 @@ export default function Home() {
 
               <form
                 onSubmit={handleRefine}
-                className="space-y-6 rounded-2xl border border-slate-800 bg-slate-950/30 p-6 backdrop-blur-sm transition duration-300 hover:border-slate-700 hover:bg-slate-950/45"
+                className="space-y-6 rounded-2xl border border-[var(--surface-border)] bg-[var(--surface-card)] p-6 backdrop-blur-sm transition duration-300"
               >
-                <h3 className="text-lg font-semibold text-white">
+                <h3 className="text-lg font-semibold text-soft">
                   Clarifying questions
                 </h3>
                 <div className="space-y-6">
@@ -614,12 +786,12 @@ export default function Home() {
                     <div key={question.id} className="space-y-2">
                       <label
                         htmlFor={`answer-${question.id}`}
-                        className="text-sm font-medium text-slate-200"
+                        className="text-sm font-medium text-soft"
                       >
                         {question.question}
                       </label>
                       {question.purpose ? (
-                        <p className="text-xs text-slate-400">
+                        <p className="text-xs text-muted">
                           Why it matters: {question.purpose}
                         </p>
                       ) : null}
@@ -628,7 +800,7 @@ export default function Home() {
                         name={question.id}
                         rows={3}
                         required
-                        className="w-full rounded-2xl border border-slate-800 bg-slate-950/70 p-3 text-sm text-slate-100 placeholder:text-slate-500 transition-all duration-300 ease-out focus:-translate-y-0.5 focus:scale-[1.01] focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/30"
+                        className="w-full rounded-2xl border border-[var(--surface-border)] bg-[var(--surface-card-strong)] p-3 text-sm text-[var(--foreground)] placeholder:text-muted transition-all duration-300 ease-out focus:-translate-y-0.5 focus:scale-[1.01] focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/30"
                         placeholder="Type your answer..."
                         value={answers[question.id] ?? ""}
                         onChange={(event) =>
@@ -648,7 +820,7 @@ export default function Home() {
                 <button
                   type="submit"
                   disabled={isRefining || unansweredQuestions}
-                  className="group relative inline-flex w-full items-center justify-center overflow-hidden rounded-2xl bg-emerald-500/90 px-6 py-3 text-base font-semibold text-emerald-950 shadow-[0_25px_55px_-30px_rgba(16,185,129,0.85)] transition-transform duration-300 ease-out hover:-translate-y-0.5 hover:scale-[1.03] hover:bg-emerald-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-400 disabled:translate-y-0 disabled:scale-100 disabled:cursor-not-allowed disabled:bg-slate-700 disabled:text-slate-400"
+                  className="group relative inline-flex w-full items-center justify-center overflow-hidden rounded-2xl bg-emerald-500/90 px-6 py-3 text-base font-semibold text-emerald-950 shadow-[0_25px_55px_-30px_rgba(16,185,129,0.85)] transition-transform duration-300 ease-out hover:-translate-y-0.5 hover:scale-[1.03] hover:bg-emerald-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-400 disabled:translate-y-0 disabled:scale-100 disabled:cursor-not-allowed disabled:bg-[var(--surface-card-soft)] disabled:text-muted"
                 >
                   <span className="flex items-center gap-2">
                     <span>
@@ -667,26 +839,26 @@ export default function Home() {
               </form>
             </div>
           </section>
-        ) : null}
+      ) : null}
 
         {refinement ? (
-          <section className="space-y-6 rounded-3xl border border-slate-800 bg-slate-900/50 p-8 shadow-[0_55px_150px_-90px_rgba(14,116,144,0.75)] transition duration-500 hover:border-slate-700">
+          <section className="space-y-6 rounded-3xl theme-card p-8 shadow-[0_55px_150px_-90px_rgba(14,116,144,0.75)] transition duration-500">
             <header className="space-y-2">
               <p className="text-xs uppercase tracking-[0.3em] text-emerald-300">
                 phase 03
               </p>
-              <h2 className="text-2xl font-semibold text-white md:text-3xl">
+              <h2 className="text-2xl font-semibold text-soft md:text-3xl">
                 Your AI-ready prompt
               </h2>
-              <p className="text-slate-300">
+              <p className="text-muted">
                 Copy it straight into {form.targetModel} or tweak it if you need
                 a slightly different angle.
               </p>
             </header>
 
-            <div className="flex flex-col gap-4 rounded-2xl border border-slate-800 bg-slate-950/40 p-6 transition duration-300 hover:border-slate-700 hover:bg-slate-950/55">
+            <div className="flex flex-col gap-4 rounded-2xl theme-card-strong p-6 transition duration-300">
               <div className="flex flex-wrap items-center justify-between gap-3">
-                <h3 className="text-lg font-semibold text-white">
+                <h3 className="text-lg font-semibold text-soft">
                   Refined prompt
                 </h3>
                 <div className="flex flex-wrap gap-2">
@@ -694,7 +866,7 @@ export default function Home() {
                     type="button"
                     onClick={handleRewrite}
                     disabled={isRefining || unansweredQuestions}
-                    className="inline-flex items-center justify-center rounded-xl border border-emerald-500/40 bg-emerald-500/10 px-4 py-2 text-sm font-medium text-emerald-100 transition-transform duration-300 ease-out hover:-translate-y-0.5 hover:scale-[1.02] hover:border-emerald-400 hover:bg-emerald-400/20 disabled:translate-y-0 disabled:scale-100 disabled:cursor-not-allowed disabled:border-slate-600 disabled:bg-slate-800 disabled:text-slate-500"
+                    className="inline-flex items-center justify-center rounded-xl border border-emerald-500/40 bg-emerald-500/10 px-4 py-2 text-sm font-medium text-emerald-100 transition-transform duration-300 ease-out hover:-translate-y-0.5 hover:scale-[1.02] hover:border-emerald-400 hover:bg-emerald-400/20 disabled:translate-y-0 disabled:scale-100 disabled:cursor-not-allowed disabled:border-[var(--surface-border)] disabled:bg-[var(--surface-card-soft)] disabled:text-muted"
                   >
                     <span className="flex items-center gap-2">
                       <span>{isRefining ? "Rewriting..." : "Re-write with new angle"}</span>
@@ -704,29 +876,29 @@ export default function Home() {
                   <button
                     type="button"
                     onClick={handleCopy}
-                    className="inline-flex items-center justify-center rounded-xl border border-slate-700 px-4 py-2 text-sm font-medium text-slate-200 transition-transform duration-300 ease-out hover:-translate-y-0.5 hover:scale-[1.02] hover:border-slate-500 hover:text-white"
+                    className="inline-flex items-center justify-center rounded-xl border border-[var(--surface-border)] px-4 py-2 text-sm font-medium text-soft transition-transform duration-300 ease-out hover:-translate-y-0.5 hover:scale-[1.02] hover:border-[rgba(148,163,184,0.65)] hover:text-[var(--foreground)]"
                   >
                     {copied ? "Copied!" : "Copy to clipboard"}
                   </button>
                 </div>
               </div>
-              <pre className="whitespace-pre-wrap rounded-2xl bg-slate-950/70 p-4 text-slate-100">
+              <pre className="whitespace-pre-wrap rounded-2xl theme-card-soft p-4 text-soft">
                 {refinement.refinedPrompt}
               </pre>
             </div>
 
             <div className="grid gap-6 md:grid-cols-2">
-              <div className="space-y-2 rounded-2xl border border-cyan-500/30 bg-cyan-500/10 p-6 transition duration-300 hover:border-cyan-400/60 hover:bg-cyan-500/15">
-                <h3 className="text-lg font-semibold text-cyan-100">
+              <div className="space-y-2 rounded-2xl theme-card-soft p-6 transition duration-300">
+                <h3 className="text-lg font-semibold text-soft">
                   Usage guidance
                 </h3>
-                <p className="text-sm text-cyan-50/90">{refinement.guidance}</p>
+                <p className="text-sm text-muted">{refinement.guidance}</p>
               </div>
-              <div className="space-y-2 rounded-2xl border border-emerald-500/30 bg-emerald-500/10 p-6 transition duration-300 hover:border-emerald-400/60 hover:bg-emerald-500/15">
-                <h3 className="text-lg font-semibold text-emerald-100">
+              <div className="space-y-2 rounded-2xl theme-card-soft p-6 transition duration-300">
+                <h3 className="text-lg font-semibold text-soft">
                   Change summary
                 </h3>
-                <ul className="list-disc space-y-1 pl-5 text-sm text-emerald-50/90">
+                <ul className="list-disc space-y-1 pl-5 text-sm text-muted">
                   {refinement.changeSummary.map((item) => (
                     <li key={item}>{item}</li>
                   ))}
@@ -736,10 +908,10 @@ export default function Home() {
 
             {refinement.assumptions.length ? (
               <div className="space-y-2">
-                <h3 className="text-sm font-semibold text-slate-200">
+                <h3 className="text-sm font-semibold text-soft">
                   Assumptions we made
                 </h3>
-                <ul className="list-disc space-y-2 rounded-2xl border border-slate-800 bg-slate-950/40 p-5 pl-8 text-sm text-slate-300">
+                <ul className="list-disc space-y-2 rounded-2xl theme-card-soft p-5 pl-8 text-sm text-muted">
                   {refinement.assumptions.map((assumption) => (
                     <li key={assumption}>{assumption}</li>
                   ))}
@@ -749,10 +921,10 @@ export default function Home() {
 
             {refinement.evaluationCriteria.length ? (
               <div className="space-y-2">
-                <h3 className="text-sm font-semibold text-slate-200">
+                <h3 className="text-sm font-semibold text-soft">
                   Evaluate the AI&apos;s response with these checkpoints
                 </h3>
-                <ul className="list-disc space-y-2 rounded-2xl border border-slate-800 bg-slate-950/40 p-5 pl-8 text-sm text-slate-300">
+                <ul className="list-disc space-y-2 rounded-2xl theme-card-soft p-5 pl-8 text-sm text-muted">
                   {refinement.evaluationCriteria.map((criterion) => (
                     <li key={criterion}>{criterion}</li>
                   ))}
