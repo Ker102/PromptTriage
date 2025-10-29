@@ -51,7 +51,9 @@ export async function searchFirecrawl(
   if (!response.ok) {
     const errorBody = await safeJson(response);
     const message =
-      errorBody?.message || `Firecrawl search failed with status ${response.status}`;
+      errorBody?.error ||
+      errorBody?.message ||
+      `Firecrawl search failed with status ${response.status}`;
     throw new Error(message);
   }
 

@@ -116,6 +116,7 @@ export async function POST(req: Request) {
         : rawTargetModel;
 
     let externalContext: RetrievedDocument[] = [];
+    let externalContextError: string | undefined;
     if (body.useWebSearch) {
       try {
         const query = buildSearchQuery(prompt, context);
@@ -127,10 +128,8 @@ export async function POST(req: Request) {
           searchError instanceof Error
             ? searchError.message
             : "Web search failed unexpectedly.";
-        return NextResponse.json(
-          { error: `Unable to retrieve supporting context: ${message}` },
-          { status: 502 },
-        );
+        externalContextError = `Unable to retrieve supporting context: ${message}`;
+        externalContext = [];
       }
     }
 
@@ -186,6 +185,8 @@ export async function POST(req: Request) {
     const enriched: PromptAnalysisResult = {
       ...parsed,
       externalContext: externalContext.length ? externalContext : parsed.externalContext,
+      externalContextError:
+        externalContextError ?? parsed.externalContextError,
     };
 
     return NextResponse.json(enriched);

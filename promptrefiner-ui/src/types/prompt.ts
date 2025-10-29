@@ -11,6 +11,7 @@ export interface PromptAnalysisResult {
   overallConfidence?: string;
   blueprint: PromptBlueprint;
   externalContext?: RetrievedDocument[];
+  externalContextError?: string;
 }
 
 export interface PromptRefinementResult {

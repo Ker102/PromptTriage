@@ -1,6 +1,6 @@
 import { GoogleGenerativeAI, GenerativeModel } from "@google/generative-ai";
 
-const DEFAULT_MODEL = process.env.GEMINI_MODEL ?? "gemini-1.5-pro-latest";
+const DEFAULT_MODEL = process.env.GEMINI_MODEL ?? "gemini-2.5-pro";
 
 let cachedClient: GoogleGenerativeAI | null = null;
 let cachedModel: GenerativeModel | null = null;

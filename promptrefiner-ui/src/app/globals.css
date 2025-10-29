@@ -15,4 +15,38 @@ body {
     radial-gradient(120% 140% at 100% 0%, rgba(110, 231, 183, 0.12) 0%, transparent 60%),
     var(--background);
   color: var(--foreground);
+  position: relative;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: -30vh -30vw;
+  background: conic-gradient(
+    from 180deg at 50% 50%,
+    rgba(56, 189, 248, 0.12),
+    rgba(16, 185, 129, 0.06),
+    rgba(56, 189, 248, 0.12)
+  );
+  filter: blur(120px);
+  opacity: 0.7;
+  pointer-events: none;
+  animation: bg-pan 28s linear infinite;
+  transform: translateZ(0);
+}
+
+@keyframes bg-pan {
+  0% {
+    transform: rotate(0deg) scale(1.1);
+    opacity: 0.65;
+  }
+  50% {
+    transform: rotate(180deg) scale(1.05);
+    opacity: 0.85;
+  }
+  100% {
+    transform: rotate(360deg) scale(1.1);
+    opacity: 0.65;
+  }
 }

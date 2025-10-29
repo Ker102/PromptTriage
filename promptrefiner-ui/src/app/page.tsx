@@ -44,6 +44,28 @@ async function parseJson<T>(response: Response): Promise<T> {
   }
 }
 
+function ThinkingIndicator({ color = "cyan" }: { color?: "cyan" | "emerald" | "slate" }) {
+  const palette: Record<string, string> = {
+    cyan: "bg-cyan-200 shadow-[0_0_8px_rgba(56,189,248,0.55)]",
+    emerald: "bg-emerald-200 shadow-[0_0_8px_rgba(16,185,129,0.55)]",
+    slate: "bg-slate-300 shadow-[0_0_6px_rgba(148,163,184,0.45)]",
+  };
+
+  return (
+    <span className="inline-flex items-center gap-[3px]">
+      {Array.from({ length: 3 }).map((_, index) => (
+        <span
+          key={index}
+          className={`h-1.5 w-1.5 rounded-full animate-dotPulse ${
+            palette[color] ?? palette.cyan
+          }`}
+          style={{ animationDelay: `${index * 0.18}s` }}
+        />
+      ))}
+    </span>
+  );
+}
+
 export default function Home() {
   const [form, setForm] = useState(() => ({ ...INITIAL_FORM }));
   const [analysis, setAnalysis] = useState<PromptAnalysisResult | null>(null);
@@ -262,7 +284,7 @@ export default function Home() {
               rows={8}
               required
               placeholder="Describe the task you want an AI to complete..."
-              className="w-full rounded-2xl border border-slate-800 bg-slate-950/70 p-4 text-base text-slate-100 placeholder:text-slate-500 focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/30"
+              className="w-full rounded-2xl border border-slate-800 bg-slate-950/70 p-4 text-base text-slate-100 placeholder:text-slate-500 transition-all duration-300 ease-out focus:-translate-y-0.5 focus:scale-[1.01] focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/30"
               value={form.prompt}
               onChange={(event) => handleFormChange("prompt", event.target.value)}
             />
@@ -280,7 +302,7 @@ export default function Home() {
                 <select
                   id="targetModel"
                   name="targetModel"
-                  className="flex-1 rounded-2xl border border-slate-800 bg-slate-950/70 px-4 py-2.5 text-base text-slate-100 focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/30"
+                  className="flex-1 rounded-2xl border border-slate-800 bg-slate-950/70 px-4 py-2.5 text-base text-slate-100 transition-all duration-300 ease-out focus:-translate-y-0.5 focus:scale-[1.01] focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/30"
                   value={form.targetModel}
                   onChange={(event) =>
                     handleFormChange("targetModel", event.target.value)
@@ -311,7 +333,7 @@ export default function Home() {
                 name="context"
                 rows={4}
                 placeholder="Domain knowledge, constraints, success metrics, or any background the model should know."
-                className="w-full rounded-2xl border border-slate-800 bg-slate-950/70 p-3 text-base text-slate-100 placeholder:text-slate-500 focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/30"
+                className="w-full rounded-2xl border border-slate-800 bg-slate-950/70 p-3 text-base text-slate-100 placeholder:text-slate-500 transition-all duration-300 ease-out focus:-translate-y-0.5 focus:scale-[1.01] focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/30"
                 value={form.context}
                 onChange={(event) =>
                   handleFormChange("context", event.target.value)
@@ -330,7 +352,7 @@ export default function Home() {
                 name="tone"
                 type="text"
                 placeholder="e.g. friendly, expert, concise, marketing-savvy"
-                className="w-full rounded-2xl border border-slate-800 bg-slate-950/70 px-4 py-2.5 text-base text-slate-100 placeholder:text-slate-500 focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/30"
+                className="w-full rounded-2xl border border-slate-800 bg-slate-950/70 px-4 py-2.5 text-base text-slate-100 placeholder:text-slate-500 transition-all duration-300 ease-out focus:-translate-y-0.5 focus:scale-[1.01] focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/30"
                 value={form.tone}
                 onChange={(event) => handleFormChange("tone", event.target.value)}
               />
@@ -347,7 +369,7 @@ export default function Home() {
                 name="outputRequirements"
                 type="text"
                 placeholder="Formatting, length, structure, evaluation criteria..."
-                className="w-full rounded-2xl border border-slate-800 bg-slate-950/70 px-4 py-2.5 text-base text-slate-100 placeholder:text-slate-500 focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/30"
+                className="w-full rounded-2xl border border-slate-800 bg-slate-950/70 px-4 py-2.5 text-base text-slate-100 placeholder:text-slate-500 transition-all duration-300 ease-out focus:-translate-y-0.5 focus:scale-[1.01] focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/30"
                 value={form.outputRequirements}
                 onChange={(event) =>
                   handleFormChange("outputRequirements", event.target.value)
@@ -365,7 +387,7 @@ export default function Home() {
                 id="useWebSearch"
                 name="useWebSearch"
                 type="checkbox"
-                className="h-4 w-4 rounded border-slate-700 bg-slate-900 text-cyan-400 focus:ring-cyan-500/50"
+                className="h-4 w-4 rounded border-slate-700 bg-slate-900 text-cyan-400 transition duration-200 ease-out focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:ring-offset-0 checked:shadow-[0_0_12px_rgba(56,189,248,0.45)]"
                 checked={form.useWebSearch}
                 onChange={(event) => handleWebSearchToggle(event.target.checked)}
               />
@@ -387,14 +409,17 @@ export default function Home() {
             <button
               type="submit"
               disabled={isAnalyzing || !form.prompt.trim()}
-              className="inline-flex items-center justify-center rounded-2xl bg-cyan-500 px-6 py-3 text-base font-semibold text-slate-950 transition hover:bg-cyan-400 disabled:cursor-not-allowed disabled:bg-slate-700 disabled:text-slate-400"
+              className="inline-flex items-center justify-center rounded-2xl bg-cyan-500/90 px-6 py-3 text-base font-semibold text-slate-950 shadow-[0_20px_45px_-28px_rgba(34,211,238,0.85)] transition-transform duration-300 ease-out hover:-translate-y-0.5 hover:scale-[1.03] hover:bg-cyan-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-400 disabled:translate-y-0 disabled:scale-100 disabled:cursor-not-allowed disabled:bg-slate-700 disabled:text-slate-400"
             >
-              {isAnalyzing ? "Analyzing prompt..." : "Analyze prompt"}
+              <span className="flex items-center gap-2">
+                <span>{isAnalyzing ? "Analyzing prompt..." : "Analyze prompt"}</span>
+                {isAnalyzing ? <ThinkingIndicator color="cyan" /> : null}
+              </span>
             </button>
             <button
               type="button"
               onClick={handleReset}
-              className="inline-flex items-center justify-center rounded-2xl border border-slate-700 px-6 py-3 text-base font-semibold text-slate-200 transition hover:border-slate-500 hover:text-white"
+              className="inline-flex items-center justify-center rounded-2xl border border-slate-700 px-6 py-3 text-base font-semibold text-slate-200 transition-transform duration-300 ease-out hover:-translate-y-0.5 hover:scale-[1.02] hover:border-slate-500 hover:text-white"
             >
               Reset
             </button>
@@ -402,7 +427,7 @@ export default function Home() {
         </form>
 
         {analysis ? (
-          <section className="space-y-8 rounded-3xl border border-slate-800 bg-slate-900/40 p-8">
+          <section className="space-y-8 rounded-3xl border border-slate-800 bg-slate-900/40 p-8 shadow-[0_45px_120px_-80px_rgba(15,118,110,0.65)] transition duration-500 hover:border-slate-700">
             <header className="space-y-2">
               <p className="text-xs uppercase tracking-[0.3em] text-cyan-300">
                 phase 02
@@ -417,7 +442,7 @@ export default function Home() {
             </header>
 
             <div className="grid gap-6 md:grid-cols-[2fr,3fr]">
-              <div className="space-y-4 rounded-2xl border border-slate-800 bg-slate-950/40 p-6">
+              <div className="space-y-4 rounded-2xl border border-slate-800 bg-slate-950/40 p-6 backdrop-blur-sm transition duration-300 hover:border-slate-700 hover:bg-slate-950/55">
                 <h3 className="text-lg font-semibold text-white">
                   Strengths & gaps
                 </h3>
@@ -435,6 +460,12 @@ export default function Home() {
                 {analysis.overallConfidence ? (
                   <p className="rounded-xl border border-amber-500/30 bg-amber-500/10 px-4 py-3 text-sm text-amber-100">
                     Readiness: {analysis.overallConfidence}
+                  </p>
+                ) : null}
+
+                {analysis.externalContextError ? (
+                  <p className="rounded-xl border border-sky-500/30 bg-sky-500/10 px-4 py-3 text-xs text-sky-100">
+                    {analysis.externalContextError}
                   </p>
                 ) : null}
 
@@ -573,7 +604,7 @@ export default function Home() {
 
               <form
                 onSubmit={handleRefine}
-                className="space-y-6 rounded-2xl border border-slate-800 bg-slate-950/30 p-6"
+                className="space-y-6 rounded-2xl border border-slate-800 bg-slate-950/30 p-6 backdrop-blur-sm transition duration-300 hover:border-slate-700 hover:bg-slate-950/45"
               >
                 <h3 className="text-lg font-semibold text-white">
                   Clarifying questions
@@ -597,7 +628,7 @@ export default function Home() {
                         name={question.id}
                         rows={3}
                         required
-                        className="w-full rounded-2xl border border-slate-800 bg-slate-950/70 p-3 text-sm text-slate-100 placeholder:text-slate-500 focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/30"
+                        className="w-full rounded-2xl border border-slate-800 bg-slate-950/70 p-3 text-sm text-slate-100 placeholder:text-slate-500 transition-all duration-300 ease-out focus:-translate-y-0.5 focus:scale-[1.01] focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/30"
                         placeholder="Type your answer..."
                         value={answers[question.id] ?? ""}
                         onChange={(event) =>
@@ -617,13 +648,21 @@ export default function Home() {
                 <button
                   type="submit"
                   disabled={isRefining || unansweredQuestions}
-                  className="inline-flex w-full items-center justify-center rounded-2xl bg-emerald-500 px-6 py-3 text-base font-semibold text-emerald-950 transition hover:bg-emerald-400 disabled:cursor-not-allowed disabled:bg-slate-700 disabled:text-slate-400"
+                  className="group relative inline-flex w-full items-center justify-center overflow-hidden rounded-2xl bg-emerald-500/90 px-6 py-3 text-base font-semibold text-emerald-950 shadow-[0_25px_55px_-30px_rgba(16,185,129,0.85)] transition-transform duration-300 ease-out hover:-translate-y-0.5 hover:scale-[1.03] hover:bg-emerald-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-400 disabled:translate-y-0 disabled:scale-100 disabled:cursor-not-allowed disabled:bg-slate-700 disabled:text-slate-400"
                 >
-                  {isRefining
-                    ? "Generating refined prompt..."
-                    : unansweredQuestions
-                      ? "Answer all questions to continue"
-                      : "Generate refined prompt"}
+                  <span className="flex items-center gap-2">
+                    <span>
+                      {isRefining
+                        ? "Generating refined prompt..."
+                        : unansweredQuestions
+                          ? "Answer all questions to continue"
+                          : "Generate refined prompt"}
+                    </span>
+                    {isRefining ? <ThinkingIndicator color="emerald" /> : null}
+                  </span>
+                  <span className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-40">
+                    <span className="absolute inset-y-0 left-0 w-1/2 -translate-x-full bg-gradient-to-r from-transparent via-white/40 to-transparent animate-shimmer" />
+                  </span>
                 </button>
               </form>
             </div>
@@ -631,7 +670,7 @@ export default function Home() {
         ) : null}
 
         {refinement ? (
-          <section className="space-y-6 rounded-3xl border border-slate-800 bg-slate-900/50 p-8">
+          <section className="space-y-6 rounded-3xl border border-slate-800 bg-slate-900/50 p-8 shadow-[0_55px_150px_-90px_rgba(14,116,144,0.75)] transition duration-500 hover:border-slate-700">
             <header className="space-y-2">
               <p className="text-xs uppercase tracking-[0.3em] text-emerald-300">
                 phase 03
@@ -645,7 +684,7 @@ export default function Home() {
               </p>
             </header>
 
-            <div className="flex flex-col gap-4 rounded-2xl border border-slate-800 bg-slate-950/40 p-6">
+            <div className="flex flex-col gap-4 rounded-2xl border border-slate-800 bg-slate-950/40 p-6 transition duration-300 hover:border-slate-700 hover:bg-slate-950/55">
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <h3 className="text-lg font-semibold text-white">
                   Refined prompt
@@ -655,14 +694,17 @@ export default function Home() {
                     type="button"
                     onClick={handleRewrite}
                     disabled={isRefining || unansweredQuestions}
-                    className="inline-flex items-center justify-center rounded-xl border border-emerald-500/40 bg-emerald-500/10 px-4 py-2 text-sm font-medium text-emerald-100 transition hover:border-emerald-400 hover:bg-emerald-400/20 disabled:cursor-not-allowed disabled:border-slate-600 disabled:bg-slate-800 disabled:text-slate-500"
+                    className="inline-flex items-center justify-center rounded-xl border border-emerald-500/40 bg-emerald-500/10 px-4 py-2 text-sm font-medium text-emerald-100 transition-transform duration-300 ease-out hover:-translate-y-0.5 hover:scale-[1.02] hover:border-emerald-400 hover:bg-emerald-400/20 disabled:translate-y-0 disabled:scale-100 disabled:cursor-not-allowed disabled:border-slate-600 disabled:bg-slate-800 disabled:text-slate-500"
                   >
-                    {isRefining ? "Rewriting..." : "Re-write with new angle"}
+                    <span className="flex items-center gap-2">
+                      <span>{isRefining ? "Rewriting..." : "Re-write with new angle"}</span>
+                      {isRefining ? <ThinkingIndicator color="emerald" /> : null}
+                    </span>
                   </button>
                   <button
                     type="button"
                     onClick={handleCopy}
-                    className="inline-flex items-center justify-center rounded-xl border border-slate-700 px-4 py-2 text-sm font-medium text-slate-200 transition hover:border-slate-500 hover:text-white"
+                    className="inline-flex items-center justify-center rounded-xl border border-slate-700 px-4 py-2 text-sm font-medium text-slate-200 transition-transform duration-300 ease-out hover:-translate-y-0.5 hover:scale-[1.02] hover:border-slate-500 hover:text-white"
                   >
                     {copied ? "Copied!" : "Copy to clipboard"}
                   </button>
@@ -674,13 +716,13 @@ export default function Home() {
             </div>
 
             <div className="grid gap-6 md:grid-cols-2">
-              <div className="space-y-2 rounded-2xl border border-cyan-500/30 bg-cyan-500/10 p-6">
+              <div className="space-y-2 rounded-2xl border border-cyan-500/30 bg-cyan-500/10 p-6 transition duration-300 hover:border-cyan-400/60 hover:bg-cyan-500/15">
                 <h3 className="text-lg font-semibold text-cyan-100">
                   Usage guidance
                 </h3>
                 <p className="text-sm text-cyan-50/90">{refinement.guidance}</p>
               </div>
-              <div className="space-y-2 rounded-2xl border border-emerald-500/30 bg-emerald-500/10 p-6">
+              <div className="space-y-2 rounded-2xl border border-emerald-500/30 bg-emerald-500/10 p-6 transition duration-300 hover:border-emerald-400/60 hover:bg-emerald-500/15">
                 <h3 className="text-lg font-semibold text-emerald-100">
                   Change summary
                 </h3>
