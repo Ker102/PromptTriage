@@ -2,6 +2,7 @@
 
 import { FormEvent, ReactNode, useMemo, useState } from "react";
 import { useTheme } from "@/components/theme-provider";
+import { DecryptedText } from "@/components/decrypted-text";
 import type {
   PromptAnalysisResult,
   PromptRefinementResult,
@@ -32,6 +33,15 @@ const INITIAL_FORM = {
   outputRequirements: "",
   useWebSearch: false,
 };
+
+const HERO_TAGLINES = [
+  "Designed for clarity. Crafted for results.",
+  "Built for precision. Optimized for impact.",
+  "Made for simplicity. Tuned for excellence.",
+  "Created for purpose. Delivered with power.",
+  "Refined for insight. Made to drive change.",
+  "Focused on clarity. Engineered for success.",
+] as const;
 
 async function parseJson<T>(response: Response): Promise<T> {
   try {
@@ -411,7 +421,12 @@ export default function Home() {
             A Fast Prompt. <br className="hidden md:block" /> Scalable Guidance.
           </h1>
           <h2 className="text-3xl font-semibold text-soft md:text-5xl">
-            Designed for clarity. Crafted for results.
+            <DecryptedText
+              phrases={HERO_TAGLINES}
+              interval={5200}
+              duration={1400}
+              className="block text-soft whitespace-nowrap"
+            />
           </h2>
           <p className="max-w-2xl text-base leading-relaxed text-muted md:text-lg">
             From quick iterations to production-ready briefs, PromptTriage refines your ideas
