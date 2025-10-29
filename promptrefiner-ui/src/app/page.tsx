@@ -32,6 +32,18 @@ const INITIAL_FORM = {
   useWebSearch: false,
 };
 
+async function parseJson<T>(response: Response): Promise<T> {
+  try {
+    return (await response.json()) as T;
+  } catch {
+    const fallback = await response.text();
+    const message = fallback?.trim()?.length
+      ? fallback.trim()
+      : response.statusText || "Unexpected response";
+    throw new Error(message);
+  }
+}
+
 export default function Home() {
   const [form, setForm] = useState(() => ({ ...INITIAL_FORM }));
   const [analysis, setAnalysis] = useState<PromptAnalysisResult | null>(null);
@@ -97,11 +109,11 @@ export default function Home() {
       });
 
       if (!response.ok) {
-        const { error: message } = await response.json();
-        throw new Error(message ?? "Analysis request failed.");
+        const payload = await parseJson<{ error?: string }>(response);
+        throw new Error(payload.error ?? "Analysis request failed.");
       }
 
-      const payload = (await response.json()) as PromptAnalysisResult;
+      const payload = await parseJson<PromptAnalysisResult>(response);
 
       setAnalysis(payload);
       setAnswers(
@@ -149,11 +161,11 @@ export default function Home() {
       });
 
       if (!response.ok) {
-        const { error: message } = await response.json();
-        throw new Error(message ?? "Refinement request failed.");
+        const payload = await parseJson<{ error?: string }>(response);
+        throw new Error(payload.error ?? "Refinement request failed.");
       }
 
-      const payload = (await response.json()) as PromptRefinementResult;
+      const payload = await parseJson<PromptRefinementResult>(response);
 
       setCopied(false);
       setRefinement(payload);
