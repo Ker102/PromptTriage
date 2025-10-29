@@ -1,28 +1,53 @@
 import { NextResponse } from "next/server";
 import { getGeminiModel, extractJsonFromText } from "@/lib/gemini";
 import type {
+  PromptBlueprint,
   PromptRefinementResult,
   RefineRequestPayload,
 } from "@/types/prompt";
+import {
+  PROMPT_VERSION,
+  REFINER_FEW_SHOTS,
+  REFINER_SYSTEM_PROMPT,
+} from "@/prompts/metaprompt";
 
-const REFINEMENT_INSTRUCTIONS = `
-You are an elite AI prompt engineer.
-Craft a refined, ready-to-use prompt using the provided information.
+function validateBlueprintInput(blueprint: PromptBlueprint | undefined) {
+  if (!blueprint) {
+    throw new Error(
+      "Blueprint from analysis is required before refining the prompt.",
+    );
+  }
 
-Return a JSON object with the structure:
-{
-  "refinedPrompt": string,           // the improved prompt formatted for direct use
-  "guidance": string,                // tips on how to apply or adapt the prompt
-  "assumptions": string[],           // list any assumptions you had to make
-  "evaluationCriteria": string[]     // checklist to verify responses from the target AI model
+  if (blueprint.version !== PROMPT_VERSION) {
+    throw new Error(
+      `Blueprint version mismatch. Expected ${PROMPT_VERSION}, received ${blueprint.version}.`,
+    );
+  }
 }
 
-Guidelines:
-- Respect the user's desired tone and output requirements when provided.
-- Ensure the refined prompt includes all critical context and constraints.
-- Keep the language clear and free of ambiguity.
-- Never include markdown fences or commentary outside the JSON payload.
-`.trim();
+function validateRefinementPayload(payload: PromptRefinementResult): string | null {
+  if (!payload.refinedPrompt?.trim()) {
+    return "Missing refined prompt text.";
+  }
+
+  if (!payload.guidance?.trim()) {
+    return "Missing guidance message.";
+  }
+
+  if (!Array.isArray(payload.changeSummary) || payload.changeSummary.length === 0) {
+    return "Change summary must include at least one item.";
+  }
+
+  if (!Array.isArray(payload.assumptions)) {
+    return "Assumptions must be an array (can be empty).";
+  }
+
+  if (!Array.isArray(payload.evaluationCriteria) || payload.evaluationCriteria.length === 0) {
+    return "Evaluation criteria must include at least one item.";
+  }
+
+  return null;
+}
 
 export async function POST(req: Request) {
   try {
@@ -34,6 +59,7 @@ export async function POST(req: Request) {
     const outputRequirements = body.outputRequirements?.trim();
     const questions = body.questions ?? [];
     const answers = body.answers ?? {};
+    const blueprint = body.blueprint;
 
     if (!prompt) {
       return NextResponse.json(
@@ -59,6 +85,16 @@ export async function POST(req: Request) {
       );
     }
 
+    try {
+      validateBlueprintInput(blueprint);
+    } catch (validationError) {
+      const message =
+        validationError instanceof Error
+          ? validationError.message
+          : "Invalid blueprint.";
+      return NextResponse.json({ error: message }, { status: 400 });
+    }
+
     const model = getGeminiModel();
 
     const formattedQnA = questions
@@ -70,23 +106,34 @@ export async function POST(req: Request) {
       })
       .join("\n\n");
 
+    const blueprintJson = JSON.stringify(blueprint);
+    const questionsJson = JSON.stringify(questions);
+    const answersJson = JSON.stringify(answers);
+
     const userPrompt = [
-      REFINEMENT_INSTRUCTIONS,
-      "\n---\n",
-      `Target model: ${targetModel}`,
-      context ? `Additional context: ${context}` : "No extra context supplied.",
-      tone ? `Desired tone: ${tone}` : "Tone: not specified.",
-      outputRequirements
-        ? `Output requirements: ${outputRequirements}`
-        : "Output requirements: not specified.",
-      "Original prompt:",
-      prompt,
-      "\nFollow-up answers:",
-      formattedQnA,
+      `<target_model>${targetModel}</target_model>`,
+      `<original_prompt>${prompt}</original_prompt>`,
+      `<extra_context>${context ?? ""}</extra_context>`,
+      `<tone>${tone ?? ""}</tone>`,
+      `<output_requirements>${outputRequirements ?? ""}</output_requirements>`,
+      `<blueprint>${blueprintJson}</blueprint>`,
+      `<questions>${questionsJson}</questions>`,
+      `<answers>${answersJson}</answers>`,
+      `<formatted_answers>${formattedQnA}</formatted_answers>`,
     ].join("\n");
 
+    const fewShotMessages = REFINER_FEW_SHOTS.flatMap(({ user, assistant }) => [
+      { role: "user" as const, parts: [{ text: user }] },
+      { role: "model" as const, parts: [{ text: assistant }] },
+    ]);
+
     const result = await model.generateContent({
+      systemInstruction: {
+        role: "system",
+        parts: [{ text: REFINER_SYSTEM_PROMPT }],
+      },
       contents: [
+        ...fewShotMessages,
         {
           role: "user",
           parts: [{ text: userPrompt }],
@@ -101,10 +148,11 @@ export async function POST(req: Request) {
 
     const rawText = result.response.text();
     const parsed = extractJsonFromText<PromptRefinementResult>(rawText);
+    const validationError = validateRefinementPayload(parsed);
 
-    if (!parsed.refinedPrompt) {
+    if (validationError) {
       return NextResponse.json(
-        { error: "The language model did not return a refined prompt." },
+        { error: `Invalid refinement response: ${validationError}` },
         { status: 502 },
       );
     }

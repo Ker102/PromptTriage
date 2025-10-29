@@ -4,10 +4,11 @@ PromptRefiner is a Next.js web application that turns rough ideas into polished,
 
 ## Features
 
-- 🔍 **Prompt analysis** – Gemini highlights gaps, missing context, and potential risks in the initial prompt.
-- ❓ **Dynamic follow-up questions** – Each prompt receives 2–4 custom questions to gather the missing information.
+- 🔍 **Prompt analysis** – Gemini highlights gaps, missing context, and potential risks in the initial prompt and synthesizes a structured blueprint.
+- ❓ **Dynamic follow-up questions** – Each prompt receives 2–5 custom questions to gather the missing information.
 - 🛠️ **AI-ready prompt generation** – Produces a final prompt tailored to the target AI model, tone, and output requirements.
-- ✅ **Quality guardrails** – Provides assumptions and evaluation criteria to help you vet model responses.
+- ✅ **Quality guardrails** – Provides assumptions, change summaries, and evaluation criteria to help you vet model responses.
+- 📚 **Few-shot metaprompting** – Analyzer and refiner calls load curated examples plus XML-tagged inputs to keep Gemini on-spec.
 
 ## Requirements
 
@@ -41,10 +42,18 @@ PromptRefiner is a Next.js web application that turns rough ideas into polished,
 ## Project structure
 
 - `src/app/page.tsx` – Main UI flow for analysis, question answering, and refinement.
-- `src/app/api/analyze/route.ts` – Calls Gemini to critique the prompt and produce follow-up questions.
-- `src/app/api/refine/route.ts` – Combines the original prompt+answers to generate the final prompt.
+- `src/app/api/analyze/route.ts` – Calls Gemini to critique the prompt and produce follow-up questions + blueprint JSON.
+- `src/app/api/refine/route.ts` – Combines the original prompt, blueprint, and answers to generate the final prompt.
 - `src/lib/gemini.ts` – Gemini client helper and JSON parsing utility.
 - `src/types/prompt.ts` – Shared TypeScript interfaces for request/response payloads.
+- `src/prompts/metaprompt.ts` – System prompts, few-shot exemplars, and versioning for analyzer/refiner calls.
+
+## Prompt orchestration
+
+- Analyzer responses include a `blueprint` object (intent, audience, success criteria, constraints, risks, evaluation checklist). The UI surfaces this so users see what Gemini inferred, and the refiner call reuses it for consistency.
+- The refiner output always returns a markdown prompt with nine sections, plus usage guidance, change summary, assumptions, and evaluation checklist to close the loop.
+- Few-shot pairs cover both creative build and analytical memo scenarios. Add more examples (see `examples.md` in the repo root) to broaden coverage.
+- All prompts share the `PROMPT_VERSION` tag—bump it when iterating on prompt design so you can trace which version generated a result.
 
 ## Next steps & ideas
 
@@ -52,6 +61,8 @@ PromptRefiner is a Next.js web application that turns rough ideas into polished,
 - Store prompt histories and refinements for later reuse.
 - Support additional LLM providers alongside Gemini by abstracting the refinement pipeline.
 - Layer in automated tests for the API routes with mocked Gemini responses.
+- Allow users to download the blueprint JSON and refined prompt as reusable templates.
+- Add telemetry to compare prompt versions (A/B tests) and surface the highest performing metaprompt variants.
 
 ## Scripts
 

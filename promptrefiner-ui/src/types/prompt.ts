@@ -9,13 +9,15 @@ export interface PromptAnalysisResult {
   improvementAreas: string[];
   questions: PromptQuestion[];
   overallConfidence?: string;
+  blueprint: PromptBlueprint;
 }
 
 export interface PromptRefinementResult {
   refinedPrompt: string;
-  guidance?: string;
-  assumptions?: string[];
-  evaluationCriteria?: string[];
+  guidance: string;
+  changeSummary: string[];
+  assumptions: string[];
+  evaluationCriteria: string[];
 }
 
 export interface AnalyzeRequestPayload {
@@ -27,6 +29,21 @@ export interface AnalyzeRequestPayload {
 export interface RefineRequestPayload extends AnalyzeRequestPayload {
   answers: Record<string, string>;
   questions: PromptQuestion[];
+  blueprint: PromptBlueprint;
   tone?: string;
   outputRequirements?: string;
+}
+
+export interface PromptBlueprint {
+  version: string;
+  intent: string;
+  audience: string;
+  successCriteria: string[];
+  requiredInputs: string[];
+  domainContext: string[];
+  constraints: string[];
+  tone: string;
+  risks: string[];
+  outputFormat: string;
+  evaluationChecklist: string[];
 }

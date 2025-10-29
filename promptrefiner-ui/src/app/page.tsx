@@ -40,6 +40,8 @@ export default function Home() {
   const isAnalyzing = pendingAction === "analyze";
   const isRefining = pendingAction === "refine";
 
+  const blueprint = analysis?.blueprint;
+
   const unansweredQuestions = useMemo(() => {
     if (!analysis?.questions?.length) {
       return false;
@@ -128,6 +130,7 @@ export default function Home() {
           outputRequirements: form.outputRequirements || undefined,
           answers,
           questions: analysis.questions,
+          blueprint: analysis.blueprint,
         }),
       });
 
@@ -362,6 +365,113 @@ export default function Home() {
                     Readiness: {analysis.overallConfidence}
                   </p>
                 ) : null}
+
+                {blueprint ? (
+                  <div className="space-y-4 rounded-2xl border border-slate-800 bg-slate-950/60 p-5">
+                    <h4 className="text-base font-semibold text-white">
+                      Blueprint summary
+                    </h4>
+                    <div className="grid gap-4 md:grid-cols-2">
+                      <div className="space-y-1">
+                        <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">
+                          Intent
+                        </p>
+                        <p className="text-sm text-slate-200">
+                          {blueprint.intent}
+                        </p>
+                      </div>
+                      <div className="space-y-1">
+                        <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">
+                          Audience
+                        </p>
+                        <p className="text-sm text-slate-200">
+                          {blueprint.audience}
+                        </p>
+                      </div>
+                      <div className="space-y-1">
+                        <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">
+                          Tone
+                        </p>
+                        <p className="text-sm text-slate-200">
+                          {blueprint.tone}
+                        </p>
+                      </div>
+                      <div className="space-y-1">
+                        <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">
+                          Output format
+                        </p>
+                        <p className="text-sm text-slate-200">
+                          {blueprint.outputFormat}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="grid gap-6 md:grid-cols-2">
+                      <div className="space-y-2">
+                        <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">
+                          Success criteria
+                        </p>
+                        <ul className="list-disc space-y-2 pl-5 text-sm text-slate-300">
+                          {blueprint.successCriteria.map((item) => (
+                            <li key={item}>{item}</li>
+                          ))}
+                        </ul>
+                      </div>
+                      <div className="space-y-2">
+                        <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">
+                          Required inputs
+                        </p>
+                        <ul className="list-disc space-y-2 pl-5 text-sm text-slate-300">
+                          {blueprint.requiredInputs.map((item) => (
+                            <li key={item}>{item}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">
+                        Domain context
+                      </p>
+                      <ul className="list-disc space-y-2 pl-5 text-sm text-slate-300">
+                        {blueprint.domainContext.map((item) => (
+                          <li key={item}>{item}</li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div className="grid gap-6 md:grid-cols-2">
+                      <div className="space-y-2">
+                        <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">
+                          Constraints & guardrails
+                        </p>
+                        <ul className="list-disc space-y-2 pl-5 text-sm text-slate-300">
+                          {blueprint.constraints.map((item) => (
+                            <li key={item}>{item}</li>
+                          ))}
+                        </ul>
+                      </div>
+                      <div className="space-y-2">
+                        <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">
+                          Risks to watch
+                        </p>
+                        <ul className="list-disc space-y-2 pl-5 text-sm text-slate-300">
+                          {blueprint.risks.map((item) => (
+                            <li key={item}>{item}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">
+                        Evaluation checklist
+                      </p>
+                      <ul className="list-disc space-y-2 pl-5 text-sm text-slate-300">
+                        {blueprint.evaluationChecklist.map((item) => (
+                          <li key={item}>{item}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                ) : null}
               </div>
 
               <form
@@ -456,16 +566,26 @@ export default function Home() {
               </pre>
             </div>
 
-            {refinement.guidance ? (
+            <div className="grid gap-6 md:grid-cols-2">
               <div className="space-y-2 rounded-2xl border border-cyan-500/30 bg-cyan-500/10 p-6">
                 <h3 className="text-lg font-semibold text-cyan-100">
                   Usage guidance
                 </h3>
                 <p className="text-sm text-cyan-50/90">{refinement.guidance}</p>
               </div>
-            ) : null}
+              <div className="space-y-2 rounded-2xl border border-emerald-500/30 bg-emerald-500/10 p-6">
+                <h3 className="text-lg font-semibold text-emerald-100">
+                  Change summary
+                </h3>
+                <ul className="list-disc space-y-1 pl-5 text-sm text-emerald-50/90">
+                  {refinement.changeSummary.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+              </div>
+            </div>
 
-            {refinement.assumptions?.length ? (
+            {refinement.assumptions.length ? (
               <div className="space-y-2">
                 <h3 className="text-sm font-semibold text-slate-200">
                   Assumptions we made
@@ -478,7 +598,7 @@ export default function Home() {
               </div>
             ) : null}
 
-            {refinement.evaluationCriteria?.length ? (
+            {refinement.evaluationCriteria.length ? (
               <div className="space-y-2">
                 <h3 className="text-sm font-semibold text-slate-200">
                   Evaluate the AI&apos;s response with these checkpoints
