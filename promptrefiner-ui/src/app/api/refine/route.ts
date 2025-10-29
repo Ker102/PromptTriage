@@ -4,6 +4,7 @@ import type {
   PromptBlueprint,
   PromptRefinementResult,
   RefineRequestPayload,
+  RetrievedDocument,
 } from "@/types/prompt";
 import {
   PROMPT_VERSION,
@@ -53,13 +54,15 @@ export async function POST(req: Request) {
   try {
     const body = (await req.json()) as RefineRequestPayload;
     const prompt = body.prompt?.trim();
-    const targetModel = body.targetModel?.trim();
+    const rawTargetModel = body.targetModel?.trim();
     const context = body.context?.trim();
     const tone = body.tone?.trim();
     const outputRequirements = body.outputRequirements?.trim();
     const questions = body.questions ?? [];
     const answers = body.answers ?? {};
     const blueprint = body.blueprint;
+    const externalContext = body.externalContext ?? [];
+    const variationHint = body.variationHint?.trim();
 
     if (!prompt) {
       return NextResponse.json(
@@ -68,12 +71,17 @@ export async function POST(req: Request) {
       );
     }
 
-    if (!targetModel) {
+    if (!rawTargetModel) {
       return NextResponse.json(
         { error: "Target model is required." },
         { status: 400 },
       );
     }
+
+    const targetModel =
+      rawTargetModel.toLowerCase() === "none / not sure yet"
+        ? "Not specified yet"
+        : rawTargetModel;
 
     if (!questions.length) {
       return NextResponse.json(
@@ -110,7 +118,7 @@ export async function POST(req: Request) {
     const questionsJson = JSON.stringify(questions);
     const answersJson = JSON.stringify(answers);
 
-    const userPrompt = [
+    const userPromptParts = [
       `<target_model>${targetModel}</target_model>`,
       `<original_prompt>${prompt}</original_prompt>`,
       `<extra_context>${context ?? ""}</extra_context>`,
@@ -120,7 +128,19 @@ export async function POST(req: Request) {
       `<questions>${questionsJson}</questions>`,
       `<answers>${answersJson}</answers>`,
       `<formatted_answers>${formattedQnA}</formatted_answers>`,
-    ].join("\n");
+    ];
+
+    if (externalContext.length) {
+      const externalContextJson = JSON.stringify(externalContext);
+      userPromptParts.push(`<external_context_raw>${externalContextJson}</external_context_raw>`);
+      userPromptParts.push(formatExternalContext(externalContext));
+    }
+
+    if (variationHint) {
+      userPromptParts.push(`<variation_hint>${variationHint}</variation_hint>`);
+    }
+
+    const userPrompt = userPromptParts.join("\n");
 
     const fewShotMessages = REFINER_FEW_SHOTS.flatMap(({ user, assistant }) => [
       { role: "user" as const, parts: [{ text: user }] },
@@ -174,4 +194,19 @@ export async function POST(req: Request) {
       { status: 500 },
     );
   }
+}
+
+function formatExternalContext(documents: RetrievedDocument[]): string {
+  if (!documents.length) {
+    return "";
+  }
+
+  const formatted = documents
+    .map((doc, index) => {
+      const snippet = doc.snippet.replace(/\s+/g, " ").trim();
+      return `Result ${index + 1}:\nTitle: ${doc.title}\nURL: ${doc.url}\nSummary: ${snippet}`;
+    })
+    .join("\n\n");
+
+  return `<external_context>${formatted}</external_context>`;
 }

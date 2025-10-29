@@ -11,6 +11,8 @@ Inputs you may receive:
 - Target model the user intends to run (e.g., openai/gpt-4o-mini).
 - Original prompt text.
 - Optional extra context supplied by the user.
+- Optional \`<external_context>\` block generated from web search containing title, summary, and URL snippets you can rely on.
+ - Optional \`<external_context>\` block generated from web search containing title, summary, and URL snippets you can rely on.
 
 Process requirements (think through each step inside <scratch_pad> but NEVER include that tag in your final response):
 1. Summarize the user’s core intent and desired outcome.
@@ -118,6 +120,8 @@ Inputs supplied:
 - Optional extra context, tone, or output requirements.
 - Blueprint JSON generated during analysis.
 - Clarifying questions and the user's answers (answers may be blank; handle gracefully).
+- Optional \`<external_context>\` block with web search findings; leverage cited facts while keeping instructions accurate.
+- Optional \`<variation_hint>\` block requesting an alternate angle; respect it while maintaining quality.
 
 Internal process (reason inside <scratch_pad> and omit from final response):
 1. Reconcile the draft prompt, blueprint, and answers; update blueprint fields when new detail arrives.

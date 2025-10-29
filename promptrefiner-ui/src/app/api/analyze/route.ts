@@ -4,14 +4,17 @@ import type {
   AnalyzeRequestPayload,
   PromptAnalysisResult,
   PromptBlueprint,
+  RetrievedDocument,
 } from "@/types/prompt";
 import {
   ANALYZER_FEW_SHOTS,
   ANALYZER_SYSTEM_PROMPT,
   PROMPT_VERSION,
 } from "@/prompts/metaprompt";
+import { searchFirecrawl } from "@/services/firecrawl";
 
 const MIN_QUESTIONS = 2;
+const MAX_SEARCH_QUERY_LENGTH = 512;
 
 function validateBlueprint(blueprint: PromptBlueprint): string | null {
   if (!blueprint) {
@@ -90,7 +93,7 @@ export async function POST(req: Request) {
   try {
     const body = (await req.json()) as AnalyzeRequestPayload;
     const prompt = body.prompt?.trim();
-    const targetModel = body.targetModel?.trim();
+    const rawTargetModel = body.targetModel?.trim();
     const context = body.context?.trim();
 
     if (!prompt) {
@@ -100,20 +103,50 @@ export async function POST(req: Request) {
       );
     }
 
-    if (!targetModel) {
+    if (!rawTargetModel) {
       return NextResponse.json(
         { error: "Target model is required so we can tailor the refinement." },
         { status: 400 },
       );
     }
 
+    const targetModel =
+      rawTargetModel.toLowerCase() === "none / not sure yet"
+        ? "Not specified yet"
+        : rawTargetModel;
+
+    let externalContext: RetrievedDocument[] = [];
+    if (body.useWebSearch) {
+      try {
+        const query = buildSearchQuery(prompt, context);
+        if (query) {
+          externalContext = await searchFirecrawl(query, { limit: 5 });
+        }
+      } catch (searchError) {
+        const message =
+          searchError instanceof Error
+            ? searchError.message
+            : "Web search failed unexpectedly.";
+        return NextResponse.json(
+          { error: `Unable to retrieve supporting context: ${message}` },
+          { status: 502 },
+        );
+      }
+    }
+
     const model = getGeminiModel();
 
-    const userPrompt = [
+    const userPromptParts = [
       `<target_model>${targetModel}</target_model>`,
       `<original_prompt>${prompt}</original_prompt>`,
       `<extra_context>${context ?? ""}</extra_context>`,
-    ].join("\n");
+    ];
+
+    if (externalContext.length) {
+      userPromptParts.push(formatExternalContext(externalContext));
+    }
+
+    const userPrompt = userPromptParts.join("\n");
 
     const fewShotMessages = ANALYZER_FEW_SHOTS.flatMap(({ user, assistant }) => [
       { role: "user" as const, parts: [{ text: user }] },
@@ -150,7 +183,12 @@ export async function POST(req: Request) {
       );
     }
 
-    return NextResponse.json(parsed);
+    const enriched: PromptAnalysisResult = {
+      ...parsed,
+      externalContext: externalContext.length ? externalContext : parsed.externalContext,
+    };
+
+    return NextResponse.json(enriched);
   } catch (error) {
     if (error instanceof SyntaxError) {
       return NextResponse.json(
@@ -170,4 +208,27 @@ export async function POST(req: Request) {
       { status: 500 },
     );
   }
+}
+
+function buildSearchQuery(prompt: string, context?: string | null): string {
+  const combined = [context, prompt].filter(Boolean).join(" ").trim();
+  if (!combined) {
+    return "";
+  }
+  if (combined.length <= MAX_SEARCH_QUERY_LENGTH) {
+    return combined;
+  }
+  return combined.slice(0, MAX_SEARCH_QUERY_LENGTH);
+}
+
+function formatExternalContext(documents: RetrievedDocument[]): string {
+  const formatted = documents
+    .map((doc, index) => {
+      const position = index + 1;
+      const snippet = doc.snippet.replace(/\s+/g, " ").trim();
+      return `Result ${position}:\nTitle: ${doc.title}\nURL: ${doc.url}\nSummary: ${snippet}`;
+    })
+    .join("\n\n");
+
+  return `<external_context>\n${formatted}\n</external_context>`;
 }

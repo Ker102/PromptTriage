@@ -10,11 +10,17 @@ type RefinementStage = "collect" | "analyzed" | "refined";
 type PendingAction = "analyze" | "refine" | null;
 
 const MODEL_PRESETS = [
-  "openai/gpt-4o-mini",
-  "openai/gpt-4.1",
-  "anthropic/claude-3.5-sonnet",
-  "google/gemini-1.5-pro",
-  "mistral/large-latest",
+  "None / Not sure yet",
+  "OpenAI GPT (chat/completions)",
+  "OpenAI O-models",
+  "OpenAI Codex (legacy)",
+  "Anthropic Claude Sonnet",
+  "Anthropic Claude Opus",
+  "Anthropic Claude Haiku",
+  "Google Gemini Pro",
+  "Google Gemini Flash",
+  "xAI Grok",
+  "Mistral (general)",
 ] as const;
 
 const INITIAL_FORM = {
@@ -23,6 +29,7 @@ const INITIAL_FORM = {
   context: "",
   tone: "",
   outputRequirements: "",
+  useWebSearch: false,
 };
 
 export default function Home() {
@@ -36,6 +43,7 @@ export default function Home() {
   const [pendingAction, setPendingAction] = useState<PendingAction>(null);
   const [error, setError] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
+  const [rewriteCount, setRewriteCount] = useState(0);
 
   const isAnalyzing = pendingAction === "analyze";
   const isRefining = pendingAction === "refine";
@@ -63,6 +71,10 @@ export default function Home() {
     setAnswers((prev) => ({ ...prev, [id]: value }));
   };
 
+  const handleWebSearchToggle = (value: boolean) => {
+    setForm((prev) => ({ ...prev, useWebSearch: value }));
+  };
+
   const handleAnalyze = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -80,6 +92,7 @@ export default function Home() {
           prompt: form.prompt,
           targetModel: form.targetModel,
           context: form.context || undefined,
+          useWebSearch: form.useWebSearch || undefined,
         }),
       });
 
@@ -98,6 +111,7 @@ export default function Home() {
         }, {}),
       );
       setStage("analyzed");
+      setRewriteCount(0);
     } catch (err) {
       const message =
         err instanceof Error ? err.message : "Unable to analyze prompt.";
@@ -108,11 +122,9 @@ export default function Home() {
     }
   };
 
-  const handleRefine = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
+  const submitRefine = async (variationHint?: string): Promise<boolean> => {
     if (!analysis) {
-      return;
+      return false;
     }
 
     setPendingAction("refine");
@@ -131,6 +143,8 @@ export default function Home() {
           answers,
           questions: analysis.questions,
           blueprint: analysis.blueprint,
+          externalContext: analysis.externalContext,
+          variationHint: variationHint || undefined,
         }),
       });
 
@@ -141,14 +155,38 @@ export default function Home() {
 
       const payload = (await response.json()) as PromptRefinementResult;
 
+      setCopied(false);
       setRefinement(payload);
       setStage("refined");
+      return true;
     } catch (err) {
       const message =
         err instanceof Error ? err.message : "Unable to refine prompt.";
       setError(message);
+      return false;
     } finally {
       setPendingAction(null);
+    }
+  };
+
+  const handleRefine = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const success = await submitRefine();
+    if (success) {
+      setRewriteCount(0);
+    }
+  };
+
+  const handleRewrite = async () => {
+    if (!analysis || unansweredQuestions || pendingAction === "refine") {
+      return;
+    }
+
+    const nextCount = rewriteCount + 1;
+    const hint = `Generate an alternate refined prompt that approaches the task from a different angle than previous variant #${nextCount}. Maintain accuracy while varying structure, tone, or emphasis.`;
+    const success = await submitRefine(hint);
+    if (success) {
+      setRewriteCount(nextCount);
     }
   };
 
@@ -160,6 +198,7 @@ export default function Home() {
     setStage("collect");
     setError(null);
     setCopied(false);
+    setRewriteCount(0);
   };
 
   const handleCopy = async () => {
@@ -244,7 +283,7 @@ export default function Home() {
               </div>
               <p className="text-sm text-slate-500">
                 Tailor the prompt format and structure to the model you plan to
-                use.
+                use, or pick &quot;None / Not sure yet&quot; if you&apos;re undecided.
               </p>
             </div>
 
@@ -303,6 +342,27 @@ export default function Home() {
                 }
               />
             </div>
+          </div>
+
+          <div className="rounded-2xl border border-slate-800 bg-slate-950/60 p-4">
+            <label
+              htmlFor="useWebSearch"
+              className="flex items-center gap-3 text-sm font-medium text-slate-200"
+            >
+              <input
+                id="useWebSearch"
+                name="useWebSearch"
+                type="checkbox"
+                className="h-4 w-4 rounded border-slate-700 bg-slate-900 text-cyan-400 focus:ring-cyan-500/50"
+                checked={form.useWebSearch}
+                onChange={(event) => handleWebSearchToggle(event.target.checked)}
+              />
+              Enrich analysis with web search (Firecrawl)
+            </label>
+            <p className="mt-2 text-xs text-slate-400">
+              Pulls supporting facts from the web to help Gemini identify missing context.
+              Requires a valid FIRECRAWL_API_KEY.
+            </p>
           </div>
 
           {error && stage === "collect" ? (
@@ -472,6 +532,31 @@ export default function Home() {
                     </div>
                   </div>
                 ) : null}
+
+                {analysis.externalContext?.length ? (
+                  <div className="space-y-2 rounded-2xl border border-sky-500/20 bg-sky-500/5 p-5">
+                    <p className="text-sm font-semibold text-sky-100">
+                      Supporting sources
+                    </p>
+                    <ul className="space-y-3 text-xs text-sky-50/90">
+                      {analysis.externalContext.map((item) => (
+                        <li key={item.url} className="space-y-1">
+                          <a
+                            href={item.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="font-medium text-sky-200 underline underline-offset-2 hover:text-sky-100"
+                          >
+                            {item.title}
+                          </a>
+                          <p className="leading-relaxed text-slate-200">
+                            {item.snippet}
+                          </p>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ) : null}
               </div>
 
               <form
@@ -553,13 +638,23 @@ export default function Home() {
                 <h3 className="text-lg font-semibold text-white">
                   Refined prompt
                 </h3>
-                <button
-                  type="button"
-                  onClick={handleCopy}
-                  className="inline-flex items-center justify-center rounded-xl border border-slate-700 px-4 py-2 text-sm font-medium text-slate-200 transition hover:border-slate-500 hover:text-white"
-                >
-                  {copied ? "Copied!" : "Copy to clipboard"}
-                </button>
+                <div className="flex flex-wrap gap-2">
+                  <button
+                    type="button"
+                    onClick={handleRewrite}
+                    disabled={isRefining || unansweredQuestions}
+                    className="inline-flex items-center justify-center rounded-xl border border-emerald-500/40 bg-emerald-500/10 px-4 py-2 text-sm font-medium text-emerald-100 transition hover:border-emerald-400 hover:bg-emerald-400/20 disabled:cursor-not-allowed disabled:border-slate-600 disabled:bg-slate-800 disabled:text-slate-500"
+                  >
+                    {isRefining ? "Rewriting..." : "Re-write with new angle"}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={handleCopy}
+                    className="inline-flex items-center justify-center rounded-xl border border-slate-700 px-4 py-2 text-sm font-medium text-slate-200 transition hover:border-slate-500 hover:text-white"
+                  >
+                    {copied ? "Copied!" : "Copy to clipboard"}
+                  </button>
+                </div>
               </div>
               <pre className="whitespace-pre-wrap rounded-2xl bg-slate-950/70 p-4 text-slate-100">
                 {refinement.refinedPrompt}

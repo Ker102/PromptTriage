@@ -10,6 +10,7 @@ export interface PromptAnalysisResult {
   questions: PromptQuestion[];
   overallConfidence?: string;
   blueprint: PromptBlueprint;
+  externalContext?: RetrievedDocument[];
 }
 
 export interface PromptRefinementResult {
@@ -24,6 +25,7 @@ export interface AnalyzeRequestPayload {
   prompt: string;
   targetModel: string;
   context?: string;
+  useWebSearch?: boolean;
 }
 
 export interface RefineRequestPayload extends AnalyzeRequestPayload {
@@ -32,6 +34,8 @@ export interface RefineRequestPayload extends AnalyzeRequestPayload {
   blueprint: PromptBlueprint;
   tone?: string;
   outputRequirements?: string;
+  externalContext?: RetrievedDocument[];
+  variationHint?: string;
 }
 
 export interface PromptBlueprint {
@@ -46,4 +50,11 @@ export interface PromptBlueprint {
   risks: string[];
   outputFormat: string;
   evaluationChecklist: string[];
+}
+
+export interface RetrievedDocument {
+  title: string;
+  url: string;
+  snippet: string;
+  score?: number;
 }
