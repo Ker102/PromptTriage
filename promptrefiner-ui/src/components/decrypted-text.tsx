@@ -27,6 +27,7 @@ export function DecryptedText({
   duration = 1200,
   className,
 }: DecryptedTextProps) {
+  const [isClient, setIsClient] = useState(false);
   const sanitizedPhrases = useMemo(
     () =>
       phrases
@@ -45,6 +46,10 @@ export function DecryptedText({
   const rafRef = useRef<number | null>(null);
   const timeoutRef = useRef<number | null>(null);
   const mountedRef = useRef(true);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   const randomChar = useCallback(() => {
     const randomIndex = Math.floor(Math.random() * RANDOM_CHARACTERS.length);
@@ -154,6 +159,10 @@ export function DecryptedText({
   }, [cancelAnimation, cancelTimeout]);
 
   useEffect(() => {
+    if (!isClient) {
+      return;
+    }
+
     if (!sanitizedPhrases.length) {
       setDisplayed("");
       resolvedRef.current = "";
@@ -185,7 +194,11 @@ export function DecryptedText({
     return () => {
       cancelTimeout();
     };
-  }, [sanitizedPhrases, interval, duration, scrambleTo, cancelAnimation, cancelTimeout]);
+  }, [isClient, sanitizedPhrases, interval, duration, scrambleTo, cancelAnimation, cancelTimeout]);
+
+  if (!isClient) {
+    return <span className={className}>{sanitizedPhrases[0] ?? ""}</span>;
+  }
 
   return <span className={className}>{displayed}</span>;
 }
