@@ -97,7 +97,7 @@ export default function PricingPage() {
           </Link>
         </div>
 
-        <section className="grid gap-6 md:grid-cols-3">
+        <section id="pricing" className="grid gap-6 md:grid-cols-3">
           {PLANS.map((plan) => (
             <article
               key={plan.id}
@@ -132,6 +132,102 @@ export default function PricingPage() {
               />
             </article>
           ))}
+        </section>
+
+        <section
+          id="contact"
+          className="grid gap-8 rounded-3xl border border-[var(--surface-border)] bg-[var(--surface-card)] p-10 md:grid-cols-2"
+        >
+          <div className="space-y-4">
+            <p className="text-xs uppercase tracking-[0.4em] text-muted">
+              Contact
+            </p>
+            <h2 className="text-3xl font-semibold text-soft md:text-4xl">
+              Let’s build prompts that scale with your team
+            </h2>
+            <p className="text-sm text-muted md:text-base">
+              Need a feature walkthrough, billing help, or enterprise quote? Drop us a note and the PromptRefiner team will get back to you within one business day.
+            </p>
+            <div className="space-y-2 text-sm text-muted">
+              <p>
+                Email{" "}
+                <a
+                  className="text-cyan-300 underline underline-offset-4 hover:text-white"
+                  href="mailto:hello@promptrefiner.app"
+                >
+                  hello@promptrefiner.app
+                </a>
+              </p>
+              <p>
+                Slack Community{" "}
+                <a
+                  className="text-cyan-300 underline underline-offset-4 hover:text-white"
+                  href="https://promptrefiner.app/slack"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  promptrefiner.app/slack
+                </a>
+              </p>
+            </div>
+          </div>
+
+          <div className="space-y-4">
+            <form
+              className="space-y-4 rounded-2xl border border-[var(--surface-border)] bg-[var(--surface-card-soft)] p-6"
+              action="https://formspree.io/f/xdknzjwa"
+              method="POST"
+            >
+              <div className="space-y-2">
+                <label className="text-xs font-semibold uppercase tracking-[0.3em] text-muted" htmlFor="contact-name">
+                  Name
+                </label>
+                <input
+                  id="contact-name"
+                  name="name"
+                  type="text"
+                  required
+                  className="w-full rounded-2xl border border-[var(--surface-border)] bg-[var(--surface-card)] px-4 py-3 text-sm text-soft placeholder:text-muted focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/30"
+                  placeholder="Your name"
+                />
+              </div>
+              <div className="space-y-2">
+                <label className="text-xs font-semibold uppercase tracking-[0.3em] text-muted" htmlFor="contact-email">
+                  Work email
+                </label>
+                <input
+                  id="contact-email"
+                  name="_replyto"
+                  type="email"
+                  required
+                  className="w-full rounded-2xl border border-[var(--surface-border)] bg-[var(--surface-card)] px-4 py-3 text-sm text-soft placeholder:text-muted focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/30"
+                  placeholder="you@company.com"
+                />
+              </div>
+              <div className="space-y-2">
+                <label className="text-xs font-semibold uppercase tracking-[0.3em] text-muted" htmlFor="contact-message">
+                  How can we help?
+                </label>
+                <textarea
+                  id="contact-message"
+                  name="message"
+                  rows={4}
+                  required
+                  className="w-full rounded-2xl border border-[var(--surface-border)] bg-[var(--surface-card)] px-4 py-3 text-sm text-soft placeholder:text-muted focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/30"
+                  placeholder="Tell us about your workflow or feature request..."
+                />
+              </div>
+              <button
+                type="submit"
+                className="inline-flex items-center justify-center rounded-full border border-cyan-400/50 bg-gradient-to-r from-cyan-500/25 via-emerald-500/20 to-cyan-500/25 px-5 py-2 text-sm font-semibold uppercase tracking-[0.28em] text-soft shadow-[0_20px_45px_-28px_rgba(34,211,238,0.85)] transition duration-300 hover:-translate-y-0.5 hover:scale-[1.04] hover:border-cyan-300 hover:text-white"
+              >
+                Send message
+              </button>
+            </form>
+            <p className="text-xs text-muted">
+              By submitting this form you agree to our processing of your personal data for the purpose of contacting you regarding PromptRefiner.
+            </p>
+          </div>
         </section>
 
         <footer className="mx-auto max-w-4xl rounded-3xl border border-[var(--surface-border)] bg-[var(--surface-card)] p-8 text-center text-sm text-muted">

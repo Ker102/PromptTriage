@@ -171,7 +171,7 @@ export default function Home() {
   const navLinks = [
     { label: "Features", href: "#features" },
     { label: "Blueprints", href: "#blueprint" },
-    { label: "Workflow", href: "#workflow" },
+    { label: "Contact", href: "/pricing#contact" },
     { label: "Docs", href: "#docs" },
     { label: "Pricing", href: "/pricing" },
   ];
@@ -498,9 +498,15 @@ export default function Home() {
         </nav>
 
         <section className="flex flex-col items-center gap-6 text-center">
-          <p className="text-xs uppercase tracking-[0.4em] text-muted">
-            Precision prompt engineering
-          </p>
+          <Link
+            href="https://kaelux.dev"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.4em] text-muted transition duration-200 hover:text-soft"
+          >
+            <span>A Kaelux Project</span>
+            <span className="text-lg leading-none">↗</span>
+          </Link>
           <h1 className="hero-gradient-text text-4xl font-semibold md:text-6xl">
             A Fast Prompt. <br className="hidden md:block" /> Scalable Guidance.
           </h1>
