@@ -14,6 +14,10 @@ import {
 } from "@/prompts/metaprompt";
 import { searchFirecrawl } from "@/services/firecrawl";
 import { authOptions } from "@/auth";
+import {
+  isFirecrawlAvailable,
+  recordUsageOrThrow,
+} from "@/services/usage-limit";
 
 const MIN_QUESTIONS = 2;
 const MAX_SEARCH_QUERY_LENGTH = 512;
@@ -101,6 +105,18 @@ export async function POST(req: Request) {
       );
     }
 
+    const email = session.user?.email;
+    if (!email) {
+      return NextResponse.json(
+        { error: "Unable to resolve your account email." },
+        { status: 400 },
+      );
+    }
+
+    const subscriptionPlan =
+      (session.user?.subscriptionPlan as string | undefined)?.toUpperCase() ??
+      "FREE";
+
     const body = (await req.json()) as AnalyzeRequestPayload;
     const prompt = body.prompt?.trim();
     const rawTargetModel = body.targetModel?.trim();
@@ -128,6 +144,16 @@ export async function POST(req: Request) {
     let externalContext: RetrievedDocument[] = [];
     let externalContextError: string | undefined;
     if (body.useWebSearch) {
+      if (!isFirecrawlAvailable(subscriptionPlan)) {
+        return NextResponse.json(
+          {
+            error:
+              "Web search is available on paid plans. Upgrade to access Firecrawl enrichment.",
+          },
+          { status: 403 },
+        );
+      }
+
       try {
         const query = buildSearchQuery(prompt, context);
         if (query) {
@@ -144,6 +170,16 @@ export async function POST(req: Request) {
     }
 
     const model = getGeminiModel();
+
+    try {
+      recordUsageOrThrow(email, subscriptionPlan);
+    } catch (usageError) {
+      const message =
+        usageError instanceof Error
+          ? usageError.message
+          : "Usage limit exceeded.";
+      return NextResponse.json({ error: message }, { status: 429 });
+    }
 
     const userPromptParts = [
       `<target_model>${targetModel}</target_model>`,

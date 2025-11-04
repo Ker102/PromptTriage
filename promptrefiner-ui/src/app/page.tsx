@@ -1,6 +1,7 @@
 'use client';
 
-import { FormEvent, ReactNode, useMemo, useState } from "react";
+import { FormEvent, ReactNode, useEffect, useMemo, useState } from "react";
+import Link from "next/link";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { useTheme } from "@/components/theme-provider";
 import { DecryptedText } from "@/components/decrypted-text";
@@ -158,12 +159,21 @@ function ThemeToggle() {
   );
 }
 
+function formatPlanLabel(plan?: string | null): string | null {
+  if (!plan) {
+    return null;
+  }
+  const normalized = plan.replace(/[_-]/g, " ").toLowerCase();
+  return normalized.replace(/\b\w/g, (char) => char.toUpperCase());
+}
+
 export default function Home() {
   const navLinks = [
     { label: "Features", href: "#features" },
     { label: "Blueprints", href: "#blueprint" },
     { label: "Workflow", href: "#workflow" },
     { label: "Docs", href: "#docs" },
+    { label: "Pricing", href: "/pricing" },
   ];
 
   const socialLinks = [
@@ -209,7 +219,15 @@ export default function Home() {
   const [error, setError] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
   const [rewriteCount, setRewriteCount] = useState(0);
-  const { status } = useSession();
+  const { data: session, status } = useSession();
+  const planLabel = formatPlanLabel(session?.user?.subscriptionPlan);
+  const subscriptionPlan =
+    (session?.user?.subscriptionPlan as string | undefined)?.toUpperCase() ??
+    "FREE";
+  const isPaidPlan = subscriptionPlan !== "FREE";
+  const firecrawlHelperText = isPaidPlan
+    ? "Pulls supporting facts from the web to help Gemini identify missing context. Requires a valid FIRECRAWL_API_KEY."
+    : "Available on Pro plans. Upgrade to unlock Firecrawl web search for richer context.";
 
   const isAuthenticated = status === "authenticated";
   const handleAuthButtonClick = () => {
@@ -251,8 +269,17 @@ export default function Home() {
   };
 
   const handleWebSearchToggle = (value: boolean) => {
+    if (!isPaidPlan) {
+      return;
+    }
     setForm((prev) => ({ ...prev, useWebSearch: value }));
   };
+
+  useEffect(() => {
+    if (!isPaidPlan && form.useWebSearch) {
+      setForm((prev) => ({ ...prev, useWebSearch: false }));
+    }
+  }, [isPaidPlan, form.useWebSearch]);
 
   const handleAnalyze = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -419,7 +446,7 @@ export default function Home() {
                 type="button"
                 disabled={status === "loading"}
                 onClick={handleAuthButtonClick}
-                className="rounded-full border border-[var(--surface-border)] bg-[var(--surface-card-soft)] px-3 py-1 text-[0.6rem] font-semibold uppercase tracking-[0.3em] text-soft transition duration-300 hover:-translate-y-0.5 hover:scale-[1.05] hover:border-[rgba(148,163,184,0.65)] hover:text-white disabled:cursor-not-allowed disabled:opacity-70"
+                className="inline-flex items-center gap-2 rounded-full border border-[rgba(148,163,184,0.35)] bg-[var(--surface-card)] px-3 py-1 text-[0.6rem] font-semibold uppercase tracking-[0.32em] text-soft transition duration-200 hover:-translate-y-0.5 hover:border-[rgba(148,163,184,0.55)] hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-400 disabled:cursor-not-allowed disabled:opacity-70"
               >
                 {isAuthenticated ? "Sign out" : "Login / Sign up"}
               </button>
@@ -427,13 +454,23 @@ export default function Home() {
           </div>
           <div className="hidden items-center gap-8 text-xs font-medium text-muted md:flex">
             {navLinks.map((link) => (
-              <a
-                key={link.label}
-                href={link.href}
-                className="tracking-[0.36em] uppercase transition duration-300 hover:text-soft"
-              >
-                {link.label}
-              </a>
+              link.href.startsWith("#") ? (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  className="tracking-[0.36em] uppercase transition duration-300 hover:text-soft"
+                >
+                  {link.label}
+                </a>
+              ) : (
+                <Link
+                  key={link.label}
+                  href={link.href}
+                  className="tracking-[0.36em] uppercase transition duration-300 hover:text-soft"
+                >
+                  {link.label}
+                </Link>
+              )
             ))}
           </div>
           <div className="hidden items-center gap-3 md:flex">
@@ -443,11 +480,17 @@ export default function Home() {
                 {item.icon}
               </SocialIcon>
             ))}
+            {isAuthenticated && planLabel ? (
+              <span className="inline-flex items-center gap-[6px] rounded-full border border-[rgba(148,163,184,0.35)] bg-[var(--surface-card-soft)] px-3 py-[6px] text-[0.6rem] font-semibold uppercase tracking-[0.32em] text-soft">
+                <span className="h-1.5 w-1.5 rounded-full bg-gradient-to-br from-cyan-400 to-emerald-400" />
+                {planLabel}
+              </span>
+            ) : null}
             <button
               type="button"
               disabled={status === "loading"}
               onClick={handleAuthButtonClick}
-              className="rounded-full border border-[var(--surface-border)] bg-[var(--surface-card-soft)] px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.28em] text-soft transition duration-300 hover:-translate-y-0.5 hover:scale-[1.05] hover:border-[rgba(148,163,184,0.65)] hover:text-white disabled:cursor-not-allowed disabled:opacity-70"
+              className="inline-flex items-center gap-2 rounded-full border border-[rgba(148,163,184,0.35)] bg-[var(--surface-card)] px-5 py-1.5 text-xs font-semibold uppercase tracking-[0.28em] text-soft transition duration-200 hover:-translate-y-0.5 hover:border-[rgba(148,163,184,0.55)] hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-400 disabled:cursor-not-allowed disabled:opacity-70"
             >
               {isAuthenticated ? "Sign out" : "Login / Sign up"}
             </button>
@@ -490,6 +533,12 @@ export default function Home() {
               {item.icon}
             </SocialIcon>
           ))}
+          {isAuthenticated && planLabel ? (
+            <span className="inline-flex items-center gap-[6px] rounded-full border border-[rgba(148,163,184,0.35)] bg-[var(--surface-card-soft)] px-3 py-[6px] text-[0.6rem] font-semibold uppercase tracking-[0.32em] text-soft">
+              <span className="h-1.5 w-1.5 rounded-full bg-gradient-to-br from-cyan-400 to-emerald-400" />
+              {planLabel}
+            </span>
+          ) : null}
         </div>
 
         <div className="prompt-panel-shell">
@@ -616,14 +665,12 @@ export default function Home() {
                 type="checkbox"
                 className="h-4 w-4 rounded border-[var(--surface-border)] bg-[var(--surface-card-strong)] text-cyan-400 transition duration-200 ease-out focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:ring-offset-0 checked:shadow-[0_0_12px_rgba(56,189,248,0.45)]"
                 checked={form.useWebSearch}
+                disabled={!isPaidPlan}
                 onChange={(event) => handleWebSearchToggle(event.target.checked)}
               />
               Enrich analysis with web search (Firecrawl)
             </label>
-            <p className="mt-2 text-xs text-muted">
-              Pulls supporting facts from the web to help Gemini identify missing context.
-              Requires a valid FIRECRAWL_API_KEY.
-            </p>
+            <p className="mt-2 text-xs text-muted">{firecrawlHelperText}</p>
           </div>
 
           {error && stage === "collect" ? (

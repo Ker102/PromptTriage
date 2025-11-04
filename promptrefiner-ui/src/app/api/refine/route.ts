@@ -13,6 +13,10 @@ import {
   REFINER_SYSTEM_PROMPT,
 } from "@/prompts/metaprompt";
 import { authOptions } from "@/auth";
+import {
+  isFirecrawlAvailable,
+  recordUsageOrThrow,
+} from "@/services/usage-limit";
 
 function validateBlueprintInput(blueprint: PromptBlueprint | undefined) {
   if (!blueprint) {
@@ -61,6 +65,18 @@ export async function POST(req: Request) {
         { status: 401 },
       );
     }
+
+    const email = session.user?.email;
+    if (!email) {
+      return NextResponse.json(
+        { error: "Unable to resolve your account email." },
+        { status: 400 },
+      );
+    }
+
+    const subscriptionPlan =
+      (session.user?.subscriptionPlan as string | undefined)?.toUpperCase() ??
+      "FREE";
 
     const body = (await req.json()) as RefineRequestPayload;
     const prompt = body.prompt?.trim();
@@ -114,6 +130,26 @@ export async function POST(req: Request) {
     }
 
     const model = getGeminiModel();
+
+    if (externalContext.length && !isFirecrawlAvailable(subscriptionPlan)) {
+      return NextResponse.json(
+        {
+          error:
+            "External context enrichment is available on paid plans. Upgrade to include Firecrawl results.",
+        },
+        { status: 403 },
+      );
+    }
+
+    try {
+      recordUsageOrThrow(email, subscriptionPlan);
+    } catch (usageError) {
+      const message =
+        usageError instanceof Error
+          ? usageError.message
+          : "Usage limit exceeded.";
+      return NextResponse.json({ error: message }, { status: 429 });
+    }
 
     const formattedQnA = questions
       .map((question) => {

@@ -28,4 +28,19 @@ export const authOptions: NextAuthOptions = {
   session: {
     strategy: "jwt",
   },
+  callbacks: {
+    async jwt({ token }) {
+      if (!token.subscriptionPlan) {
+        token.subscriptionPlan = "FREE";
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      if (session.user) {
+        session.user.subscriptionPlan =
+          (token.subscriptionPlan as string) ?? "FREE";
+      }
+      return session;
+    },
+  },
 };
