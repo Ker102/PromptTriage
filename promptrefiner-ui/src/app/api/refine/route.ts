@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { getServerSession } from "next-auth";
 import { getGeminiModel, extractJsonFromText } from "@/lib/gemini";
 import type {
   PromptBlueprint,
@@ -11,6 +12,7 @@ import {
   REFINER_FEW_SHOTS,
   REFINER_SYSTEM_PROMPT,
 } from "@/prompts/metaprompt";
+import { authOptions } from "@/auth";
 
 function validateBlueprintInput(blueprint: PromptBlueprint | undefined) {
   if (!blueprint) {
@@ -52,6 +54,14 @@ function validateRefinementPayload(payload: PromptRefinementResult): string | nu
 
 export async function POST(req: Request) {
   try {
+    const session = await getServerSession(authOptions);
+    if (!session) {
+      return NextResponse.json(
+        { error: "You must be signed in to refine prompts." },
+        { status: 401 },
+      );
+    }
+
     const body = (await req.json()) as RefineRequestPayload;
     const prompt = body.prompt?.trim();
     const rawTargetModel = body.targetModel?.trim();

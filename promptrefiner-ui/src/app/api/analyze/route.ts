@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { getServerSession } from "next-auth";
 import { getGeminiModel, extractJsonFromText } from "@/lib/gemini";
 import type {
   AnalyzeRequestPayload,
@@ -12,6 +13,7 @@ import {
   PROMPT_VERSION,
 } from "@/prompts/metaprompt";
 import { searchFirecrawl } from "@/services/firecrawl";
+import { authOptions } from "@/auth";
 
 const MIN_QUESTIONS = 2;
 const MAX_SEARCH_QUERY_LENGTH = 512;
@@ -91,6 +93,14 @@ function validateAnalysisPayload(payload: PromptAnalysisResult): string | null {
 
 export async function POST(req: Request) {
   try {
+    const session = await getServerSession(authOptions);
+    if (!session) {
+      return NextResponse.json(
+        { error: "You must be signed in to analyze prompts." },
+        { status: 401 },
+      );
+    }
+
     const body = (await req.json()) as AnalyzeRequestPayload;
     const prompt = body.prompt?.trim();
     const rawTargetModel = body.targetModel?.trim();

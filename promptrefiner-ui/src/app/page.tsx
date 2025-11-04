@@ -1,6 +1,7 @@
 'use client';
 
 import { FormEvent, ReactNode, useMemo, useState } from "react";
+import { signIn, signOut, useSession } from "next-auth/react";
 import { useTheme } from "@/components/theme-provider";
 import { DecryptedText } from "@/components/decrypted-text";
 import type {
@@ -208,6 +209,20 @@ export default function Home() {
   const [error, setError] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
   const [rewriteCount, setRewriteCount] = useState(0);
+  const { status } = useSession();
+
+  const isAuthenticated = status === "authenticated";
+  const handleAuthButtonClick = () => {
+    if (isAuthenticated) {
+      const callbackUrl =
+        typeof window !== "undefined" ? window.location.origin : "/";
+      void signOut({ callbackUrl });
+      return;
+    }
+    const callbackUrl =
+      typeof window !== "undefined" ? window.location.href : "/";
+    void signIn("google", { callbackUrl });
+  };
 
   const isAnalyzing = pendingAction === "analyze";
   const isRefining = pendingAction === "refine";
@@ -241,6 +256,11 @@ export default function Home() {
 
   const handleAnalyze = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    if (!isAuthenticated) {
+      await signIn("google", { callbackUrl: window.location.href });
+      return;
+    }
 
     setPendingAction("analyze");
     setError(null);
@@ -288,6 +308,11 @@ export default function Home() {
 
   const submitRefine = async (variationHint?: string): Promise<boolean> => {
     if (!analysis) {
+      return false;
+    }
+
+    if (!isAuthenticated) {
+      await signIn("google", { callbackUrl: window.location.href });
       return false;
     }
 
@@ -390,6 +415,14 @@ export default function Home() {
             </span>
             <div className="flex items-center gap-3 md:hidden">
               <ThemeToggle />
+              <button
+                type="button"
+                disabled={status === "loading"}
+                onClick={handleAuthButtonClick}
+                className="rounded-full border border-[var(--surface-border)] bg-[var(--surface-card-soft)] px-3 py-1 text-[0.6rem] font-semibold uppercase tracking-[0.3em] text-soft transition duration-300 hover:-translate-y-0.5 hover:scale-[1.05] hover:border-[rgba(148,163,184,0.65)] hover:text-white disabled:cursor-not-allowed disabled:opacity-70"
+              >
+                {isAuthenticated ? "Sign out" : "Login / Sign up"}
+              </button>
             </div>
           </div>
           <div className="hidden items-center gap-8 text-xs font-medium text-muted md:flex">
@@ -410,6 +443,14 @@ export default function Home() {
                 {item.icon}
               </SocialIcon>
             ))}
+            <button
+              type="button"
+              disabled={status === "loading"}
+              onClick={handleAuthButtonClick}
+              className="rounded-full border border-[var(--surface-border)] bg-[var(--surface-card-soft)] px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.28em] text-soft transition duration-300 hover:-translate-y-0.5 hover:scale-[1.05] hover:border-[rgba(148,163,184,0.65)] hover:text-white disabled:cursor-not-allowed disabled:opacity-70"
+            >
+              {isAuthenticated ? "Sign out" : "Login / Sign up"}
+            </button>
           </div>
         </nav>
 

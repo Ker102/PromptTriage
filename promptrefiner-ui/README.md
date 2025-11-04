@@ -16,6 +16,7 @@ PromptRefiner is a Next.js web application that turns rough ideas into polished,
 
 - Node.js 18.17+ (Next.js 15 tooling prefers Node 20+, but the project currently runs on Node 18.19.1).
 - A Google Gemini API key. You can create one in the [Google AI Studio](https://makersuite.google.com/app/apikey).
+- Google OAuth 2.0 credentials (Client ID and Secret) configured for your deployment domain so users can sign in with Google.
 - (Optional) A [Firecrawl](https://firecrawl.dev/) API key if you want web-enriched analyses.
 
 ## Getting started
@@ -32,7 +33,7 @@ PromptRefiner is a Next.js web application that turns rough ideas into polished,
    cp .env.example .env.local
    ```
 
-   Update `.env.local` with your `GOOGLE_GEMINI_API_KEY`. Optionally add `FIRECRAWL_API_KEY` if you plan to enable web search, and override `GEMINI_MODEL` if you want to use a different Gemini model variant.
+   Update `.env.local` with your `GOOGLE_GEMINI_API_KEY`. Add Google OAuth credentials (`GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`) plus a strong `AUTH_SECRET` for NextAuth session signing. Optionally include `FIRECRAWL_API_KEY` if you plan to enable web search, and override `GEMINI_MODEL` if you want to use a different Gemini model variant.
 
 3. Start the development server:
 
