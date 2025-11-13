@@ -5,7 +5,7 @@ body:
     attributes:
       value: |
         ❓ **Ask Questions & Get Help**
-        
+
         Have a question about PromptTriage? Need help with setup, usage, or troubleshooting? Ask here!
 
   - type: textarea

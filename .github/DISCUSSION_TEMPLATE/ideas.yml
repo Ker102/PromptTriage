@@ -5,7 +5,7 @@ body:
     attributes:
       value: |
         💡 **Share Your Ideas!**
-        
+
         Have an idea for PromptTriage? We'd love to hear it! This is the place to brainstorm, discuss possibilities, and explore new directions for the project.
 
   - type: textarea
