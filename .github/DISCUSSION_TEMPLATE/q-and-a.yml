@@ -1,0 +1,85 @@
+title: "Q&A: "
+labels: ["question", "discussion"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ❓ **Ask Questions & Get Help**
+        
+        Have a question about PromptTriage? Need help with setup, usage, or troubleshooting? Ask here!
+
+  - type: textarea
+    id: question
+    attributes:
+      label: Your Question
+      description: What would you like to know?
+      placeholder: Ask your question in detail
+    validations:
+      required: true
+
+  - type: dropdown
+    id: topic
+    attributes:
+      label: Topic
+      description: What is your question about?
+      options:
+        - Installation & Setup
+        - Usage & Features
+        - Configuration
+        - API Integration
+        - Troubleshooting
+        - Best Practices
+        - Performance
+        - Security
+        - Contributing
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Context
+      description: Provide any relevant context or background
+      placeholder: |
+        - What have you tried so far?
+        - What's your use case?
+        - Any error messages?
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment Details
+      description: If relevant, share your environment setup
+      placeholder: |
+        - Node.js version:
+        - npm version:
+        - Operating system:
+        - Browser:
+
+  - type: textarea
+    id: code
+    attributes:
+      label: Code Samples
+      description: If applicable, share relevant code snippets
+      placeholder: Paste code here
+      render: typescript
+
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots or Logs
+      description: If helpful, add screenshots or error logs
+      placeholder: Paste screenshots or logs here
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Pre-submission Checklist
+      options:
+        - label: I have searched existing discussions and issues for similar questions
+          required: true
+        - label: I have read the documentation
+          required: false
+        - label: I have provided enough context for others to understand my question
+          required: true
