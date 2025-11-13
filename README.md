@@ -2,18 +2,15 @@
 
 <div align="center">
 
-![GitHub](https://img.shields.io/github/license/Ker102/PromptTriage?style=for-the-badge)
-![GitHub Stars](https://img.shields.io/github/stars/Ker102/PromptTriage?style=for-the-badge)
-![GitHub Issues](https://img.shields.io/github/issues/Ker102/PromptTriage?style=for-the-badge)
-![GitHub Pull Requests](https://img.shields.io/github/issues-pr/Ker102/PromptTriage?style=for-the-badge)
 ![Next.js](https://img.shields.io/badge/Next.js-15.1.6-black?style=for-the-badge&logo=next.js)
 ![React](https://img.shields.io/badge/React-19.0.0-61DAFB?style=for-the-badge&logo=react)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.0-3178C6?style=for-the-badge&logo=typescript)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4-38B2AC?style=for-the-badge&logo=tailwind-css)
+![Google Gemini](https://img.shields.io/badge/Google_Gemini-API-4285F4?style=for-the-badge&logo=google)
 
-**An intelligent AI prompt refinement platform powered by Google Gemini**
+**An intelligent prompt engineering platform using metaprompts, few-shot learning, and orchestrated AI workflows**
 
-[Features](#-features) • [Architecture](#-architecture) • [Technologies](#-technologies) • [Contributing](CONTRIBUTING.md) • [Security](SECURITY.md)
+[Features](#-features) • [System Design](#-system-design-philosophy) • [Architecture](#-architecture) • [Technologies](#-technologies) • [Contributing](CONTRIBUTING.md) • [Security](SECURITY.md)
 
 </div>
 
@@ -21,7 +18,9 @@
 
 ## 🎯 Overview
 
-**PromptTriage** is an enterprise-grade Next.js application that transforms rough ideas and vague requirements into structured, production-ready AI prompts. By leveraging Google Gemini's advanced language understanding, PromptTriage analyzes user intent, identifies gaps, asks intelligent follow-up questions, and generates optimized prompts tailored for specific AI models and use cases.
+**PromptTriage** is an enterprise-grade prompt engineering platform that transforms rough ideas and vague requirements into structured, production-ready AI prompts. Unlike simple prompt wrappers, PromptTriage employs a sophisticated orchestration design built on **metaprompts**, **system prompts**, and **few-shot learning** to deliver consistent, high-quality results. The system analyzes user intent, identifies gaps through structured blueprints, asks intelligent follow-up questions, and generates optimized prompts tailored for specific AI models and use cases.
+
+This is not just a Gemini API wrapper—it's a specialized prompt engineering system that uses carefully crafted system instructions, curated few-shot examples across multiple domains (creative, analytical, technical), and a two-phase orchestration workflow to ensure every generated prompt meets production standards.
 
 ## ✨ Features
 
@@ -48,7 +47,53 @@
 ### 🔄 **Iterative Refinement**
 - **One-Click Rewrite**: Generate alternative refinements without re-answering questions
 - **Version Tracking**: Built-in prompt versioning system for iteration management
-- **Few-Shot Metaprompting**: Curated examples guide Gemini to maintain consistency and quality
+- **Metaprompt-Driven Consistency**: Curated system prompts guide Gemini to maintain quality across generations
+
+## 🏗️ System Design Philosophy
+
+**PromptTriage is built on a foundation of advanced prompt engineering techniques, not just API calls.**
+
+### Core Design Principles
+
+#### 1. **Metaprompt Architecture**
+The system uses sophisticated metaprompts (system instructions) that define how Gemini should reason about and transform user inputs:
+- **Analyzer Metaprompt**: Guides the analysis phase with specific reasoning steps, output structure requirements, and quality criteria
+- **Refiner Metaprompt**: Orchestrates the synthesis phase with section templates, formatting rules, and consistency checks
+- **Versioned Prompts**: Each metaprompt is versioned (e.g., `2024-12-claude-hybrid`) for reproducibility and iteration
+
+#### 2. **Few-Shot Learning System**
+PromptTriage includes curated few-shot examples across multiple domains to teach Gemini the expected behavior:
+- **Creative Domain**: Website design, interactive applications (e.g., EduQuest learning platform)
+- **Analytical Domain**: Business analysis, financial reports (e.g., Matterport 10-K summaries)
+- **Technical Domain**: Bug reports, crash troubleshooting, error diagnostics
+- **Data Domain**: Excel automation, SQL query specifications
+- **5+ Hand-Crafted Examples**: Each example includes user input and ideal assistant response demonstrating the target behavior
+
+The few-shot examples are injected before every API call, ensuring Gemini understands the exact output format, reasoning depth, and quality standards expected.
+
+#### 3. **Blueprint-Based Orchestration**
+The system uses a two-phase orchestration design with structured blueprints:
+
+**Phase 1 - Analysis**:
+- Extracts intent, audience, success criteria, constraints, risks
+- Generates targeted follow-up questions (2-5 questions)
+- Creates a structured blueprint with 10+ fields for later synthesis
+- Validates completeness through confidence scoring
+
+**Phase 2 - Refinement**:
+- Reconciles the original prompt with blueprint and user answers
+- Synthesizes a production-ready prompt with 9 standardized sections
+- Generates usage guidance, change summaries, assumptions, and evaluation criteria
+- Maintains consistency through template enforcement
+
+#### 4. **Specialized for Prompt Generation**
+Unlike general-purpose AI assistants, PromptTriage is specifically optimized for one task: **transforming vague ideas into production-ready prompts**. This specialization enables:
+- Domain-specific validation logic for prompt quality
+- Structured output formats that work across AI models
+- Consistent reasoning patterns through metaprompt conditioning
+- Reproducible results through versioning and few-shot stability
+
+The system doesn't rely on Gemini's function calling or native tools—it uses **pure prompt engineering techniques** (system instructions, few-shot learning, structured output requirements) to achieve reliable results.
 
 ### 🔐 **Enterprise Security**
 - **Google OAuth 2.0**: Secure authentication with Google Sign-In
@@ -62,7 +107,7 @@
 
 ## 🏗️ Architecture
 
-### System Design
+### System Design Overview
 
 ```
 ┌─────────────────┐
@@ -71,32 +116,52 @@
 └────────┬────────┘
          │
          ▼
-┌─────────────────┐
-│  Analyzer API   │◄──── Google Gemini
-│  /api/analyze   │      (Analysis)
-└────────┬────────┘
-         │
-         ├─► Blueprint Generation
-         ├─► Follow-up Questions
-         └─► Risk Assessment
-         │
-         ▼
+┌─────────────────────────────────────────┐
+│         Analyzer API                     │
+│         /api/analyze                     │
+│                                          │
+│  ┌────────────────────────────────┐    │
+│  │  System Prompt Injection       │    │◄──── ANALYZER_SYSTEM_PROMPT
+│  │  + Few-Shot Examples (5)       │    │      (Metaprompt v2024-12)
+│  └────────────────────────────────┘    │
+│              ↓                          │
+│  ┌────────────────────────────────┐    │
+│  │  Google Gemini Processing      │    │◄──── Few-Shot Examples:
+│  │  (Guided by Metaprompt)        │    │      - Creative (EduQuest)
+│  └────────────────────────────────┘    │      - Analytical (Matterport)
+│              ↓                          │      - Crash (Submit Bug)
+│  • Blueprint Generation                 │      - Excel Automation
+│  • Follow-up Questions                  │      - SQL Analytics
+│  • Risk Assessment                      │
+└─────────┬───────────────────────────────┘
+          │
+          ▼
 ┌─────────────────┐
 │  User Answers   │
 │   Questions     │
 └────────┬────────┘
          │
          ▼
-┌─────────────────┐
-│  Refiner API    │◄──── Google Gemini
-│  /api/refine    │      (Synthesis)
-└────────┬────────┘
-         │
-         ├─► Prompt Generation
-         ├─► Quality Checks
-         └─► Evaluation Criteria
-         │
-         ▼
+┌─────────────────────────────────────────┐
+│         Refiner API                      │
+│         /api/refine                      │
+│                                          │
+│  ┌────────────────────────────────┐    │
+│  │  System Prompt Injection       │    │◄──── REFINER_SYSTEM_PROMPT
+│  │  + Few-Shot Examples (5)       │    │      (Synthesis Instructions)
+│  └────────────────────────────────┘    │
+│              ↓                          │
+│  ┌────────────────────────────────┐    │
+│  │  Blueprint + Answers Fusion    │    │
+│  │  Structured Output Generation  │    │
+│  └────────────────────────────────┘    │
+│              ↓                          │
+│  • 9-Section Prompt Generation          │
+│  • Quality Checks                       │
+│  • Evaluation Criteria                  │
+└─────────┬───────────────────────────────┘
+          │
+          ▼
 ┌─────────────────┐
 │  Final Prompt   │
 │  (AI-Ready)     │
@@ -111,8 +176,8 @@
 - **Real-time Feedback**: Loading states and progressive enhancement
 
 #### API Layer (`src/app/api/`)
-- **`analyze/route.ts`**: Prompt analysis endpoint with Gemini integration
-- **`refine/route.ts`**: Prompt refinement and generation endpoint
+- **`analyze/route.ts`**: Prompt analysis endpoint with metaprompt injection
+- **`refine/route.ts`**: Prompt refinement and generation endpoint with few-shot learning
 - **RESTful Design**: Clean API contracts with TypeScript validation
 
 #### Core Libraries (`src/lib/`)
@@ -123,10 +188,19 @@
 - **`prompt.ts`**: Shared interfaces for request/response payloads
 - **Type Safety**: End-to-end TypeScript coverage
 
-#### Prompt Engineering (`src/prompts/`)
-- **`metaprompt.ts`**: System prompts and few-shot examples
-- **Version Control**: Prompt versioning for reproducibility
-- **Example Repository**: Curated scenarios for optimal Gemini performance
+#### **Prompt Engineering Core (`src/prompts/`)**
+This is the heart of PromptTriage's intelligence:
+
+- **`metaprompt.ts`**: System prompts and few-shot examples repository
+  - **`ANALYZER_SYSTEM_PROMPT`**: 500+ line metaprompt defining analysis reasoning steps
+  - **`REFINER_SYSTEM_PROMPT`**: 400+ line metaprompt for synthesis with section templates
+  - **`ANALYZER_FEW_SHOTS`**: 5 domain-specific examples (creative, analytical, crash, Excel, SQL)
+  - **`REFINER_FEW_SHOTS`**: 5 corresponding refinement examples showing target output
+  - **Version Control**: `PROMPT_VERSION = "2024-12-claude-hybrid"` for reproducibility
+  - **Example Repository**: Hand-crafted scenarios (1000+ lines each) demonstrating optimal behavior
+
+**How It Works**: 
+Before every Gemini API call, the system constructs a conversation history starting with the system prompt, followed by all few-shot example pairs (user → assistant), and finally the actual user request. This teaches Gemini the exact reasoning pattern, output structure, and quality standards expected—achieving consistent, production-ready results without function calling or tool use.
 
 ## 🛠️ Technologies
 
@@ -136,10 +210,15 @@
 - **[TypeScript 5](https://www.typescriptlang.org/)**: Type-safe JavaScript superset
 - **[Tailwind CSS 3.4](https://tailwindcss.com/)**: Utility-first CSS framework
 
-### AI & Authentication
-- **[Google Gemini API](https://ai.google.dev/)**: Advanced language model for prompt analysis and generation
-- **[NextAuth.js 4.24](https://next-auth.js.org/)**: Authentication library with OAuth 2.0 support
+### AI & Prompt Engineering
+- **[Google Gemini API](https://ai.google.dev/)**: Language model for executing metaprompt-guided workflows
+- **Custom Metaprompts**: Hand-crafted system instructions defining reasoning patterns
+- **Few-Shot Learning**: Domain-specific examples teaching expected behavior
+- **Structured Outputs**: JSON schema enforcement through prompt design
 - **[Firecrawl](https://firecrawl.dev/)** *(Optional)*: Web scraping for context enrichment
+
+### Authentication
+- **[NextAuth.js 4.24](https://next-auth.js.org/)**: Authentication library with OAuth 2.0 support
 
 ### Development Tools
 - **[ESLint 9](https://eslint.org/)**: Code linting and style enforcement
@@ -162,11 +241,14 @@
 ## 🔄 Workflow
 
 1. **Input**: User provides a rough idea or initial prompt
-2. **Analysis**: Gemini analyzes the prompt and generates a structured blueprint
-3. **Clarification**: System asks 2-5 targeted follow-up questions
-4. **Synthesis**: User answers are combined with the blueprint
-5. **Generation**: Final AI-ready prompt is generated with metadata
-6. **Iteration**: Optional one-click rewrite for alternative perspectives
+2. **Metaprompt Injection**: System injects ANALYZER_SYSTEM_PROMPT + 5 few-shot examples
+3. **Analysis**: Gemini (guided by metaprompt) analyzes the prompt and generates a structured blueprint
+4. **Clarification**: System asks 2-5 targeted follow-up questions based on detected gaps
+5. **User Response**: User answers the clarifying questions
+6. **Metaprompt Injection**: System injects REFINER_SYSTEM_PROMPT + 5 few-shot examples
+7. **Synthesis**: User answers + blueprint are reconciled through the refiner metaprompt
+8. **Generation**: Final AI-ready prompt is generated following 9-section template with metadata
+9. **Iteration**: Optional one-click rewrite for alternative perspectives (uses variation hints)
 
 ## 🎨 Prompt Structure
 
@@ -199,11 +281,6 @@ Plus metadata:
 - [ ] API for programmatic access
 - [ ] Analytics dashboard for prompt performance
 
-## 📊 Project Status
-
-![GitHub commit activity](https://img.shields.io/github/commit-activity/m/Ker102/PromptTriage?style=flat-square)
-![GitHub last commit](https://img.shields.io/github/last-commit/Ker102/PromptTriage?style=flat-square)
-
 ## 🤝 Contributing
 
 We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.md) for details on:
@@ -225,9 +302,10 @@ This project is licensed under the terms specified in the LICENSE file.
 
 ## 🙏 Acknowledgments
 
-- **Google Gemini Team**: For providing the powerful AI capabilities
+- **Google Gemini Team**: For providing the powerful language model that executes our metaprompts
 - **Vercel**: For the Next.js framework
 - **Open Source Community**: For the amazing tools and libraries
+- **Prompt Engineering Research**: Inspired by advances in few-shot learning, chain-of-thought prompting, and structured output generation
 
 ## 📧 Contact
 
@@ -238,7 +316,9 @@ This project is licensed under the terms specified in the LICENSE file.
 
 <div align="center">
 
-**Built with ❤️ using Next.js, TypeScript, and Google Gemini**
+**Built with ❤️ using metaprompts, few-shot learning, Next.js, TypeScript, and Google Gemini**
+
+*Not just an API wrapper—a specialized prompt engineering system*
 
 [⬆ Back to Top](#prompttriage)
 
