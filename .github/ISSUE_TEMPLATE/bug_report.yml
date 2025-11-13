@@ -1,0 +1,148 @@
+name: 🐛 Bug Report
+description: Report a bug or unexpected behavior in PromptTriage
+title: "[Bug]: "
+labels: ["bug", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report this bug! Please fill out the form below with as much detail as possible.
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Bug Description
+      description: A clear and concise description of what the bug is.
+      placeholder: Tell us what happened
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to Reproduce
+      description: Detailed steps to reproduce the behavior
+      placeholder: |
+        1. Go to '...'
+        2. Click on '...'
+        3. Scroll down to '...'
+        4. See error
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Behavior
+      description: What did you expect to happen?
+      placeholder: Tell us what you expected
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual Behavior
+      description: What actually happened?
+      placeholder: Tell us what happened instead
+    validations:
+      required: true
+
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots
+      description: If applicable, add screenshots to help explain your problem
+      placeholder: Paste or drag and drop screenshots here
+
+  - type: dropdown
+    id: component
+    attributes:
+      label: Component Affected
+      description: Which part of the application is affected?
+      options:
+        - Analyzer API (/api/analyze)
+        - Refiner API (/api/refine)
+        - User Interface (UI)
+        - Authentication
+        - Gemini Integration
+        - Firecrawl Integration
+        - Other
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: What version of PromptTriage are you running?
+      placeholder: e.g., 0.1.0 or commit SHA
+
+  - type: dropdown
+    id: browser
+    attributes:
+      label: Browser
+      description: Which browser are you using?
+      options:
+        - Chrome
+        - Firefox
+        - Safari
+        - Edge
+        - Other
+
+  - type: input
+    id: browser-version
+    attributes:
+      label: Browser Version
+      description: What version of the browser?
+      placeholder: e.g., Chrome 120.0.6099.109
+
+  - type: dropdown
+    id: os
+    attributes:
+      label: Operating System
+      options:
+        - Windows
+        - macOS
+        - Linux
+        - iOS
+        - Android
+        - Other
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment Details
+      description: Additional environment details (Node.js version, npm version, etc.)
+      placeholder: |
+        Node.js: v20.10.0
+        npm: 10.2.3
+        Next.js: 15.1.6
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Error Logs
+      description: Please paste any relevant error logs or console output
+      placeholder: Paste error logs here
+      render: shell
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional Context
+      description: Add any other context about the problem here
+      placeholder: Any additional information that might be helpful
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Pre-submission Checklist
+      description: Please confirm the following before submitting
+      options:
+        - label: I have searched existing issues to ensure this bug hasn't been reported
+          required: true
+        - label: I have provided detailed steps to reproduce
+          required: true
+        - label: I have included relevant screenshots/logs if applicable
+          required: false

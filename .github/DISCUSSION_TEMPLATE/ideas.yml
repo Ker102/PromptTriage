@@ -1,0 +1,70 @@
+title: "Idea: "
+labels: ["idea", "discussion"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        💡 **Share Your Ideas!**
+
+        Have an idea for PromptTriage? We'd love to hear it! This is the place to brainstorm, discuss possibilities, and explore new directions for the project.
+
+  - type: textarea
+    id: idea
+    attributes:
+      label: Your Idea
+      description: Describe your idea in detail
+      placeholder: Share your vision for PromptTriage
+    validations:
+      required: true
+
+  - type: dropdown
+    id: category
+    attributes:
+      label: Category
+      description: What area does this idea relate to?
+      options:
+        - New Feature
+        - Enhancement
+        - User Experience
+        - Architecture
+        - Integration
+        - Documentation
+        - Community
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: motivation
+    attributes:
+      label: Motivation
+      description: Why is this idea important? What problem does it solve?
+      placeholder: Explain the motivation behind your idea
+
+  - type: textarea
+    id: benefits
+    attributes:
+      label: Potential Benefits
+      description: What benefits would this bring to users or the project?
+      placeholder: List the potential benefits
+
+  - type: textarea
+    id: challenges
+    attributes:
+      label: Potential Challenges
+      description: What challenges or concerns do you foresee?
+      placeholder: Identify potential obstacles or considerations
+
+  - type: textarea
+    id: examples
+    attributes:
+      label: Examples or References
+      description: Any examples, mockups, or references that illustrate your idea?
+      placeholder: Links, images, or examples
+
+  - type: textarea
+    id: discussion
+    attributes:
+      label: Open Questions
+      description: What questions would you like the community to discuss?
+      placeholder: List questions or topics for discussion
