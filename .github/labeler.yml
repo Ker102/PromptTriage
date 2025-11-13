@@ -1,0 +1,95 @@
+# Auto-labeling configuration for pull requests
+# This file is used by the labeler GitHub Action to automatically
+# apply labels to pull requests based on the files changed
+
+# Documentation
+documentation:
+  - changed-files:
+    - any-glob-to-any-file: 
+      - '**/*.md'
+      - 'docs/**/*'
+
+# Configuration files
+config:
+  - changed-files:
+    - any-glob-to-any-file:
+      - '**/*.json'
+      - '**/*.yml'
+      - '**/*.yaml'
+      - '.github/**/*'
+      - '**/*.config.*'
+
+# Dependencies
+dependencies:
+  - changed-files:
+    - any-glob-to-any-file:
+      - 'package.json'
+      - 'package-lock.json'
+      - '**/package.json'
+      - '**/package-lock.json'
+
+# Frontend/UI changes
+ui:
+  - changed-files:
+    - any-glob-to-any-file:
+      - 'promptrefiner-ui/src/app/**/*.tsx'
+      - 'promptrefiner-ui/src/components/**/*'
+      - 'promptrefiner-ui/public/**/*'
+      - '**/*.css'
+      - 'promptrefiner-ui/tailwind.config.*'
+
+# API changes
+api:
+  - changed-files:
+    - any-glob-to-any-file:
+      - 'promptrefiner-ui/src/app/api/**/*'
+
+# Type definitions
+types:
+  - changed-files:
+    - any-glob-to-any-file:
+      - 'promptrefiner-ui/src/types/**/*'
+      - '**/*.d.ts'
+
+# Prompts and AI
+prompts:
+  - changed-files:
+    - any-glob-to-any-file:
+      - 'promptrefiner-ui/src/prompts/**/*'
+
+# Core library
+core:
+  - changed-files:
+    - any-glob-to-any-file:
+      - 'promptrefiner-ui/src/lib/**/*'
+
+# Testing
+tests:
+  - changed-files:
+    - any-glob-to-any-file:
+      - '**/*.test.*'
+      - '**/*.spec.*'
+      - 'test/**/*'
+      - 'tests/**/*'
+      - '__tests__/**/*'
+
+# GitHub Actions / CI
+ci:
+  - changed-files:
+    - any-glob-to-any-file:
+      - '.github/workflows/**/*'
+      - '.github/actions/**/*'
+
+# Security
+security:
+  - changed-files:
+    - any-glob-to-any-file:
+      - 'SECURITY.md'
+      - '.github/dependabot.yml'
+
+# Examples
+examples:
+  - changed-files:
+    - any-glob-to-any-file:
+      - 'examples/**/*'
+      - '*example*.md'
