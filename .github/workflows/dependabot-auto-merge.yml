@@ -1,0 +1,147 @@
+name: Dependabot Auto-Merge
+
+on:
+  pull_request_target:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+
+jobs:
+  # Job to label and auto-merge dependabot PRs
+  dependabot-automerge:
+    runs-on: ubuntu-latest
+    if: github.actor == 'dependabot[bot]'
+    permissions:
+      contents: write
+      pull-requests: write
+    outputs:
+      is-security-critical: ${{ steps.security-check.outputs.is-critical }}
+      is-security-high: ${{ steps.security-check.outputs.is-high }}
+    steps:
+      - name: Dependabot metadata
+        id: metadata
+        uses: dependabot/fetch-metadata@v2
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Add update type labels
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const updateType = '${{ steps.metadata.outputs.update-type }}';
+            const dependencyType = '${{ steps.metadata.outputs.dependency-type }}';
+            const labels = [];
+            
+            // Add update type labels
+            if (updateType === 'version-update:semver-patch') {
+              labels.push('patch-update');
+            } else if (updateType === 'version-update:semver-minor') {
+              labels.push('minor-update');
+            } else if (updateType === 'version-update:semver-major') {
+              labels.push('major-update');
+            }
+            
+            // Add dependency type labels
+            if (dependencyType === 'direct:development') {
+              labels.push('dev-dependency');
+            } else if (dependencyType === 'direct:production') {
+              labels.push('prod-dependency');
+            }
+            
+            if (labels.length > 0) {
+              await github.rest.issues.addLabels({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.payload.pull_request.number,
+                labels: labels
+              });
+            }
+
+      - name: Check for security updates and add labels
+        id: security-check
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const prTitle = context.payload.pull_request.title.toLowerCase();
+            const prBody = context.payload.pull_request.body ? context.payload.pull_request.body.toLowerCase() : '';
+            const labels = [];
+            let isCritical = false;
+            let isHigh = false;
+            
+            // Check for security-related keywords in title or body
+            const isSecurityUpdate = prTitle.includes('security') || 
+                prBody.includes('security') || 
+                prBody.includes('vulnerability') || 
+                prBody.includes('cve-') ||
+                prBody.includes('ghsa-') ||
+                prBody.includes('dependabot alert');
+            
+            if (isSecurityUpdate) {
+              labels.push('security');
+              
+              // Check for severity indicators
+              if (prBody.includes('critical') || prBody.includes('severity: critical') || prBody.includes('**critical**')) {
+                labels.push('security-critical');
+                isCritical = true;
+              } 
+              if (prBody.includes('high') || prBody.includes('severity: high') || prBody.includes('**high**')) {
+                labels.push('security-high');
+                isHigh = true;
+              }
+              if (prBody.includes('medium') || prBody.includes('severity: medium') || prBody.includes('moderate') || prBody.includes('**medium**') || prBody.includes('**moderate**')) {
+                labels.push('security-medium');
+              }
+              if (prBody.includes('low') || prBody.includes('severity: low') || prBody.includes('**low**')) {
+                labels.push('security-low');
+              }
+            }
+            
+            if (labels.length > 0) {
+              await github.rest.issues.addLabels({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.payload.pull_request.number,
+                labels: labels
+              });
+            }
+            
+            core.setOutput('is-critical', isCritical);
+            core.setOutput('is-high', isHigh);
+
+      - name: Auto-merge critical and high security updates
+        if: steps.security-check.outputs.is-critical == 'true' || steps.security-check.outputs.is-high == 'true'
+        run: gh pr merge --auto --squash "$PR_URL"
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Auto-merge patch updates
+        if: steps.metadata.outputs.update-type == 'version-update:semver-patch'
+        run: gh pr merge --auto --squash "$PR_URL"
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Auto-merge minor development dependency updates
+        if: |
+          steps.metadata.outputs.update-type == 'version-update:semver-minor' &&
+          steps.metadata.outputs.dependency-type == 'direct:development'
+        run: gh pr merge --auto --squash "$PR_URL"
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Approve PR for auto-merge
+        if: |
+          steps.metadata.outputs.update-type == 'version-update:semver-patch' ||
+          (steps.metadata.outputs.update-type == 'version-update:semver-minor' &&
+           steps.metadata.outputs.dependency-type == 'direct:development') ||
+          steps.security-check.outputs.is-critical == 'true' ||
+          steps.security-check.outputs.is-high == 'true'
+        run: gh pr review --approve "$PR_URL"
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
