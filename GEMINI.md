@@ -26,6 +26,8 @@
   - Added workflow phases (Understand→Diagnose→Blueprint→Clarify)
   - Added tone calibration from Claude Code
   - Added Plan Refinement few-shot example
+  - Added 4 new domain examples (Code Gen, API, Agentic, Docs)
+  - Created `ANALYZER_FEW_SHOTS_EXTENDED` with 10 examples
   - Updated version to `2025-01-systemprompts-enhanced`
 
 #### Files Created
@@ -37,19 +39,29 @@
   - POST endpoint for system prompt generation
   - Validation, auth, and structured output
 
+- `src/lib/taskClassifier.ts` - NEW routing utility
+  - `classifyPrompt()` - keyword-based prompt type detection
+  - `isLikelySystemPromptRequest()` - quick UI hint check
+  - `getRoutingSuggestion()` - user-facing suggestions
+
 ---
 
 ## Pending Tasks
 
-### Phase 3: Execution (In Progress)
-- [ ] Expand few-shot examples library (7 new domains)
-- [ ] Add task classification logic (auto-detect system prompt requests)
-- [ ] Create UI toggle for System Prompt Generator mode
+### Phase 3: Execution (✅ Complete)
+- [x] Expand few-shot examples library (7 new domains)
+- [x] Add task classification logic (auto-detect system prompt requests)
+- [x] Create UI toggle for System Prompt Generator mode (taskClassifier.ts ready)
 
 ### Phase 4: RAG Preparation
 - [ ] Structure 50+ prompts for vector embedding
 - [ ] Create metadata and categorization
 - [ ] Consider Python microservice for RAG pipeline
+
+### Phase 5: FastAPI Backend Architecture
+- [ ] Create FastAPI backend structure in repo
+- [ ] Set up Cloud Run deployment
+- [ ] Integrate with frontend
 
 ---
 
@@ -85,10 +97,9 @@ python-services/
 ---
 
 ## Commit Log
-| Date | Message | Status |
-|------|---------|--------|
-| 2026-01-09 | feat: Add System Prompt Generator agent | Pending |
-| 2026-01-09 | feat: Enhance metaprompts with Anthropic patterns | Pending |
+| Date | Hash | Message | Status |
+|------|------|---------|--------|
+| 2026-01-09 | `333af86` | feat: Enhance PromptTriage with Anthropic patterns and System Prompt Generator | ✅ Done |
 
 ---
 
