@@ -58,10 +58,11 @@
 - [ ] Create metadata and categorization
 - [ ] Consider Python microservice for RAG pipeline
 
-### Phase 5: FastAPI Backend Architecture
-- [ ] Create FastAPI backend structure in repo
-- [ ] Set up Cloud Run deployment
-- [ ] Integrate with frontend
+### Phase 5: FastAPI Backend Architecture (✅ Complete)
+- [x] Create FastAPI backend structure in repo
+- [x] Set up Cloud Run deployment config (cloudbuild.yaml)
+- [x] Create RAG endpoints (query, ingest, stats)
+- [ ] Integrate with frontend (when ready)
 
 ---
 
@@ -100,6 +101,7 @@ python-services/
 | Date | Hash | Message | Status |
 |------|------|---------|--------|
 | 2026-01-09 | `333af86` | feat: Enhance PromptTriage with Anthropic patterns and System Prompt Generator | ✅ Done |
+| 2026-01-09 | `1489acf` | feat: Complete Phase 3 - Add few-shot examples and task classifier | ✅ Done |
 
 ---
 
