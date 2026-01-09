@@ -8,8 +8,16 @@ python-dotenv==1.0.0
 # Google AI
 google-generativeai==0.4.0
 
-# RAG / Vector DB
-chromadb==0.4.22
+# LangChain
+langchain==0.1.0
+langchain-google-genai==0.0.6
+langchain-community==0.0.10
+
+# Redis (Vector + Semantic Cache)
+redis==5.0.1
+redisvl==0.0.7
+
+# Embeddings
 sentence-transformers==2.3.1
 
 # HTTP

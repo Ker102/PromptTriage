@@ -102,6 +102,7 @@ python-services/
 |------|------|---------|--------|
 | 2026-01-09 | `333af86` | feat: Enhance PromptTriage with Anthropic patterns and System Prompt Generator | ✅ Done |
 | 2026-01-09 | `1489acf` | feat: Complete Phase 3 - Add few-shot examples and task classifier | ✅ Done |
+| 2026-01-09 | `latest` | feat: Add FastAPI backend with RAG endpoints | ✅ Done |
 
 ---
 

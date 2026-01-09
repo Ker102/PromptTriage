@@ -12,15 +12,19 @@ class Settings(BaseSettings):
     # Google AI
     google_api_key: str = ""
     
-    # Vector DB
-    chroma_persist_dir: str = "./chroma_data"
+    # Redis Cloud
+    redis_url: str = ""  # redis://default:password@host:port
+    redis_index_name: str = "prompttriage_prompts"
+    
+    # LangCache (Redis Cloud)
+    langcache_url: str = ""  # https://xxx.langcache.redis.io
+    langcache_api_key: str = ""
     
     # Frontend
     frontend_url: str = "http://localhost:3000"
     
-    # Optional: Redis caching
-    upstash_redis_url: str = ""
-    upstash_redis_token: str = ""
+    # Embedding model
+    embedding_model: str = "all-MiniLM-L6-v2"
     
     class Config:
         env_file = ".env"
