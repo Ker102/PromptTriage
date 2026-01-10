@@ -103,7 +103,8 @@ python-services/
 | 2026-01-09 | `333af86` | feat: Enhance PromptTriage with Anthropic patterns and System Prompt Generator | ✅ Done |
 | 2026-01-09 | `1489acf` | feat: Complete Phase 3 - Add few-shot examples and task classifier | ✅ Done |
 | 2026-01-09 | - | feat: Add FastAPI backend with RAG endpoints | ✅ Done |
-| 2026-01-09 | `latest` | feat: Migrate backend to LangChain + Redis | ✅ Done |
+| 2026-01-09 | - | feat: Migrate backend to LangChain + Redis | ✅ Done |
+| 2026-01-09 | `latest` | feat: Add prompt datasets and ingestion script | ✅ Done |
 
 ---
 
@@ -111,3 +112,44 @@ python-services/
 - All analyzed prompts are from 2025 (Claude Code 2.0, Cursor 2025-09-03, etc.)
 - Gemini 3 Pro Preview is the recommended generation model
 - UI switch for System Prompt Generator mode needs frontend work
+
+---
+
+## Future Enhancements Roadmap
+
+### 1. Model Type Selector (High Priority)
+Replace specific model dropdown with **modality selector**:
+- **Text Generation** - GPT, Claude, Gemini (current default)
+- **Image Generation** - DALL-E, Midjourney, Stable Diffusion, Flux
+- **Video Generation** - Runway, Pika, Kling, Sora
+
+Each modality has different prompt engineering patterns.
+
+### 2. Multimodal Input (Image Upload)
+Allow users to **attach images** when generating prompts for:
+- Image-to-Image models (img2img, inpainting)
+- Image-to-Video models (Runway Gen-3, Kling)
+
+The analyzer should **analyze the image** and avoid describing details that the model already sees from the input image.
+
+### 3. Dynamic Evaluation (LangGraph Candidate)
+Implement **iterative questioning** when the analyzer detects ambiguity:
+```
+Analyze → Questions → Evaluate Answers → 
+    ↑                        │
+    └── Need clarity? ───────┘
+```
+Trade-off: Higher quality prompts vs. longer generation time.
+
+### 4. Video Generation Prompt Dataset
+No good HuggingFace datasets exist. Options:
+- **Scrape showcases** (Runway, Pika galleries) with Firecrawl
+- **Synthetic generation** - Use existing prompts as examples for GPT-4
+- **Community sources** - Reddit r/runwayml, Discord servers
+
+### 5. Fine-tuning Dataset Preparation
+Prepare datasets for `gemini-1.5-flash-001-tuning`:
+- Format: prompt → refined_prompt pairs
+- Include modality-specific examples
+- Target: 1000+ high-quality pairs
+
