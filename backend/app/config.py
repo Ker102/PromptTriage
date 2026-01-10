@@ -12,19 +12,27 @@ class Settings(BaseSettings):
     # Google AI
     google_api_key: str = ""
     
-    # Redis Cloud
-    redis_url: str = ""  # redis://default:password@host:port
-    redis_index_name: str = "prompttriage_prompts"
+    # Redis Cloud (Hot Cache)
+    redis_url: str = ""
+    redis_index_name: str = "prompttriage_hot"
+    
+    # Pinecone (Full Corpus)
+    pinecone_api_key: str = ""
+    pinecone_index_name: str = "prompttriage-prompts"
+    pinecone_environment: str = "us-east-1"
     
     # LangCache (Redis Cloud)
-    langcache_url: str = ""  # https://xxx.langcache.redis.io
+    langcache_url: str = ""
     langcache_api_key: str = ""
     
     # Frontend
     frontend_url: str = "http://localhost:3000"
     
-    # Embedding model
-    embedding_model: str = "all-MiniLM-L6-v2"
+    # Embedding model (768d for better quality)
+    embedding_model: str = "all-mpnet-base-v2"
+    
+    # Cache settings
+    cache_top_k: int = 10  # How many results to cache in Redis after Pinecone query
     
     class Config:
         env_file = ".env"

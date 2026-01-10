@@ -1,6 +1,6 @@
 """
 RAG (Retrieval Augmented Generation) endpoints.
-Handles prompt retrieval, ingestion, and semantic caching.
+Uses hybrid Redis (cache) + Pinecone (corpus) architecture.
 """
 
 from fastapi import APIRouter, HTTPException
@@ -18,6 +18,7 @@ class QueryRequest(BaseModel):
     query: str
     top_k: int = 5
     category: Optional[str] = None
+    use_cache: bool = True
     include_metadata: bool = True
 
 
@@ -34,12 +35,14 @@ class QueryResponse(BaseModel):
     results: List[QueryResult]
     query: str
     total_results: int
+    cache_hit: bool = False
 
 
 class IngestRequest(BaseModel):
     """Request model for ingesting new prompts."""
     content: str
     metadata: dict = {}
+    add_to_hot_cache: bool = False
 
 
 class BatchIngestRequest(BaseModel):
@@ -51,6 +54,7 @@ class IngestResponse(BaseModel):
     """Response for ingestion."""
     id: str
     message: str
+    storage: str  # "pinecone" or "redis+pinecone"
 
 
 class BatchIngestResponse(BaseModel):
@@ -75,16 +79,19 @@ class CacheSearchRequest(BaseModel):
 @router.post("/query", response_model=QueryResponse)
 async def query_prompts(request: QueryRequest):
     """
-    Query the RAG system for similar prompts.
+    Query the hybrid RAG system for similar prompts.
     
-    Returns top-k most similar prompts based on semantic similarity.
-    Uses Redis Vector Store for fast retrieval.
+    Flow:
+    1. Check Redis cache (fast)
+    2. On miss, query Pinecone (full corpus)
+    3. Cache results for next time
     """
     try:
         results = await rag_service.query(
             query=request.query,
             top_k=request.top_k,
             category=request.category,
+            use_cache=request.use_cache,
         )
         
         return QueryResponse(
@@ -109,19 +116,29 @@ async def query_prompts(request: QueryRequest):
 @router.post("/ingest", response_model=IngestResponse)
 async def ingest_prompt(request: IngestRequest):
     """
-    Ingest a new prompt into the RAG system.
-    
-    Embeds and stores the prompt in Redis for future retrieval.
+    Ingest a new prompt to Pinecone.
+    Optionally add to Redis hot cache for frequently accessed prompts.
     """
     try:
-        doc_id = await rag_service.ingest(
+        doc_id = await rag_service.ingest_to_pinecone(
             content=request.content,
             metadata=request.metadata,
         )
         
+        storage = "pinecone"
+        
+        if request.add_to_hot_cache:
+            await rag_service.add_to_hot_cache(
+                doc_id=doc_id,
+                content=request.content,
+                metadata=request.metadata,
+            )
+            storage = "redis+pinecone"
+        
         return IngestResponse(
             id=doc_id,
             message="Prompt ingested successfully",
+            storage=storage,
         )
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
@@ -132,8 +149,7 @@ async def ingest_prompt(request: IngestRequest):
 @router.post("/ingest/batch", response_model=BatchIngestResponse)
 async def batch_ingest_prompts(request: BatchIngestRequest):
     """
-    Batch ingest multiple prompts.
-    
+    Batch ingest prompts to Pinecone.
     More efficient than individual ingestion for large datasets.
     """
     try:
@@ -142,12 +158,12 @@ async def batch_ingest_prompts(request: BatchIngestRequest):
             for doc in request.documents
         ]
         
-        doc_ids = await rag_service.ingest_batch(documents)
+        doc_ids = await rag_service.ingest_batch_to_pinecone(documents)
         
         return BatchIngestResponse(
             ids=doc_ids,
             count=len(doc_ids),
-            message=f"Successfully ingested {len(doc_ids)} prompts",
+            message=f"Successfully ingested {len(doc_ids)} prompts to Pinecone",
         )
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
@@ -157,7 +173,7 @@ async def batch_ingest_prompts(request: BatchIngestRequest):
 
 @router.get("/stats")
 async def get_stats():
-    """Get RAG system statistics."""
+    """Get hybrid RAG system statistics."""
     try:
         stats = await rag_service.get_stats()
         return stats
@@ -165,15 +181,11 @@ async def get_stats():
         raise HTTPException(status_code=500, detail=f"Stats retrieval failed: {str(e)}")
 
 
-# LangCache endpoints (semantic caching)
+# LangCache endpoints
 
 @router.post("/cache")
 async def cache_response(request: CacheRequest):
-    """
-    Cache an LLM response for semantic retrieval.
-    
-    Uses Redis LangCache for intelligent response caching.
-    """
+    """Cache an LLM response for semantic retrieval via LangCache."""
     try:
         success = await rag_service.cache_llm_response(
             prompt=request.prompt,
@@ -181,7 +193,7 @@ async def cache_response(request: CacheRequest):
         )
         
         if success:
-            return {"status": "cached", "message": "Response cached successfully"}
+            return {"status": "cached", "message": "Response cached in LangCache"}
         else:
             return {"status": "skipped", "message": "LangCache not configured"}
     except Exception as e:
@@ -190,11 +202,7 @@ async def cache_response(request: CacheRequest):
 
 @router.post("/cache/search")
 async def search_cache(request: CacheSearchRequest):
-    """
-    Search for a cached response semantically similar to the prompt.
-    
-    Returns cached response if similarity exceeds threshold.
-    """
+    """Search LangCache for semantically similar cached response."""
     try:
         cached_response = await rag_service.get_cached_response(
             prompt=request.prompt,
@@ -202,14 +210,8 @@ async def search_cache(request: CacheSearchRequest):
         )
         
         if cached_response:
-            return {
-                "hit": True,
-                "response": cached_response,
-            }
+            return {"hit": True, "response": cached_response}
         else:
-            return {
-                "hit": False,
-                "response": None,
-            }
+            return {"hit": False, "response": None}
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Cache search failed: {str(e)}")
