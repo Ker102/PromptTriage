@@ -9,7 +9,7 @@ from functools import lru_cache
 class Settings(BaseSettings):
     """Application settings from environment variables."""
     
-    # Google AI
+    # Google AI (Gemini for embeddings + generation)
     google_api_key: str = ""
     
     # Redis Cloud (Hot Cache)
@@ -28,8 +28,10 @@ class Settings(BaseSettings):
     # Frontend
     frontend_url: str = "http://localhost:3000"
     
-    # Embedding model (768d for better quality)
-    embedding_model: str = "all-mpnet-base-v2"
+    # Embedding settings
+    # Using Gemini embeddings (768d) for better quality
+    embedding_model: str = "models/embedding-001"
+    embedding_dimensions: int = 768
     
     # Cache settings
     cache_top_k: int = 10  # How many results to cache in Redis after Pinecone query

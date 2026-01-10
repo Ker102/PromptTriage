@@ -1,7 +1,8 @@
 """
-Hybrid RAG Service - Redis (Hot Cache) + Pinecone (Full Corpus)
+Hybrid RAG Service - Gemini Embeddings + Pinecone + Redis Cache
 
 Architecture:
+- Gemini: embedding-001 model (768d, high quality)
 - Pinecone: Stores all 20,800+ prompts (100K free tier)
 - Redis: Caches frequently accessed prompts (~2,000, fits in 30MB)
 - LangCache: Semantic caching for LLM responses
@@ -16,8 +17,7 @@ import uuid
 import hashlib
 import httpx
 from typing import Optional, List
-from langchain_community.embeddings import HuggingFaceEmbeddings
-from langchain.schema import Document
+import google.generativeai as genai
 from pinecone import Pinecone, ServerlessSpec
 import redis
 
@@ -26,28 +26,66 @@ from app.config import settings
 
 class HybridRAGService:
     """
-    Hybrid RAG service using Redis (cache) + Pinecone (corpus).
+    Hybrid RAG service using Gemini embeddings + Pinecone + Redis cache.
     
-    Redis: Hot cache for frequently accessed prompts
+    Gemini: High-quality embeddings (768d)
     Pinecone: Full corpus of all prompts
+    Redis: Hot cache for frequently accessed prompts
     """
     
     def __init__(self):
         """Initialize connections."""
-        self._embeddings = None
         self._pinecone_index = None
         self._redis_client = None
+        self._genai_configured = False
     
-    @property
-    def embeddings(self):
-        """Lazy initialization of embedding model (768d for quality)."""
-        if self._embeddings is None:
-            self._embeddings = HuggingFaceEmbeddings(
-                model_name=settings.embedding_model,
-                model_kwargs={"device": "cpu"},
-                encode_kwargs={"normalize_embeddings": True},
+    def _ensure_genai(self):
+        """Ensure Gemini API is configured."""
+        if not self._genai_configured and settings.google_api_key:
+            genai.configure(api_key=settings.google_api_key)
+            self._genai_configured = True
+    
+    def embed_text(self, text: str) -> List[float]:
+        """Generate embedding using Gemini embedding-001."""
+        self._ensure_genai()
+        
+        if not settings.google_api_key:
+            raise ValueError("GOOGLE_API_KEY environment variable is required")
+        
+        result = genai.embed_content(
+            model=settings.embedding_model,
+            content=text,
+            task_type="retrieval_document",
+        )
+        return result["embedding"]
+    
+    def embed_query(self, text: str) -> List[float]:
+        """Generate query embedding using Gemini."""
+        self._ensure_genai()
+        
+        if not settings.google_api_key:
+            raise ValueError("GOOGLE_API_KEY environment variable is required")
+        
+        result = genai.embed_content(
+            model=settings.embedding_model,
+            content=text,
+            task_type="retrieval_query",
+        )
+        return result["embedding"]
+    
+    def embed_batch(self, texts: List[str]) -> List[List[float]]:
+        """Batch embed texts using Gemini."""
+        self._ensure_genai()
+        
+        embeddings = []
+        for text in texts:
+            result = genai.embed_content(
+                model=settings.embedding_model,
+                content=text,
+                task_type="retrieval_document",
             )
-        return self._embeddings
+            embeddings.append(result["embedding"])
+        return embeddings
     
     @property
     def pinecone_index(self):
@@ -62,7 +100,7 @@ class HybridRAGService:
             if settings.pinecone_index_name not in pc.list_indexes().names():
                 pc.create_index(
                     name=settings.pinecone_index_name,
-                    dimension=768,  # all-mpnet-base-v2 dimension
+                    dimension=settings.embedding_dimensions,  # 768 for Gemini
                     metric="cosine",
                     spec=ServerlessSpec(
                         cloud="aws",
@@ -99,15 +137,6 @@ class HybridRAGService:
         1. Check Redis cache first
         2. On miss, query Pinecone
         3. Cache results in Redis
-        
-        Args:
-            query: The search query text
-            top_k: Number of results to return
-            category: Optional category filter
-            use_cache: Whether to use Redis cache
-            
-        Returns:
-            List of matching prompts with similarity scores
         """
         # Step 1: Check Redis cache
         if use_cache and self.redis_client:
@@ -118,7 +147,7 @@ class HybridRAGService:
                 return json.loads(cached)[:top_k]
         
         # Step 2: Embed query and search Pinecone
-        query_embedding = self.embeddings.embed_query(query)
+        query_embedding = self.embed_query(query)
         
         # Build filter for Pinecone
         filter_dict = {"category": category} if category else None
@@ -157,20 +186,11 @@ class HybridRAGService:
         content: str,
         metadata: dict = None,
     ) -> str:
-        """
-        Ingest a single prompt to Pinecone.
-        
-        Args:
-            content: The prompt content
-            metadata: Optional metadata
-            
-        Returns:
-            The document ID
-        """
+        """Ingest a single prompt to Pinecone."""
         doc_id = str(uuid.uuid4())
         
-        # Generate embedding
-        embedding = self.embeddings.embed_query(content)
+        # Generate embedding with Gemini
+        embedding = self.embed_text(content)
         
         # Store in Pinecone with content in metadata
         doc_metadata = metadata or {}
@@ -189,23 +209,17 @@ class HybridRAGService:
     ) -> List[str]:
         """
         Batch ingest prompts to Pinecone.
-        
-        Args:
-            documents: List of {"content": str, "metadata": dict}
-            batch_size: Vectors per upsert batch
-            
-        Returns:
-            List of document IDs
+        Note: Rate-limited by Gemini embedding API.
         """
         doc_ids = []
         vectors = []
         
-        for doc in documents:
+        for i, doc in enumerate(documents):
             doc_id = str(uuid.uuid4())
             doc_ids.append(doc_id)
             
-            # Generate embedding
-            embedding = self.embeddings.embed_query(doc["content"])
+            # Generate embedding with Gemini
+            embedding = self.embed_text(doc["content"])
             
             # Prepare metadata
             metadata = doc.get("metadata", {})
@@ -213,10 +227,11 @@ class HybridRAGService:
             
             vectors.append((doc_id, embedding, metadata))
             
-            # Batch upsert
+            # Batch upsert to Pinecone
             if len(vectors) >= batch_size:
                 self.pinecone_index.upsert(vectors=vectors)
                 vectors = []
+                print(f"  Ingested batch {i // batch_size + 1}")
         
         # Upsert remaining
         if vectors:
@@ -230,17 +245,7 @@ class HybridRAGService:
         content: str,
         metadata: dict = None,
     ) -> bool:
-        """
-        Add a prompt to Redis hot cache (for frequently accessed prompts).
-        
-        Args:
-            doc_id: Document ID
-            content: Prompt content
-            metadata: Optional metadata
-            
-        Returns:
-            Success status
-        """
+        """Add a prompt to Redis hot cache."""
         if not self.redis_client:
             return False
         
@@ -259,7 +264,8 @@ class HybridRAGService:
         """Get hybrid RAG statistics."""
         stats = {
             "embedding_model": settings.embedding_model,
-            "embedding_dimensions": 768,
+            "embedding_dimensions": settings.embedding_dimensions,
+            "embedding_provider": "Google Gemini",
             "pinecone": {
                 "index_name": settings.pinecone_index_name,
                 "connected": bool(settings.pinecone_api_key),
@@ -283,7 +289,7 @@ class HybridRAGService:
         
         return stats
     
-    # LangCache methods (unchanged from before)
+    # LangCache methods
     async def cache_llm_response(self, prompt: str, response: str) -> bool:
         """Cache an LLM response using LangCache."""
         if not settings.langcache_url or not settings.langcache_api_key:

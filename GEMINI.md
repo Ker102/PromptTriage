@@ -153,3 +153,21 @@ Prepare datasets for `gemini-1.5-flash-001-tuning`:
 - Include modality-specific examples
 - Target: 1000+ high-quality pairs
 
+### 6. Output Format Selector (High Priority)
+Allow users to choose output format:
+- **Text** - Human-readable formatted prompt (current default)
+- **JSON** - Structured JSON prompt for programmatic use
+
+JSON format often works better when prompts are used as input to LLMs (structured data parsing).
+
+Example JSON output:
+```json
+{
+  "role": "system",
+  "content": "...",
+  "parameters": {
+    "style": "photorealistic",
+    "negative_prompt": "..."
+  }
+}
+```
