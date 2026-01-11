@@ -13,6 +13,7 @@ import {
   PROMPT_VERSION,
 } from "@/prompts/metaprompt";
 import { searchFirecrawl } from "@/services/firecrawl";
+import { queryRAG, formatRAGContext } from "@/services/rag";
 import { authOptions } from "@/auth";
 import {
   isFirecrawlAvailable,
@@ -181,11 +182,27 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: message }, { status: 429 });
     }
 
+    // Query RAG for similar prompts (graceful degradation if backend unavailable)
+    let ragContext = "";
+    try {
+      const ragResults = await queryRAG(prompt, { topK: 3 });
+      if (ragResults.results.length > 0) {
+        ragContext = formatRAGContext(ragResults.results);
+      }
+    } catch (ragError) {
+      console.warn("RAG query failed, continuing without similar prompts:", ragError);
+    }
+
     const userPromptParts = [
       `<target_model>${targetModel}</target_model>`,
       `<original_prompt>${prompt}</original_prompt>`,
       `<extra_context>${context ?? ""}</extra_context>`,
     ];
+
+    // Add RAG context (similar prompts from our corpus)
+    if (ragContext) {
+      userPromptParts.push(ragContext);
+    }
 
     if (externalContext.length) {
       userPromptParts.push(formatExternalContext(externalContext));
