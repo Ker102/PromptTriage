@@ -3,19 +3,27 @@
 Dataset Ingestion Script for PromptTriage RAG
 
 Reads Parquet files from the datasets directory and ingests them
-into Redis Vector Store via the RAG API.
+directly to Pinecone using Gemini embeddings.
 
 Usage:
-    python scripts/ingest_datasets.py [--api-url URL] [--batch-size N]
+    cd backend
+    py scripts/ingest_datasets.py [--batch-size N] [--delay MS] [--dataset NAME]
 """
 
 import argparse
-import json
+import time
+import uuid
 import sys
 from pathlib import Path
 
-import httpx
 import pandas as pd
+import google.generativeai as genai
+from pinecone import Pinecone, ServerlessSpec
+from dotenv import load_dotenv
+import os
+
+# Load environment variables
+load_dotenv()
 
 # Dataset configurations
 DATASETS = {
@@ -110,73 +118,144 @@ def load_dataset(config: dict, base_path: Path) -> list[dict]:
     return documents
 
 
-def ingest_batch(client: httpx.Client, api_url: str, documents: list[dict]) -> int:
-    """Send a batch of documents to the ingestion API."""
-    response = client.post(
-        f"{api_url}/api/rag/ingest/batch",
-        json={"documents": documents},
-        timeout=60.0,
+def embed_text(text: str) -> list[float]:
+    """Generate embedding using Gemini embedding-001."""
+    result = genai.embed_content(
+        model="models/embedding-001",
+        content=text,
+        task_type="retrieval_document",
     )
-    response.raise_for_status()
-    result = response.json()
-    return result.get("count", 0)
+    return result["embedding"]
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Ingest datasets into Redis Vector Store")
-    parser.add_argument("--api-url", default="http://localhost:8000", help="Backend API URL")
-    parser.add_argument("--batch-size", type=int, default=100, help="Documents per batch")
+    parser = argparse.ArgumentParser(description="Ingest datasets into Pinecone with Gemini embeddings")
+    parser.add_argument("--batch-size", type=int, default=50, help="Vectors per Pinecone upsert")
+    parser.add_argument("--delay", type=int, default=100, help="Delay between embeddings (ms)")
     parser.add_argument("--dataset", choices=list(DATASETS.keys()), help="Specific dataset to ingest")
+    parser.add_argument("--limit", type=int, default=0, help="Limit number of prompts (0 = all)")
     parser.add_argument("--dry-run", action="store_true", help="Show what would be ingested without sending")
     args = parser.parse_args()
     
-    # Find project root (parent of backend/)
+    # Check environment variables
+    google_api_key = os.getenv("GOOGLE_API_KEY")
+    pinecone_api_key = os.getenv("PINECONE_API_KEY")
+    pinecone_index_name = os.getenv("PINECONE_INDEX_NAME", "prompttriage-prompts")
+    pinecone_env = os.getenv("PINECONE_ENVIRONMENT", "us-east-1")
+    
+    if not google_api_key:
+        print("ERROR: GOOGLE_API_KEY not set in .env")
+        sys.exit(1)
+    
+    if not pinecone_api_key:
+        print("ERROR: PINECONE_API_KEY not set in .env")
+        sys.exit(1)
+    
+    # Configure APIs
+    genai.configure(api_key=google_api_key)
+    pc = Pinecone(api_key=pinecone_api_key)
+    
+    # Create index if needed
+    if pinecone_index_name not in pc.list_indexes().names():
+        print(f"Creating Pinecone index '{pinecone_index_name}'...")
+        pc.create_index(
+            name=pinecone_index_name,
+            dimension=768,  # Gemini embedding-001 dimension
+            metric="cosine",
+            spec=ServerlessSpec(cloud="aws", region=pinecone_env),
+        )
+        time.sleep(5)  # Wait for index to be ready
+    
+    index = pc.Index(pinecone_index_name)
+    
+    # Find project root
     script_dir = Path(__file__).parent
     base_path = script_dir.parent.parent  # backend/scripts -> backend -> PromptTriage
     
     print(f"Project root: {base_path}")
-    print(f"API URL: {args.api_url}")
+    print(f"Pinecone index: {pinecone_index_name}")
     print(f"Batch size: {args.batch_size}")
+    print(f"Delay between embeddings: {args.delay}ms")
     print()
     
     # Select datasets to process
     datasets_to_process = [args.dataset] if args.dataset else list(DATASETS.keys())
     
     total_ingested = 0
+    total_errors = 0
     
-    with httpx.Client() as client:
-        for dataset_name in datasets_to_process:
-            config = DATASETS[dataset_name]
-            print(f"Processing: {dataset_name}")
+    for dataset_name in datasets_to_process:
+        config = DATASETS[dataset_name]
+        print(f"Processing: {dataset_name}")
+        
+        try:
+            documents = load_dataset(config, base_path)
             
-            try:
-                documents = load_dataset(config, base_path)
-                print(f"  Loaded {len(documents)} prompts")
-                
-                if args.dry_run:
-                    print(f"  [DRY RUN] Would ingest {len(documents)} documents")
-                    print(f"  Sample: {documents[0]['content'][:100]}...")
+            if args.limit > 0:
+                documents = documents[:args.limit]
+            
+            print(f"  Loaded {len(documents)} prompts")
+            
+            if args.dry_run:
+                print(f"  [DRY RUN] Would ingest {len(documents)} documents")
+                print(f"  Sample: {documents[0]['content'][:100]}...")
+                continue
+            
+            # Ingest with rate limiting
+            vectors = []
+            
+            for i, doc in enumerate(documents):
+                try:
+                    # Generate embedding
+                    embedding = embed_text(doc["content"])
+                    
+                    # Prepare vector
+                    doc_id = str(uuid.uuid4())
+                    metadata = doc["metadata"].copy()
+                    metadata["content"] = doc["content"][:1000]  # Truncate for metadata limit
+                    
+                    vectors.append((doc_id, embedding, metadata))
+                    
+                    # Rate limiting
+                    if args.delay > 0:
+                        time.sleep(args.delay / 1000)
+                    
+                    # Batch upsert
+                    if len(vectors) >= args.batch_size:
+                        index.upsert(vectors=vectors)
+                        total_ingested += len(vectors)
+                        print(f"  Ingested {total_ingested}/{len(documents)} ({100*total_ingested//len(documents)}%)")
+                        vectors = []
+                    
+                except Exception as e:
+                    total_errors += 1
+                    print(f"  Error on doc {i}: {e}")
+                    if total_errors > 10:
+                        print("  Too many errors, aborting dataset")
+                        break
                     continue
-                
-                # Ingest in batches
-                for i in range(0, len(documents), args.batch_size):
-                    batch = documents[i:i + args.batch_size]
-                    ingested = ingest_batch(client, args.api_url, batch)
-                    total_ingested += ingested
-                    print(f"  Ingested batch {i // args.batch_size + 1}: {ingested} documents")
-                
-                print(f"  ✓ Completed {dataset_name}")
-                
-            except FileNotFoundError as e:
-                print(f"  ✗ Error: {e}")
-            except httpx.HTTPError as e:
-                print(f"  ✗ API Error: {e}")
-            except Exception as e:
-                print(f"  ✗ Error: {e}")
             
-            print()
+            # Upsert remaining
+            if vectors:
+                index.upsert(vectors=vectors)
+                total_ingested += len(vectors)
+            
+            print(f"  ✓ Completed {dataset_name}: {total_ingested} ingested, {total_errors} errors")
+            
+        except FileNotFoundError as e:
+            print(f"  ✗ Error: {e}")
+        except Exception as e:
+            print(f"  ✗ Error: {e}")
+        
+        print()
     
-    print(f"Total ingested: {total_ingested} documents")
+    print(f"\n{'='*50}")
+    print(f"TOTAL INGESTED: {total_ingested} documents")
+    print(f"TOTAL ERRORS: {total_errors}")
+    
+    # Show index stats
+    stats = index.describe_index_stats()
+    print(f"Pinecone index now has: {stats.total_vector_count} vectors")
 
 
 if __name__ == "__main__":
