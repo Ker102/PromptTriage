@@ -34,7 +34,7 @@ export interface RefineRequestPayload extends AnalyzeRequestPayload {
   questions: PromptQuestion[];
   blueprint: PromptBlueprint;
   tone?: string;
-  outputRequirements?: string;
+  outputFormats?: string[];
   externalContext?: RetrievedDocument[];
   variationHint?: string;
 }

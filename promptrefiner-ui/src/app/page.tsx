@@ -5,6 +5,7 @@ import Link from "next/link";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { useTheme } from "@/components/theme-provider";
 import { DecryptedText } from "@/components/decrypted-text";
+import { OutputFormatSelector, OutputFormatId } from "@/components/OutputFormatSelector";
 import type {
   PromptAnalysisResult,
   PromptRefinementResult,
@@ -32,7 +33,7 @@ const INITIAL_FORM = {
   targetModel: MODEL_PRESETS[0],
   context: "",
   tone: "",
-  outputRequirements: "",
+  outputFormats: [] as OutputFormatId[],
   useWebSearch: false,
 };
 
@@ -69,9 +70,8 @@ function ThinkingIndicator({ color = "cyan" }: { color?: "cyan" | "emerald" | "s
       {Array.from({ length: 3 }).map((_, index) => (
         <span
           key={index}
-          className={`h-1.5 w-1.5 rounded-full animate-dotPulse ${
-            palette[color] ?? palette.cyan
-          }`}
+          className={`h-1.5 w-1.5 rounded-full animate-dotPulse ${palette[color] ?? palette.cyan
+            }`}
           style={{ animationDelay: `${index * 0.18}s` }}
         />
       ))}
@@ -116,9 +116,8 @@ function ThemeToggle() {
       <span className="relative flex h-8 w-16 items-center justify-start overflow-hidden rounded-full bg-[var(--surface-card)] px-1 py-0.5">
         <span className="absolute inset-0 rounded-full bg-gradient-to-r from-cyan-400/40 via-emerald-400/30 to-cyan-400/40 opacity-20 blur" />
         <span
-          className={`relative z-10 flex h-6 w-6 items-center justify-center rounded-full bg-gradient-to-br from-cyan-400 to-emerald-400 text-slate-900 shadow-lg transition-transform duration-500 ease-out ${
-            isLight ? "translate-x-8" : "translate-x-0"
-          }`}
+          className={`relative z-10 flex h-6 w-6 items-center justify-center rounded-full bg-gradient-to-br from-cyan-400 to-emerald-400 text-slate-900 shadow-lg transition-transform duration-500 ease-out ${isLight ? "translate-x-8" : "translate-x-0"
+            }`}
         >
           {isLight ? (
             <svg
@@ -355,7 +354,7 @@ export default function Home() {
           targetModel: form.targetModel,
           context: form.context || undefined,
           tone: form.tone || undefined,
-          outputRequirements: form.outputRequirements || undefined,
+          outputFormats: form.outputFormats.length ? form.outputFormats : undefined,
           answers,
           questions: analysis.questions,
           blueprint: analysis.blueprint,
@@ -553,159 +552,152 @@ export default function Home() {
             onSubmit={handleAnalyze}
             className="prompt-panel space-y-6 rounded-3xl theme-card p-8 shadow-xl shadow-slate-950/40"
           >
-          <div className="space-y-2">
-            <label
-              htmlFor="prompt"
-              className="text-sm font-medium text-soft"
-            >
-              Prompt to refine
-            </label>
-            <textarea
-              id="prompt"
-              name="prompt"
-              rows={8}
-              required
-              placeholder="Describe the task you want an AI to complete..."
-              className="w-full rounded-2xl border border-[var(--surface-border)] bg-[var(--surface-card-strong)] p-4 text-base text-[var(--foreground)] placeholder:text-muted transition-all duration-300 ease-out focus:-translate-y-0.5 focus:scale-[1.01] focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/30"
-              value={form.prompt}
-              onChange={(event) => handleFormChange("prompt", event.target.value)}
-            />
-          </div>
-
-          <div className="grid gap-6 md:grid-cols-2">
             <div className="space-y-2">
               <label
-                htmlFor="targetModel"
+                htmlFor="prompt"
                 className="text-sm font-medium text-soft"
               >
-                Target AI model
-              </label>
-              <div className="flex gap-3">
-                <select
-                  id="targetModel"
-                  name="targetModel"
-                  className="flex-1 rounded-2xl border border-[var(--surface-border)] bg-[var(--surface-card-strong)] px-4 py-2.5 text-base text-[var(--foreground)] placeholder:text-muted transition-all duration-300 ease-out focus:-translate-y-0.5 focus:scale-[1.01] focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/30"
-                  value={form.targetModel}
-                  onChange={(event) =>
-                    handleFormChange("targetModel", event.target.value)
-                  }
-                >
-                  {MODEL_PRESETS.map((model) => (
-                    <option key={model} value={model}>
-                      {model}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              <p className="text-sm text-muted">
-                Tailor the prompt format and structure to the model you plan to
-                use, or pick &quot;None / Not sure yet&quot; if you&apos;re undecided.
-              </p>
-            </div>
-
-            <div className="space-y-2">
-              <label
-                htmlFor="context"
-                className="text-sm font-medium text-soft"
-              >
-                Extra context (optional)
+                Prompt to refine
               </label>
               <textarea
-                id="context"
-                name="context"
-                rows={4}
-                placeholder="Domain knowledge, constraints, success metrics, or any background the model should know."
-                className="w-full rounded-2xl border border-[var(--surface-border)] bg-[var(--surface-card-strong)] p-3 text-base text-[var(--foreground)] placeholder:text-muted transition-all duration-300 ease-out focus:-translate-y-0.5 focus:scale-[1.01] focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/30"
-                value={form.context}
-                onChange={(event) =>
-                  handleFormChange("context", event.target.value)
-                }
+                id="prompt"
+                name="prompt"
+                rows={8}
+                required
+                placeholder="Describe the task you want an AI to complete..."
+                className="w-full rounded-2xl border border-[var(--surface-border)] bg-[var(--surface-card-strong)] p-4 text-base text-[var(--foreground)] placeholder:text-muted transition-all duration-300 ease-out focus:-translate-y-0.5 focus:scale-[1.01] focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/30"
+                value={form.prompt}
+                onChange={(event) => handleFormChange("prompt", event.target.value)}
               />
             </div>
-          </div>
 
-          <div className="grid gap-6 md:grid-cols-2">
-            <div className="space-y-2">
-              <label htmlFor="tone" className="text-sm font-medium text-soft">
-                Desired tone (optional)
-              </label>
-              <input
-                id="tone"
-                name="tone"
-                type="text"
-                placeholder="e.g. friendly, expert, concise, marketing-savvy"
-                className="w-full rounded-2xl border border-[var(--surface-border)] bg-[var(--surface-card-strong)] px-4 py-2.5 text-base text-[var(--foreground)] placeholder:text-muted transition-all duration-300 ease-out focus:-translate-y-0.5 focus:scale-[1.01] focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/30"
-                value={form.tone}
-                onChange={(event) => handleFormChange("tone", event.target.value)}
-              />
+            <div className="grid gap-6 md:grid-cols-2">
+              <div className="space-y-2">
+                <label
+                  htmlFor="targetModel"
+                  className="text-sm font-medium text-soft"
+                >
+                  Target AI model
+                </label>
+                <div className="flex gap-3">
+                  <select
+                    id="targetModel"
+                    name="targetModel"
+                    className="flex-1 rounded-2xl border border-[var(--surface-border)] bg-[var(--surface-card-strong)] px-4 py-2.5 text-base text-[var(--foreground)] placeholder:text-muted transition-all duration-300 ease-out focus:-translate-y-0.5 focus:scale-[1.01] focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/30"
+                    value={form.targetModel}
+                    onChange={(event) =>
+                      handleFormChange("targetModel", event.target.value)
+                    }
+                  >
+                    {MODEL_PRESETS.map((model) => (
+                      <option key={model} value={model}>
+                        {model}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <p className="text-sm text-muted">
+                  Tailor the prompt format and structure to the model you plan to
+                  use, or pick &quot;None / Not sure yet&quot; if you&apos;re undecided.
+                </p>
+              </div>
+
+              <div className="space-y-2">
+                <label
+                  htmlFor="context"
+                  className="text-sm font-medium text-soft"
+                >
+                  Extra context (optional)
+                </label>
+                <textarea
+                  id="context"
+                  name="context"
+                  rows={4}
+                  placeholder="Domain knowledge, constraints, success metrics, or any background the model should know."
+                  className="w-full rounded-2xl border border-[var(--surface-border)] bg-[var(--surface-card-strong)] p-3 text-base text-[var(--foreground)] placeholder:text-muted transition-all duration-300 ease-out focus:-translate-y-0.5 focus:scale-[1.01] focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/30"
+                  value={form.context}
+                  onChange={(event) =>
+                    handleFormChange("context", event.target.value)
+                  }
+                />
+              </div>
             </div>
-            <div className="space-y-2">
+
+            <div className="grid gap-6 md:grid-cols-2">
+              <div className="space-y-2">
+                <label htmlFor="tone" className="text-sm font-medium text-soft">
+                  Desired tone (optional)
+                </label>
+                <input
+                  id="tone"
+                  name="tone"
+                  type="text"
+                  placeholder="e.g. friendly, expert, concise, marketing-savvy"
+                  className="w-full rounded-2xl border border-[var(--surface-border)] bg-[var(--surface-card-strong)] px-4 py-2.5 text-base text-[var(--foreground)] placeholder:text-muted transition-all duration-300 ease-out focus:-translate-y-0.5 focus:scale-[1.01] focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/30"
+                  value={form.tone}
+                  onChange={(event) => handleFormChange("tone", event.target.value)}
+                />
+              </div>
+              <div className="space-y-2">
+                <label
+                  htmlFor="outputFormats"
+                  className="text-sm font-medium text-soft"
+                >
+                  Output formats (optional)
+                </label>
+                <OutputFormatSelector
+                  selected={form.outputFormats}
+                  onChange={(selected) => setForm((prev) => ({ ...prev, outputFormats: selected }))}
+                />
+              </div>
+            </div>
+
+            <div className="rounded-2xl border border-[var(--surface-border)] bg-[var(--surface-card-soft)] p-4">
               <label
-                htmlFor="outputRequirements"
-                className="text-sm font-medium text-soft"
+                htmlFor="useWebSearch"
+                className="flex items-center gap-3 text-sm font-medium text-soft"
               >
-                Output requirements (optional)
+                <input
+                  id="useWebSearch"
+                  name="useWebSearch"
+                  type="checkbox"
+                  className="h-4 w-4 rounded border-[var(--surface-border)] bg-[var(--surface-card-strong)] text-cyan-400 transition duration-200 ease-out focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:ring-offset-0 checked:shadow-[0_0_12px_rgba(56,189,248,0.45)]"
+                  checked={form.useWebSearch}
+                  disabled={!isPaidPlan}
+                  onChange={(event) => handleWebSearchToggle(event.target.checked)}
+                />
+                Enrich analysis with web search (Firecrawl)
               </label>
-              <input
-                id="outputRequirements"
-                name="outputRequirements"
-                type="text"
-                placeholder="Formatting, length, structure, evaluation criteria..."
-                className="w-full rounded-2xl border border-[var(--surface-border)] bg-[var(--surface-card-strong)] px-4 py-2.5 text-base text-[var(--foreground)] placeholder:text-muted transition-all duration-300 ease-out focus:-translate-y-0.5 focus:scale-[1.01] focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/30"
-                value={form.outputRequirements}
-                onChange={(event) =>
-                  handleFormChange("outputRequirements", event.target.value)
-                }
-              />
+              <p className="mt-2 text-xs text-muted">{firecrawlHelperText}</p>
             </div>
-          </div>
 
-          <div className="rounded-2xl border border-[var(--surface-border)] bg-[var(--surface-card-soft)] p-4">
-            <label
-              htmlFor="useWebSearch"
-              className="flex items-center gap-3 text-sm font-medium text-soft"
-            >
-              <input
-                id="useWebSearch"
-                name="useWebSearch"
-                type="checkbox"
-                className="h-4 w-4 rounded border-[var(--surface-border)] bg-[var(--surface-card-strong)] text-cyan-400 transition duration-200 ease-out focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:ring-offset-0 checked:shadow-[0_0_12px_rgba(56,189,248,0.45)]"
-                checked={form.useWebSearch}
-                disabled={!isPaidPlan}
-                onChange={(event) => handleWebSearchToggle(event.target.checked)}
-              />
-              Enrich analysis with web search (Firecrawl)
-            </label>
-            <p className="mt-2 text-xs text-muted">{firecrawlHelperText}</p>
-          </div>
+            {error && stage === "collect" ? (
+              <p className="rounded-2xl border border-red-500/40 bg-red-500/10 px-4 py-3 text-sm text-red-200">
+                {error}
+              </p>
+            ) : null}
 
-          {error && stage === "collect" ? (
-            <p className="rounded-2xl border border-red-500/40 bg-red-500/10 px-4 py-3 text-sm text-red-200">
-              {error}
-            </p>
-          ) : null}
-
-          <div className="flex flex-wrap gap-3">
-            <button
-              type="submit"
-              disabled={isAnalyzing || !form.prompt.trim()}
-              className="inline-flex items-center justify-center rounded-2xl bg-cyan-500/90 px-6 py-3 text-base font-semibold text-slate-900 shadow-[0_20px_45px_-28px_rgba(34,211,238,0.85)] transition-transform duration-300 ease-out hover:-translate-y-0.5 hover:scale-[1.03] hover:bg-cyan-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-400 disabled:translate-y-0 disabled:scale-100 disabled:cursor-not-allowed disabled:bg-[var(--surface-card-soft)] disabled:text-muted"
-            >
-              <span className="flex items-center gap-2">
-                <span>{isAnalyzing ? "Analyzing prompt..." : "Analyze prompt"}</span>
-                {isAnalyzing ? <ThinkingIndicator color="cyan" /> : null}
-              </span>
-            </button>
-            <button
-              type="button"
-              onClick={handleReset}
-              className="inline-flex items-center justify-center rounded-2xl border border-[var(--surface-border)] px-6 py-3 text-base font-semibold text-soft transition-transform duration-300 ease-out hover:-translate-y-0.5 hover:scale-[1.02] hover:border-[rgba(148,163,184,0.65)] hover:text-[var(--foreground)]"
-            >
-              Reset
-            </button>
-          </div>
-        </form>
-      </div>
+            <div className="flex flex-wrap gap-3">
+              <button
+                type="submit"
+                disabled={isAnalyzing || !form.prompt.trim()}
+                className="inline-flex items-center justify-center rounded-2xl bg-cyan-500/90 px-6 py-3 text-base font-semibold text-slate-900 shadow-[0_20px_45px_-28px_rgba(34,211,238,0.85)] transition-transform duration-300 ease-out hover:-translate-y-0.5 hover:scale-[1.03] hover:bg-cyan-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-400 disabled:translate-y-0 disabled:scale-100 disabled:cursor-not-allowed disabled:bg-[var(--surface-card-soft)] disabled:text-muted"
+              >
+                <span className="flex items-center gap-2">
+                  <span>{isAnalyzing ? "Analyzing prompt..." : "Analyze prompt"}</span>
+                  {isAnalyzing ? <ThinkingIndicator color="cyan" /> : null}
+                </span>
+              </button>
+              <button
+                type="button"
+                onClick={handleReset}
+                className="inline-flex items-center justify-center rounded-2xl border border-[var(--surface-border)] px-6 py-3 text-base font-semibold text-soft transition-transform duration-300 ease-out hover:-translate-y-0.5 hover:scale-[1.02] hover:border-[rgba(148,163,184,0.65)] hover:text-[var(--foreground)]"
+              >
+                Reset
+              </button>
+            </div>
+          </form>
+        </div>
 
         {analysis ? (
           <section className="space-y-8 rounded-3xl theme-card p-8 shadow-[0_45px_120px_-80px_rgba(15,118,110,0.65)] transition duration-500">
@@ -948,7 +940,7 @@ export default function Home() {
               </form>
             </div>
           </section>
-      ) : null}
+        ) : null}
 
         {refinement ? (
           <section className="space-y-6 rounded-3xl theme-card p-8 shadow-[0_55px_150px_-90px_rgba(14,116,144,0.75)] transition duration-500">

@@ -83,7 +83,7 @@ export async function POST(req: Request) {
     const rawTargetModel = body.targetModel?.trim();
     const context = body.context?.trim();
     const tone = body.tone?.trim();
-    const outputRequirements = body.outputRequirements?.trim();
+    const outputFormats = body.outputFormats ?? [];
     const questions = body.questions ?? [];
     const answers = body.answers ?? {};
     const blueprint = body.blueprint;
@@ -154,9 +154,8 @@ export async function POST(req: Request) {
     const formattedQnA = questions
       .map((question) => {
         const answer = answers[question.id];
-        return `Question (${question.id}): ${question.question}\nAnswer: ${
-          answer ? answer.trim() : "[no answer supplied]"
-        }`;
+        return `Question (${question.id}): ${question.question}\nAnswer: ${answer ? answer.trim() : "[no answer supplied]"
+          }`;
       })
       .join("\n\n");
 
@@ -164,12 +163,17 @@ export async function POST(req: Request) {
     const questionsJson = JSON.stringify(questions);
     const answersJson = JSON.stringify(answers);
 
+    // Build output format instructions from selected options
+    const outputFormatInstructions = outputFormats.length > 0
+      ? `The response should be formatted as: ${outputFormats.join(", ")}`
+      : "";
+
     const userPromptParts = [
       `<target_model>${targetModel}</target_model>`,
       `<original_prompt>${prompt}</original_prompt>`,
       `<extra_context>${context ?? ""}</extra_context>`,
       `<tone>${tone ?? ""}</tone>`,
-      `<output_requirements>${outputRequirements ?? ""}</output_requirements>`,
+      `<output_requirements>${outputFormatInstructions}</output_requirements>`,
       `<blueprint>${blueprintJson}</blueprint>`,
       `<questions>${questionsJson}</questions>`,
       `<answers>${answersJson}</answers>`,
