@@ -82,7 +82,10 @@ def load_dataset(config: dict, base_path: Path) -> list[dict]:
     parquet_file = find_parquet_file(dataset_path)
     
     print(f"  Loading {parquet_file.name}...")
-    df = pd.read_parquet(parquet_file)
+    
+    # Use fastparquet for categorized dataset (pyarrow has compatibility issues)
+    engine = "fastparquet" if config.get("category") == "categorized" else "pyarrow"
+    df = pd.read_parquet(parquet_file, engine=engine)
     
     documents = []
     prompt_col = config["prompt_column"]
