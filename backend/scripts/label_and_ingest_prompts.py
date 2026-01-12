@@ -26,7 +26,7 @@ PINECONE_INDEX_NAME = os.getenv("PINECONE_INDEX_NAME", "prompttriage-prompts")
 EMBEDDING_MODEL = os.getenv("EMBEDDING_MODEL", "models/embedding-001")
 
 # Gemini model for labeling
-LABELING_MODEL = "gemini-2.5-pro-preview-05-06"
+LABELING_MODEL = "gemini-3-pro-preview"
 
 # Category taxonomy
 LABELING_PROMPT = """Analyze this system prompt and provide structured metadata.
