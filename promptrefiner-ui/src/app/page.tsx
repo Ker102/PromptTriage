@@ -6,6 +6,7 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import { useTheme } from "@/components/theme-provider";
 import { DecryptedText } from "@/components/decrypted-text";
 import { OutputFormatSelector, OutputFormatId } from "@/components/OutputFormatSelector";
+import { ModalitySelector, Modality, MODALITY_CONFIG } from "@/components/ModalitySelector";
 import type {
   PromptAnalysisResult,
   PromptRefinementResult,
@@ -30,7 +31,8 @@ const MODEL_PRESETS = [
 
 const INITIAL_FORM = {
   prompt: "",
-  targetModel: MODEL_PRESETS[0],
+  modality: "text" as Modality,
+  targetModel: MODALITY_CONFIG.text.models[0] as string,
   context: "",
   tone: "",
   outputFormats: [] as OutputFormatId[],
@@ -571,37 +573,16 @@ export default function Home() {
               />
             </div>
 
-            <div className="grid gap-6 md:grid-cols-2">
-              <div className="space-y-2">
-                <label
-                  htmlFor="targetModel"
-                  className="text-sm font-medium text-soft"
-                >
-                  Target AI model
-                </label>
-                <div className="flex gap-3">
-                  <select
-                    id="targetModel"
-                    name="targetModel"
-                    className="flex-1 rounded-2xl border border-[var(--surface-border)] bg-[var(--surface-card-strong)] px-4 py-2.5 text-base text-[var(--foreground)] placeholder:text-muted transition-all duration-300 ease-out focus:-translate-y-0.5 focus:scale-[1.01] focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/30"
-                    value={form.targetModel}
-                    onChange={(event) =>
-                      handleFormChange("targetModel", event.target.value)
-                    }
-                  >
-                    {MODEL_PRESETS.map((model) => (
-                      <option key={model} value={model}>
-                        {model}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                <p className="text-sm text-muted">
-                  Tailor the prompt format and structure to the model you plan to
-                  use, or pick &quot;None / Not sure yet&quot; if you&apos;re undecided.
-                </p>
-              </div>
+            <div className="space-y-4">
+              <ModalitySelector
+                modality={form.modality}
+                model={form.targetModel}
+                onModalityChange={(mod) => setForm((prev) => ({ ...prev, modality: mod }))}
+                onModelChange={(model) => setForm((prev) => ({ ...prev, targetModel: model }))}
+              />
+            </div>
 
+            <div className="grid gap-6 md:grid-cols-2">
               <div className="space-y-2">
                 <label
                   htmlFor="context"
@@ -699,342 +680,346 @@ export default function Home() {
           </form>
         </div>
 
-        {analysis ? (
-          <section className="space-y-8 rounded-3xl theme-card p-8 shadow-[0_45px_120px_-80px_rgba(15,118,110,0.65)] transition duration-500">
-            <header className="space-y-2">
-              <p className="text-xs uppercase tracking-[0.3em] text-cyan-300">
-                phase 02
-              </p>
-              <h2 className="text-2xl font-semibold text-soft md:text-3xl">
-                Gemini&apos;s take on your prompt
-              </h2>
-              <p className="text-muted">
-                Review the critique and provide answers so we can tailor the
-                final prompt perfectly for {form.targetModel}.
-              </p>
-            </header>
+        {
+          analysis ? (
+            <section className="space-y-8 rounded-3xl theme-card p-8 shadow-[0_45px_120px_-80px_rgba(15,118,110,0.65)] transition duration-500">
+              <header className="space-y-2">
+                <p className="text-xs uppercase tracking-[0.3em] text-cyan-300">
+                  phase 02
+                </p>
+                <h2 className="text-2xl font-semibold text-soft md:text-3xl">
+                  Gemini&apos;s take on your prompt
+                </h2>
+                <p className="text-muted">
+                  Review the critique and provide answers so we can tailor the
+                  final prompt perfectly for {form.targetModel}.
+                </p>
+              </header>
 
-            <div className="grid gap-6 md:grid-cols-[2fr,3fr]">
-              <div className="space-y-4 rounded-2xl theme-card-strong p-6 transition duration-300">
-                <h3 className="text-lg font-semibold text-soft">
-                  Strengths & gaps
-                </h3>
-                <p className="text-muted">{analysis.analysis}</p>
-                <div className="space-y-2">
-                  <p className="text-sm font-medium text-soft">
-                    Missing details to address
-                  </p>
-                  <ul className="list-disc space-y-2 pl-5 text-sm text-muted">
-                    {analysis.improvementAreas?.map((item) => (
+              <div className="grid gap-6 md:grid-cols-[2fr,3fr]">
+                <div className="space-y-4 rounded-2xl theme-card-strong p-6 transition duration-300">
+                  <h3 className="text-lg font-semibold text-soft">
+                    Strengths & gaps
+                  </h3>
+                  <p className="text-muted">{analysis.analysis}</p>
+                  <div className="space-y-2">
+                    <p className="text-sm font-medium text-soft">
+                      Missing details to address
+                    </p>
+                    <ul className="list-disc space-y-2 pl-5 text-sm text-muted">
+                      {analysis.improvementAreas?.map((item) => (
+                        <li key={item}>{item}</li>
+                      ))}
+                    </ul>
+                  </div>
+                  {analysis.overallConfidence ? (
+                    <p className="rounded-xl border border-amber-500/30 bg-amber-500/10 px-4 py-3 text-sm text-amber-100">
+                      Readiness: {analysis.overallConfidence}
+                    </p>
+                  ) : null}
+
+                  {analysis.externalContextError ? (
+                    <p className="rounded-xl theme-info px-4 py-3 text-xs text-muted">
+                      {analysis.externalContextError}
+                    </p>
+                  ) : null}
+
+                  {blueprint ? (
+                    <div className="space-y-4 rounded-2xl theme-card-soft p-5">
+                      <h4 className="text-base font-semibold text-soft">
+                        Blueprint summary
+                      </h4>
+                      <div className="grid gap-4 md:grid-cols-2">
+                        <div className="space-y-1">
+                          <p className="text-xs font-semibold uppercase tracking-[0.3em] text-muted">
+                            Intent
+                          </p>
+                          <p className="text-sm text-soft">
+                            {blueprint.intent}
+                          </p>
+                        </div>
+                        <div className="space-y-1">
+                          <p className="text-xs font-semibold uppercase tracking-[0.3em] text-muted">
+                            Audience
+                          </p>
+                          <p className="text-sm text-soft">
+                            {blueprint.audience}
+                          </p>
+                        </div>
+                        <div className="space-y-1">
+                          <p className="text-xs font-semibold uppercase tracking-[0.3em] text-muted">
+                            Tone
+                          </p>
+                          <p className="text-sm text-soft">
+                            {blueprint.tone}
+                          </p>
+                        </div>
+                        <div className="space-y-1">
+                          <p className="text-xs font-semibold uppercase tracking-[0.3em] text-muted">
+                            Output format
+                          </p>
+                          <p className="text-sm text-soft">
+                            {blueprint.outputFormat}
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="grid gap-6 md:grid-cols-2">
+                        <div className="space-y-2">
+                          <p className="text-xs font-semibold uppercase tracking-[0.3em] text-muted">
+                            Success criteria
+                          </p>
+                          <ul className="list-disc space-y-2 pl-5 text-sm text-muted">
+                            {blueprint.successCriteria.map((item) => (
+                              <li key={item}>{item}</li>
+                            ))}
+                          </ul>
+                        </div>
+                        <div className="space-y-2">
+                          <p className="text-xs font-semibold uppercase tracking-[0.3em] text-muted">
+                            Required inputs
+                          </p>
+                          <ul className="list-disc space-y-2 pl-5 text-sm text-muted">
+                            {blueprint.requiredInputs.map((item) => (
+                              <li key={item}>{item}</li>
+                            ))}
+                          </ul>
+                        </div>
+                      </div>
+                      <div className="space-y-2">
+                        <p className="text-xs font-semibold uppercase tracking-[0.3em] text-muted">
+                          Domain context
+                        </p>
+                        <ul className="list-disc space-y-2 pl-5 text-sm text-muted">
+                          {blueprint.domainContext.map((item) => (
+                            <li key={item}>{item}</li>
+                          ))}
+                        </ul>
+                      </div>
+                      <div className="grid gap-6 md:grid-cols-2">
+                        <div className="space-y-2">
+                          <p className="text-xs font-semibold uppercase tracking-[0.3em] text-muted">
+                            Constraints & guardrails
+                          </p>
+                          <ul className="list-disc space-y-2 pl-5 text-sm text-muted">
+                            {blueprint.constraints.map((item) => (
+                              <li key={item}>{item}</li>
+                            ))}
+                          </ul>
+                        </div>
+                        <div className="space-y-2">
+                          <p className="text-xs font-semibold uppercase tracking-[0.3em] text-muted">
+                            Risks to watch
+                          </p>
+                          <ul className="list-disc space-y-2 pl-5 text-sm text-muted">
+                            {blueprint.risks.map((item) => (
+                              <li key={item}>{item}</li>
+                            ))}
+                          </ul>
+                        </div>
+                      </div>
+                      <div className="space-y-2">
+                        <p className="text-xs font-semibold uppercase tracking-[0.3em] text-muted">
+                          Evaluation checklist
+                        </p>
+                        <ul className="list-disc space-y-2 pl-5 text-sm text-muted">
+                          {blueprint.evaluationChecklist.map((item) => (
+                            <li key={item}>{item}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+                  ) : null}
+
+                  {analysis.externalContext?.length ? (
+                    <div className="space-y-2 rounded-2xl theme-info p-5 text-muted">
+                      <p className="text-sm font-semibold text-soft">
+                        Supporting sources
+                      </p>
+                      <ul className="space-y-3 text-xs">
+                        {analysis.externalContext.map((item) => (
+                          <li key={item.url} className="space-y-1">
+                            <a
+                              href={item.url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="font-medium text-soft underline underline-offset-2 transition hover:text-white"
+                            >
+                              {item.title}
+                            </a>
+                            <p className="leading-relaxed text-muted">
+                              {item.snippet}
+                            </p>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ) : null}
+                </div>
+
+                <form
+                  onSubmit={handleRefine}
+                  className="space-y-6 rounded-2xl border border-[var(--surface-border)] bg-[var(--surface-card)] p-6 backdrop-blur-sm transition duration-300"
+                >
+                  <h3 className="text-lg font-semibold text-soft">
+                    Clarifying questions
+                  </h3>
+                  <div className="space-y-6">
+                    {analysis.questions.map((question) => (
+                      <div key={question.id} className="space-y-2">
+                        <label
+                          htmlFor={`answer-${question.id}`}
+                          className="text-sm font-medium text-soft"
+                        >
+                          {question.question}
+                        </label>
+                        {question.purpose ? (
+                          <p className="text-xs text-muted">
+                            Why it matters: {question.purpose}
+                          </p>
+                        ) : null}
+                        <textarea
+                          id={`answer-${question.id}`}
+                          name={question.id}
+                          rows={3}
+                          required
+                          className="w-full rounded-2xl border border-[var(--surface-border)] bg-[var(--surface-card-strong)] p-3 text-sm text-[var(--foreground)] placeholder:text-muted transition-all duration-300 ease-out focus:-translate-y-0.5 focus:scale-[1.01] focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/30"
+                          placeholder="Type your answer..."
+                          value={answers[question.id] ?? ""}
+                          onChange={(event) =>
+                            handleAnswerChange(question.id, event.target.value)
+                          }
+                        />
+                      </div>
+                    ))}
+                  </div>
+
+                  {error && stage !== "collect" ? (
+                    <p className="rounded-2xl border border-red-500/40 bg-red-500/10 px-4 py-3 text-sm text-red-200">
+                      {error}
+                    </p>
+                  ) : null}
+
+                  <button
+                    type="submit"
+                    disabled={isRefining || unansweredQuestions}
+                    className="group relative inline-flex w-full items-center justify-center overflow-hidden rounded-2xl bg-emerald-500/90 px-6 py-3 text-base font-semibold text-emerald-950 shadow-[0_25px_55px_-30px_rgba(16,185,129,0.85)] transition-transform duration-300 ease-out hover:-translate-y-0.5 hover:scale-[1.03] hover:bg-emerald-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-400 disabled:translate-y-0 disabled:scale-100 disabled:cursor-not-allowed disabled:bg-[var(--surface-card-soft)] disabled:text-muted"
+                  >
+                    <span className="flex items-center gap-2">
+                      <span>
+                        {isRefining
+                          ? "Generating refined prompt..."
+                          : unansweredQuestions
+                            ? "Answer all questions to continue"
+                            : "Generate refined prompt"}
+                      </span>
+                      {isRefining ? <ThinkingIndicator color="emerald" /> : null}
+                    </span>
+                    <span className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-40">
+                      <span className="absolute inset-y-0 left-0 w-1/2 -translate-x-full bg-gradient-to-r from-transparent via-white/40 to-transparent animate-shimmer" />
+                    </span>
+                  </button>
+                </form>
+              </div>
+            </section>
+          ) : null
+        }
+
+        {
+          refinement ? (
+            <section className="space-y-6 rounded-3xl theme-card p-8 shadow-[0_55px_150px_-90px_rgba(14,116,144,0.75)] transition duration-500">
+              <header className="space-y-2">
+                <p className="text-xs uppercase tracking-[0.3em] text-emerald-300">
+                  phase 03
+                </p>
+                <h2 className="text-2xl font-semibold text-soft md:text-3xl">
+                  Your AI-ready prompt
+                </h2>
+                <p className="text-muted">
+                  Copy it straight into {form.targetModel} or tweak it if you need
+                  a slightly different angle.
+                </p>
+              </header>
+
+              <div className="flex flex-col gap-4 rounded-2xl theme-card-strong p-6 transition duration-300">
+                <div className="flex flex-wrap items-center justify-between gap-3">
+                  <h3 className="text-lg font-semibold text-soft">
+                    Refined prompt
+                  </h3>
+                  <div className="flex flex-wrap gap-2">
+                    <button
+                      type="button"
+                      onClick={handleRewrite}
+                      disabled={isRefining || unansweredQuestions}
+                      className="inline-flex items-center justify-center rounded-xl border border-emerald-500/40 bg-emerald-500/10 px-4 py-2 text-sm font-medium text-emerald-100 transition-transform duration-300 ease-out hover:-translate-y-0.5 hover:scale-[1.02] hover:border-emerald-400 hover:bg-emerald-400/20 disabled:translate-y-0 disabled:scale-100 disabled:cursor-not-allowed disabled:border-[var(--surface-border)] disabled:bg-[var(--surface-card-soft)] disabled:text-muted"
+                    >
+                      <span className="flex items-center gap-2">
+                        <span>{isRefining ? "Rewriting..." : "Re-write with new angle"}</span>
+                        {isRefining ? <ThinkingIndicator color="emerald" /> : null}
+                      </span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={handleCopy}
+                      className="inline-flex items-center justify-center rounded-xl border border-[var(--surface-border)] px-4 py-2 text-sm font-medium text-soft transition-transform duration-300 ease-out hover:-translate-y-0.5 hover:scale-[1.02] hover:border-[rgba(148,163,184,0.65)] hover:text-[var(--foreground)]"
+                    >
+                      {copied ? "Copied!" : "Copy to clipboard"}
+                    </button>
+                  </div>
+                </div>
+                <pre className="whitespace-pre-wrap rounded-2xl theme-card-soft p-4 text-soft">
+                  {refinement.refinedPrompt}
+                </pre>
+              </div>
+
+              <div className="grid gap-6 md:grid-cols-2">
+                <div className="space-y-2 rounded-2xl theme-card-soft p-6 transition duration-300">
+                  <h3 className="text-lg font-semibold text-soft">
+                    Usage guidance
+                  </h3>
+                  <p className="text-sm text-muted">{refinement.guidance}</p>
+                </div>
+                <div className="space-y-2 rounded-2xl theme-card-soft p-6 transition duration-300">
+                  <h3 className="text-lg font-semibold text-soft">
+                    Change summary
+                  </h3>
+                  <ul className="list-disc space-y-1 pl-5 text-sm text-muted">
+                    {refinement.changeSummary.map((item) => (
                       <li key={item}>{item}</li>
                     ))}
                   </ul>
                 </div>
-                {analysis.overallConfidence ? (
-                  <p className="rounded-xl border border-amber-500/30 bg-amber-500/10 px-4 py-3 text-sm text-amber-100">
-                    Readiness: {analysis.overallConfidence}
-                  </p>
-                ) : null}
-
-                {analysis.externalContextError ? (
-                  <p className="rounded-xl theme-info px-4 py-3 text-xs text-muted">
-                    {analysis.externalContextError}
-                  </p>
-                ) : null}
-
-                {blueprint ? (
-                  <div className="space-y-4 rounded-2xl theme-card-soft p-5">
-                    <h4 className="text-base font-semibold text-soft">
-                      Blueprint summary
-                    </h4>
-                    <div className="grid gap-4 md:grid-cols-2">
-                      <div className="space-y-1">
-                        <p className="text-xs font-semibold uppercase tracking-[0.3em] text-muted">
-                          Intent
-                        </p>
-                        <p className="text-sm text-soft">
-                          {blueprint.intent}
-                        </p>
-                      </div>
-                      <div className="space-y-1">
-                        <p className="text-xs font-semibold uppercase tracking-[0.3em] text-muted">
-                          Audience
-                        </p>
-                        <p className="text-sm text-soft">
-                          {blueprint.audience}
-                        </p>
-                      </div>
-                      <div className="space-y-1">
-                        <p className="text-xs font-semibold uppercase tracking-[0.3em] text-muted">
-                          Tone
-                        </p>
-                        <p className="text-sm text-soft">
-                          {blueprint.tone}
-                        </p>
-                      </div>
-                      <div className="space-y-1">
-                        <p className="text-xs font-semibold uppercase tracking-[0.3em] text-muted">
-                          Output format
-                        </p>
-                        <p className="text-sm text-soft">
-                          {blueprint.outputFormat}
-                        </p>
-                      </div>
-                    </div>
-
-                    <div className="grid gap-6 md:grid-cols-2">
-                      <div className="space-y-2">
-                        <p className="text-xs font-semibold uppercase tracking-[0.3em] text-muted">
-                          Success criteria
-                        </p>
-                        <ul className="list-disc space-y-2 pl-5 text-sm text-muted">
-                          {blueprint.successCriteria.map((item) => (
-                            <li key={item}>{item}</li>
-                          ))}
-                        </ul>
-                      </div>
-                      <div className="space-y-2">
-                        <p className="text-xs font-semibold uppercase tracking-[0.3em] text-muted">
-                          Required inputs
-                        </p>
-                        <ul className="list-disc space-y-2 pl-5 text-sm text-muted">
-                          {blueprint.requiredInputs.map((item) => (
-                            <li key={item}>{item}</li>
-                          ))}
-                        </ul>
-                      </div>
-                    </div>
-                    <div className="space-y-2">
-                      <p className="text-xs font-semibold uppercase tracking-[0.3em] text-muted">
-                        Domain context
-                      </p>
-                      <ul className="list-disc space-y-2 pl-5 text-sm text-muted">
-                        {blueprint.domainContext.map((item) => (
-                          <li key={item}>{item}</li>
-                        ))}
-                      </ul>
-                    </div>
-                    <div className="grid gap-6 md:grid-cols-2">
-                      <div className="space-y-2">
-                        <p className="text-xs font-semibold uppercase tracking-[0.3em] text-muted">
-                          Constraints & guardrails
-                        </p>
-                        <ul className="list-disc space-y-2 pl-5 text-sm text-muted">
-                          {blueprint.constraints.map((item) => (
-                            <li key={item}>{item}</li>
-                          ))}
-                        </ul>
-                      </div>
-                      <div className="space-y-2">
-                        <p className="text-xs font-semibold uppercase tracking-[0.3em] text-muted">
-                          Risks to watch
-                        </p>
-                        <ul className="list-disc space-y-2 pl-5 text-sm text-muted">
-                          {blueprint.risks.map((item) => (
-                            <li key={item}>{item}</li>
-                          ))}
-                        </ul>
-                      </div>
-                    </div>
-                    <div className="space-y-2">
-                      <p className="text-xs font-semibold uppercase tracking-[0.3em] text-muted">
-                        Evaluation checklist
-                      </p>
-                      <ul className="list-disc space-y-2 pl-5 text-sm text-muted">
-                        {blueprint.evaluationChecklist.map((item) => (
-                          <li key={item}>{item}</li>
-                        ))}
-                      </ul>
-                    </div>
-                  </div>
-                ) : null}
-
-                {analysis.externalContext?.length ? (
-                  <div className="space-y-2 rounded-2xl theme-info p-5 text-muted">
-                    <p className="text-sm font-semibold text-soft">
-                      Supporting sources
-                    </p>
-                    <ul className="space-y-3 text-xs">
-                      {analysis.externalContext.map((item) => (
-                        <li key={item.url} className="space-y-1">
-                          <a
-                            href={item.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="font-medium text-soft underline underline-offset-2 transition hover:text-white"
-                          >
-                            {item.title}
-                          </a>
-                          <p className="leading-relaxed text-muted">
-                            {item.snippet}
-                          </p>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                ) : null}
               </div>
 
-              <form
-                onSubmit={handleRefine}
-                className="space-y-6 rounded-2xl border border-[var(--surface-border)] bg-[var(--surface-card)] p-6 backdrop-blur-sm transition duration-300"
-              >
-                <h3 className="text-lg font-semibold text-soft">
-                  Clarifying questions
-                </h3>
-                <div className="space-y-6">
-                  {analysis.questions.map((question) => (
-                    <div key={question.id} className="space-y-2">
-                      <label
-                        htmlFor={`answer-${question.id}`}
-                        className="text-sm font-medium text-soft"
-                      >
-                        {question.question}
-                      </label>
-                      {question.purpose ? (
-                        <p className="text-xs text-muted">
-                          Why it matters: {question.purpose}
-                        </p>
-                      ) : null}
-                      <textarea
-                        id={`answer-${question.id}`}
-                        name={question.id}
-                        rows={3}
-                        required
-                        className="w-full rounded-2xl border border-[var(--surface-border)] bg-[var(--surface-card-strong)] p-3 text-sm text-[var(--foreground)] placeholder:text-muted transition-all duration-300 ease-out focus:-translate-y-0.5 focus:scale-[1.01] focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/30"
-                        placeholder="Type your answer..."
-                        value={answers[question.id] ?? ""}
-                        onChange={(event) =>
-                          handleAnswerChange(question.id, event.target.value)
-                        }
-                      />
-                    </div>
-                  ))}
+              {refinement.assumptions.length ? (
+                <div className="space-y-2">
+                  <h3 className="text-sm font-semibold text-soft">
+                    Assumptions we made
+                  </h3>
+                  <ul className="list-disc space-y-2 rounded-2xl theme-card-soft p-5 pl-8 text-sm text-muted">
+                    {refinement.assumptions.map((assumption) => (
+                      <li key={assumption}>{assumption}</li>
+                    ))}
+                  </ul>
                 </div>
+              ) : null}
 
-                {error && stage !== "collect" ? (
-                  <p className="rounded-2xl border border-red-500/40 bg-red-500/10 px-4 py-3 text-sm text-red-200">
-                    {error}
-                  </p>
-                ) : null}
-
-                <button
-                  type="submit"
-                  disabled={isRefining || unansweredQuestions}
-                  className="group relative inline-flex w-full items-center justify-center overflow-hidden rounded-2xl bg-emerald-500/90 px-6 py-3 text-base font-semibold text-emerald-950 shadow-[0_25px_55px_-30px_rgba(16,185,129,0.85)] transition-transform duration-300 ease-out hover:-translate-y-0.5 hover:scale-[1.03] hover:bg-emerald-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-400 disabled:translate-y-0 disabled:scale-100 disabled:cursor-not-allowed disabled:bg-[var(--surface-card-soft)] disabled:text-muted"
-                >
-                  <span className="flex items-center gap-2">
-                    <span>
-                      {isRefining
-                        ? "Generating refined prompt..."
-                        : unansweredQuestions
-                          ? "Answer all questions to continue"
-                          : "Generate refined prompt"}
-                    </span>
-                    {isRefining ? <ThinkingIndicator color="emerald" /> : null}
-                  </span>
-                  <span className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-40">
-                    <span className="absolute inset-y-0 left-0 w-1/2 -translate-x-full bg-gradient-to-r from-transparent via-white/40 to-transparent animate-shimmer" />
-                  </span>
-                </button>
-              </form>
-            </div>
-          </section>
-        ) : null}
-
-        {refinement ? (
-          <section className="space-y-6 rounded-3xl theme-card p-8 shadow-[0_55px_150px_-90px_rgba(14,116,144,0.75)] transition duration-500">
-            <header className="space-y-2">
-              <p className="text-xs uppercase tracking-[0.3em] text-emerald-300">
-                phase 03
-              </p>
-              <h2 className="text-2xl font-semibold text-soft md:text-3xl">
-                Your AI-ready prompt
-              </h2>
-              <p className="text-muted">
-                Copy it straight into {form.targetModel} or tweak it if you need
-                a slightly different angle.
-              </p>
-            </header>
-
-            <div className="flex flex-col gap-4 rounded-2xl theme-card-strong p-6 transition duration-300">
-              <div className="flex flex-wrap items-center justify-between gap-3">
-                <h3 className="text-lg font-semibold text-soft">
-                  Refined prompt
-                </h3>
-                <div className="flex flex-wrap gap-2">
-                  <button
-                    type="button"
-                    onClick={handleRewrite}
-                    disabled={isRefining || unansweredQuestions}
-                    className="inline-flex items-center justify-center rounded-xl border border-emerald-500/40 bg-emerald-500/10 px-4 py-2 text-sm font-medium text-emerald-100 transition-transform duration-300 ease-out hover:-translate-y-0.5 hover:scale-[1.02] hover:border-emerald-400 hover:bg-emerald-400/20 disabled:translate-y-0 disabled:scale-100 disabled:cursor-not-allowed disabled:border-[var(--surface-border)] disabled:bg-[var(--surface-card-soft)] disabled:text-muted"
-                  >
-                    <span className="flex items-center gap-2">
-                      <span>{isRefining ? "Rewriting..." : "Re-write with new angle"}</span>
-                      {isRefining ? <ThinkingIndicator color="emerald" /> : null}
-                    </span>
-                  </button>
-                  <button
-                    type="button"
-                    onClick={handleCopy}
-                    className="inline-flex items-center justify-center rounded-xl border border-[var(--surface-border)] px-4 py-2 text-sm font-medium text-soft transition-transform duration-300 ease-out hover:-translate-y-0.5 hover:scale-[1.02] hover:border-[rgba(148,163,184,0.65)] hover:text-[var(--foreground)]"
-                  >
-                    {copied ? "Copied!" : "Copy to clipboard"}
-                  </button>
+              {refinement.evaluationCriteria.length ? (
+                <div className="space-y-2">
+                  <h3 className="text-sm font-semibold text-soft">
+                    Evaluate the AI&apos;s response with these checkpoints
+                  </h3>
+                  <ul className="list-disc space-y-2 rounded-2xl theme-card-soft p-5 pl-8 text-sm text-muted">
+                    {refinement.evaluationCriteria.map((criterion) => (
+                      <li key={criterion}>{criterion}</li>
+                    ))}
+                  </ul>
                 </div>
-              </div>
-              <pre className="whitespace-pre-wrap rounded-2xl theme-card-soft p-4 text-soft">
-                {refinement.refinedPrompt}
-              </pre>
-            </div>
-
-            <div className="grid gap-6 md:grid-cols-2">
-              <div className="space-y-2 rounded-2xl theme-card-soft p-6 transition duration-300">
-                <h3 className="text-lg font-semibold text-soft">
-                  Usage guidance
-                </h3>
-                <p className="text-sm text-muted">{refinement.guidance}</p>
-              </div>
-              <div className="space-y-2 rounded-2xl theme-card-soft p-6 transition duration-300">
-                <h3 className="text-lg font-semibold text-soft">
-                  Change summary
-                </h3>
-                <ul className="list-disc space-y-1 pl-5 text-sm text-muted">
-                  {refinement.changeSummary.map((item) => (
-                    <li key={item}>{item}</li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-
-            {refinement.assumptions.length ? (
-              <div className="space-y-2">
-                <h3 className="text-sm font-semibold text-soft">
-                  Assumptions we made
-                </h3>
-                <ul className="list-disc space-y-2 rounded-2xl theme-card-soft p-5 pl-8 text-sm text-muted">
-                  {refinement.assumptions.map((assumption) => (
-                    <li key={assumption}>{assumption}</li>
-                  ))}
-                </ul>
-              </div>
-            ) : null}
-
-            {refinement.evaluationCriteria.length ? (
-              <div className="space-y-2">
-                <h3 className="text-sm font-semibold text-soft">
-                  Evaluate the AI&apos;s response with these checkpoints
-                </h3>
-                <ul className="list-disc space-y-2 rounded-2xl theme-card-soft p-5 pl-8 text-sm text-muted">
-                  {refinement.evaluationCriteria.map((criterion) => (
-                    <li key={criterion}>{criterion}</li>
-                  ))}
-                </ul>
-              </div>
-            ) : null}
-          </section>
-        ) : null}
-      </main>
-    </div>
+              ) : null}
+            </section>
+          ) : null
+        }
+      </main >
+    </div >
   );
 }
