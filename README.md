@@ -40,13 +40,24 @@ This is not just a Gemini API wrapper—it's a specialized prompt engineering sy
 - **Quality Guardrails**: Includes assumptions, change summaries, and evaluation criteria for response validation
 
 ### 🌐 **Web Context Enrichment**
-- **Firecrawl Integration**: Optional web search capability to enrich prompts with real-time information
-- **Source Attribution**: Transparent citation system for all external context
-- **Fresh Data Pipeline**: Ensures prompts are informed by current information when needed
+- **Firecrawl Integration**: Optional web search capability to enrich prompts with### 🧠 **Advanced RAG Architecture**
+- **Hybrid Vector Store**: Combines **Redis** (hot cache) and **Pinecone** (long-term storage) for sub-millisecond retrieval.
+- **Smart Retrieval**: Uses Google's `embedding-001` model to semantic search across **28,000+** verified prompts.
+- **System Prompts Corpus**: Includes a curated library of 79+ high-quality system prompts from industry leaders (Claude, Cursor, v0, etc.), categorized and labeled by Gemini 3 Pro.
+
+### 🎨 **Modality-Specific Engineering**
+- **Unified Interface**: Seamlessly switch between **Text**, **Image**, and **Video** generation modes.
+- **Context-Aware Refinement**: 
+  - *Text*: Focuses on system instructions, tone, and structure.
+  - *Image*: Optimizes for negative prompts, aspect ratios, and style descriptors.
+  - *Video*: Enhances temporal consistency, camera motion, and duration parameters.
+
+### 🛠️ **Precision Control**
+- **Output Format Selector**: Force outputs into JSON, XML, Markdown, or tabular formats.
+- **Live Documentation**: Integrated **Context7** service to fetch real-time library documentation (Next.js 15, React 19, etc.) during prompt generation.
 
 ### 🔄 **Iterative Refinement**
 - **One-Click Rewrite**: Generate alternative refinements without re-answering questions
-- **Version Tracking**: Built-in prompt versioning system for iteration management
 - **Metaprompt-Driven Consistency**: Curated system prompts guide Gemini to maintain quality across generations
 
 ## 🏗️ System Design Philosophy

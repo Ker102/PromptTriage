@@ -6,93 +6,73 @@
 ---
 
 ## Current Version
-`2025-01-systemprompts-enhanced`
+`2026-01-rag-enhanced`
 
 ## Project Context
-- **Framework**: Next.js 15.1.6 with API Routes (serverless backend)
-- **AI Model**: Gemini 3 Pro Preview (generation), Gemini 1.5 Flash (fine-tuning target)
-- **Key Dependencies**: @google/generative-ai, next-auth, Firecrawl API
+- **Framework**: Next.js 15.1.6 (Frontend) + FastAPI (Backend)
+- **AI Model**: Gemini 3 Pro Preview (generation), Gemini 1.5 Flash (fine-tuning)
+- **RAG**: Hybrid Redis (Hot Cache) + Pinecone (Vector Store) with Gemini Embeddings
+- **Key Dependencies**: @google/generative-ai, next-auth, Firecrawl, LangChain
 
 ---
 
 ## Recent Changes
+
+### 2026-01-12 - RAG Enhancement & UI Features
+**Commit Ready**: Yes
+
+#### RAG Enhancement (Phase 7)
+- **System Prompts Ingestion**: Labeled and ingested 79 high-quality system prompts (Claude, Cursor, v0, etc.) using Gemini 3 Pro.
+- **Context7 Service**: Created `context7.ts` for detecting libraries and fetching live documentation.
+- **Pinecone Index**: Populated `system-prompts` namespace with 28,384 vectors.
+
+#### UI Features (Phase 6)
+- **Modality Selector**: Replaced generic dropdown with Text/Image/Video tabs.
+- **Output Format Selector**: Added multi-select for JSON, Markdown, XML, etc.
+- **Dynamic Model Selection**: Curated list of 34+ models across modalities.
 
 ### 2026-01-09 - System Prompts Enhancement
 **Commit Ready**: Yes
 
 #### Files Modified
 - `src/prompts/metaprompt.ts` - Enhanced with Anthropic patterns
-  - Added XML tag structures (`<identity>`, `<workflow>`, `<rules>`)
-  - Added workflow phases (Understand→Diagnose→Blueprint→Clarify)
-  - Added tone calibration from Claude Code
-  - Added Plan Refinement few-shot example
-  - Added 4 new domain examples (Code Gen, API, Agentic, Docs)
-  - Created `ANALYZER_FEW_SHOTS_EXTENDED` with 10 examples
-  - Updated version to `2025-01-systemprompts-enhanced`
-
-#### Files Created
 - `src/prompts/systemPromptGenerator.ts` - NEW specialized agent
-  - System Prompt Generator for AI assistant definitions
-  - 4 few-shot examples (Support, Code Review, Research, Writer)
-  
-- `src/app/api/generate-system-prompt/route.ts` - NEW API endpoint
-  - POST endpoint for system prompt generation
-  - Validation, auth, and structured output
-
-- `src/lib/taskClassifier.ts` - NEW routing utility
-  - `classifyPrompt()` - keyword-based prompt type detection
-  - `isLikelySystemPromptRequest()` - quick UI hint check
-  - `getRoutingSuggestion()` - user-facing suggestions
 
 ---
 
 ## Pending Tasks
 
-### Phase 3: Execution (✅ Complete)
-- [x] Expand few-shot examples library (7 new domains)
-- [x] Add task classification logic (auto-detect system prompt requests)
-- [x] Create UI toggle for System Prompt Generator mode (taskClassifier.ts ready)
+### Phase 6: New Features Implementation (In Progress)
+- [x] Output Requirements Selector
+- [x] Model Type Selector
+- [ ] Multimodal Input (Image upload)
+- [ ] Thinking Mode vs Fast Mode
 
-### Phase 4: RAG Preparation
-- [ ] Structure 50+ prompts for vector embedding
-- [ ] Create metadata and categorization
-- [ ] Consider Python microservice for RAG pipeline
+### Phase 7: RAG Enhancement (✅ Complete)
+- [x] LLM-assisted labeling of system prompts
+- [x] Ingest labeled system prompts to Pinecone
+- [x] Context7 MCP integration service
 
-### Phase 5: FastAPI Backend Architecture (✅ Complete)
-- [x] Create FastAPI backend structure in repo
-- [x] Set up Cloud Run deployment config (cloudbuild.yaml)
-- [x] Create RAG endpoints (query, ingest, stats)
-- [ ] Integrate with frontend (when ready)
+### Phase 8: Verification
+- [ ] Test prompt generation quality
+- [ ] Compare outputs before/after enhancements
 
 ---
 
 ## Architecture Notes
 
-### Current: Next.js API Routes
+### Current: Hybrid Next.js + FastAPI
 ```
-promptrefiner-ui/
-├── src/
-│   ├── app/
-│   │   └── api/
-│   │       ├── analyze/route.ts      # Prompt analysis
-│   │       ├── refine/route.ts       # Prompt refinement
-│   │       └── generate-system-prompt/route.ts  # NEW
-│   ├── prompts/
-│   │   ├── metaprompt.ts             # Core system prompts
-│   │   └── systemPromptGenerator.ts  # NEW agent
-│   └── services/
-│       └── firecrawl.ts              # Web search
+promptrefiner-ui/ (Next.js)
+├── src/services/
+│   ├── rag.ts          # RAG Client
+│   └── context7.ts     # Live Docs
 ```
-
-### Future Consideration: Hybrid with Python
-For RAG and fine-tuning, consider adding:
 ```
-python-services/
-├── rag/
-│   ├── ingest.py       # Document ingestion
-│   └── query.py        # RAG retrieval
-└── finetune/
-    └── prepare.py      # Dataset preparation
+backend/ (FastAPI)
+├── app/routers/rag.py  # RAG Endpoints
+├── scripts/            # Ingestion Pipelines
+│   └── label_and_ingest_prompts.py
 ```
 
 ---
@@ -100,11 +80,13 @@ python-services/
 ## Commit Log
 | Date | Hash | Message | Status |
 |------|------|---------|--------|
-| 2026-01-09 | `333af86` | feat: Enhance PromptTriage with Anthropic patterns and System Prompt Generator | ✅ Done |
-| 2026-01-09 | `1489acf` | feat: Complete Phase 3 - Add few-shot examples and task classifier | ✅ Done |
-| 2026-01-09 | - | feat: Add FastAPI backend with RAG endpoints | ✅ Done |
-| 2026-01-09 | - | feat: Migrate backend to LangChain + Redis | ✅ Done |
-| 2026-01-09 | `latest` | feat: Add prompt datasets and ingestion script | ✅ Done |
+| 2026-01-12 | `cfe2599` | feat: Add Context7 integration service and fix labeling model | ✅ Done |
+| 2026-01-12 | `138eb41` | feat(backend): Add LLM-assisted prompt labeling script | ✅ Done |
+| 2026-01-12 | `754e314` | feat(ui): Integrate ModalitySelector into page.tsx | ✅ Done |
+| 2026-01-12 | `ab1061d` | feat(ui): Add ModalitySelector component | ✅ Done |
+| 2026-01-12 | `334c40d` | feat(ui): Integrate OutputFormatSelector into page and API | ✅ Done |
+| 2026-01-12 | `a868cd8` | feat(ui): Add OutputFormatSelector component | ✅ Done |
+
 
 ---
 
