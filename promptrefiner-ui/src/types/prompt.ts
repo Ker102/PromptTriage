@@ -27,6 +27,8 @@ export interface AnalyzeRequestPayload {
   targetModel: string;
   context?: string;
   useWebSearch?: boolean;
+  modality?: "text" | "image" | "video";
+  images?: { base64: string; mimeType: string }[];
 }
 
 export interface RefineRequestPayload extends AnalyzeRequestPayload {
