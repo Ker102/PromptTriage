@@ -7,6 +7,7 @@ import { useTheme } from "@/components/theme-provider";
 import { DecryptedText } from "@/components/decrypted-text";
 import { OutputFormatSelector, OutputFormatId } from "@/components/OutputFormatSelector";
 import { ModalitySelector, Modality, MODALITY_CONFIG } from "@/components/ModalitySelector";
+import { ImageUploader, UploadedImage } from "@/components/ImageUploader";
 import type {
   PromptAnalysisResult,
   PromptRefinementResult,
@@ -37,6 +38,7 @@ const INITIAL_FORM = {
   tone: "",
   outputFormats: [] as OutputFormatId[],
   useWebSearch: false,
+  images: [] as UploadedImage[],
 };
 
 const HERO_TAGLINES = [
@@ -581,6 +583,20 @@ export default function Home() {
                 onModelChange={(model) => setForm((prev) => ({ ...prev, targetModel: model }))}
               />
             </div>
+
+            {/* Image upload for image/video modalities */}
+            {(form.modality === "image" || form.modality === "video") && (
+              <div className="space-y-2">
+                <ImageUploader
+                  images={form.images}
+                  onChange={(images) => setForm((prev) => ({ ...prev, images }))}
+                  maxImages={3}
+                />
+                <p className="text-xs text-muted">
+                  Upload reference images to help the AI understand your vision. The analyzer will describe the image context.
+                </p>
+              </div>
+            )}
 
             <div className="grid gap-6 md:grid-cols-2">
               <div className="space-y-2">
