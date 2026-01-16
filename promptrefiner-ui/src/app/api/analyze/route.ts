@@ -14,6 +14,13 @@ import {
 } from "@/prompts/metaprompt";
 import { searchFirecrawl } from "@/services/firecrawl";
 import { queryRAG, formatRAGContext } from "@/services/rag";
+import {
+  detectLibraries,
+  needsLiveDocs,
+  buildContext7Query,
+  formatContext7Docs,
+  Context7DocResult,
+} from "@/services/context7";
 import { authOptions } from "@/auth";
 import {
   isFirecrawlAvailable,
@@ -193,6 +200,38 @@ export async function POST(req: Request) {
       console.warn("RAG query failed, continuing without similar prompts:", ragError);
     }
 
+    // Context7: Detect libraries and fetch live documentation
+    let liveDocsContext = "";
+    const combinedText = `${prompt} ${context ?? ""}`;
+    if (needsLiveDocs(combinedText)) {
+      const detectedLibraries = detectLibraries(combinedText);
+      if (detectedLibraries.length > 0) {
+        const context7Query = buildContext7Query(prompt, detectedLibraries);
+        if (context7Query) {
+          try {
+            // Make MCP call to Context7 for live documentation
+            const context7Url = process.env.CONTEXT7_API_URL || "http://localhost:3100";
+            const docsResponse = await fetch(`${context7Url}/api/docs`, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                libraryId: context7Query.libraryId,
+                query: context7Query.query,
+              }),
+            });
+
+            if (docsResponse.ok) {
+              const docs: Context7DocResult[] = await docsResponse.json();
+              liveDocsContext = formatContext7Docs(docs);
+              console.log(`Context7: Retrieved ${docs.length} docs for ${context7Query.libraryId}`);
+            }
+          } catch (context7Error) {
+            console.warn("Context7 lookup failed, continuing without live docs:", context7Error);
+          }
+        }
+      }
+    }
+
     const userPromptParts = [
       `<target_model>${targetModel}</target_model>`,
       `<original_prompt>${prompt}</original_prompt>`,
@@ -202,6 +241,11 @@ export async function POST(req: Request) {
     // Add RAG context (similar prompts from our corpus)
     if (ragContext) {
       userPromptParts.push(ragContext);
+    }
+
+    // Add Context7 live documentation
+    if (liveDocsContext) {
+      userPromptParts.push(liveDocsContext);
     }
 
     if (externalContext.length) {
