@@ -48,11 +48,11 @@
 
 ## Pending Tasks
 
-### Phase 6: New Features Implementation (In Progress)
+### Phase 6: New Features Implementation (✅ Complete)
 - [x] Output Requirements Selector
 - [x] Model Type Selector
-- [/] Multimodal Input (Image upload) - UI complete, API pending
-- [ ] Thinking Mode vs Fast Mode
+- [x] Multimodal Input (Image upload) - ImageUploader component
+- [x] Thinking Mode vs Fast Mode - toggle with enhanced deep analysis
 
 ### Phase 7: RAG Enhancement (✅ Complete)
 - [x] LLM-assisted labeling of system prompts
