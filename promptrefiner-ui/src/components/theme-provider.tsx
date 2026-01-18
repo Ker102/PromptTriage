@@ -20,9 +20,9 @@ const ThemeContext = createContext<ThemeContextValue | undefined>(undefined);
 
 const STORAGE_KEY = "promptrefiner-theme";
 
-function getInitialTheme(): Theme {
+function getStoredTheme(): Theme | null {
   if (typeof window === "undefined") {
-    return "dark";
+    return null;
   }
 
   const stored = window.localStorage.getItem(STORAGE_KEY) as Theme | null;
@@ -35,13 +35,25 @@ function getInitialTheme(): Theme {
 }
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setTheme] = useState<Theme>(() => getInitialTheme());
+  // Always start with "dark" to avoid hydration mismatch
+  const [theme, setTheme] = useState<Theme>("dark");
+  const [mounted, setMounted] = useState(false);
+
+  // Read from localStorage after mount to avoid hydration mismatch
+  useEffect(() => {
+    const stored = getStoredTheme();
+    if (stored) {
+      setTheme(stored);
+    }
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
+    if (!mounted) return;
     document.documentElement.dataset.theme = theme;
     document.documentElement.style.colorScheme = theme;
     window.localStorage.setItem(STORAGE_KEY, theme);
-  }, [theme]);
+  }, [theme, mounted]);
 
   const value = useMemo<ThemeContextValue>(
     () => ({
