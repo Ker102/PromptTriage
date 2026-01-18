@@ -39,6 +39,7 @@ const INITIAL_FORM = {
   outputFormats: [] as OutputFormatId[],
   useWebSearch: false,
   images: [] as UploadedImage[],
+  thinkingMode: false,
 };
 
 const HERO_TAGLINES = [
@@ -666,6 +667,37 @@ export default function Home() {
                 Enrich analysis with web search (Firecrawl)
               </label>
               <p className="mt-2 text-xs text-muted">{firecrawlHelperText}</p>
+            </div>
+
+            {/* Thinking Mode Toggle */}
+            <div className="rounded-2xl border border-[var(--surface-border)] bg-[var(--surface-card-soft)] p-4">
+              <label
+                htmlFor="thinkingMode"
+                className="flex items-center justify-between text-sm font-medium text-soft"
+              >
+                <div className="flex items-center gap-3">
+                  <input
+                    id="thinkingMode"
+                    name="thinkingMode"
+                    type="checkbox"
+                    className="h-4 w-4 rounded border-[var(--surface-border)] bg-[var(--surface-card-strong)] text-emerald-400 transition duration-200 ease-out focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:ring-offset-0 checked:shadow-[0_0_12px_rgba(16,185,129,0.45)]"
+                    checked={form.thinkingMode}
+                    disabled={!isPaidPlan}
+                    onChange={(event) => setForm((prev) => ({ ...prev, thinkingMode: event.target.checked }))}
+                  />
+                  <div>
+                    <span>Thinking Mode</span>
+                    <span className="ml-2 rounded-full bg-emerald-500/20 px-2 py-0.5 text-xs text-emerald-300">
+                      Deep Analysis
+                    </span>
+                  </div>
+                </div>
+              </label>
+              <p className="mt-2 text-xs text-muted">
+                {isPaidPlan
+                  ? "Multi-pass iterative analysis with self-critique for deeper insights."
+                  : "Available on paid plans. Upgrade for deeper, multi-pass analysis."}
+              </p>
             </div>
 
             {error && stage === "collect" ? (

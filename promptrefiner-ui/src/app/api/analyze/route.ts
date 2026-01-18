@@ -259,10 +259,34 @@ export async function POST(req: Request) {
       { role: "model" as const, parts: [{ text: assistant }] },
     ]);
 
+    // Extract thinkingMode from request
+    const thinkingMode = body.thinkingMode ?? false;
+
+    // Enhance system prompt for Thinking Mode
+    const systemPrompt = thinkingMode
+      ? `${ANALYZER_SYSTEM_PROMPT}
+
+<thinking_mode_instructions>
+You are in THINKING MODE - perform deeper, multi-pass analysis:
+1. First, analyze the prompt thoroughly
+2. Then, critique your own analysis - what did you miss?
+3. Refine your questions to be more specific and actionable
+4. Generate more comprehensive improvement areas
+5. Ensure the blueprint is exceptionally detailed
+</thinking_mode_instructions>`
+      : ANALYZER_SYSTEM_PROMPT;
+
+    // Adjust generation parameters based on mode
+    const generationConfig = {
+      temperature: thinkingMode ? 0.3 : 0.4, // Lower temp for more focused thinking
+      topP: thinkingMode ? 0.85 : 0.9,
+      responseMimeType: "application/json" as const,
+    };
+
     const result = await model.generateContent({
       systemInstruction: {
         role: "system",
-        parts: [{ text: ANALYZER_SYSTEM_PROMPT }],
+        parts: [{ text: systemPrompt }],
       },
       contents: [
         ...fewShotMessages,
@@ -271,11 +295,7 @@ export async function POST(req: Request) {
           parts: [{ text: userPrompt }],
         },
       ],
-      generationConfig: {
-        temperature: 0.4,
-        topP: 0.9,
-        responseMimeType: "application/json",
-      },
+      generationConfig,
     });
 
     const rawText = result.response.text();

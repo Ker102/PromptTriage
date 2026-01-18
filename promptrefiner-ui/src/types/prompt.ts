@@ -29,6 +29,7 @@ export interface AnalyzeRequestPayload {
   useWebSearch?: boolean;
   modality?: "text" | "image" | "video";
   images?: { base64: string; mimeType: string }[];
+  thinkingMode?: boolean;
 }
 
 export interface RefineRequestPayload extends AnalyzeRequestPayload {
