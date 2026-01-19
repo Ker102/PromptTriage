@@ -108,7 +108,7 @@ Respond with strict JSON matching this schema:
 // FAST MODE SYSTEM PROMPT (Single-pass, no questions)
 // =============================================================================
 // For Fast Mode: Directly refines the prompt without asking clarifying questions.
-// Uses gemini-3-fast-preview for speed.
+// Uses gemini-3-flash-preview for speed.
 // =============================================================================
 
 export const FAST_MODE_SYSTEM_PROMPT = `You are PromptRefiner's Fast Mode engine (version ${PROMPT_VERSION}). You directly refine prompts in a single pass without asking clarifying questions.

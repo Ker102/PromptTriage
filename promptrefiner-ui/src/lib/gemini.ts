@@ -2,7 +2,7 @@ import { GoogleGenerativeAI, GenerativeModel } from "@google/generative-ai";
 
 // Gemini 3 model variants
 export const GEMINI_MODELS = {
-  fast: "gemini-3-fast-preview",      // Fast Mode: quick, single-pass
+  fast: "gemini-3-flash-preview",      // Fast Mode: quick, single-pass
   thinking: "gemini-3-pro-preview",   // Thinking Mode: deep, iterative
 } as const;
 
