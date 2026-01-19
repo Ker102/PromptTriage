@@ -10,6 +10,7 @@ import type {
 import {
   ANALYZER_FEW_SHOTS,
   ANALYZER_SYSTEM_PROMPT,
+  FAST_MODE_SYSTEM_PROMPT,
   PROMPT_VERSION,
 } from "@/prompts/metaprompt";
 import { searchFirecrawl } from "@/services/firecrawl";
@@ -72,7 +73,7 @@ function validateBlueprint(blueprint: PromptBlueprint): string | null {
   return null;
 }
 
-function validateAnalysisPayload(payload: PromptAnalysisResult): string | null {
+function validateAnalysisPayload(payload: PromptAnalysisResult, thinkingMode = false): string | null {
   if (!payload.analysis?.trim()) {
     return "Missing analysis text.";
   }
@@ -81,13 +82,16 @@ function validateAnalysisPayload(payload: PromptAnalysisResult): string | null {
     return "Improvement areas array is empty.";
   }
 
-  if (!Array.isArray(payload.questions) || payload.questions.length < MIN_QUESTIONS) {
-    return "Insufficient follow-up questions.";
-  }
+  // Only require questions in Thinking Mode
+  if (thinkingMode) {
+    if (!Array.isArray(payload.questions) || payload.questions.length < MIN_QUESTIONS) {
+      return "Insufficient follow-up questions.";
+    }
 
-  for (const question of payload.questions) {
-    if (!question.id || !question.question || !question.purpose) {
-      return "Each question must include id, question, and purpose fields.";
+    for (const question of payload.questions) {
+      if (!question.id || !question.question || !question.purpose) {
+        return "Each question must include id, question, and purpose fields.";
+      }
     }
   }
 
@@ -127,6 +131,7 @@ export async function POST(req: Request) {
     const rawTargetModel = body.targetModel?.trim();
     const context = body.context?.trim();
     const thinkingMode = body.thinkingMode ?? false;
+    const modality = body.modality ?? "text";
 
     if (!prompt) {
       return NextResponse.json(
@@ -178,7 +183,7 @@ export async function POST(req: Request) {
     const model = getGeminiModel(thinkingMode);
 
     try {
-      recordUsageOrThrow(email ?? "dev@localhost", subscriptionPlan);
+      recordUsageOrThrow(email, subscriptionPlan);
     } catch (usageError) {
       const message =
         usageError instanceof Error
@@ -188,9 +193,11 @@ export async function POST(req: Request) {
     }
 
     // Query RAG for similar prompts (graceful degradation if backend unavailable)
+    // For System Prompt mode, query the system-prompts namespace specifically
     let ragContext = "";
     try {
-      const ragResults = await queryRAG(prompt, { topK: 3 });
+      const ragCategory = modality === "system" ? "system-prompts" : undefined;
+      const ragResults = await queryRAG(prompt, { topK: 3, category: ragCategory });
       if (ragResults.results.length > 0) {
         ragContext = formatRAGContext(ragResults.results);
       }
@@ -258,7 +265,9 @@ export async function POST(req: Request) {
     ]);
 
     // thinkingMode already extracted from body earlier
-    // Enhance system prompt for Thinking Mode
+    // Select system prompt based on mode:
+    // - Fast Mode: Direct refinement, no questions (FAST_MODE_SYSTEM_PROMPT)
+    // - Thinking Mode: Deep analysis with clarifying questions (enhanced ANALYZER_SYSTEM_PROMPT)
     const systemPrompt = thinkingMode
       ? `${ANALYZER_SYSTEM_PROMPT}
 
@@ -270,7 +279,7 @@ You are in THINKING MODE - perform deeper, multi-pass analysis:
 4. Generate more comprehensive improvement areas
 5. Ensure the blueprint is exceptionally detailed
 </thinking_mode_instructions>`
-      : ANALYZER_SYSTEM_PROMPT;
+      : FAST_MODE_SYSTEM_PROMPT;
 
     // Adjust generation parameters based on mode
     const generationConfig = {
@@ -296,7 +305,7 @@ You are in THINKING MODE - perform deeper, multi-pass analysis:
 
     const rawText = result.response.text();
     const parsed = extractJsonFromText<PromptAnalysisResult>(rawText);
-    const validationError = validateAnalysisPayload(parsed);
+    const validationError = validateAnalysisPayload(parsed, thinkingMode);
 
     if (validationError) {
       return NextResponse.json(

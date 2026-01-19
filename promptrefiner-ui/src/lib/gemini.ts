@@ -6,8 +6,6 @@ export const GEMINI_MODELS = {
   thinking: "gemini-3-pro-preview",   // Thinking Mode: deep, iterative
 } as const;
 
-const DEFAULT_MODEL = GEMINI_MODELS.fast;
-
 let cachedClient: GoogleGenerativeAI | null = null;
 const modelCache = new Map<string, GenerativeModel>();
 

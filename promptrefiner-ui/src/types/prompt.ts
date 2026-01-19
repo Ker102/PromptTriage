@@ -27,7 +27,7 @@ export interface AnalyzeRequestPayload {
   targetModel: string;
   context?: string;
   useWebSearch?: boolean;
-  modality?: "text" | "image" | "video";
+  modality?: "text" | "image" | "video" | "system";
   images?: { base64: string; mimeType: string }[];
   thinkingMode?: boolean;
 }
