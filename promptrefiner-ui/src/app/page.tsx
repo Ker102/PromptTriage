@@ -228,7 +228,9 @@ export default function Home() {
   const subscriptionPlan =
     (session?.user?.subscriptionPlan as string | undefined)?.toUpperCase() ??
     "FREE";
-  const isPaidPlan = subscriptionPlan !== "FREE";
+  // In development, treat as paid user for testing all features
+  const isDev = process.env.NODE_ENV === "development";
+  const isPaidPlan = isDev || subscriptionPlan !== "FREE";
   const firecrawlHelperText = isPaidPlan
     ? "Pulls supporting facts from the web to help Gemini identify missing context. Requires a valid FIRECRAWL_API_KEY."
     : "Available on Pro plans. Upgrade to unlock Firecrawl web search for richer context.";

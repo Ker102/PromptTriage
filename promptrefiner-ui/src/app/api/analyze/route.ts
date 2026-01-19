@@ -106,24 +106,21 @@ function validateAnalysisPayload(payload: PromptAnalysisResult): string | null {
 export async function POST(req: Request) {
   try {
     const session = await getServerSession(authOptions);
-    if (!session) {
+
+    // In development, allow unauthenticated access
+    const isDev = process.env.NODE_ENV === "development";
+    const email = session?.user?.email ?? (isDev ? "dev@localhost" : null);
+
+    if (!email && !isDev) {
       return NextResponse.json(
         { error: "You must be signed in to analyze prompts." },
         { status: 401 },
       );
     }
 
-    const email = session.user?.email;
-    if (!email) {
-      return NextResponse.json(
-        { error: "Unable to resolve your account email." },
-        { status: 400 },
-      );
-    }
-
     const subscriptionPlan =
-      (session.user?.subscriptionPlan as string | undefined)?.toUpperCase() ??
-      "FREE";
+      (session?.user?.subscriptionPlan as string | undefined)?.toUpperCase() ??
+      (isDev ? "PRO" : "FREE"); // Default to PRO in dev for testing
 
     const body = (await req.json()) as AnalyzeRequestPayload;
     const prompt = body.prompt?.trim();
@@ -180,7 +177,7 @@ export async function POST(req: Request) {
     const model = getGeminiModel();
 
     try {
-      recordUsageOrThrow(email, subscriptionPlan);
+      recordUsageOrThrow(email ?? "dev@localhost", subscriptionPlan);
     } catch (usageError) {
       const message =
         usageError instanceof Error
