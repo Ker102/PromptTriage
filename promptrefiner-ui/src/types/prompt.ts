@@ -12,6 +12,7 @@ export interface PromptAnalysisResult {
   blueprint: PromptBlueprint;
   externalContext?: RetrievedDocument[];
   externalContextError?: string;
+  refinedPrompt?: string; // Fast Mode: Direct refined prompt (no questions)
 }
 
 export interface PromptRefinementResult {

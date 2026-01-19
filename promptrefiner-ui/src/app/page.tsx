@@ -402,6 +402,25 @@ export default function Home() {
     }
   };
 
+  // Fast Mode: Use refinedPrompt directly from analysis (no refine API call needed)
+  const handleFastModeRefine = () => {
+    if (!analysis?.refinedPrompt) {
+      setError("No refined prompt available. Please try again.");
+      return;
+    }
+
+    // Set the refinement result directly using the analysis.refinedPrompt
+    setRefinement({
+      refinedPrompt: analysis.refinedPrompt,
+      guidance: analysis.analysis || "Fast Mode optimization applied.",
+      changeSummary: analysis.improvementAreas || [],
+      assumptions: [],
+      evaluationCriteria: analysis.blueprint?.evaluationChecklist || [],
+    });
+    setStage("refined");
+    setRewriteCount(0);
+  };
+
   const handleRewrite = async () => {
     if (!analysis || unansweredQuestions || pendingAction === "refine") {
       return;
@@ -755,13 +774,16 @@ export default function Home() {
                 <div className="space-y-6">
                   <button
                     type="button"
-                    onClick={() => handleRefine({ preventDefault: () => { } } as React.FormEvent<HTMLFormElement>)}
-                    disabled={isRefining}
+                    onClick={handleFastModeRefine}
+                    disabled={isRefining || !analysis.refinedPrompt}
                     className="group relative inline-flex w-full items-center justify-center overflow-hidden rounded-2xl bg-emerald-500/90 px-6 py-3 text-base font-semibold text-emerald-950 shadow-[0_25px_55px_-30px_rgba(16,185,129,0.85)] transition-transform duration-300 ease-out hover:-translate-y-0.5 hover:scale-[1.03] hover:bg-emerald-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-400 disabled:translate-y-0 disabled:scale-100 disabled:cursor-not-allowed disabled:bg-[var(--surface-card-soft)] disabled:text-muted"
                   >
                     <span className="flex items-center gap-2">
-                      <span>{isRefining ? "Generating refined prompt..." : "Generate refined prompt"}</span>
-                      {isRefining ? <ThinkingIndicator color="emerald" /> : null}
+                      <span>
+                        {!analysis.refinedPrompt
+                          ? "Generating prompt..."
+                          : "View refined prompt"}
+                      </span>
                     </span>
                   </button>
 
