@@ -228,10 +228,9 @@ export default function Home() {
   const subscriptionPlan =
     (session?.user?.subscriptionPlan as string | undefined)?.toUpperCase() ??
     "FREE";
-  // In development, treat as paid user for testing all features
-  // Use NEXT_PUBLIC_ prefix so it's accessible client-side
-  const isSuperuser = process.env.NEXT_PUBLIC_DEV_SUPERUSER === "true";
-  const isPaidPlan = isSuperuser || subscriptionPlan !== "FREE";
+  // Superuser status should be derived from session/server data, not client env
+  // The server will handle dev bypass via ALLOW_DEV_BYPASS flag
+  const isPaidPlan = subscriptionPlan !== "FREE";
   const firecrawlHelperText = isPaidPlan
     ? "Pulls supporting facts from the web to help Gemini identify missing context. Requires a valid FIRECRAWL_API_KEY."
     : "Available on Pro plans. Upgrade to unlock Firecrawl web search for richer context.";
@@ -291,8 +290,8 @@ export default function Home() {
   const handleAnalyze = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    // Skip auth when superuser mode is enabled
-    if (!isSuperuser && !isAuthenticated) {
+    // Require authentication (server handles dev bypass via ALLOW_DEV_BYPASS)
+    if (!isAuthenticated) {
       await signIn("google", { callbackUrl: window.location.href });
       return;
     }
@@ -346,8 +345,8 @@ export default function Home() {
       return false;
     }
 
-    // Skip auth when superuser mode is enabled
-    if (!isSuperuser && !isAuthenticated) {
+    // Require authentication (server handles dev bypass via ALLOW_DEV_BYPASS)
+    if (!isAuthenticated) {
       await signIn("google", { callbackUrl: window.location.href });
       return false;
     }
@@ -797,8 +796,8 @@ export default function Home() {
                         Missing details to address
                       </p>
                       <ul className="list-disc space-y-2 pl-5 text-sm text-muted">
-                        {analysis.improvementAreas?.map((item) => (
-                          <li key={item}>{item}</li>
+                        {analysis.improvementAreas?.map((item, index) => (
+                          <li key={`improvement-${index}-${item.slice(0, 20)}`}>{item}</li>
                         ))}
                       </ul>
                     </div>
@@ -984,7 +983,24 @@ export default function Home() {
                         <h4 className="text-base font-semibold text-soft">
                           Blueprint summary
                         </h4>
-                        {/* Blueprint details are shown in the existing structure below */}
+                        <div className="grid gap-4 md:grid-cols-2">
+                          <div className="space-y-1">
+                            <p className="text-xs font-semibold uppercase tracking-[0.3em] text-muted">
+                              Intent
+                            </p>
+                            <p className="text-sm text-soft">
+                              {blueprint.intent}
+                            </p>
+                          </div>
+                          <div className="space-y-1">
+                            <p className="text-xs font-semibold uppercase tracking-[0.3em] text-muted">
+                              Audience
+                            </p>
+                            <p className="text-sm text-soft">
+                              {blueprint.audience}
+                            </p>
+                          </div>
+                        </div>
                       </div>
                     ) : null}
 

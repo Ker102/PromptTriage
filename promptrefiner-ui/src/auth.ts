@@ -21,11 +21,16 @@ if (googleClientId && googleClientSecret) {
       clientSecret: googleClientSecret,
     }),
   );
-} else if (process.env.NODE_ENV === "development") {
-  console.warn(
-    "⚠️  Google OAuth credentials not configured. Auth features disabled.",
-    "Set GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET in .env.local to enable auth.",
-  );
+} else {
+  // Always warn about missing credentials - this affects auth functionality
+  const warningMessage = "⚠️  Google OAuth credentials not configured (GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET). Auth features disabled.";
+
+  if (process.env.NODE_ENV === "production") {
+    // In production, log error but don't crash - allow app to run with limited functionality
+    console.error("[CRITICAL]", warningMessage, "Users will not be able to sign in.");
+  } else {
+    console.warn(warningMessage, "Set GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET in .env.local to enable auth.");
+  }
 }
 
 export const authOptions: NextAuthOptions = {

@@ -1,0 +1,68 @@
+[
+    {
+        "prompt": "A close-up of a weary woman in a red hoodie sipping coffee on a foggy balcony at dawn, steam rising from the cup, soft lo-fi music in the background.",
+        "platform": "google_veo",
+        "category": "cinematic",
+        "elements": {
+            "subject": "weary woman in red hoodie",
+            "action": "sipping coffee",
+            "setting": "foggy balcony at dawn",
+            "details": "steam rising, soft lo-fi music"
+        }
+    },
+    {
+        "prompt": "A mechanic in greasy overalls repairs a motorcycle engine in a small garage. The lighting is warm and cinematic, with deep shadows and vintage tones. Camera slowly pulls back as the mechanic works, revealing posters on the walls.",
+        "platform": "kling",
+        "category": "cinematic",
+        "elements": {
+            "subject": "mechanic in greasy overalls",
+            "action": "repairs motorcycle engine",
+            "setting": "small garage",
+            "style": "warm lighting, deep shadows, vintage tones",
+            "camera": "slow pull back"
+        }
+    },
+    {
+        "prompt": "Anthropomorphic fat red cat sitting on the chair at the outside table made of wood eating dumplings using his hands, bowl with dumplings on the table, 360 spin around the cat, photorealistic, cinematic.",
+        "platform": "kling",
+        "category": "character_animation",
+        "elements": {
+            "subject": "anthropomorphic fat red cat",
+            "action": "eating dumplings",
+            "setting": "outside table",
+            "camera": "360 spin",
+            "style": "photorealistic, cinematic"
+        }
+    },
+    {
+        "prompt": "A slow cinematic orbit shot with a gradual dolly-in on a young woman standing in a dimly lit vintage kitchen. Her face is filled with rage and sorrow as she suddenly screams, voice trembling with fury: 'You left us to rot in this filthy ground!'",
+        "platform": "higgsfield",
+        "category": "cinematic",
+        "elements": {
+            "camera": "slow orbit, gradual dolly-in",
+            "subject": "young woman",
+            "emotion": "rage and sorrow",
+            "action": "suddenly screams",
+            "setting": "dimly lit vintage kitchen"
+        }
+    },
+    {
+        "prompt": "Continuous hyperspace jump ... star wars style.",
+        "platform": "runway_gen3",
+        "category": "sci-fi",
+        "elements": {
+            "action": "hyperspace jump",
+            "style": "star wars style"
+        }
+    },
+    {
+        "prompt": "Create a video of a serene forest with sunlight filtering through the trees, accompanied by gentle bird sounds.",
+        "platform": "openart",
+        "category": "nature",
+        "elements": {
+            "subject": "serene forest",
+            "lighting": "sunlight filtering",
+            "audio": "gentle bird sounds"
+        }
+    }
+]

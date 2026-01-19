@@ -112,8 +112,10 @@ export async function POST(req: Request) {
   try {
     const session = await getServerSession(authOptions);
 
-    // In development, allow unauthenticated access
-    const isDev = process.env.NODE_ENV === "development";
+    // Secure development bypass: requires explicit flag AND localhost
+    const allowDevBypass = process.env.ALLOW_DEV_BYPASS === "true";
+    const isLocalhost = req.headers.get("host")?.includes("localhost") ?? false;
+    const isDev = allowDevBypass && isLocalhost;
     const email = session?.user?.email ?? (isDev ? "dev@localhost" : null);
 
     if (!email) {
@@ -123,31 +125,57 @@ export async function POST(req: Request) {
       );
     }
 
+    // Only grant PRO if explicit dev bypass is enabled
     const subscriptionPlan =
       (session?.user?.subscriptionPlan as string | undefined)?.toUpperCase() ??
-      (isDev ? "PRO" : "FREE"); // Default to PRO in dev for testing
+      (isDev ? "PRO" : "FREE");
 
     const body = (await req.json()) as AnalyzeRequestPayload;
     const prompt = body.prompt?.trim();
     const rawTargetModel = body.targetModel?.trim();
     const context = body.context?.trim();
     const thinkingMode = body.thinkingMode ?? false;
-    const modality = body.modality ?? "text";
-    const images = body.images ?? [];
 
-    // === IMAGE ANALYSIS LOGGING ===
-    console.log("=== ANALYZE REQUEST ===");
-    console.log("Modality:", modality);
-    console.log("Thinking Mode:", thinkingMode);
-    console.log("Images attached:", images.length);
-    if (images.length > 0) {
-      console.log("Image details:", images.map((img, i) => ({
-        index: i,
-        mimeType: img.mimeType,
-        base64Length: img.base64?.length ?? 0,
-      })));
+    // Validate modality - must be one of allowed values
+    const VALID_MODALITIES = ["text", "image", "video", "system"] as const;
+    const rawModality = body.modality ?? "text";
+    if (!VALID_MODALITIES.includes(rawModality as typeof VALID_MODALITIES[number])) {
+      return NextResponse.json(
+        { error: `Invalid modality. Must be one of: ${VALID_MODALITIES.join(", ")}` },
+        { status: 400 },
+      );
     }
-    console.log("========================");
+    const modality = rawModality as typeof VALID_MODALITIES[number];
+
+    // Validate images array - ensure proper structure
+    const rawImages = body.images ?? [];
+    if (!Array.isArray(rawImages)) {
+      return NextResponse.json(
+        { error: "Images must be an array." },
+        { status: 400 },
+      );
+    }
+    const images = rawImages.filter((img): img is { base64: string; mimeType: string } =>
+      typeof img === "object" &&
+      img !== null &&
+      typeof img.base64 === "string" &&
+      typeof img.mimeType === "string"
+    );
+
+    // Debug-level logging (only in development or when debug flag is set)
+    const isDebugMode = process.env.NODE_ENV !== "production" || process.env.DEBUG_LOGGING === "true";
+    if (isDebugMode) {
+      console.log("[DEBUG] Analyze request:", {
+        modality,
+        thinkingMode,
+        imagesCount: images.length,
+        imageDetails: images.map((img, i) => ({
+          index: i,
+          mimeType: img.mimeType,
+          base64Length: img.base64?.length ?? 0,
+        })),
+      });
+    }
 
     if (!prompt) {
       return NextResponse.json(
