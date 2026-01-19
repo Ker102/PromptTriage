@@ -111,7 +111,7 @@ export async function POST(req: Request) {
     const isDev = process.env.NODE_ENV === "development";
     const email = session?.user?.email ?? (isDev ? "dev@localhost" : null);
 
-    if (!email && !isDev) {
+    if (!email) {
       return NextResponse.json(
         { error: "You must be signed in to analyze prompts." },
         { status: 401 },

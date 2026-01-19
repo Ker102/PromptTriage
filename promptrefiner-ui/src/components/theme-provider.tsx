@@ -2,6 +2,7 @@
 
 import {
   createContext,
+  useCallback,
   useContext,
   useEffect,
   useMemo,
@@ -69,21 +70,23 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     }
   }, [theme, mounted, userSelected]);
 
-  const handleSetTheme = (newTheme: Theme) => {
+  const handleSetTheme = useCallback((newTheme: Theme) => {
     setUserSelected(true);
     setTheme(newTheme);
-  };
+  }, []);
+
+  const handleToggleTheme = useCallback(() => {
+    setUserSelected(true);
+    setTheme((prev) => (prev === "dark" ? "light" : "dark"));
+  }, []);
 
   const value = useMemo<ThemeContextValue>(
     () => ({
       theme,
       setTheme: handleSetTheme,
-      toggleTheme: () => {
-        setUserSelected(true);
-        setTheme((prev) => (prev === "dark" ? "light" : "dark"));
-      },
+      toggleTheme: handleToggleTheme,
     }),
-    [theme],
+    [theme, handleSetTheme, handleToggleTheme],
   );
 
   return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;
