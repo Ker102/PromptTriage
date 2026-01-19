@@ -290,7 +290,8 @@ export default function Home() {
   const handleAnalyze = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (!isAuthenticated) {
+    // Skip auth in development mode
+    if (!isDev && !isAuthenticated) {
       await signIn("google", { callbackUrl: window.location.href });
       return;
     }
@@ -344,7 +345,8 @@ export default function Home() {
       return false;
     }
 
-    if (!isAuthenticated) {
+    // Skip auth in development mode
+    if (!isDev && !isAuthenticated) {
       await signIn("google", { callbackUrl: window.location.href });
       return false;
     }
