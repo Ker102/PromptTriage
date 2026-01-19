@@ -4,12 +4,6 @@ import GoogleProvider from "next-auth/providers/google";
 const googleClientId = process.env.GOOGLE_CLIENT_ID;
 const googleClientSecret = process.env.GOOGLE_CLIENT_SECRET;
 
-if (!googleClientId || !googleClientSecret) {
-  throw new Error(
-    "Missing Google OAuth credentials. Please set GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET.",
-  );
-}
-
 const authSecret = process.env.AUTH_SECRET ?? process.env.NEXTAUTH_SECRET;
 if (!authSecret) {
   throw new Error(
@@ -17,14 +11,26 @@ if (!authSecret) {
   );
 }
 
-export const authOptions: NextAuthOptions = {
-  secret: authSecret,
-  providers: [
+// Build providers array - only include Google if credentials are configured
+const providers: NextAuthOptions["providers"] = [];
+
+if (googleClientId && googleClientSecret) {
+  providers.push(
     GoogleProvider({
       clientId: googleClientId,
       clientSecret: googleClientSecret,
     }),
-  ],
+  );
+} else if (process.env.NODE_ENV === "development") {
+  console.warn(
+    "⚠️  Google OAuth credentials not configured. Auth features disabled.",
+    "Set GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET in .env.local to enable auth.",
+  );
+}
+
+export const authOptions: NextAuthOptions = {
+  secret: authSecret,
+  providers,
   session: {
     strategy: "jwt",
   },
