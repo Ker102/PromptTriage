@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { getGeminiModel, extractJsonFromText } from "@/lib/gemini";
+import type { Part } from "@google/generative-ai";
 import type {
   AnalyzeRequestPayload,
   PromptAnalysisResult,
@@ -132,6 +133,21 @@ export async function POST(req: Request) {
     const context = body.context?.trim();
     const thinkingMode = body.thinkingMode ?? false;
     const modality = body.modality ?? "text";
+    const images = body.images ?? [];
+
+    // === IMAGE ANALYSIS LOGGING ===
+    console.log("=== ANALYZE REQUEST ===");
+    console.log("Modality:", modality);
+    console.log("Thinking Mode:", thinkingMode);
+    console.log("Images attached:", images.length);
+    if (images.length > 0) {
+      console.log("Image details:", images.map((img, i) => ({
+        index: i,
+        mimeType: img.mimeType,
+        base64Length: img.base64?.length ?? 0,
+      })));
+    }
+    console.log("========================");
 
     if (!prompt) {
       return NextResponse.json(
@@ -288,6 +304,25 @@ You are in THINKING MODE - perform deeper, multi-pass analysis:
       responseMimeType: "application/json" as const,
     };
 
+    // Build user message parts (text + optional images)
+    const userParts: Part[] = [
+      { text: userPrompt }
+    ];
+
+    // Add images to the request if provided (for multimodal analysis)
+    if (images.length > 0) {
+      console.log("📸 Adding", images.length, "image(s) to Gemini model request");
+      for (const img of images) {
+        userParts.push({
+          inlineData: {
+            data: img.base64,
+            mimeType: img.mimeType,
+          },
+        });
+      }
+      console.log("📸 Images added successfully - model will analyze them");
+    }
+
     const result = await model.generateContent({
       systemInstruction: {
         role: "system",
@@ -297,7 +332,7 @@ You are in THINKING MODE - perform deeper, multi-pass analysis:
         ...fewShotMessages,
         {
           role: "user",
-          parts: [{ text: userPrompt }],
+          parts: userParts,
         },
       ],
       generationConfig,
