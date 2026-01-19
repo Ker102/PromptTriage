@@ -126,6 +126,7 @@ export async function POST(req: Request) {
     const prompt = body.prompt?.trim();
     const rawTargetModel = body.targetModel?.trim();
     const context = body.context?.trim();
+    const thinkingMode = body.thinkingMode ?? false;
 
     if (!prompt) {
       return NextResponse.json(
@@ -174,7 +175,7 @@ export async function POST(req: Request) {
       }
     }
 
-    const model = getGeminiModel();
+    const model = getGeminiModel(thinkingMode);
 
     try {
       recordUsageOrThrow(email ?? "dev@localhost", subscriptionPlan);
@@ -256,9 +257,7 @@ export async function POST(req: Request) {
       { role: "model" as const, parts: [{ text: assistant }] },
     ]);
 
-    // Extract thinkingMode from request
-    const thinkingMode = body.thinkingMode ?? false;
-
+    // thinkingMode already extracted from body earlier
     // Enhance system prompt for Thinking Mode
     const systemPrompt = thinkingMode
       ? `${ANALYZER_SYSTEM_PROMPT}

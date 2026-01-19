@@ -3,7 +3,7 @@
 import { useState } from "react";
 
 // Modality types
-export type Modality = "text" | "image" | "video";
+export type Modality = "text" | "image" | "video" | "system";
 
 // Models organized by modality
 export const MODALITY_CONFIG = {
@@ -62,6 +62,21 @@ export const MODALITY_CONFIG = {
             "Haiper 2.0",
         ],
     },
+    system: {
+        label: "System Prompt",
+        icon: "⚙️",
+        description: "Create AI agent prompts",
+        models: [
+            "Any AI Model",
+            "Claude (Anthropic)",
+            "GPT-4 (OpenAI)",
+            "Gemini (Google)",
+            "Cursor IDE",
+            "Coding Agent",
+            "Research Agent",
+            "Writing Assistant",
+        ],
+    },
 } as const;
 
 export type ModalityModel = typeof MODALITY_CONFIG[Modality]["models"][number];
@@ -102,8 +117,8 @@ export function ModalitySelector({
                                 onModelChange(MODALITY_CONFIG[mod].models[0]);
                             }}
                             className={`flex-1 rounded-xl px-4 py-3 text-center transition-all duration-300 ${isActive
-                                    ? "bg-gradient-to-r from-cyan-500/20 to-emerald-500/20 border-2 border-cyan-400/60 text-[var(--foreground)] shadow-[0_0_20px_rgba(34,211,238,0.15)]"
-                                    : "border border-[var(--surface-border)] bg-[var(--surface-card)] text-muted hover:border-[rgba(148,163,184,0.5)] hover:text-soft"
+                                ? "bg-gradient-to-r from-cyan-500/20 to-emerald-500/20 border-2 border-cyan-400/60 text-[var(--foreground)] shadow-[0_0_20px_rgba(34,211,238,0.15)]"
+                                : "border border-[var(--surface-border)] bg-[var(--surface-card)] text-muted hover:border-[rgba(148,163,184,0.5)] hover:text-soft"
                                 } disabled:cursor-not-allowed disabled:opacity-50`}
                         >
                             <span className="text-xl">{cfg.icon}</span>
@@ -143,6 +158,8 @@ export function ModalitySelector({
                         "Different image models have varying prompt styles (descriptive, tags, negative prompts)."}
                     {modality === "video" &&
                         "Video models need motion cues, camera angles, and duration hints."}
+                    {modality === "system" &&
+                        "Create comprehensive system prompts for AI agents, assistants, and tools."}
                 </p>
             </div>
         </div>
