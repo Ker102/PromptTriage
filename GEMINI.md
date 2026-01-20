@@ -18,6 +18,28 @@
 
 ## Recent Changes
 
+### 2026-01-20 - Video Prompts RAG & Modify Feature
+**Commit Ready**: Yes
+
+#### Video Prompts Dataset
+- **86 video prompts** ingested to Pinecone `video-prompts` namespace
+- **12 negative prompt categories** ingested to `video-negative-prompts` namespace
+- Categories: Marketing, hyper-realistic, skin realism, motion artifacts, etc.
+
+#### RAG Modality Routing
+- Backend `rag.py`: Routes `modality="video"` → `video-prompts` namespace
+- Frontend `rag.ts`: Passes modality parameter to backend
+- Frontend `analyze/route.ts`: Includes modality in RAG query
+
+#### Modify Feature (UI)
+- **Modify button**: Cyan button next to "Re-write" in results view
+- **Input field**: Collapsible textarea for user modification instructions
+- **handleModify()**: Refines prompt based on user input while preserving intent
+
+#### Auth Bypass Fix
+- Added `ALLOW_DEV_BYPASS=true` to `.env.local`
+- Fixed client-side auth check to respect `NEXT_PUBLIC_DEV_SUPERUSER`
+
 ### 2026-01-16 - Context7 Integration & Multimodal Input
 **Commit Ready**: Yes
 

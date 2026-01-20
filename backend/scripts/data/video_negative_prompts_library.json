@@ -1,0 +1,351 @@
+[
+    {
+        "category": "skin_realism",
+        "platform_compatibility": [
+            "kling",
+            "veo",
+            "higgsfield",
+            "pika"
+        ],
+        "description": "Prevents AI over-smoothing and plastic skin appearance. Essential for marketing and spokesperson videos.",
+        "negative_prompts": [
+            "plastic skin",
+            "waxy skin",
+            "porcelain skin",
+            "airbrushed skin",
+            "overly smooth skin",
+            "fake skin texture",
+            "doll-like appearance",
+            "metallic reflections on skin",
+            "unrealistic skin",
+            "poor skin texture"
+        ],
+        "positive_alternatives": [
+            "realistic skin with visible pores",
+            "natural skin texture with subsurface scattering",
+            "authentic skin imperfections"
+        ],
+        "notes": "Add positive prompt 'subsurface scattering' for enhanced skin realism"
+    },
+    {
+        "category": "uncanny_valley",
+        "platform_compatibility": [
+            "kling",
+            "veo",
+            "higgsfield",
+            "pika"
+        ],
+        "description": "Prevents unsettling almost-human appearances that trigger discomfort.",
+        "negative_prompts": [
+            "uncanny valley",
+            "distorted features",
+            "inconsistent facial features",
+            "changing eye color",
+            "morphing body parts",
+            "asymmetrical face",
+            "distorted facial features",
+            "unnatural expression",
+            "cross-eyed",
+            "dead eyes",
+            "soulless stare",
+            "robotic expression",
+            "frozen smile",
+            "creepy",
+            "unsettling"
+        ],
+        "positive_alternatives": [
+            "natural human expression",
+            "lifelike eye movement",
+            "authentic emotional response"
+        ],
+        "notes": "Focus on micro-expressions and natural eye movement in positive prompt"
+    },
+    {
+        "category": "anatomical_errors",
+        "platform_compatibility": [
+            "kling",
+            "veo",
+            "higgsfield",
+            "pika",
+            "sora"
+        ],
+        "description": "Prevents body part deformities and extra/missing limbs.",
+        "negative_prompts": [
+            "bad anatomy",
+            "bad proportions",
+            "extra limbs",
+            "extra arms",
+            "extra hands",
+            "extra fingers",
+            "missing limbs",
+            "missing fingers",
+            "mutated limbs",
+            "malformed limbs",
+            "disfigured",
+            "deformed body",
+            "twisted body",
+            "unnatural posture"
+        ],
+        "positive_alternatives": [
+            "anatomically correct",
+            "natural body proportions",
+            "realistic human form"
+        ],
+        "notes": "Especially important for hands - always check hand rendering"
+    },
+    {
+        "category": "hand_realism",
+        "platform_compatibility": [
+            "kling",
+            "veo",
+            "higgsfield",
+            "pika"
+        ],
+        "description": "Specifically targets hand rendering issues - critical for product demos.",
+        "negative_prompts": [
+            "malformed hands",
+            "extra fingers",
+            "missing fingers",
+            "fused fingers",
+            "deformed fingers",
+            "robotic hand movements",
+            "unnatural finger bending",
+            "plastic-looking hands",
+            "smooth hands without texture"
+        ],
+        "positive_alternatives": [
+            "realistic hand with visible knuckle texture",
+            "natural finger movements",
+            "hands with subtle veins and age spots"
+        ],
+        "notes": "Critical for product demonstrations - always explicitly describe hand texture"
+    },
+    {
+        "category": "motion_artifacts",
+        "platform_compatibility": [
+            "kling",
+            "veo",
+            "higgsfield",
+            "pika",
+            "sora"
+        ],
+        "description": "Prevents unnatural movement and video-specific glitches.",
+        "negative_prompts": [
+            "jerky movements",
+            "robotic motion",
+            "unnatural movement",
+            "choppy animation",
+            "stiff animation",
+            "frame drops",
+            "flickering",
+            "morphing",
+            "ghosting",
+            "shimmering",
+            "illogical physics",
+            "floating objects",
+            "warping",
+            "distorted motion"
+        ],
+        "positive_alternatives": [
+            "smooth natural motion",
+            "fluid movement",
+            "realistic physics"
+        ],
+        "notes": "Motion blur can be explicitly controlled - add 'natural motion blur' if needed"
+    },
+    {
+        "category": "visual_quality",
+        "platform_compatibility": [
+            "kling",
+            "veo",
+            "higgsfield",
+            "pika",
+            "sora"
+        ],
+        "description": "General quality control for resolution and clarity.",
+        "negative_prompts": [
+            "low resolution",
+            "low quality",
+            "blurry",
+            "pixelated",
+            "grainy",
+            "noisy",
+            "compression artifacts",
+            "out of focus",
+            "oversharpened",
+            "jpeg artifacts",
+            "amateur footage"
+        ],
+        "positive_alternatives": [
+            "high resolution",
+            "sharp details",
+            "professional quality"
+        ],
+        "notes": "Always include these as baseline quality control"
+    },
+    {
+        "category": "lighting_issues",
+        "platform_compatibility": [
+            "kling",
+            "veo",
+            "higgsfield",
+            "pika"
+        ],
+        "description": "Controls lighting consistency and natural appearance.",
+        "negative_prompts": [
+            "harsh shadows",
+            "unnatural shadows",
+            "artificial lighting",
+            "flat lighting",
+            "overexposed",
+            "underexposed",
+            "inconsistent lighting",
+            "weird reflections",
+            "washed-out colors",
+            "unconvincing lighting"
+        ],
+        "positive_alternatives": [
+            "natural lighting",
+            "soft diffused light",
+            "realistic shadows"
+        ],
+        "notes": "Specify exact lighting conditions in positive prompt for best results"
+    },
+    {
+        "category": "marketing_realistic",
+        "platform_compatibility": [
+            "kling",
+            "veo",
+            "higgsfield"
+        ],
+        "description": "Combined negatives for hyper-realistic marketing content with spokespersons.",
+        "negative_prompts": [
+            "plastic skin",
+            "overly smooth skin",
+            "fake smile",
+            "unnatural blinking",
+            "robotic gestures",
+            "stiff posture",
+            "theatrical performance",
+            "forced expression",
+            "perfect teeth",
+            "static hair",
+            "over-produced look",
+            "stock footage aesthetic"
+        ],
+        "positive_alternatives": [
+            "authentic presenter",
+            "natural delivery",
+            "genuine expression",
+            "subtle imperfections"
+        ],
+        "notes": "For UGC-style content, embrace imperfections like slight camera shake"
+    },
+    {
+        "category": "product_demo",
+        "platform_compatibility": [
+            "kling",
+            "veo",
+            "higgsfield"
+        ],
+        "description": "Specific negatives for product demonstration videos.",
+        "negative_prompts": [
+            "robotic hand movements",
+            "plastic-looking products",
+            "unrealistic product interaction",
+            "floating product",
+            "inconsistent product scale",
+            "no shadows on product",
+            "no reflections",
+            "motion blur on product",
+            "unnecessary objects",
+            "cluttered background"
+        ],
+        "positive_alternatives": [
+            "natural product handling",
+            "realistic product weight interaction",
+            "professional product lighting"
+        ],
+        "notes": "Ensure product is the focus - describe weight and texture interaction"
+    },
+    {
+        "category": "audio_sync",
+        "platform_compatibility": [
+            "kling",
+            "veo",
+            "sora"
+        ],
+        "description": "For video with speech - prevents lip sync issues.",
+        "negative_prompts": [
+            "mismatched lip sync",
+            "audio drift",
+            "delayed speech",
+            "unnatural mouth movement",
+            "robotic speech patterns",
+            "inconsistent voice",
+            "muffled audio",
+            "echo"
+        ],
+        "positive_alternatives": [
+            "natural speech rhythm",
+            "synchronized lip movement",
+            "clear articulation"
+        ],
+        "notes": "Audio sync is still challenging for most platforms - test thoroughly"
+    },
+    {
+        "category": "style_consistency",
+        "platform_compatibility": [
+            "kling",
+            "veo",
+            "higgsfield",
+            "pika",
+            "sora"
+        ],
+        "description": "Prevents unwanted style shifts during generation.",
+        "negative_prompts": [
+            "cartoon",
+            "anime",
+            "illustration",
+            "sketch",
+            "painting",
+            "2D rendering",
+            "overly stylized",
+            "vintage filter",
+            "retro aesthetic",
+            "grunge",
+            "aged look",
+            "weathered"
+        ],
+        "positive_alternatives": [
+            "photorealistic",
+            "cinematic quality",
+            "modern professional aesthetic"
+        ],
+        "notes": "Use when you need consistent realistic style throughout"
+    },
+    {
+        "category": "character_consistency",
+        "platform_compatibility": [
+            "kling",
+            "veo",
+            "higgsfield"
+        ],
+        "description": "Maintains character appearance throughout video.",
+        "negative_prompts": [
+            "changing appearance",
+            "morphing features",
+            "inconsistent clothing",
+            "altered hairstyle",
+            "changing eye color",
+            "inconsistent skin tone",
+            "age fluctuation",
+            "style drift"
+        ],
+        "positive_alternatives": [
+            "consistent character appearance",
+            "stable identity throughout"
+        ],
+        "notes": "Critical for multi-shot videos - describe character precisely"
+    }
+]

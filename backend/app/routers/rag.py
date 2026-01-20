@@ -20,6 +20,8 @@ class QueryRequest(BaseModel):
     category: Optional[str] = None
     use_cache: bool = True
     include_metadata: bool = True
+    modality: str = "text"  # text, image, video
+    namespace: Optional[str] = None  # Direct namespace override
 
 
 class QueryResult(BaseModel):
@@ -92,6 +94,8 @@ async def query_prompts(request: QueryRequest):
             top_k=request.top_k,
             category=request.category,
             use_cache=request.use_cache,
+            modality=request.modality,
+            namespace=request.namespace,
         )
         
         return QueryResponse(

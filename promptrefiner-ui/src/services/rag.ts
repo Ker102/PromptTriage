@@ -29,9 +29,10 @@ export async function queryRAG(
         topK?: number;
         category?: string;
         useCache?: boolean;
+        modality?: string;  // text, image, video, system
     } = {}
 ): Promise<RAGQueryResponse> {
-    const { topK = 5, category, useCache = true } = options;
+    const { topK = 5, category, useCache = true, modality = "text" } = options;
 
     try {
         const response = await fetch(`${RAG_BACKEND_URL}/api/rag/query`, {
@@ -45,6 +46,7 @@ export async function queryRAG(
                 category,
                 use_cache: useCache,
                 include_metadata: true,
+                modality,  // Pass modality to backend for namespace routing
             }),
         });
 

@@ -223,6 +223,9 @@ export default function Home() {
   const [error, setError] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
   const [rewriteCount, setRewriteCount] = useState(0);
+  // Modify feature: allow user to refine the generated prompt with additional instructions
+  const [showModifyInput, setShowModifyInput] = useState(false);
+  const [modifyInstruction, setModifyInstruction] = useState("");
   const { data: session, status } = useSession();
   const planLabel = formatPlanLabel(session?.user?.subscriptionPlan);
   const subscriptionPlan =
@@ -290,8 +293,9 @@ export default function Home() {
   const handleAnalyze = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    // Require authentication (server handles dev bypass via ALLOW_DEV_BYPASS)
-    if (!isAuthenticated) {
+    // Require authentication unless dev bypass is enabled
+    const isDevSuperuser = process.env.NEXT_PUBLIC_DEV_SUPERUSER === "true";
+    if (!isAuthenticated && !isDevSuperuser) {
       await signIn("google", { callbackUrl: window.location.href });
       return;
     }
@@ -345,8 +349,9 @@ export default function Home() {
       return false;
     }
 
-    // Require authentication (server handles dev bypass via ALLOW_DEV_BYPASS)
-    if (!isAuthenticated) {
+    // Require authentication unless dev bypass is enabled
+    const isDevSuperuser = process.env.NEXT_PUBLIC_DEV_SUPERUSER === "true";
+    if (!isAuthenticated && !isDevSuperuser) {
       await signIn("google", { callbackUrl: window.location.href });
       return false;
     }
@@ -433,6 +438,20 @@ export default function Home() {
     }
   };
 
+  // Handle modify: refine the current prompt with user's additional instructions
+  const handleModify = async () => {
+    if (!modifyInstruction.trim() || !refinement?.refinedPrompt || pendingAction === "refine") {
+      return;
+    }
+
+    const modifyHint = `The user wants to modify the generated prompt with these instructions: "${modifyInstruction}"\n\nCurrent generated prompt:\n${refinement.refinedPrompt}\n\nApply the user's modification request while preserving the original intent and quality.`;
+    const success = await submitRefine(modifyHint);
+    if (success) {
+      setModifyInstruction("");
+      setShowModifyInput(false);
+    }
+  };
+
   const handleReset = () => {
     setForm({ ...INITIAL_FORM });
     setAnalysis(null);
@@ -442,6 +461,8 @@ export default function Home() {
     setError(null);
     setCopied(false);
     setRewriteCount(0);
+    setShowModifyInput(false);
+    setModifyInstruction("");
   };
 
   const handleCopy = async () => {
@@ -1134,6 +1155,14 @@ export default function Home() {
                     </button>
                     <button
                       type="button"
+                      onClick={() => setShowModifyInput(!showModifyInput)}
+                      disabled={isRefining}
+                      className="inline-flex items-center justify-center rounded-xl border border-cyan-500/40 bg-cyan-500/10 px-4 py-2 text-sm font-medium text-cyan-100 transition-transform duration-300 ease-out hover:-translate-y-0.5 hover:scale-[1.02] hover:border-cyan-400 hover:bg-cyan-400/20 disabled:translate-y-0 disabled:scale-100 disabled:cursor-not-allowed disabled:border-[var(--surface-border)] disabled:bg-[var(--surface-card-soft)] disabled:text-muted"
+                    >
+                      {showModifyInput ? "Cancel" : "Modify"}
+                    </button>
+                    <button
+                      type="button"
                       onClick={handleCopy}
                       className="inline-flex items-center justify-center rounded-xl border border-[var(--surface-border)] px-4 py-2 text-sm font-medium text-soft transition-transform duration-300 ease-out hover:-translate-y-0.5 hover:scale-[1.02] hover:border-[rgba(148,163,184,0.65)] hover:text-[var(--foreground)]"
                     >
@@ -1144,6 +1173,33 @@ export default function Home() {
                 <pre className="whitespace-pre-wrap rounded-2xl theme-card-soft p-4 text-soft">
                   {refinement.refinedPrompt}
                 </pre>
+
+                {/* Modify Input Section */}
+                {showModifyInput && (
+                  <div className="space-y-3 rounded-2xl border border-cyan-500/30 bg-cyan-500/5 p-4">
+                    <label className="text-sm font-medium text-soft">
+                      How would you like to modify this prompt?
+                    </label>
+                    <textarea
+                      value={modifyInstruction}
+                      onChange={(e) => setModifyInstruction(e.target.value)}
+                      placeholder="e.g., Make it more formal, add more detail about X, shorten the introduction..."
+                      rows={3}
+                      className="w-full rounded-xl border border-[var(--surface-border)] bg-[var(--surface-card)] p-3 text-sm text-[var(--foreground)] placeholder:text-muted transition-all duration-300 focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/30"
+                    />
+                    <button
+                      type="button"
+                      onClick={handleModify}
+                      disabled={isRefining || !modifyInstruction.trim()}
+                      className="inline-flex items-center justify-center rounded-xl bg-cyan-500/90 px-4 py-2 text-sm font-medium text-cyan-950 transition-transform duration-300 ease-out hover:-translate-y-0.5 hover:scale-[1.02] hover:bg-cyan-400 disabled:translate-y-0 disabled:scale-100 disabled:cursor-not-allowed disabled:bg-[var(--surface-card-soft)] disabled:text-muted"
+                    >
+                      <span className="flex items-center gap-2">
+                        <span>{isRefining ? "Modifying..." : "Apply Modification"}</span>
+                        {isRefining ? <ThinkingIndicator color="cyan" /> : null}
+                      </span>
+                    </button>
+                  </div>
+                )}
               </div>
 
               <div className="grid gap-6 md:grid-cols-2">

@@ -130,17 +130,34 @@ class HybridRAGService:
         top_k: int = 5,
         category: Optional[str] = None,
         use_cache: bool = True,
+        modality: str = "text",
+        namespace: Optional[str] = None,
     ) -> List[dict]:
         """
         Query for similar prompts using hybrid approach.
         
         1. Check Redis cache first
-        2. On miss, query Pinecone
+        2. On miss, query Pinecone (full corpus) in specific namespace
         3. Cache results in Redis
+        
+        Namespace logic:
+        - If 'namespace' is provided explicitly, use it.
+        - Else if modality="video", use "video-prompts".
+        - Else use default namespace (None).
         """
+        # Determine namespace
+        target_namespace = namespace
+        if not target_namespace:
+            if modality == "video":
+                target_namespace = "video-prompts"
+            # Add other modalities here if they have dedicated namespaces
+        
         # Step 1: Check Redis cache
+        # Include namespace/modality in cache key to avoid mixing results
+        cache_key_suffix = f":{target_namespace}" if target_namespace else ""
+        
         if use_cache and self.redis_client:
-            cache_key = self._cache_key(query)
+            cache_key = self._cache_key(query + cache_key_suffix)
             cached = self.redis_client.get(cache_key)
             if cached:
                 import json
@@ -152,11 +169,13 @@ class HybridRAGService:
         # Build filter for Pinecone
         filter_dict = {"category": category} if category else None
         
+        # Query Pinecone with namespace
         results = self.pinecone_index.query(
             vector=query_embedding,
             top_k=top_k * 2,  # Get more for caching
             include_metadata=True,
             filter=filter_dict,
+            namespace=target_namespace or ""  # Pinecone uses "" for default
         )
         
         # Format results
@@ -172,7 +191,7 @@ class HybridRAGService:
         # Step 3: Cache in Redis
         if self.redis_client and formatted:
             import json
-            cache_key = self._cache_key(query)
+            cache_key = self._cache_key(query + cache_key_suffix)
             self.redis_client.setex(
                 cache_key,
                 3600,  # 1 hour TTL

@@ -237,11 +237,18 @@ export async function POST(req: Request) {
     }
 
     // Query RAG for similar prompts (graceful degradation if backend unavailable)
-    // For System Prompt mode, query the system-prompts namespace specifically
+    // Modality determines which Pinecone namespace to search:
+    // - "video" -> video-prompts namespace
+    // - "system" -> system-prompts namespace (via category filter)
+    // - "text"/"image" -> default namespace
     let ragContext = "";
     try {
       const ragCategory = modality === "system" ? "system-prompts" : undefined;
-      const ragResults = await queryRAG(prompt, { topK: 3, category: ragCategory });
+      const ragResults = await queryRAG(prompt, {
+        topK: 3,
+        category: ragCategory,
+        modality: modality,  // Pass modality for namespace routing
+      });
       if (ragResults.results.length > 0) {
         ragContext = formatRAGContext(ragResults.results);
       }

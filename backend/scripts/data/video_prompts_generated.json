@@ -1,0 +1,308 @@
+[
+  {
+    "prompt": "A lone astronaut floating in zero gravity inside the International Space Station, gazing out at Earth. Soft, diffused light filters through the windows, illuminating dust motes dancing in the air. Camera slowly zooms in on the astronaut's face, reflecting awe and wonder.",
+    "category": "sci-fi",
+    "camera_movement": "slow zoom in",
+    "duration_suggestion": "8s"
+  },
+  {
+    "prompt": "A majestic waterfall cascading down a sheer cliff face in a lush rainforest. Sunlight pierces through the canopy, creating vibrant rainbows in the mist. Camera pans up from the base of the falls to the summit, capturing the immense scale of nature.",
+    "category": "nature",
+    "camera_movement": "pan up",
+    "duration_suggestion": "12s"
+  },
+  {
+    "prompt": "A futuristic cityscape at night, filled with flying cars and neon signs. Rain streaks across the lens, blurring the lights into abstract patterns. Camera glides smoothly through the crowded streets, offering a glimpse into a vibrant urban future.",
+    "category": "sci-fi",
+    "camera_movement": "smooth glide",
+    "duration_suggestion": "10s"
+  },
+  {
+    "prompt": "A knight in shining armor battling a fire-breathing dragon in a medieval castle courtyard. Sparks fly as sword clashes against scales, creating a dramatic and intense scene. Camera circles around the combatants, capturing the dynamic action from all angles.",
+    "category": "fantasy",
+    "camera_movement": "orbit",
+    "duration_suggestion": "7s"
+  },
+  {
+    "prompt": "A close-up shot of a chef preparing a gourmet meal in a professional kitchen. The camera focuses on the intricate knife work and the vibrant colors of the fresh ingredients. The lighting is bright and inviting, highlighting the precision and artistry of the culinary process.",
+    "category": "commercial",
+    "camera_movement": "close-up",
+    "duration_suggestion": "6s"
+  },
+  {
+    "prompt": "A whimsical cartoon character dancing joyfully in a colorful animated world. The character moves with fluid grace and infectious energy, creating a lighthearted and entertaining scene. Camera follows the character's movements, emphasizing the dynamic choreography.",
+    "category": "character",
+    "camera_movement": "tracking shot",
+    "duration_suggestion": "8s"
+  },
+  {
+    "prompt": "A high-speed car chase through winding mountain roads. The camera is mounted inside the lead car, providing a thrilling first-person perspective of the intense action. The scenery blurs past as the drivers push their vehicles to the limit.",
+    "category": "action",
+    "camera_movement": "first-person",
+    "duration_suggestion": "9s"
+  },
+  {
+    "prompt": "Abstract swirling patterns of light and color, creating a mesmerizing and hypnotic visual experience. The camera moves through the abstract forms, revealing new layers and dimensions with each passing moment. The music is ethereal and atmospheric.",
+    "category": "abstract",
+    "camera_movement": "dolly in",
+    "duration_suggestion": "11s"
+  },
+  {
+    "prompt": "A black and white documentary shot of a bustling street market in a developing country. The camera captures the raw energy and vibrant culture of the community, highlighting the daily lives of the people who live and work there. The sound is natural and authentic.",
+    "category": "documentary",
+    "camera_movement": "handheld",
+    "duration_suggestion": "15s"
+  },
+  {
+    "prompt": "A music video sequence featuring a band performing on a rooftop at sunset. The camera captures the band's energy and passion, creating a visually stunning and emotionally charged scene. The editing is fast-paced and dynamic, matching the rhythm of the music.",
+    "category": "music_video",
+    "camera_movement": "crane shot",
+    "duration_suggestion": "10s"
+  },
+  {
+    "prompt": "A lone wolf howling at the full moon in a snowy forest. The camera slowly zooms in on the wolf's face, capturing its mournful expression. The atmosphere is cold and desolate, emphasizing the wolf's solitude.",
+    "category": "nature",
+    "camera_movement": "slow zoom in",
+    "duration_suggestion": "10s"
+  },
+  {
+    "prompt": "A time-lapse video of a flower blooming from bud to full blossom. The camera remains fixed on the flower, capturing its gradual transformation over time. The lighting is soft and natural, highlighting the delicate beauty of the petals.",
+    "category": "nature",
+    "camera_movement": "fixed",
+    "duration_suggestion": "15s"
+  },
+  {
+    "prompt": "A vast desert landscape at sunrise, with sand dunes stretching as far as the eye can see. The camera slowly pans across the horizon, capturing the golden light and the stark beauty of the desert.",
+    "category": "nature",
+    "camera_movement": "slow pan",
+    "duration_suggestion": "12s"
+  },
+  {
+    "prompt": "A coral reef teeming with colorful fish and marine life. The camera dives beneath the surface, exploring the underwater world and revealing its hidden wonders. The lighting is vibrant and dynamic, showcasing the diversity of the ecosystem.",
+    "category": "nature",
+    "camera_movement": "underwater dolly",
+    "duration_suggestion": "10s"
+  },
+  {
+    "prompt": "A dense fog rolling through a redwood forest, creating an ethereal and mysterious atmosphere. The camera moves slowly through the trees, revealing glimpses of the towering redwoods as the fog parts and swirls.",
+    "category": "nature",
+    "camera_movement": "slow tracking",
+    "duration_suggestion": "15s"
+  },
+  {
+    "prompt": "A spaceship hurtling through an asteroid field, dodging debris and navigating treacherous terrain. The camera shakes and vibrates as the ship narrowly avoids collisions. The atmosphere is tense and suspenseful.",
+    "category": "sci-fi",
+    "camera_movement": "shaky cam",
+    "duration_suggestion": "8s"
+  },
+  {
+    "prompt": "A robot awakening in a futuristic laboratory, its eyes glowing with artificial intelligence. The camera slowly circles around the robot, examining its metallic form and its complex circuitry. The lighting is sterile and clinical.",
+    "category": "sci-fi",
+    "camera_movement": "orbit",
+    "duration_suggestion": "10s"
+  },
+  {
+    "prompt": "A portal opening in the sky, revealing a glimpse into another dimension. The camera zooms in on the portal, showing swirling colors and otherworldly landscapes. The atmosphere is surreal and awe-inspiring.",
+    "category": "sci-fi",
+    "camera_movement": "zoom in",
+    "duration_suggestion": "7s"
+  },
+  {
+    "prompt": "A group of futuristic soldiers engaged in a firefight in a war-torn city. The camera follows the soldiers as they take cover and exchange fire, creating a chaotic and intense scene. The sound is deafening and realistic.",
+    "category": "sci-fi",
+    "camera_movement": "tracking shot",
+    "duration_suggestion": "9s"
+  },
+  {
+    "prompt": "A lone explorer discovering an ancient alien artifact on a deserted planet. The camera focuses on the artifact, revealing its intricate details and its mysterious purpose. The atmosphere is eerie and suspenseful.",
+    "category": "sci-fi",
+    "camera_movement": "close up",
+    "duration_suggestion": "11s"
+  },
+  {
+    "prompt": "A powerful sorceress casting a spell in a mystical forest, surrounded by glowing runes and ancient trees. The camera slowly pushes in as energy crackles around her hands, creating a magical and enchanting scene.",
+    "category": "fantasy",
+    "camera_movement": "push in",
+    "duration_suggestion": "10s"
+  },
+  {
+    "prompt": "A majestic griffin soaring through the clouds, its wings catching the sunlight. The camera follows the griffin as it flies over mountains and valleys, capturing its graceful and powerful flight.",
+    "category": "fantasy",
+    "camera_movement": "tracking shot",
+    "duration_suggestion": "12s"
+  },
+  {
+    "prompt": "A hidden village of elves nestled in a secluded valley, surrounded by waterfalls and lush vegetation. The camera pans across the village, revealing the intricate architecture and the peaceful atmosphere.",
+    "category": "fantasy",
+    "camera_movement": "pan",
+    "duration_suggestion": "15s"
+  },
+  {
+    "prompt": "A band of adventurers exploring a dark and dangerous dungeon, fighting monsters and searching for treasure. The camera follows the adventurers as they navigate the labyrinthine corridors, creating a thrilling and suspenseful scene.",
+    "category": "fantasy",
+    "camera_movement": "tracking shot",
+    "duration_suggestion": "9s"
+  },
+  {
+    "prompt": "A wise old wizard offering guidance to a young apprentice in a magical library, filled with ancient books and mystical artifacts. The camera focuses on the wizard's face, capturing his wisdom and experience.",
+    "category": "fantasy",
+    "camera_movement": "close up",
+    "duration_suggestion": "11s"
+  },
+  {
+    "prompt": "A luxury car advertisement featuring a sleek sports car driving along a scenic coastal highway. The camera captures the car's speed and elegance, highlighting its design and performance. The music is upbeat and energetic.",
+    "category": "commercial",
+    "camera_movement": "tracking shot",
+    "duration_suggestion": "8s"
+  },
+  {
+    "prompt": "A soft drink commercial featuring people laughing and enjoying themselves at a summer barbecue. The camera focuses on the refreshing beverage, highlighting its taste and appeal. The lighting is bright and inviting.",
+    "category": "commercial",
+    "camera_movement": "handheld",
+    "duration_suggestion": "6s"
+  },
+  {
+    "prompt": "A fashion advertisement featuring a model walking down a runway in a stylish outfit. The camera captures the model's grace and confidence, showcasing the design and quality of the clothing. The music is trendy and fashionable.",
+    "category": "commercial",
+    "camera_movement": "tracking shot",
+    "duration_suggestion": "10s"
+  },
+  {
+    "prompt": "A technology advertisement featuring a new smartphone with innovative features. The camera focuses on the phone's screen and its capabilities, highlighting its functionality and user-friendliness. The music is futuristic and upbeat.",
+    "category": "commercial",
+    "camera_movement": "close up",
+    "duration_suggestion": "7s"
+  },
+  {
+    "prompt": "A travel advertisement featuring exotic destinations and exciting adventures. The camera captures the beauty and wonder of the world, inspiring viewers to travel and explore. The music is uplifting and inspiring.",
+    "category": "commercial",
+    "camera_movement": "drone shot",
+    "duration_suggestion": "12s"
+  },
+  {
+    "prompt": "A cartoon dog chasing a squirrel through a park, with exaggerated movements and playful expressions. The camera follows the dog as it runs and jumps, creating a humorous and entertaining scene.",
+    "category": "character",
+    "camera_movement": "tracking shot",
+    "duration_suggestion": "8s"
+  },
+  {
+    "prompt": "A cartoon cat plotting mischief and scheming against a mouse, with sly grins and cunning tactics. The camera focuses on the cat's face, capturing its devious intentions.",
+    "category": "character",
+    "camera_movement": "close up",
+    "duration_suggestion": "6s"
+  },
+  {
+    "prompt": "A cartoon superhero flying through the city, saving people from danger and fighting villains. The camera follows the superhero as it soars through the sky, creating a thrilling and action-packed scene.",
+    "category": "character",
+    "camera_movement": "tracking shot",
+    "duration_suggestion": "10s"
+  },
+  {
+    "prompt": "A cartoon princess singing a beautiful song in a magical kingdom, surrounded by enchanted creatures and sparkling lights. The camera focuses on the princess's face, capturing her innocence and charm.",
+    "category": "character",
+    "camera_movement": "close up",
+    "duration_suggestion": "7s"
+  },
+  {
+    "prompt": "A cartoon robot dancing to upbeat music, with fluid movements and a cheerful attitude. The camera follows the robot as it grooves to the rhythm, creating a fun and energetic scene.",
+    "category": "character",
+    "camera_movement": "tracking shot",
+    "duration_suggestion": "9s"
+  },
+  {
+    "prompt": "A martial arts master demonstrating a powerful fighting technique in a dojo, with precise movements and intense focus. The camera captures the master's skill and discipline, creating a dynamic and impressive scene.",
+    "category": "action",
+    "camera_movement": "tracking shot",
+    "duration_suggestion": "8s"
+  },
+  {
+    "prompt": "A parkour athlete performing a series of acrobatic stunts in an urban environment, with daring leaps and graceful landings. The camera follows the athlete as they navigate the obstacles, creating a thrilling and exciting scene.",
+    "category": "action",
+    "camera_movement": "tracking shot",
+    "duration_suggestion": "10s"
+  },
+  {
+    "prompt": "A soldier defusing a bomb in a tense and dangerous situation, with steady hands and focused concentration. The camera captures the soldier's bravery and skill, creating a suspenseful and dramatic scene.",
+    "category": "action",
+    "camera_movement": "close up",
+    "duration_suggestion": "7s"
+  },
+  {
+    "prompt": "A race car driver speeding around a track, pushing the car to its limits and battling for the lead. The camera captures the adrenaline and excitement of the race, creating a thrilling and intense scene.",
+    "category": "action",
+    "camera_movement": "tracking shot",
+    "duration_suggestion": "9s"
+  },
+  {
+    "prompt": "Two superheroes engaging in a fierce battle, exchanging blows and using their superpowers to gain the upper hand. The camera captures the dynamic action and the intensity of the fight, creating a spectacular and action-packed scene.",
+    "category": "action",
+    "camera_movement": "crane shot",
+    "duration_suggestion": "12s"
+  },
+  {
+    "prompt": "A kaleidoscope of geometric shapes and vibrant colors, constantly shifting and transforming in a mesmerizing display. The camera moves through the abstract patterns, revealing new dimensions and perspectives. The music is hypnotic and trance-like.",
+    "category": "abstract",
+    "camera_movement": "dolly in",
+    "duration_suggestion": "11s"
+  },
+  {
+    "prompt": "A swirling vortex of particles and energy, creating a dynamic and visually stunning effect. The camera circles around the vortex, capturing its power and complexity. The sound is intense and immersive.",
+    "category": "abstract",
+    "camera_movement": "orbit",
+    "duration_suggestion": "9s"
+  },
+  {
+    "prompt": "Liquid metal morphing into different shapes and forms, with smooth and fluid movements. The camera focuses on the transforming metal, capturing its texture and reflectivity. The lighting is dramatic and highlights the metallic sheen.",
+    "category": "abstract",
+    "camera_movement": "close up",
+    "duration_suggestion": "7s"
+  },
+  {
+    "prompt": "Fractals expanding and contracting in a complex and intricate pattern, creating a hypnotic and mesmerizing visual experience. The camera zooms in and out on the fractals, revealing their infinite detail. The music is ethereal and ambient.",
+    "category": "abstract",
+    "camera_movement": "zoom",
+    "duration_suggestion": "10s"
+  },
+  {
+    "prompt": "Light painting creating abstract shapes and designs in a dark room, with long exposure and vibrant colors. The camera captures the movement of the light, creating a unique and artistic effect. The music is electronic and experimental.",
+    "category": "abstract",
+    "camera_movement": "fixed",
+    "duration_suggestion": "12s"
+  },
+  {
+    "prompt": "A historical reenactment of a famous battle, filmed in a realistic and immersive style. The camera captures the chaos and intensity of the battle, highlighting the bravery and sacrifice of the soldiers. The sound is authentic and powerful.",
+    "category": "documentary",
+    "camera_movement": "handheld",
+    "duration_suggestion": "15s"
+  },
+  {
+    "prompt": "An interview with a leading scientist discussing groundbreaking research, filmed in a professional and informative style. The camera focuses on the scientist's face, capturing their expertise and passion. The lighting is soft and natural.",
+    "category": "documentary",
+    "camera_movement": "fixed",
+    "duration_suggestion": "11s"
+  },
+  {
+    "prompt": "Footage of wildlife in their natural habitat, filmed in a stunning and breathtaking style. The camera captures the beauty and diversity of the animal kingdom, highlighting the importance of conservation. The sound is natural and immersive.",
+    "category": "documentary",
+    "camera_movement": "drone shot",
+    "duration_suggestion": "12s"
+  },
+  {
+    "prompt": "A behind-the-scenes look at the making of a film, filmed in a candid and revealing style. The camera captures the hard work and dedication of the cast and crew, highlighting the creative process. The sound is natural and authentic.",
+    "category": "documentary",
+    "camera_movement": "handheld",
+    "duration_suggestion": "10s"
+  },
+  {
+    "prompt": "A compilation of historical photographs and video footage, telling the story of a significant event. The camera pans across the images and videos, creating a compelling and informative narrative. The sound is historical and relevant.",
+    "category": "documentary",
+    "camera_movement": "pan",
+    "duration_suggestion": "15s"
+  },
+  {
+    "prompt": "A singer performing on stage in front of a large crowd, filmed in a dynamic and energetic style. The camera captures the singer's passion and charisma, creating a visually stunning and emotionally charged scene. The editing is fast-paced and dynamic, matching the rhythm of the music.",
+    "category": "music_video",
+    "camera_movement": "crane shot",
+    "duration_suggestion": "10s"
+  }
+]

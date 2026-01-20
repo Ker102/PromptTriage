@@ -1,0 +1,862 @@
+[
+  {
+    "prompt": "A close-up of a weary woman in a red hoodie sipping coffee on a foggy balcony at dawn, steam rising from the cup, soft lo-fi music in the background.",
+    "category": "cinematic",
+    "platform": "google_veo",
+    "camera_movement": "not specified",
+    "duration_suggestion": "8s",
+    "negative_prompt": null,
+    "realism_notes": null,
+    "source": "scraped_base"
+  },
+  {
+    "prompt": "A mechanic in greasy overalls repairs a motorcycle engine in a small garage. The lighting is warm and cinematic, with deep shadows and vintage tones. Camera slowly pulls back as the mechanic works, revealing posters on the walls.",
+    "category": "cinematic",
+    "platform": "kling",
+    "camera_movement": "slow pull back",
+    "duration_suggestion": "8s",
+    "negative_prompt": null,
+    "realism_notes": null,
+    "source": "scraped_base"
+  },
+  {
+    "prompt": "Anthropomorphic fat red cat sitting on the chair at the outside table made of wood eating dumplings using his hands, bowl with dumplings on the table, 360 spin around the cat, photorealistic, cinematic.",
+    "category": "character_animation",
+    "platform": "kling",
+    "camera_movement": "360 spin",
+    "duration_suggestion": "8s",
+    "negative_prompt": null,
+    "realism_notes": null,
+    "source": "scraped_base"
+  },
+  {
+    "prompt": "A slow cinematic orbit shot with a gradual dolly-in on a young woman standing in a dimly lit vintage kitchen. Her face is filled with rage and sorrow as she suddenly screams, voice trembling with fury: 'You left us to rot in this filthy ground!'",
+    "category": "cinematic",
+    "platform": "higgsfield",
+    "camera_movement": "slow orbit, gradual dolly-in",
+    "duration_suggestion": "8s",
+    "negative_prompt": null,
+    "realism_notes": null,
+    "source": "scraped_base"
+  },
+  {
+    "prompt": "Continuous hyperspace jump ... star wars style.",
+    "category": "sci-fi",
+    "platform": "runway_gen3",
+    "camera_movement": "not specified",
+    "duration_suggestion": "8s",
+    "negative_prompt": null,
+    "realism_notes": null,
+    "source": "scraped_base"
+  },
+  {
+    "prompt": "Create a video of a serene forest with sunlight filtering through the trees, accompanied by gentle bird sounds.",
+    "category": "nature",
+    "platform": "openart",
+    "camera_movement": "not specified",
+    "duration_suggestion": "8s",
+    "negative_prompt": null,
+    "realism_notes": null,
+    "source": "scraped_base"
+  },
+  {
+    "prompt": "A lone astronaut with tear-streaked eyes, floating in zero gravity inside the International Space Station, gazing out at Earth. Soft, diffused light filters through the windows, illuminating dust motes dancing in the air. Slow, cinematic zoom in on the astronaut's face, reflecting profound awe, wonder, and a hint of homesickness.",
+    "category": "sci-fi",
+    "platform": "ai_generated",
+    "camera_movement": "slow zoom in",
+    "duration_suggestion": "8s",
+    "negative_prompt": null,
+    "realism_notes": null,
+    "source": "gemini_refined"
+  },
+  {
+    "prompt": "A majestic waterfall cascading down a sheer, moss-covered cliff face in a lush, emerald rainforest. Sunlight pierces through the dense canopy, creating vibrant rainbows that shimmer in the mist. Camera slowly pans up from the churning, frothy base of the falls to the mist-shrouded summit, capturing the immense scale and raw power of nature. Bird calls echo through the air.",
+    "category": "nature",
+    "platform": "ai_generated",
+    "camera_movement": "pan up",
+    "duration_suggestion": "12s",
+    "negative_prompt": null,
+    "realism_notes": null,
+    "source": "gemini_refined"
+  },
+  {
+    "prompt": "A futuristic cityscape at night, filled with sleek, chrome flying cars and towering neon signs advertising cybernetic enhancements. Heavy rain streaks across the lens, blurring the dazzling lights into abstract, shimmering patterns. Camera glides smoothly and silently through the crowded, bustling streets, offering a glimpse into a vibrant, yet slightly dystopian urban future. Holographic advertisements flicker on the sides of buildings.",
+    "category": "sci-fi",
+    "platform": "ai_generated",
+    "camera_movement": "smooth glide",
+    "duration_suggestion": "10s",
+    "negative_prompt": null,
+    "realism_notes": null,
+    "source": "gemini_refined"
+  },
+  {
+    "prompt": "A knight in shining, dented armor battling a fire-breathing dragon with emerald scales in a medieval castle courtyard littered with rubble. Sparks fly as the knight's sword clashes against the dragon's scales, creating a dramatic and intense scene. Camera slowly orbits around the combatants, capturing the dynamic action from all angles, emphasizing the dragon's powerful wingbeats and the knight's desperate struggle.",
+    "category": "fantasy",
+    "platform": "ai_generated",
+    "camera_movement": "orbit",
+    "duration_suggestion": "7s",
+    "negative_prompt": null,
+    "realism_notes": null,
+    "source": "gemini_refined"
+  },
+  {
+    "prompt": "Extreme close-up shot of a seasoned chef with a focused expression preparing a gourmet meal in a professional, stainless steel kitchen. The camera focuses tightly on the intricate knife work as the chef dices a vibrant red bell pepper, showcasing the precision and artistry of the culinary process. The lighting is bright and inviting, highlighting the fresh, colorful ingredients and gleaming surfaces.",
+    "category": "commercial",
+    "platform": "ai_generated",
+    "camera_movement": "close-up",
+    "duration_suggestion": "6s",
+    "negative_prompt": null,
+    "realism_notes": null,
+    "source": "gemini_refined"
+  },
+  {
+    "prompt": "A whimsical cartoon character with oversized shoes and a wide, toothy grin dancing joyfully in a colorful, hand-drawn animated world. The character moves with fluid grace and infectious energy, creating a lighthearted and entertaining scene. Camera smoothly tracks the character's movements from the side, emphasizing the dynamic choreography and the character's boundless enthusiasm.",
+    "category": "character",
+    "platform": "ai_generated",
+    "camera_movement": "tracking shot",
+    "duration_suggestion": "8s",
+    "negative_prompt": null,
+    "realism_notes": null,
+    "source": "gemini_refined"
+  },
+  {
+    "prompt": "A high-speed car chase through winding mountain roads with sheer drops. The camera is mounted inside the lead car, providing a thrilling, shaky first-person perspective of the intense action. The scenery blurs past in a dizzying rush as the drivers push their vehicles to the absolute limit. Gravel sprays against the windshield.",
+    "category": "action",
+    "platform": "ai_generated",
+    "camera_movement": "first-person",
+    "duration_suggestion": "9s",
+    "negative_prompt": null,
+    "realism_notes": null,
+    "source": "gemini_refined"
+  },
+  {
+    "prompt": "Abstract swirling patterns of neon light and vibrant color, creating a mesmerizing and hypnotic visual experience. The camera slowly dollies in through the abstract forms, revealing new layers and dimensions with each passing moment. The music is ethereal and atmospheric, with a pulsing, rhythmic beat.",
+    "category": "abstract",
+    "platform": "ai_generated",
+    "camera_movement": "dolly in",
+    "duration_suggestion": "11s",
+    "negative_prompt": null,
+    "realism_notes": null,
+    "source": "gemini_refined"
+  },
+  {
+    "prompt": "A stark black and white documentary shot of a bustling street market in a developing country. The camera, handheld and slightly shaky, captures the raw energy and vibrant culture of the community, highlighting the daily lives of the people who live and work there. The sound is natural and authentic, with the cacophony of voices, bartering, and street performers.",
+    "category": "documentary",
+    "platform": "ai_generated",
+    "camera_movement": "handheld",
+    "duration_suggestion": "15s",
+    "negative_prompt": null,
+    "realism_notes": null,
+    "source": "gemini_refined"
+  },
+  {
+    "prompt": "A music video sequence featuring a band with ripped jeans and leather jackets performing on a rooftop overlooking a sprawling city at sunset. The camera, mounted on a crane, sweeps dramatically around the band, capturing their energy and passion, creating a visually stunning and emotionally charged scene. The editing is fast-paced and dynamic, perfectly matching the rhythm of the music.",
+    "category": "music_video",
+    "platform": "ai_generated",
+    "camera_movement": "crane shot",
+    "duration_suggestion": "10s",
+    "negative_prompt": null,
+    "realism_notes": null,
+    "source": "gemini_refined"
+  },
+  {
+    "prompt": "A lone wolf with matted fur howling mournfully at the full moon in a snowy forest. The camera slowly zooms in on the wolf's face, capturing its mournful expression and the breath frosting in the cold air. The atmosphere is cold and desolate, emphasizing the wolf's solitude and the harshness of its environment.",
+    "category": "nature",
+    "platform": "ai_generated",
+    "camera_movement": "slow zoom in",
+    "duration_suggestion": "10s",
+    "negative_prompt": null,
+    "realism_notes": null,
+    "source": "gemini_refined"
+  },
+  {
+    "prompt": "A time-lapse video of a vibrant red rose blooming from a tight bud to full blossom. The camera remains fixed on the flower, capturing its gradual transformation over time. The lighting is soft and natural, highlighting the delicate beauty of the petals and the intricate details of the flower's structure.",
+    "category": "nature",
+    "platform": "ai_generated",
+    "camera_movement": "fixed",
+    "duration_suggestion": "15s",
+    "negative_prompt": null,
+    "realism_notes": null,
+    "source": "gemini_refined"
+  },
+  {
+    "prompt": "A vast desert landscape at sunrise, with towering sand dunes stretching as far as the eye can see. The camera slowly pans across the horizon, capturing the golden light illuminating the rippled sand and the stark beauty of the desolate desert. The air shimmers with heat.",
+    "category": "nature",
+    "platform": "ai_generated",
+    "camera_movement": "slow pan",
+    "duration_suggestion": "12s",
+    "negative_prompt": null,
+    "realism_notes": null,
+    "source": "gemini_refined"
+  },
+  {
+    "prompt": "A vibrant coral reef teeming with colorful fish, sea turtles, and other marine life. The camera, mounted on an underwater dolly, glides smoothly beneath the surface, exploring the underwater world and revealing its hidden wonders. The lighting is vibrant and dynamic, showcasing the diversity of the ecosystem and the intricate details of the coral formations.",
+    "category": "nature",
+    "platform": "ai_generated",
+    "camera_movement": "underwater dolly",
+    "duration_suggestion": "10s",
+    "negative_prompt": null,
+    "realism_notes": null,
+    "source": "gemini_refined"
+  },
+  {
+    "prompt": "A dense fog rolling slowly through a redwood forest, creating an ethereal and mysterious atmosphere. The camera moves slowly tracking along a winding path through the trees, revealing glimpses of the towering redwoods as the fog parts and swirls, obscuring and revealing their massive trunks. The air is damp and silent.",
+    "category": "nature",
+    "platform": "ai_generated",
+    "camera_movement": "slow tracking",
+    "duration_suggestion": "15s",
+    "negative_prompt": null,
+    "realism_notes": null,
+    "source": "gemini_refined"
+  },
+  {
+    "prompt": "A spaceship, battered and sparking, hurtles through a dense asteroid field. The camera, mounted inside the cockpit, violently shakes and vibrates as the pilot, face grimaced in concentration, narrowly avoids a massive collision. Outside, asteroids whiz by, illuminated by the harsh glare of the ship's emergency lights. The atmosphere is tense and suspenseful, filled with alarms and the pilot's strained breathing.",
+    "category": "sci-fi",
+    "platform": "ai_generated",
+    "camera_movement": "shaky cam",
+    "duration_suggestion": "8s",
+    "negative_prompt": null,
+    "realism_notes": null,
+    "source": "gemini_refined"
+  },
+  {
+    "prompt": "A gleaming, chrome robot awakens in a sterile, futuristic laboratory. The camera slowly orbits around the robot, starting from its feet with exposed complex circuitry, then rising to its head where piercing blue eyes glow with artificial intelligence. The lighting is clinical, with stark white fluorescent lights reflecting off the metallic form. The air hums with the low thrum of machinery.",
+    "category": "sci-fi",
+    "platform": "ai_generated",
+    "camera_movement": "orbit",
+    "duration_suggestion": "10s",
+    "negative_prompt": null,
+    "realism_notes": null,
+    "source": "gemini_refined"
+  },
+  {
+    "prompt": "A swirling, iridescent portal rips open in the sky above a desolate alien landscape, revealing a glimpse into another dimension. The camera rapidly zooms in on the portal's chaotic center, showcasing swirling colors of impossible hues and fleeting visions of otherworldly landscapes filled with gravity-defying structures. The atmosphere is surreal and awe-inspiring, with faint, ethereal music emanating from the portal.",
+    "category": "sci-fi",
+    "platform": "ai_generated",
+    "camera_movement": "zoom in",
+    "duration_suggestion": "7s",
+    "negative_prompt": null,
+    "realism_notes": null,
+    "source": "gemini_refined"
+  },
+  {
+    "prompt": "A group of futuristic soldiers, clad in battle-worn exosuits, are engaged in a fierce firefight in a war-torn city. The camera aggressively tracks the soldiers from behind as they sprint between crumbling buildings, taking cover behind overturned vehicles and exchanging laser fire with unseen enemies. Explosions rock the environment, kicking up dust and debris. The scene is chaotic and intense, filled with the deafening roar of weapons and the soldiers' desperate cries.",
+    "category": "sci-fi",
+    "platform": "ai_generated",
+    "camera_movement": "tracking shot",
+    "duration_suggestion": "9s",
+    "negative_prompt": null,
+    "realism_notes": null,
+    "source": "gemini_refined"
+  },
+  {
+    "prompt": "A lone explorer, weathered and weary, discovers an ancient alien artifact half-buried in the sands of a deserted planet. The camera slowly pushes in for a close-up on the artifact - a smooth, obsidian monolith covered in intricate, glowing glyphs. Wind howls across the desolate landscape. The atmosphere is eerie and suspenseful, with a sense of profound mystery emanating from the artifact.",
+    "category": "sci-fi",
+    "platform": "ai_generated",
+    "camera_movement": "close up",
+    "duration_suggestion": "11s",
+    "negative_prompt": null,
+    "realism_notes": null,
+    "source": "gemini_refined"
+  },
+  {
+    "prompt": "A powerful sorceress, adorned in flowing robes embroidered with silver thread, stands in a mystical forest, casting a spell. The camera slowly pushes in towards her face, revealing intense concentration, as raw magical energy crackles around her outstretched hands. Glowing runes etched into ancient trees pulse with light. The scene is magical and enchanting, bathed in the ethereal glow of bioluminescent flora.",
+    "category": "fantasy",
+    "platform": "ai_generated",
+    "camera_movement": "push in",
+    "duration_suggestion": "10s",
+    "negative_prompt": null,
+    "realism_notes": null,
+    "source": "gemini_refined"
+  },
+  {
+    "prompt": "A majestic griffin, with feathers of gold and eyes like molten amber, soars effortlessly through the clouds. The camera smoothly tracks the griffin from a slightly lower angle as it flies over snow-capped mountains and lush green valleys, capturing its graceful and powerful flight. Sunlight glints off its wings as it banks and dives, a symbol of freedom and majesty.",
+    "category": "fantasy",
+    "platform": "ai_generated",
+    "camera_movement": "tracking shot",
+    "duration_suggestion": "12s",
+    "negative_prompt": null,
+    "realism_notes": null,
+    "source": "gemini_refined"
+  },
+  {
+    "prompt": "A hidden village of elves, with homes carved into the living trees, is nestled in a secluded valley. The camera slowly pans across the village, starting from a cascading waterfall that feeds a crystal-clear river, then revealing the intricate architecture of the elven homes and the peaceful atmosphere of the inhabitants. The valley is surrounded by lush vegetation, bathed in the soft glow of the afternoon sun.",
+    "category": "fantasy",
+    "platform": "ai_generated",
+    "camera_movement": "pan",
+    "duration_suggestion": "15s",
+    "negative_prompt": null,
+    "realism_notes": null,
+    "source": "gemini_refined"
+  },
+  {
+    "prompt": "A band of adventurers, clad in leather armor and wielding swords and shields, are exploring a dark and dangerous dungeon. The camera tightly follows the adventurers from behind as they cautiously navigate the labyrinthine corridors, their torches casting flickering shadows on the damp stone walls. They fight off grotesque monsters that leap from the darkness, searching for hidden treasure. The scene is thrilling and suspenseful, filled with the clang of steel and the adventurers' panicked shouts.",
+    "category": "fantasy",
+    "platform": "ai_generated",
+    "camera_movement": "tracking shot",
+    "duration_suggestion": "9s",
+    "negative_prompt": null,
+    "realism_notes": null,
+    "source": "gemini_refined"
+  },
+  {
+    "prompt": "A wise old wizard, with a long white beard and twinkling eyes, offers guidance to a young apprentice in a magical library. The camera slowly zooms in for a close-up on the wizard's face, capturing his wisdom and experience etched in the lines around his eyes, as he speaks in a low, comforting voice. The library is filled with towering shelves of ancient books and mystical artifacts, bathed in the warm glow of candlelight.",
+    "category": "fantasy",
+    "platform": "ai_generated",
+    "camera_movement": "close up",
+    "duration_suggestion": "11s",
+    "negative_prompt": null,
+    "realism_notes": null,
+    "source": "gemini_refined"
+  },
+  {
+    "prompt": "A sleek, crimson sports car speeds along a scenic coastal highway at sunset. The camera, mounted on a tracking vehicle alongside, captures the car's speed and elegance, highlighting its aerodynamic design and powerful performance. The ocean glistens in the background, reflecting the golden light of the setting sun. The music is upbeat and energetic, perfectly complementing the car's dynamism.",
+    "category": "commercial",
+    "platform": "ai_generated",
+    "camera_movement": "tracking shot",
+    "duration_suggestion": "8s",
+    "negative_prompt": null,
+    "realism_notes": null,
+    "source": "gemini_refined"
+  },
+  {
+    "prompt": "Friends laugh and enjoy themselves at a summer barbecue in a sun-drenched backyard. The camera, handheld and intimate, focuses on the condensation dripping from a bottle of refreshing soft drink as someone takes a long, satisfying sip. Close-ups of smiling faces and sizzling barbecue fill the frame, highlighting the drink's taste and appeal. The lighting is bright and inviting, with a warm, summery glow.",
+    "category": "commercial",
+    "platform": "ai_generated",
+    "camera_movement": "handheld",
+    "duration_suggestion": "6s",
+    "negative_prompt": null,
+    "realism_notes": null,
+    "source": "gemini_refined"
+  },
+  {
+    "prompt": "A model, exuding grace and confidence, walks down a brightly lit runway in a stylish, avant-garde outfit. The camera smoothly tracks the model's movements, showcasing the design and quality of the clothing with every step. The fabric flows and shimmers under the lights. The music is trendy and fashionable, setting the rhythm for the show.",
+    "category": "commercial",
+    "platform": "ai_generated",
+    "camera_movement": "tracking shot",
+    "duration_suggestion": "10s",
+    "negative_prompt": null,
+    "realism_notes": null,
+    "source": "gemini_refined"
+  },
+  {
+    "prompt": "A cutting-edge smartphone displays its innovative features in a sleek, minimalist setting. The camera performs a slow, deliberate close-up on the phone's screen, highlighting its vibrant display and intuitive interface. Fingers smoothly navigate through apps and features, showcasing its functionality and user-friendliness. The music is futuristic and upbeat, emphasizing the phone's technological prowess.",
+    "category": "commercial",
+    "platform": "ai_generated",
+    "camera_movement": "close up",
+    "duration_suggestion": "7s",
+    "negative_prompt": null,
+    "realism_notes": null,
+    "source": "gemini_refined"
+  },
+  {
+    "prompt": "A breathtaking drone shot sweeps across exotic destinations and exciting adventures. The camera soars over turquoise waters, lush rainforests, and ancient ruins, capturing the beauty and wonder of the world. People are seen hiking, swimming, and exploring, inspiring viewers to travel and explore. The music is uplifting and inspiring, igniting a sense of wanderlust.",
+    "category": "commercial",
+    "platform": "ai_generated",
+    "camera_movement": "drone shot",
+    "duration_suggestion": "12s",
+    "negative_prompt": null,
+    "realism_notes": null,
+    "source": "gemini_refined"
+  },
+  {
+    "prompt": "A scruffy cartoon beagle chases a bushy-tailed squirrel through a sun-drenched park. The beagle, wearing a bright red collar, has comically wide eyes and tongue lolling out. The camera tracks the dog from a low angle as it bounds over a picnic blanket, scattering sandwiches. Exaggerated dust clouds puff with each leap. Sound effects: cartoon boings and frantic barking.",
+    "category": "character",
+    "platform": "ai_generated",
+    "camera_movement": "tracking shot",
+    "duration_suggestion": "8s",
+    "negative_prompt": null,
+    "realism_notes": null,
+    "source": "gemini_refined"
+  },
+  {
+    "prompt": "Close up on a fluffy cartoon Persian cat, its emerald eyes gleaming with mischief. The cat, perched atop a stack of books, sports a tiny black mask and rubs its paws together with sly grins. A single spotlight illuminates its face, highlighting the cunning glint. Sound: silent, cartoonish purring and plotting whispers.",
+    "category": "character",
+    "platform": "ai_generated",
+    "camera_movement": "close up",
+    "duration_suggestion": "6s",
+    "negative_prompt": null,
+    "realism_notes": null,
+    "source": "gemini_refined"
+  },
+  {
+    "prompt": "A muscular cartoon superhero with a flowing red cape and a determined expression flies through a futuristic cityscape. The camera tracks the superhero from a low angle as they soar past towering skyscrapers, saving a cat from a burning building. Neon lights illuminate the hero's path. Sound: heroic theme music and building collapse SFX.",
+    "category": "character",
+    "platform": "ai_generated",
+    "camera_movement": "tracking shot",
+    "duration_suggestion": "10s",
+    "negative_prompt": null,
+    "realism_notes": null,
+    "source": "gemini_refined"
+  },
+  {
+    "prompt": "Close up on a cartoon princess with long, flowing golden hair singing a beautiful song in a sunlit glade within a magical kingdom. She wears a shimmering gown and her eyes sparkle with innocence and charm. Enchanted creatures like pixies flutter around her. A soft, diffused light illuminates her face. Sound: angelic singing and gentle nature sounds.",
+    "category": "character",
+    "platform": "ai_generated",
+    "camera_movement": "close up",
+    "duration_suggestion": "7s",
+    "negative_prompt": null,
+    "realism_notes": null,
+    "source": "gemini_refined"
+  },
+  {
+    "prompt": "A sleek, chrome cartoon robot with glowing blue eyes dances to upbeat electronic music in a vibrant nightclub. The camera tracks the robot as it grooves to the rhythm, with fluid movements and a cheerful attitude. Strobe lights flash and colorful lasers crisscross the scene. Sound: upbeat electronic music and robotic sound effects.",
+    "category": "character",
+    "platform": "ai_generated",
+    "camera_movement": "tracking shot",
+    "duration_suggestion": "9s",
+    "negative_prompt": null,
+    "realism_notes": null,
+    "source": "gemini_refined"
+  },
+  {
+    "prompt": "A grizzled martial arts master with a white gi and a focused gaze demonstrates a powerful fighting technique in a traditional dojo. The camera tracks the master's precise movements as he executes a perfect roundhouse kick, creating a dynamic and impressive scene. Sunlight streams through the paper windows. Sound: sharp martial arts shouts and the whoosh of air.",
+    "category": "action",
+    "platform": "ai_generated",
+    "camera_movement": "tracking shot",
+    "duration_suggestion": "8s",
+    "negative_prompt": null,
+    "realism_notes": null,
+    "source": "gemini_refined"
+  },
+  {
+    "prompt": "A parkour athlete with ripped jeans and a determined expression performs a series of acrobatic stunts in an urban environment. The camera tracks the athlete as they navigate obstacles with daring leaps and graceful landings, jumping across rooftops. The setting is a gritty, sun-baked cityscape. Sound: heavy breathing and the thud of landings.",
+    "category": "action",
+    "platform": "ai_generated",
+    "camera_movement": "tracking shot",
+    "duration_suggestion": "10s",
+    "negative_prompt": null,
+    "realism_notes": null,
+    "source": "gemini_refined"
+  },
+  {
+    "prompt": "Close up on a soldier's face, sweat dripping as they defuse a bomb in a tense and dangerous situation. The soldier's hands are steady, their concentration intense. The bomb ticks ominously. Harsh, flickering fluorescent light illuminates the scene. Sound: ticking bomb and heavy breathing.",
+    "category": "action",
+    "platform": "ai_generated",
+    "camera_movement": "close up",
+    "duration_suggestion": "7s",
+    "negative_prompt": null,
+    "realism_notes": null,
+    "source": "gemini_refined"
+  },
+  {
+    "prompt": "A race car driver speeds around a track, pushing the car to its limits and battling for the lead. The camera tracks the car from a helicopter view as it drifts around a tight corner, kicking up dust and smoke. The roar of the engine fills the air. Intense sunlight reflects off the car's polished surface. Sound: roaring engines and screeching tires.",
+    "category": "action",
+    "platform": "ai_generated",
+    "camera_movement": "tracking shot",
+    "duration_suggestion": "9s",
+    "negative_prompt": null,
+    "realism_notes": null,
+    "source": "gemini_refined"
+  },
+  {
+    "prompt": "A crane shot reveals two superheroes engaging in a fierce battle atop a skyscraper, exchanging blows and using their superpowers to gain the upper hand. One hero shoots lasers from their eyes, the other deflects them with a force field. Explosions rock the building. The sky is dark and stormy. Sound: superheroic clashes and explosions.",
+    "category": "action",
+    "platform": "ai_generated",
+    "camera_movement": "crane shot",
+    "duration_suggestion": "12s",
+    "negative_prompt": null,
+    "realism_notes": null,
+    "source": "gemini_refined"
+  },
+  {
+    "prompt": "A dolly in through a kaleidoscope of geometric shapes and vibrant colors, constantly shifting and transforming in a mesmerizing display. The shapes are sharp and angular, the colors are neon and pulsating. Hypnotic and trance-like music underscores the visual experience. The lighting is internal and self-illuminating.",
+    "category": "abstract",
+    "platform": "ai_generated",
+    "camera_movement": "dolly in",
+    "duration_suggestion": "11s",
+    "negative_prompt": null,
+    "realism_notes": null,
+    "source": "gemini_refined"
+  },
+  {
+    "prompt": "The camera orbits around a swirling vortex of particles and energy, creating a dynamic and visually stunning effect. The particles are glowing and iridescent, the energy crackles with power. The sound is intense and immersive, like a cosmic roar. The lighting is otherworldly and ethereal.",
+    "category": "abstract",
+    "platform": "ai_generated",
+    "camera_movement": "orbit",
+    "duration_suggestion": "9s",
+    "negative_prompt": null,
+    "realism_notes": null,
+    "source": "gemini_refined"
+  },
+  {
+    "prompt": "Close up on liquid metal morphing into different shapes and forms, with smooth and fluid movements. The camera focuses on the transforming metal, capturing its texture and reflectivity. The lighting is dramatic, with harsh spotlights highlighting the metallic sheen. The metal flows like water, constantly changing.",
+    "category": "abstract",
+    "platform": "ai_generated",
+    "camera_movement": "close up",
+    "duration_suggestion": "7s",
+    "negative_prompt": null,
+    "realism_notes": null,
+    "source": "gemini_refined"
+  },
+  {
+    "prompt": "The camera zooms in and out on fractals expanding and contracting in a complex and intricate pattern, creating a hypnotic and mesmerizing visual experience. The fractals are infinitely detailed, with repeating patterns within patterns. The music is ethereal and ambient, creating a sense of wonder. The colors are subtle and shifting.",
+    "category": "abstract",
+    "platform": "ai_generated",
+    "camera_movement": "zoom",
+    "duration_suggestion": "10s",
+    "negative_prompt": null,
+    "realism_notes": null,
+    "source": "gemini_refined"
+  },
+  {
+    "prompt": "A fixed camera shot captures light painting creating abstract shapes and designs in a dark room, with long exposure and vibrant colors. The light trails are swirling and dynamic, creating a unique and artistic effect. The music is electronic and experimental, adding to the surreal atmosphere. The room is completely black, except for the light paintings.",
+    "category": "abstract",
+    "platform": "ai_generated",
+    "camera_movement": "fixed",
+    "duration_suggestion": "12s",
+    "negative_prompt": null,
+    "realism_notes": null,
+    "source": "gemini_refined"
+  },
+  {
+    "prompt": "A chaotic historical reenactment of the Battle of Hastings. Low-angle, shaky handheld camera work puts the viewer in the thick of the fray. Soldiers in blood-soaked tunics clash with Norman knights in shining armor. Harsh sunlight glints off swords amidst plumes of smoke and dust. The air is thick with the screams of men and the thunder of horses' hooves.",
+    "category": "documentary",
+    "platform": "ai_generated",
+    "camera_movement": "handheld",
+    "duration_suggestion": "15s",
+    "negative_prompt": null,
+    "realism_notes": null,
+    "source": "gemini_refined"
+  },
+  {
+    "prompt": "A close-up interview with Dr. Anya Sharma, a leading astrophysicist, discussing her groundbreaking research on exoplanets. The camera slowly zooms in on her face as she passionately explains her theories, her brow furrowed in concentration. The lighting is soft and natural, highlighting the subtle lines of intelligence around her eyes. Bookshelves filled with scientific journals form the backdrop.",
+    "category": "documentary",
+    "platform": "ai_generated",
+    "camera_movement": "fixed",
+    "duration_suggestion": "11s",
+    "negative_prompt": null,
+    "realism_notes": null,
+    "source": "gemini_refined"
+  },
+  {
+    "prompt": "A sweeping drone shot over the Serengeti at dawn, revealing a vast herd of migrating wildebeest stretching to the horizon. Golden hour light bathes the landscape in a warm glow. The camera slowly descends, focusing on a mother cheetah and her cubs, their eyes gleaming in the morning sun. Distant calls of birds echo through the air.",
+    "category": "documentary",
+    "platform": "ai_generated",
+    "camera_movement": "drone shot",
+    "duration_suggestion": "12s",
+    "negative_prompt": null,
+    "realism_notes": null,
+    "source": "gemini_refined"
+  },
+  {
+    "prompt": "Behind-the-scenes on a film set: A handheld camera weaves through a bustling soundstage, capturing the controlled chaos of filmmaking. A frazzled director in a baseball cap argues with a stressed-out producer. A makeup artist meticulously applies prosthetics to an actor's face. Harsh fluorescent lighting illuminates the scene. Snippets of dialogue and the clatter of equipment fill the air.",
+    "category": "documentary",
+    "platform": "ai_generated",
+    "camera_movement": "handheld",
+    "duration_suggestion": "10s",
+    "negative_prompt": null,
+    "realism_notes": null,
+    "source": "gemini_refined"
+  },
+  {
+    "prompt": "A montage of historical photographs depicting the Civil Rights Movement. The camera slowly pans across a black-and-white image of Rosa Parks on the bus, then transitions to a video clip of Martin Luther King Jr. delivering his 'I Have a Dream' speech. Grainy footage of protests and marches fills the screen. The audio includes snippets of speeches, gospel music, and news reports from the era.",
+    "category": "documentary",
+    "platform": "ai_generated",
+    "camera_movement": "pan",
+    "duration_suggestion": "15s",
+    "negative_prompt": null,
+    "realism_notes": null,
+    "source": "gemini_refined"
+  },
+  {
+    "prompt": "A dynamic crane shot swoops down over a massive crowd as a rock singer in ripped jeans and a leather jacket belts out a power ballad. Stage lights flash in a dazzling array of colors. The camera zooms in on the singer's face, capturing their sweat-drenched intensity. Pyrotechnics explode behind them in time with the music. The energy is palpable, the crowd is ecstatic.",
+    "category": "music_video",
+    "platform": "ai_generated",
+    "camera_movement": "crane shot",
+    "duration_suggestion": "10s",
+    "negative_prompt": null,
+    "realism_notes": null,
+    "source": "gemini_refined"
+  },
+  {
+    "prompt": "A marketing_spokesperson, mid-30s female, delivering a concise pitch for project management software. Natural light from a large window illuminates her face, revealing subtle freckles and fine lines around her eyes. She wears a navy blazer and a neutral-colored blouse. Her expression is warm and engaging. Key message: 'Streamline your workflow with our intuitive platform.'",
+    "category": "marketing_spokesperson",
+    "platform": "ai_generated",
+    "camera_movement": "Subtle zoom-in",
+    "duration_suggestion": "7s",
+    "negative_prompt": "Avoid over-smoothed skin, perfect teeth, unnatural eye movement, static hair, and exaggerated hand gestures.",
+    "realism_notes": "Focus on realistic skin texture, subtle facial imperfections, and natural lighting. Subsurface scattering on skin is essential.",
+    "source": "gemini_marketing"
+  },
+  {
+    "prompt": "A product_demo showcasing a new noise-cancelling headphone. Hands, showing realistic knuckle texture and subtle veins, delicately place the headphones on a model's head. The model nods slowly, reacting to the noise cancellation. Close-up shot emphasizing the product's sleek design. The background is a bustling coffee shop, muted by the noise cancellation.",
+    "category": "product_demo",
+    "platform": "ai_generated",
+    "camera_movement": "Close-up pan",
+    "duration_suggestion": "10s",
+    "negative_prompt": "Avoid robotic hand movements, plastic-looking headphones, an unrealistically quiet environment, and perfectly symmetrical features on the model.",
+    "realism_notes": "Realistic hand movements, subtle reactions from the model, and accurate depiction of the noise-cancelling effect are crucial.",
+    "source": "gemini_marketing"
+  },
+  {
+    "prompt": "A testimonial from a 50s male small business owner praising a new accounting software. UGC_style - shot on what appears to be a smartphone. He's sitting at his desk, slightly cluttered but authentic. His face is slightly asymmetrical, with realistic wrinkles and a genuine smile. He speaks directly to the camera, saying, 'This software saved my business!'",
+    "category": "testimonial",
+    "platform": "ai_generated",
+    "camera_movement": "Static shot, slight handheld wobble",
+    "duration_suggestion": "8s",
+    "negative_prompt": "Avoid overly polished lighting, perfectly framed shots, and a theatrical performance. No script reading, just genuine emotion.",
+    "realism_notes": "The UGC style requires imperfections â€“ slightly shaky camera, natural lighting, and authentic delivery are key.",
+    "source": "gemini_marketing"
+  },
+  {
+    "prompt": "A corporate_explainer video illustrating the benefits of cloud computing. Animated graphics overlay real-life footage of a diverse team working collaboratively. The voiceover is professional but approachable. Focus on seamless integration between the animated elements and the real-world footage.",
+    "category": "corporate_explainer",
+    "platform": "ai_generated",
+    "camera_movement": "Dolly shot",
+    "duration_suggestion": "12s",
+    "negative_prompt": "Avoid generic stock footage, cheesy transitions, and an overly technical tone. Ensure the animation style complements the live-action footage.",
+    "realism_notes": "Real people interacting with the animated graphics, natural lighting, and a relatable tone are important for engagement.",
+    "source": "gemini_marketing"
+  },
+  {
+    "prompt": "A marketing_spokesperson, a Gen Z female wearing stylish glasses, enthusiastically presenting a new social media marketing tool. She stands in front of a vibrant, modern office space. Her speech is fast-paced and energetic. Key message: 'Grow your audience organically with our AI-powered platform!'",
+    "category": "marketing_spokesperson",
+    "platform": "ai_generated",
+    "camera_movement": "Dynamic camera angles, cuts",
+    "duration_suggestion": "6s",
+    "negative_prompt": "Avoid unnatural blinking, forced smiles, and a robotic tone. Her energy should be infectious but authentic.",
+    "realism_notes": "Realistic micro-expressions, natural hand gestures, and a genuine passion for the product are essential.",
+    "source": "gemini_marketing"
+  },
+  {
+    "prompt": "A product_demo showcasing a new smart watch. Hands, with realistic age spots and subtle tremors, navigate the watch's interface. Close-up shot highlighting the intuitive touch screen. The background is a blurred park scene, suggesting an active lifestyle.",
+    "category": "product_demo",
+    "platform": "ai_generated",
+    "camera_movement": "Slow zoom-in on watch face",
+    "duration_suggestion": "9s",
+    "negative_prompt": "Avoid perfectly smooth skin on the hands, robotic finger movements, and a watch that looks like a digital rendering.",
+    "realism_notes": "Realistic hand texture, natural finger movements, and accurate depiction of the watch's functionality are crucial.",
+    "source": "gemini_marketing"
+  },
+  {
+    "prompt": "A testimonial from a 30s female stay-at-home mom praising a new meal delivery service. UGC_style - shot in her kitchen, which is clean but lived-in. She's holding a prepared meal, looking directly at the camera. She says, 'This service saved me so much time and stress!'",
+    "category": "testimonial",
+    "platform": "ai_generated",
+    "camera_movement": "Slightly shaky handheld",
+    "duration_suggestion": "7s",
+    "negative_prompt": "Avoid perfectly clean kitchen, overly staged shots, and a performance that feels scripted. The focus should be on authenticity and relatability.",
+    "realism_notes": "The UGC style demands imperfections â€“ natural lighting, authentic background, and genuine emotion are key.",
+    "source": "gemini_marketing"
+  },
+  {
+    "prompt": "A corporate_explainer video outlining a company's sustainability initiatives. Real-life footage of reforestation efforts is interspersed with animated infographics demonstrating the company's environmental impact. The voiceover is calm and informative.",
+    "category": "corporate_explainer",
+    "platform": "ai_generated",
+    "camera_movement": "Panning shot over forest",
+    "duration_suggestion": "11s",
+    "negative_prompt": "Avoid overly sentimental music, generic stock footage, and a tone that feels preachy. Focus on factual information and tangible results.",
+    "realism_notes": "Authentic footage of environmental projects, clear data visualization, and a genuine commitment to sustainability are important.",
+    "source": "gemini_marketing"
+  },
+  {
+    "prompt": "A marketing_spokesperson, a male software engineer in his late 20s, presenting a new debugging tool. He's wearing a casual t-shirt and jeans, standing in front of a monitor displaying code. His tone is knowledgeable and engaging. Key message: 'Debug your code faster with our AI-powered assistant!'",
+    "category": "marketing_spokesperson",
+    "platform": "ai_generated",
+    "camera_movement": "Slight head-and-shoulders zoom",
+    "duration_suggestion": "8s",
+    "negative_prompt": "Avoid a stiff posture, unnatural blinking, and overly technical jargon. He should appear approachable and relatable.",
+    "realism_notes": "Realistic eye movements, natural body language, and a genuine passion for coding are essential.",
+    "source": "gemini_marketing"
+  },
+  {
+    "prompt": "A product_demo showcasing a new ergonomic keyboard. Hands, showing realistic wrinkles and slight tremors, type comfortably on the keyboard. Close-up shot highlighting the keyboard's unique design. The background is a clean and organized home office.",
+    "category": "product_demo",
+    "platform": "ai_generated",
+    "camera_movement": "Side to side panning",
+    "duration_suggestion": "10s",
+    "negative_prompt": "Avoid robotic hand movements, a plastic-looking keyboard, and an unrealistically sterile environment.",
+    "realism_notes": "Realistic hand texture, natural typing movements, and accurate depiction of the keyboard's ergonomics are crucial.",
+    "source": "gemini_marketing"
+  },
+  {
+    "prompt": "A testimonial from a 40s male restaurant owner praising a new point-of-sale system. UGC_style - shot behind the counter of his restaurant, which is bustling with activity. He's wearing an apron and speaking directly to the camera. He says, 'This system streamlined our operations and boosted our profits!'",
+    "category": "testimonial",
+    "platform": "ai_generated",
+    "camera_movement": "Slight handheld zoom.",
+    "duration_suggestion": "9s",
+    "negative_prompt": "Avoid a perfectly clean restaurant, overly staged shots, and a performance that feels scripted. The focus should be on authenticity and relatability.",
+    "realism_notes": "The UGC style demands imperfections â€“ natural lighting, authentic background, and genuine emotion are key.",
+    "source": "gemini_marketing"
+  },
+  {
+    "prompt": "A corporate_explainer video demonstrating a company's commitment to diversity and inclusion. Real-life footage of diverse employees collaborating on projects is interspersed with animated graphics highlighting the company's inclusive policies. The voiceover is uplifting and inspiring.",
+    "category": "corporate_explainer",
+    "platform": "ai_generated",
+    "camera_movement": "Slow rotating camera.",
+    "duration_suggestion": "12s",
+    "negative_prompt": "Avoid tokenistic representation, generic stock footage, and a tone that feels forced or insincere. Focus on genuine stories and authentic experiences.",
+    "realism_notes": "Authentic footage of diverse employees, clear communication of inclusive policies, and a genuine commitment to diversity are important.",
+    "source": "gemini_marketing"
+  },
+  {
+    "prompt": "A marketing_spokesperson, a non-binary individual in their early 20s, presenting a new cryptocurrency trading platform. They stand in front of a futuristic, minimalist background. Their tone is confident and informative. Key message: 'Invest in the future of finance with our secure and user-friendly platform!'",
+    "category": "marketing_spokesperson",
+    "platform": "ai_generated",
+    "camera_movement": "Slow, deliberate camera movements",
+    "duration_suggestion": "7s",
+    "negative_prompt": "Avoid gender stereotypes, unnatural blinking, and overly technical jargon. They should appear authentic and relatable.",
+    "realism_notes": "Realistic micro-expressions, natural body language, and a genuine understanding of cryptocurrency are essential.",
+    "source": "gemini_marketing"
+  },
+  {
+    "prompt": "A product_demo showcasing a new wireless charging pad. Hands, showing realistic scars and tattoos, place a smartphone on the charging pad. Close-up shot highlighting the charging pad's sleek design. The background is a modern nightstand.",
+    "category": "product_demo",
+    "platform": "ai_generated",
+    "camera_movement": "Gentle rotating overhead shot",
+    "duration_suggestion": "9s",
+    "negative_prompt": "Avoid robotic hand movements, a plastic-looking charging pad, and an unrealistically perfect nightstand.",
+    "realism_notes": "Realistic hand texture, natural smartphone placement, and accurate depiction of the charging process are crucial.",
+    "source": "gemini_marketing"
+  },
+  {
+    "prompt": "A testimonial from a 60s female retiree praising a new financial planning service. UGC_style - shot in her cozy living room, surrounded by family photos. She's holding a cup of tea and speaking directly to the camera. She says, 'This service helped me secure my retirement!'",
+    "category": "testimonial",
+    "platform": "ai_generated",
+    "camera_movement": "Statically framed",
+    "duration_suggestion": "8s",
+    "negative_prompt": "Avoid a perfectly clean living room, overly staged shots, and a performance that feels scripted. The focus should be on authenticity and relatability.",
+    "realism_notes": "The UGC style demands imperfections â€“ natural lighting, authentic background, and genuine emotion are key.",
+    "source": "gemini_marketing"
+  },
+  {
+    "prompt": "A corporate_explainer video explaining a company's cybersecurity protocols. Real-life footage of security experts working in a secure data center is interspersed with animated graphics illustrating the company's security measures. The voiceover is authoritative and reassuring.",
+    "category": "corporate_explainer",
+    "platform": "ai_generated",
+    "camera_movement": "Tracking shot",
+    "duration_suggestion": "11s",
+    "negative_prompt": "Avoid fear-mongering tactics, generic stock footage, and a tone that feels overly technical or alarmist. Focus on factual information and practical solutions.",
+    "realism_notes": "Authentic footage of security professionals, clear communication of security measures, and a genuine commitment to data protection are important.",
+    "source": "gemini_marketing"
+  },
+  {
+    "prompt": "A marketing_spokesperson, mid-30s male, advertising a new brand of coffee. He's standing in a sun-drenched coffee shop, holding a steaming mug. His facial expression is relaxed and content. Key message: 'Start your day right with our rich and flavorful coffee!'",
+    "category": "marketing_spokesperson",
+    "platform": "ai_generated",
+    "camera_movement": "Slow pan",
+    "duration_suggestion": "6s",
+    "negative_prompt": "Avoid a fake smile, unnatural eye movement, and a plastic-looking mug. The scene should feel warm and inviting.",
+    "realism_notes": "Focus on realistic skin texture, subtle facial expressions, and natural lighting. The coffee should look genuinely appealing.",
+    "source": "gemini_marketing"
+  },
+  {
+    "prompt": "A product_demo showcasing a new augmented reality app. Hands, showing realistic fingerprints and nail imperfections, interact with the app on a smartphone. Close-up shot highlighting the AR features overlaying the real world. The background is a cluttered but realistic living room.",
+    "category": "product_demo",
+    "platform": "ai_generated",
+    "camera_movement": "Rotating overhead",
+    "duration_suggestion": "10s",
+    "negative_prompt": "Avoid robotic hand movements, an unrealistic AR overlay, and a sterile environment. The demonstration should feel natural and intuitive.",
+    "realism_notes": "Realistic hand texture, natural finger movements, and accurate depiction of the AR features are crucial.",
+    "source": "gemini_marketing"
+  },
+  {
+    "prompt": "A testimonial from a 20s female student praising a new online learning platform. UGC_style - shot in her dorm room, which is small but cozy. She's sitting at her desk, studying and speaking directly to the camera. She says, 'This platform helped me ace my exams!'",
+    "category": "testimonial",
+    "platform": "ai_generated",
+    "camera_movement": "Static - slight wobble",
+    "duration_suggestion": "7s",
+    "negative_prompt": "Avoid a perfectly clean dorm room, overly staged shots, and a performance that feels scripted. The focus should be on authenticity and relatability.",
+    "realism_notes": "The UGC style demands imperfections â€“ natural lighting, authentic background, and genuine emotion are key.",
+    "source": "gemini_marketing"
+  },
+  {
+    "prompt": "A corporate_explainer video highlighting a company's commitment to employee well-being. Real-life footage of employees participating in wellness activities is interspersed with animated graphics showcasing the company's benefits programs. The voiceover is empathetic and supportive.",
+    "category": "corporate_explainer",
+    "platform": "ai_generated",
+    "camera_movement": "Dolly in",
+    "duration_suggestion": "11s",
+    "negative_prompt": "Avoid generic stock footage, cheesy music, and a tone that feels condescending or patronizing. Focus on genuine stories and authentic experiences.",
+    "realism_notes": "Authentic footage of employees, clear communication of benefits programs, and a genuine commitment to well-being are important.",
+    "source": "gemini_marketing"
+  },
+  {
+    "prompt": "A marketing_spokesperson, early 40s female, promoting a new eco-friendly cleaning product. She stands in a bright, modern kitchen, holding a spray bottle. She smiles genuinely and speaks with conviction about the product's effectiveness and sustainability. Key message: 'Clean your home and protect the planet with our all-natural formula!'",
+    "category": "marketing_spokesperson",
+    "platform": "ai_generated",
+    "camera_movement": "Slow zoom out",
+    "duration_suggestion": "8s",
+    "negative_prompt": "Avoid over-smoothed skin, an overly sterile kitchen, and a forced smile. The presentation should feel natural and authentic.",
+    "realism_notes": "Focus on realistic skin texture, genuine facial expressions, and natural lighting. The kitchen should look lived-in and inviting.",
+    "source": "gemini_marketing"
+  },
+  {
+    "prompt": "A product_demo showcasing a new virtual reality headset. Hands, showing realistic calluses and subtle scars, adjust the headset on a model's head. Close-up shot highlighting the immersive VR experience. The background is a blurred cityscape.",
+    "category": "product_demo",
+    "platform": "ai_generated",
+    "camera_movement": "Slow orbit around headset",
+    "duration_suggestion": "10s",
+    "negative_prompt": "Avoid robotic hand movements, a plastic-looking headset, and an unrealistic VR experience. The demonstration should feel natural and engaging.",
+    "realism_notes": "Realistic hand texture, natural headset adjustment, and accurate depiction of the VR immersion are crucial.",
+    "source": "gemini_marketing"
+  },
+  {
+    "prompt": "A testimonial from a 30s male entrepreneur praising a new business coaching program. UGC_style - shot in his co-working space, surrounded by other entrepreneurs. He's speaking directly to the camera, looking confident and successful. He says, 'This program helped me take my business to the next level!'",
+    "category": "testimonial",
+    "platform": "ai_generated",
+    "camera_movement": "Static, slightly off-center",
+    "duration_suggestion": "9s",
+    "negative_prompt": "Avoid a perfectly clean co-working space, overly staged shots, and a performance that feels scripted. The focus should be on authenticity and relatability.",
+    "realism_notes": "The UGC style demands imperfections â€“ natural lighting, authentic background, and genuine emotion are key.",
+    "source": "gemini_marketing"
+  },
+  {
+    "prompt": "A corporate_explainer video outlining a company's corporate social responsibility initiatives. Real-life footage of employees volunteering in the community is interspersed with animated graphics showcasing the company's philanthropic efforts. The voiceover is passionate and inspiring.",
+    "category": "corporate_explainer",
+    "platform": "ai_generated",
+    "camera_movement": "Handheld - follows employee",
+    "duration_suggestion": "12s",
+    "negative_prompt": "Avoid generic stock footage, overly sentimental music, and a tone that feels self-serving or disingenuous. Focus on genuine stories and authentic experiences.",
+    "realism_notes": "Authentic footage of employees, clear communication of philanthropic efforts, and a genuine commitment to social responsibility are important.",
+    "source": "gemini_marketing"
+  },
+  {
+    "prompt": "A marketing_spokesperson, a mature woman (60s) with visible wrinkles and a warm smile, enthusiastically endorsing a new brand of organic tea. She's sitting comfortably in a cozy armchair, holding a delicate teacup. Key message: 'Indulge in the soothing flavors of our organic tea â€“ a perfect way to unwind!'",
+    "category": "marketing_spokesperson",
+    "platform": "ai_generated",
+    "camera_movement": "Slow zoom in on her face",
+    "duration_suggestion": "7s",
+    "negative_prompt": "Avoid over-smoothed skin, perfect teeth, an overly staged setting, and a forced smile. The scene should feel warm, inviting, and authentic.",
+    "realism_notes": "Focus on realistic skin texture, genuine facial expressions, and natural lighting. The teacup should look delicate and appealing.",
+    "source": "gemini_marketing"
+  },
+  {
+    "prompt": "A product_demo showcasing a new portable Bluetooth speaker. Hands, showing realistic tattoos and subtle scars, demonstrate the speaker's features. Close-up shot highlighting the speaker's sleek design. The background is a vibrant outdoor setting.",
+    "category": "product_demo",
+    "platform": "ai_generated",
+    "camera_movement": "Slow pan across speaker",
+    "duration_suggestion": "9s",
+    "negative_prompt": "Avoid robotic hand movements, a plastic-looking speaker, and an unrealistic outdoor setting. The demonstration should feel natural and engaging.",
+    "realism_notes": "Realistic hand texture, natural speaker demonstration, and accurate depiction of the speaker's features are crucial.",
+    "source": "gemini_marketing"
+  },
+  {
+    "prompt": "A testimonial from a 50s female teacher praising a new educational software program. UGC_style - shot in her classroom, surrounded by her students. She's speaking directly to the camera, looking passionate and dedicated. She says, 'This program has transformed my teaching and empowered my students!'",
+    "category": "testimonial",
+    "platform": "ai_generated",
+    "camera_movement": "Handheld, follows her movements slightly",
+    "duration_suggestion": "8s",
+    "negative_prompt": "Avoid a perfectly clean classroom, overly staged shots, and a performance that feels scripted. The focus should be on authenticity and relatability.",
+    "realism_notes": "The UGC style demands imperfections â€“ natural lighting, authentic background, and genuine emotion are key.",
+    "source": "gemini_marketing"
+  },
+  {
+    "prompt": "A corporate_explainer video illustrating a company's commitment to innovation. Real-life footage of engineers working in a state-of-the-art laboratory is interspersed with animated graphics showcasing the company's technological advancements. The voiceover is enthusiastic and forward-thinking.",
+    "category": "corporate_explainer",
+    "platform": "ai_generated",
+    "camera_movement": "Crane shot over laboratory",
+    "duration_suggestion": "11s",
+    "negative_prompt": "Avoid generic stock footage, overly futuristic music, and a tone that feels overly technical or arrogant. Focus on genuine stories and authentic achievements.",
+    "realism_notes": "Authentic footage of engineers, clear communication of technological advancements, and a genuine commitment to innovation are important.",
+    "source": "gemini_marketing"
+  },
+  {
+    "prompt": "A marketing_spokesperson, a young male chef with visible tattoos and a friendly demeanor, promoting a new line of gourmet sauces. He's standing in a professional kitchen, holding a bottle of sauce. Key message: 'Elevate your cooking with our exquisite sauces â€“ made with the finest ingredients!'",
+    "category": "marketing_spokesperson",
+    "platform": "ai_generated",
+    "camera_movement": "Slow zoom to emphasize sauce bottle",
+    "duration_suggestion": "6s",
+    "negative_prompt": "Avoid overly-smoothed skin, an overly-sterile kitchen, and a forced smile. The scene should feel authentic and inviting.",
+    "realism_notes": "Focus on realistic skin texture, genuine facial expressions, and natural lighting. The sauce bottle should look appealing and well-designed.",
+    "source": "gemini_marketing"
+  }
+]
