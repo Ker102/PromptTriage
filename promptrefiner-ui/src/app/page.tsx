@@ -8,6 +8,7 @@ import { DecryptedText } from "@/components/decrypted-text";
 import { OutputFormatSelector, OutputFormatId } from "@/components/OutputFormatSelector";
 import { ModalitySelector, Modality, MODALITY_CONFIG } from "@/components/ModalitySelector";
 import { ImageUploader, UploadedImage } from "@/components/ImageUploader";
+import { DesiredOutputSelector, DesiredOutputId } from "@/components/DesiredOutputSelector";
 import type {
   PromptAnalysisResult,
   PromptRefinementResult,
@@ -37,6 +38,7 @@ const INITIAL_FORM = {
   context: "",
   tone: "",
   outputFormats: [] as OutputFormatId[],
+  desiredOutput: null as DesiredOutputId | null,
   useWebSearch: false,
   images: [] as UploadedImage[],
   thinkingMode: false,
@@ -231,9 +233,9 @@ export default function Home() {
   const subscriptionPlan =
     (session?.user?.subscriptionPlan as string | undefined)?.toUpperCase() ??
     "FREE";
-  // Superuser status should be derived from session/server data, not client env
-  // The server will handle dev bypass via ALLOW_DEV_BYPASS flag
-  const isPaidPlan = subscriptionPlan !== "FREE";
+  // Dev bypass: treat as paid plan for UI testing when NEXT_PUBLIC_DEV_SUPERUSER is true
+  const isDevSuperuser = process.env.NEXT_PUBLIC_DEV_SUPERUSER === "true";
+  const isPaidPlan = subscriptionPlan !== "FREE" || isDevSuperuser;
   const firecrawlHelperText = isPaidPlan
     ? "Pulls supporting facts from the web to help Gemini identify missing context. Requires a valid FIRECRAWL_API_KEY."
     : "Available on Pro plans. Upgrade to unlock Firecrawl web search for richer context.";
@@ -314,7 +316,13 @@ export default function Home() {
           prompt: form.prompt,
           targetModel: form.targetModel,
           context: form.context || undefined,
+          tone: form.tone || undefined,
+          outputFormats: form.outputFormats.length > 0 ? form.outputFormats : undefined,
+          desiredOutput: form.desiredOutput || undefined,
+          modality: form.modality,
+          thinkingMode: form.thinkingMode,
           useWebSearch: form.useWebSearch || undefined,
+          images: form.images.length > 0 ? form.images : undefined,
         }),
       });
 
@@ -685,14 +693,33 @@ export default function Home() {
                   htmlFor="outputFormats"
                   className="text-sm font-medium text-soft"
                 >
-                  Output formats (optional)
+                  Prompt structure format (optional)
                 </label>
                 <OutputFormatSelector
                   selected={form.outputFormats}
                   onChange={(selected) => setForm((prev) => ({ ...prev, outputFormats: selected }))}
                 />
+                <p className="text-xs text-muted">
+                  Format of the refined prompt itself (JSON, XML, Markdown).
+                </p>
               </div>
             </div>
+
+            {/* Desired Final Output - only for Text and System modalities */}
+            {(form.modality === "text" || form.modality === "system") && (
+              <div className="space-y-2">
+                <label
+                  htmlFor="desiredOutput"
+                  className="text-sm font-medium text-soft"
+                >
+                  Desired final output (optional)
+                </label>
+                <DesiredOutputSelector
+                  selected={form.desiredOutput}
+                  onChange={(selected) => setForm((prev) => ({ ...prev, desiredOutput: selected }))}
+                />
+              </div>
+            )}
 
             <div className="rounded-2xl border border-[var(--surface-border)] bg-[var(--surface-card-soft)] p-4">
               <label

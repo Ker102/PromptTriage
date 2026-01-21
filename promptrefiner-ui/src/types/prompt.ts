@@ -31,6 +31,7 @@ export interface AnalyzeRequestPayload {
   modality?: "text" | "image" | "video" | "system";
   images?: { base64: string; mimeType: string }[];
   thinkingMode?: boolean;
+  desiredOutput?: string;
 }
 
 export interface RefineRequestPayload extends AnalyzeRequestPayload {
