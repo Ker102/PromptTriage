@@ -12,6 +12,12 @@ import {
   ANALYZER_FEW_SHOTS,
   ANALYZER_SYSTEM_PROMPT,
   FAST_MODE_SYSTEM_PROMPT,
+  VIDEO_ANALYZER_SYSTEM_PROMPT,
+  VIDEO_FAST_MODE_SYSTEM_PROMPT,
+  IMAGE_ANALYZER_SYSTEM_PROMPT,
+  IMAGE_FAST_MODE_SYSTEM_PROMPT,
+  SYSTEM_PROMPT_ANALYZER,
+  SYSTEM_PROMPT_FAST_MODE,
   PROMPT_VERSION,
 } from "@/prompts/metaprompt";
 import { searchFirecrawl } from "@/services/firecrawl";
@@ -135,6 +141,7 @@ export async function POST(req: Request) {
     const rawTargetModel = body.targetModel?.trim();
     const context = body.context?.trim();
     const thinkingMode = body.thinkingMode ?? false;
+    const desiredOutput = body.desiredOutput?.trim();
 
     // Validate modality - must be one of allowed values
     const VALID_MODALITIES = ["text", "image", "video", "system"] as const;
@@ -294,6 +301,13 @@ export async function POST(req: Request) {
       `<extra_context>${context ?? ""}</extra_context>`,
     ];
 
+    // Add desired output format instruction for the target model
+    if (desiredOutput && (modality === "text" || modality === "system")) {
+      userPromptParts.push(
+        `<desired_output_format>The refined prompt MUST specify that the target AI should output its response in: ${desiredOutput}</desired_output_format>`
+      );
+    }
+
     // Add RAG context (similar prompts from our corpus)
     if (ragContext) {
       userPromptParts.push(ragContext);
@@ -315,12 +329,26 @@ export async function POST(req: Request) {
       { role: "model" as const, parts: [{ text: assistant }] },
     ]);
 
-    // thinkingMode already extracted from body earlier
-    // Select system prompt based on mode:
-    // - Fast Mode: Direct refinement, no questions (FAST_MODE_SYSTEM_PROMPT)
-    // - Thinking Mode: Deep analysis with clarifying questions (enhanced ANALYZER_SYSTEM_PROMPT)
+    // Select base system prompt based on modality
+    const getBaseSystemPrompt = (mod: string, thinking: boolean): string => {
+      if (mod === "video") {
+        return thinking ? VIDEO_ANALYZER_SYSTEM_PROMPT : VIDEO_FAST_MODE_SYSTEM_PROMPT;
+      }
+      if (mod === "image") {
+        return thinking ? IMAGE_ANALYZER_SYSTEM_PROMPT : IMAGE_FAST_MODE_SYSTEM_PROMPT;
+      }
+      if (mod === "system") {
+        return thinking ? SYSTEM_PROMPT_ANALYZER : SYSTEM_PROMPT_FAST_MODE;
+      }
+      // Default: text modality
+      return thinking ? ANALYZER_SYSTEM_PROMPT : FAST_MODE_SYSTEM_PROMPT;
+    };
+
+    const basePrompt = getBaseSystemPrompt(modality, thinkingMode);
+
+    // Add thinking mode enhancements for deeper analysis
     const systemPrompt = thinkingMode
-      ? `${ANALYZER_SYSTEM_PROMPT}
+      ? `${basePrompt}
 
 <thinking_mode_instructions>
 You are in THINKING MODE - perform deeper, multi-pass analysis:
@@ -330,7 +358,7 @@ You are in THINKING MODE - perform deeper, multi-pass analysis:
 4. Generate more comprehensive improvement areas
 5. Ensure the blueprint is exceptionally detailed
 </thinking_mode_instructions>`
-      : FAST_MODE_SYSTEM_PROMPT;
+      : basePrompt;
 
     // Adjust generation parameters based on mode
     const generationConfig = {

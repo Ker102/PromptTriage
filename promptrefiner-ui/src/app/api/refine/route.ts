@@ -11,6 +11,9 @@ import {
   PROMPT_VERSION,
   REFINER_FEW_SHOTS,
   REFINER_SYSTEM_PROMPT,
+  VIDEO_REFINER_SYSTEM_PROMPT,
+  IMAGE_REFINER_SYSTEM_PROMPT,
+  SYSTEM_PROMPT_REFINER,
 } from "@/prompts/metaprompt";
 import { authOptions } from "@/auth";
 import {
@@ -59,24 +62,24 @@ function validateRefinementPayload(payload: PromptRefinementResult): string | nu
 export async function POST(req: Request) {
   try {
     const session = await getServerSession(authOptions);
-    if (!session) {
+
+    // Secure development bypass: requires explicit flag AND localhost
+    const allowDevBypass = process.env.ALLOW_DEV_BYPASS === "true";
+    const isLocalhost = req.headers.get("host")?.includes("localhost") ?? false;
+    const isDev = allowDevBypass && isLocalhost;
+    const email = session?.user?.email ?? (isDev ? "dev@localhost" : null);
+
+    if (!email) {
       return NextResponse.json(
         { error: "You must be signed in to refine prompts." },
         { status: 401 },
       );
     }
 
-    const email = session.user?.email;
-    if (!email) {
-      return NextResponse.json(
-        { error: "Unable to resolve your account email." },
-        { status: 400 },
-      );
-    }
-
+    // Only grant PRO if explicit dev bypass is enabled
     const subscriptionPlan =
-      (session.user?.subscriptionPlan as string | undefined)?.toUpperCase() ??
-      "FREE";
+      (session?.user?.subscriptionPlan as string | undefined)?.toUpperCase() ??
+      (isDev ? "PRO" : "FREE");
 
     const body = (await req.json()) as RefineRequestPayload;
     const prompt = body.prompt?.trim();
@@ -89,6 +92,13 @@ export async function POST(req: Request) {
     const blueprint = body.blueprint;
     const externalContext = body.externalContext ?? [];
     const variationHint = body.variationHint?.trim();
+
+    // Extract modality for prompt routing (defaults to text)
+    const VALID_MODALITIES = ["text", "image", "video", "system"] as const;
+    const rawModality = body.modality ?? "text";
+    const modality = VALID_MODALITIES.includes(rawModality as typeof VALID_MODALITIES[number])
+      ? (rawModality as typeof VALID_MODALITIES[number])
+      : "text";
 
     if (!prompt) {
       return NextResponse.json(
@@ -197,10 +207,26 @@ export async function POST(req: Request) {
       { role: "model" as const, parts: [{ text: assistant }] },
     ]);
 
+    // Select system prompt based on modality
+    const getRefinerSystemPrompt = (mod: string): string => {
+      if (mod === "video") {
+        return VIDEO_REFINER_SYSTEM_PROMPT;
+      }
+      if (mod === "image") {
+        return IMAGE_REFINER_SYSTEM_PROMPT;
+      }
+      if (mod === "system") {
+        return SYSTEM_PROMPT_REFINER;
+      }
+      return REFINER_SYSTEM_PROMPT;
+    };
+
+    const systemPrompt = getRefinerSystemPrompt(modality);
+
     const result = await model.generateContent({
       systemInstruction: {
         role: "system",
-        parts: [{ text: REFINER_SYSTEM_PROMPT }],
+        parts: [{ text: systemPrompt }],
       },
       contents: [
         ...fewShotMessages,
