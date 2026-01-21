@@ -330,7 +330,8 @@ export async function POST(req: Request) {
     ]);
 
     // Select base system prompt based on modality
-    const getBaseSystemPrompt = (mod: string, thinking: boolean): string => {
+    type Modality = typeof VALID_MODALITIES[number];
+    const getBaseSystemPrompt = (mod: Modality, thinking: boolean): string => {
       if (mod === "video") {
         return thinking ? VIDEO_ANALYZER_SYSTEM_PROMPT : VIDEO_FAST_MODE_SYSTEM_PROMPT;
       }

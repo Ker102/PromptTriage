@@ -63,9 +63,12 @@ export async function POST(req: Request) {
   try {
     const session = await getServerSession(authOptions);
 
-    // Secure development bypass: requires explicit flag AND localhost
+    // Secure development bypass: requires explicit flag AND strict localhost match
     const allowDevBypass = process.env.ALLOW_DEV_BYPASS === "true";
-    const isLocalhost = req.headers.get("host")?.includes("localhost") ?? false;
+    const hostHeader = req.headers.get("host") ?? "";
+    const hostname = hostHeader.split(":")[0]; // Strip port
+    const SAFE_HOSTS = /^(localhost|127\.0\.0\.1|::1)$/;
+    const isLocalhost = SAFE_HOSTS.test(hostname);
     const isDev = allowDevBypass && isLocalhost;
     const email = session?.user?.email ?? (isDev ? "dev@localhost" : null);
 
