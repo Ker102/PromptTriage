@@ -122,8 +122,8 @@ export function ModalitySelector({
                                 } disabled:cursor-not-allowed disabled:opacity-50`}
                         >
                             <span className="text-xl">{cfg.icon}</span>
-                            <p className="mt-1 text-sm font-medium">{cfg.label}</p>
-                            <p className="text-xs text-muted">{cfg.description}</p>
+                            <span className="mt-1 block text-sm font-medium">{cfg.label}</span>
+                            <span className="block text-xs text-muted">{cfg.description}</span>
                         </button>
                     );
                 })}

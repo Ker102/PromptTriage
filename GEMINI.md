@@ -18,6 +18,27 @@
 
 ## Recent Changes
 
+### 2026-01-21 - Modality-Specific Prompts & UI Enhancements
+**Commit Ready**: Yes
+
+#### Modality-Specific System Prompts
+- **9 new prompts** added to `metaprompt.ts`:
+  - Video: `VIDEO_ANALYZER_SYSTEM_PROMPT`, `VIDEO_FAST_MODE_SYSTEM_PROMPT`, `VIDEO_REFINER_SYSTEM_PROMPT`
+  - Image: `IMAGE_ANALYZER_SYSTEM_PROMPT`, `IMAGE_FAST_MODE_SYSTEM_PROMPT`, `IMAGE_REFINER_SYSTEM_PROMPT`
+  - System: `SYSTEM_PROMPT_ANALYZER`, `SYSTEM_PROMPT_FAST_MODE`, `SYSTEM_PROMPT_REFINER`
+- **Routing Logic**: `analyze/route.ts` and `refine/route.ts` now select prompts based on modality
+
+#### Desired Final Output Feature
+- **New Component**: `DesiredOutputSelector.tsx` - dropdown for Markdown, Code, JSON, XML, etc.
+- **UI Integration**: Only visible for Text/System modalities
+- **API Integration**: Passes `desiredOutput` to model prompt as `<desired_output_format>` tag
+
+#### Bug Fixes
+- **DOM Nesting Error**: Fixed `<p>` inside `<button>` in `ModalitySelector.tsx`
+- **Auth Bypass**: Added dev bypass to `refine/route.ts` for unauthenticated testing
+- **Missing API Fields**: Added `thinkingMode`, `modality`, `tone`, `outputFormats` to analyze fetch body
+- **isPaidPlan**: Now respects `NEXT_PUBLIC_DEV_SUPERUSER` for UI checkboxes
+
 ### 2026-01-20 - Video Prompts RAG & Modify Feature
 **Commit Ready**: Yes
 
