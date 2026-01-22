@@ -24,11 +24,13 @@ This project and everyone participating in it is governed by our [Code of Conduc
 
 Before you begin, ensure you have the following installed:
 
-- **Node.js**: Version 18.17 or higher (Node 20+ recommended)
+- **Node.js**: Version 20+ recommended
+- **Python**: Version 3.9+ (for backend services)
 - **npm**: Version 9.0 or higher
 - **Git**: For version control
 - **Google Gemini API Key**: Required for AI functionality
-- **Firecrawl API Key**: Optional, for web context enrichment
+- **Pinecone API Key**: Required for RAG functionality
+- **Redis**: Optional, for hot caching
 
 ### First-Time Contributors
 
@@ -50,6 +52,7 @@ cd PromptTriage
 
 ### 2. Set Up the Development Environment
 
+#### Frontend Setup
 ```bash
 # Navigate to the application directory
 cd promptrefiner-ui
@@ -58,27 +61,39 @@ cd promptrefiner-ui
 npm install
 ```
 
+#### Backend Setup
+```bash
+# Navigate to the backend directory
+cd backend
+
+# Install Python dependencies
+pip install -r requirements.txt
+```
+
 ### 3. Configure Environment Variables
 
-Create a `.env.local` file in the `promptrefiner-ui` directory:
+Create a `.env.local` file in the `promptrefiner-ui` directory and a `.env` file in `backend`:
 
 ```env
-# Required: Google Gemini API Key
+# Required: AI Services
 GEMINI_API_KEY=your_gemini_api_key_here
+PINECONE_API_KEY=your_pinecone_api_key
+PINECONE_INDEX_NAME=prompt-triage
 
-# Optional: Google OAuth (for authentication)
+# Optional: Authentication
 GOOGLE_CLIENT_ID=your_google_client_id
 GOOGLE_CLIENT_SECRET=your_google_client_secret
 NEXTAUTH_SECRET=your_nextauth_secret
 NEXTAUTH_URL=http://localhost:3000
 
-# Optional: Firecrawl API (for web context enrichment)
+# Optional: Enhancements
+REDIS_URL=redis://localhost:6379
 FIRECRAWL_API_KEY=your_firecrawl_api_key
 ```
 
 **How to get API keys:**
 - **Gemini API Key**: Visit [Google AI Studio](https://makersuite.google.com/app/apikey)
-- **Firecrawl API Key**: Visit [Firecrawl](https://firecrawl.dev/)
+- **Pinecone API Key**: Visit [Pinecone Console](https://app.pinecone.io/)
 
 ### 4. Start the Development Server
 
@@ -194,17 +209,18 @@ Before submitting:
 ### File Organization
 
 ```
-promptrefiner-ui/
-├── src/
-│   ├── app/              # Next.js app directory
-│   │   ├── api/          # API routes
-│   │   └── page.tsx      # Main page component
-│   ├── components/       # React components
-│   ├── lib/              # Utility functions and libraries
-│   ├── prompts/          # AI prompt templates
-│   └── types/            # TypeScript type definitions
-├── public/               # Static assets
-└── package.json
+PromptTriage/
+├── promptrefiner-ui/     # Next.js frontend
+│   ├── src/
+│   │   ├── app/          # Next.js App Router
+│   │   ├── api/          # Integration endpoints
+│   │   ├── components/   # React components
+│   │   ├── services/     # RAG, Context7, Firecrawl clients
+│   │   └── prompts/      # Modality-specific metaprompts
+├── backend/              # FastAPI RAG service
+│   ├── app/routers/      # RAG & Ingestion endpoints
+│   └── scripts/          # Dataset ingestion pipelines
+└── datasets/             # Curated prompt datasets
 ```
 
 ### Naming Conventions
