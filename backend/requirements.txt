@@ -6,7 +6,7 @@ pydantic-settings==2.1.0
 python-dotenv==1.0.0
 
 # Google AI
-google-generativeai==0.4.0
+google-generativeai==0.3.2
 
 # LangChain
 langchain==0.1.0
@@ -16,7 +16,7 @@ langchain-pinecone==0.0.2
 
 # Redis (Hot Cache + Semantic Cache)
 redis==5.0.1
-redisvl==0.0.7
+redisvl==0.13.2
 
 # Pinecone (Full Corpus Vector Store)
 pinecone-client==3.0.0
