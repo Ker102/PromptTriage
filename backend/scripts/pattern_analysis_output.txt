@@ -1,0 +1,187 @@
+=== Prompt Pattern Analysis ===
+Source: C:\Users\krist\Desktop\Cursor-Projects\Projects\Systempromptfactory\PromptTriage\system-prompts-reference
+
+Found 106 prompt files
+  [MISC] claude.txt: 14616 words, 38 XML tags
+  [ANTHROPIC] claude-sonnet-4.txt: 14616 words, 0 XML tags
+  [ANTHROPIC] claude.txt: 16722 words, 50 XML tags
+  [ANTHROPIC] calude_code_cli_tools.md: 6754 words, 5 XML tags
+  [ANTHROPIC] claude-3.7-sonnet-full-system-message-humanreadable.md: 16855 words, 50 XML tags
+  [ANTHROPIC] claude-3.7-sonnet-w-tools.md: 16001 words, 49 XML tags
+  [ANTHROPIC] claude-4.1-opus-thinking.md: 14936 words, 4 XML tags
+  [ANTHROPIC] claude-4.5-sonnet.md: 19305 words, 82 XML tags
+  [ANTHROPIC] claude-ai-memory-system.md: 2555 words, 0 XML tags
+  [ANTHROPIC] claude-code-2025-11-1.md: 1767 words, 2 XML tags
+  [ANTHROPIC] claude-code-plan-mode.md: 178 words, 0 XML tags
+  [ANTHROPIC] claude-code.md: 6394 words, 9 XML tags
+  [ANTHROPIC] claude-for-excel.md: 4952 words, 0 XML tags
+  [ANTHROPIC] claude-in-chrome.md: 6741 words, 3 XML tags
+  [ANTHROPIC] claude-opus-4.6.md: 19182 words, 100 XML tags
+  [ANTHROPIC] claude-sonnet-4.md: 14616 words, 38 XML tags
+  [ANTHROPIC] claude.ai-injections.md: 332 words, 0 XML tags
+  [ANTHROPIC] claude_works.md: 16587 words, 58 XML tags
+  [ANTHROPIC] docx.md: 1303 words, 9 XML tags
+  [ANTHROPIC] end-conversation-tool.md: 469 words, 0 XML tags
+  [ANTHROPIC] past_chats_tools.md: 1511 words, 1 XML tags
+  [ANTHROPIC] pdf.md: 893 words, 0 XML tags
+  [ANTHROPIC] pptx.md: 2647 words, 8 XML tags
+  [ANTHROPIC] xlsx.md: 1483 words, 1 XML tags
+  [GOOGLE] gemini-2.0-flash-webapp.md: 354 words, 1 XML tags
+  [GOOGLE] gemini-2.5-flash-image-preview.md: 786 words, 0 XML tags
+  [GOOGLE] gemini-2.5-pro-guided-learning.md: 2375 words, 0 XML tags
+  [GOOGLE] gemini-2.5-pro-webapp.md: 295 words, 1 XML tags
+  [GOOGLE] Gemini-3-fast.md: 1537 words, 0 XML tags
+  [GOOGLE] gemini-3-flash.md: 710 words, 0 XML tags
+  [GOOGLE] gemini-3-pro.md: 2266 words, 0 XML tags
+  [GOOGLE] Gemini-cli system prompt.md: 2436 words, 1 XML tags
+  [GOOGLE] gemini-diffusion.md: 896 words, 11 XML tags
+  [GOOGLE] gemini-workspace.md: 3213 words, 0 XML tags
+  [GOOGLE] gemini_in_chrome.md: 1745 words, 5 XML tags
+  [GOOGLE] google-ai-studios.md: 207 words, 1 XML tags
+  [GOOGLE] NotebookLM-chat.md: 413 words, 0 XML tags
+  [MISC] Confer.md: 589 words, 1 XML tags
+  [MISC] Fellou-browser.md: 3262 words, 12 XML tags
+  [MISC] Kagi Assistant.md: 786 words, 2 XML tags
+  [MISC] Le-Chat.md: 2568 words, 3 XML tags
+  [MISC] Notion AI.md: 5460 words, 7 XML tags
+  [MISC] Raycast-AI.md: 198 words, 1 XML tags
+  [MISC] Sesame-AI-Maya.md: 2660 words, 0 XML tags
+  [MISC] Warp-2.0-agent.md: 2306 words, 4 XML tags
+  [OPENAI] 2026-02-04-GPT-4o-with-deprecation-guideline.md: 4602 words, 9 XML tags
+  [OPENAI] 4o-2025-09-03-new-personality.md: 426 words, 0 XML tags
+  [OPENAI] chatgpt-atlas.md: 474 words, 1 XML tags
+  [OPENAI] ChatGPT-GPT-5-Agent-mode-System-Prompt.md: 3325 words, 2 XML tags
+  [OPENAI] codex-cli.md: 3997 words, 0 XML tags
+  [OPENAI] Codex.md: 764 words, 4 XML tags
+  [OPENAI] GPT-4.1-mini.md: 772 words, 1 XML tags
+  [OPENAI] GPT-4.1.md: 2048 words, 0 XML tags
+  [OPENAI] GPT-4.5.md: 1727 words, 0 XML tags
+  [OPENAI] GPT-4o-advanced-voice-mode.md: 376 words, 0 XML tags
+  [OPENAI] GPT-4o-legacy-voice-mode.md: 952 words, 0 XML tags
+  [OPENAI] GPT-4o-WhatsApp.md: 425 words, 0 XML tags
+  [OPENAI] gpt-5-cynic-personality.md: 449 words, 0 XML tags
+  [OPENAI] gpt-5-listener-personality.md: 344 words, 0 XML tags
+  [OPENAI] gpt-5-nerdy-personality.md: 480 words, 0 XML tags
+  [OPENAI] gpt-5-robot-personality.md: 398 words, 0 XML tags
+  [OPENAI] gpt-5-thinking.md: 12301 words, 4 XML tags
+  [OPENAI] gpt-5.1-candid.md: 187 words, 0 XML tags
+  [OPENAI] gpt-5.1-cynical.md: 411 words, 0 XML tags
+  [OPENAI] gpt-5.1-default.md: 184 words, 0 XML tags
+  [OPENAI] gpt-5.1-efficient.md: 161 words, 0 XML tags
+  [OPENAI] gpt-5.1-friendly.md: 181 words, 0 XML tags
+  [OPENAI] gpt-5.1-nerdy.md: 522 words, 0 XML tags
+  [OPENAI] gpt-5.1-professional.md: 151 words, 0 XML tags
+  [OPENAI] gpt-5.1-quirky.md: 210 words, 0 XML tags
+  [OPENAI] gpt-5.2-thinking.md: 13944 words, 6 XML tags
+  [OPENAI] Image safety policies.md: 273 words, 0 XML tags
+  [OPENAI] o3.md: 5009 words, 1 XML tags
+  [OPENAI] o4-mini-high.md: 4768 words, 0 XML tags
+  [OPENAI] o4-mini.md: 4768 words, 0 XML tags
+  [OPENAI] prompt-automation-context.md: 155 words, 0 XML tags
+  [OPENAI] prompt-image-safety-policies.md: 172 words, 0 XML tags
+  [OPENAI] Study and learn.md: 455 words, 0 XML tags
+  [OPENAI] tool-advanced-memory.md: 869 words, 0 XML tags
+  [OPENAI] tool-canvas-canmore.md: 422 words, 0 XML tags
+  [OPENAI] tool-create-image-image_gen.md: 317 words, 0 XML tags
+  [OPENAI] tool-deep-research.md: 397 words, 0 XML tags
+  [OPENAI] tool-file_search.md: 1276 words, 0 XML tags
+  [OPENAI] tool-memory-bio.md: 37 words, 0 XML tags
+  [OPENAI] tool-python-code.md: 162 words, 0 XML tags
+  [OPENAI] tool-python.md: 162 words, 0 XML tags
+  [OPENAI] tool-web-search.md: 230 words, 0 XML tags
+  [PERPLEXITY] comet-browser-assistant.md: 4097 words, 1 XML tags
+  [PERPLEXITY] voice-assistant.md: 336 words, 0 XML tags
+  [PROTON] Luma.md: 1010 words, 1 XML tags
+  [PROTON] lumo-2025-8-26.md: 1655 words, 0 XML tags
+  [XAI] grok-3.md: 738 words, 0 XML tags
+  [XAI] grok-4.1-beta.md: 2144 words, 5 XML tags
+  [XAI] grok-4.md: 1757 words, 4 XML tags
+  [XAI] grok-personas.md: 3842 words, 0 XML tags
+  [XAI] grok.com-post-new-safety-instructions.md: 2986 words, 0 XML tags
+  [OPENAI] gpt-5-reasoning-effort-high-API-NOT-CHATGPT.com.md: 166 words, 0 XML tags
+  [OPENAI] o3-high-api.md: 146 words, 0 XML tags
+  [OPENAI] o3-low-api.md: 146 words, 0 XML tags
+  [OPENAI] o3-medium-api.md: 146 words, 0 XML tags
+  [OPENAI] o4-mini-high.md: 146 words, 0 XML tags
+  [OPENAI] o4-mini-low-api.md: 146 words, 0 XML tags
+  [OPENAI] o4-mini-medium-api.md: 146 words, 0 XML tags
+  [ANTHROPIC] claude-3.7-sonnet-w-tools.xml: 16001 words, 49 XML tags
+  [ANTHROPIC] claude-code.js: 2316 words, 5 XML tags
+  [ANTHROPIC] search_instructions: 3436 words, 18 XML tags
+
+=== Report saved to C:\Users\krist\Desktop\Cursor-Projects\Projects\Systempromptfactory\PromptTriage\backend\scripts\data\prompt_patterns.json ===
+
+Total files analyzed: 106
+
+--- Top XML Tags (across all vendors) ---
+  <example>: 14 prompts
+  <rationale>: 9 prompts
+  <core_search_behaviors>: 9 prompts
+  <response>: 9 prompts
+  <strong>: 9 prompts
+  <search_examples>: 9 prompts
+  <search_instructions>: 9 prompts
+  <user>: 9 prompts
+  <mandatory_copyright_requirements>: 9 prompts
+  <harmful_content_safety>: 9 prompts
+  <antml>: 9 prompts
+  <critical_reminders>: 9 prompts
+  <document_context>: 8 prompts
+  <functions>: 8 prompts
+  <citation_instructions>: 8 prompts
+
+--- Structure Features ---
+  has_identity_section: 94/106 (89%)
+  uses_markdown_headers: 79/106 (75%)
+  uses_bullet_list: 72/106 (68%)
+  uses_tool_definitions: 51/106 (48%)
+  uses_numbered_list: 44/106 (42%)
+  has_safety_section: 44/106 (42%)
+  uses_xml: 42/106 (40%)
+  has_thinking_section: 42/106 (40%)
+  uses_json_examples: 40/106 (38%)
+  uses_code_blocks: 39/106 (37%)
+
+--- Vendor Profiles ---
+
+  [ANTHROPIC]
+    Files: 26
+    Avg words: 8021
+    Uses XML: 19/26
+    Uses Markdown: 22/26
+
+  [GOOGLE]
+    Files: 13
+    Avg words: 1325
+    Uses XML: 5/13
+    Uses Markdown: 7/13
+
+  [MISC]
+    Files: 9
+    Avg words: 3605
+    Uses XML: 8/9
+    Uses Markdown: 6/9
+
+  [OPENAI]
+    Files: 49
+    Avg words: 1435
+    Uses XML: 7/49
+    Uses Markdown: 36/49
+
+  [PERPLEXITY]
+    Files: 2
+    Avg words: 2216
+    Uses XML: 1/2
+    Uses Markdown: 2/2
+
+  [PROTON]
+    Files: 2
+    Avg words: 1332
+    Uses XML: 1/2
+    Uses Markdown: 2/2
+
+  [XAI]
+    Files: 5
+    Avg words: 2293
+    Uses XML: 1/5
+    Uses Markdown: 4/5

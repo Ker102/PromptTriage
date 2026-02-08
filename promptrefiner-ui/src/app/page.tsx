@@ -9,6 +9,7 @@ import { OutputFormatSelector, OutputFormatId } from "@/components/OutputFormatS
 import { ModalitySelector, Modality, MODALITY_CONFIG } from "@/components/ModalitySelector";
 import { ImageUploader, UploadedImage } from "@/components/ImageUploader";
 import { DesiredOutputSelector, DesiredOutputId } from "@/components/DesiredOutputSelector";
+import { VendorSelector, VendorId } from "@/components/VendorSelector";
 import type {
   PromptAnalysisResult,
   PromptRefinementResult,
@@ -39,6 +40,7 @@ const INITIAL_FORM = {
   tone: "",
   outputFormats: [] as OutputFormatId[],
   desiredOutput: null as DesiredOutputId | null,
+  targetVendor: "none" as VendorId,
   useWebSearch: false,
   images: [] as UploadedImage[],
   thinkingMode: false,
@@ -319,6 +321,7 @@ export default function Home() {
           tone: form.tone || undefined,
           outputFormats: form.outputFormats.length > 0 ? form.outputFormats : undefined,
           desiredOutput: form.desiredOutput || undefined,
+          targetVendor: form.targetVendor !== "none" ? form.targetVendor : undefined,
           modality: form.modality,
           thinkingMode: form.thinkingMode,
           useWebSearch: form.useWebSearch || undefined,
@@ -718,6 +721,25 @@ export default function Home() {
                   selected={form.desiredOutput}
                   onChange={(selected) => setForm((prev) => ({ ...prev, desiredOutput: selected }))}
                 />
+              </div>
+            )}
+
+            {/* Target Vendor - only for Text and System modalities */}
+            {(form.modality === "text" || form.modality === "system") && (
+              <div className="space-y-2">
+                <label
+                  htmlFor="targetVendor"
+                  className="text-sm font-medium text-soft"
+                >
+                  Target prompt style (optional)
+                </label>
+                <VendorSelector
+                  selected={form.targetVendor}
+                  onChange={(vendor) => setForm((prev) => ({ ...prev, targetVendor: vendor }))}
+                />
+                <p className="text-xs text-muted">
+                  Match your prompt structure to vendor conventions using our reference corpus.
+                </p>
               </div>
             )}
 

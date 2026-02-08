@@ -1,0 +1,630 @@
+{
+  "generated_at": "2026-02-08T20:53:00.236554",
+  "total_files": 106,
+  "summary": {
+    "top_xml_tags": {
+      "example": 14,
+      "rationale": 9,
+      "core_search_behaviors": 9,
+      "response": 9,
+      "strong": 9,
+      "search_examples": 9,
+      "search_instructions": 9,
+      "user": 9,
+      "mandatory_copyright_requirements": 9,
+      "harmful_content_safety": 9,
+      "antml": 9,
+      "critical_reminders": 9,
+      "document_context": 8,
+      "functions": 8,
+      "citation_instructions": 8,
+      "somemsgid": 8,
+      "userStyle": 7,
+      "preferences_examples": 7,
+      "election_info": 7,
+      "research_category": 7,
+      "userPreferences": 7,
+      "function": 7,
+      "research_process": 7,
+      "preferences_info": 7,
+      "document": 7,
+      "single_search_category": 7,
+      "query_complexity_categories": 7,
+      "function_results": 7,
+      "do_not_search_but_offer_category": 7,
+      "never_search_category": 7
+    },
+    "top_md_sections": {
+      "tool definitions": 31,
+      "description": 29,
+      "target channel: analysis": 17,
+      "tools": 15,
+      "target channel: commentary": 10,
+      "python": 9,
+      "web": 8,
+      "image_gen": 8,
+      "you must use artifacts for": 7,
+      "usage notes": 7,
+      "critical browser storage restriction": 7,
+      "reading files": 7,
+      "manipulating csvs": 7,
+      "updating vs rewriting artifacts": 7,
+      "additional instruction": 7,
+      "examples": 6,
+      "file_search": 6,
+      "bio": 6,
+      "canmore": 6,
+      "`canmore.create_textdoc`": 6
+    },
+    "structure_features": {
+      "has_identity_section": 94,
+      "uses_markdown_headers": 79,
+      "uses_bullet_list": 72,
+      "uses_tool_definitions": 51,
+      "uses_numbered_list": 44,
+      "has_safety_section": 44,
+      "uses_xml": 42,
+      "has_thinking_section": 42,
+      "uses_json_examples": 40,
+      "uses_code_blocks": 39
+    }
+  },
+  "vendor_profiles": {
+    "anthropic": {
+      "file_count": 26,
+      "avg_word_count": 8021,
+      "avg_char_count": 56034,
+      "total_words": 208552,
+      "uses_xml": 19,
+      "uses_markdown": 22,
+      "top_xml_tags": {
+        "example": 11,
+        "rationale": 8,
+        "core_search_behaviors": 8,
+        "response": 8,
+        "strong": 8,
+        "search_examples": 8,
+        "search_instructions": 8,
+        "user": 8,
+        "mandatory_copyright_requirements": 8,
+        "harmful_content_safety": 8,
+        "antml": 8,
+        "critical_reminders": 8,
+        "document_context": 7,
+        "functions": 7,
+        "citation_instructions": 7
+      },
+      "top_md_sections": {
+        "you must use artifacts for": 6,
+        "usage notes": 6,
+        "critical browser storage restriction": 6,
+        "reading files": 6,
+        "manipulating csvs": 6,
+        "updating vs rewriting artifacts": 6,
+        "examples": 5,
+        "overview": 5,
+        "workflow": 4,
+        "design principles for visual artifacts": 3
+      },
+      "structure_features": {
+        "uses_markdown_headers": 22,
+        "uses_numbered_list": 22,
+        "uses_bullet_list": 23,
+        "uses_code_blocks": 20,
+        "uses_json_examples": 20,
+        "uses_tool_definitions": 19,
+        "has_safety_section": 17,
+        "has_identity_section": 20,
+        "has_thinking_section": 16,
+        "uses_xml": 19
+      },
+      "files_by_size": [
+        {
+          "name": "claude-opus-4.6.md",
+          "size_kb": 141.7,
+          "word_count": 19182
+        },
+        {
+          "name": "claude-4.5-sonnet.md",
+          "size_kb": 140.2,
+          "word_count": 19305
+        },
+        {
+          "name": "claude_works.md",
+          "size_kb": 112.5,
+          "word_count": 16587
+        },
+        {
+          "name": "claude-3.7-sonnet-full-system-message-humanreadable.md",
+          "size_kb": 111.1,
+          "word_count": 16855
+        },
+        {
+          "name": "claude.txt",
+          "size_kb": 109.5,
+          "word_count": 16722
+        },
+        {
+          "name": "claude-3.7-sonnet-w-tools.md",
+          "size_kb": 107.5,
+          "word_count": 16001
+        },
+        {
+          "name": "claude-3.7-sonnet-w-tools.xml",
+          "size_kb": 107.5,
+          "word_count": 16001
+        },
+        {
+          "name": "claude-4.1-opus-thinking.md",
+          "size_kb": 104.1,
+          "word_count": 14936
+        },
+        {
+          "name": "claude-sonnet-4.txt",
+          "size_kb": 100.0,
+          "word_count": 14616
+        },
+        {
+          "name": "claude-sonnet-4.md",
+          "size_kb": 99.1,
+          "word_count": 14616
+        }
+      ]
+    },
+    "google": {
+      "file_count": 13,
+      "avg_word_count": 1325,
+      "avg_char_count": 8860,
+      "total_words": 17233,
+      "uses_xml": 5,
+      "uses_markdown": 7,
+      "top_xml_tags": {
+        "tool_code": 2,
+        "img": 2,
+        "hr": 1,
+        "li": 1,
+        "style": 1,
+        "ol": 1,
+        "html": 1,
+        "div": 1,
+        "script": 1,
+        "link": 1,
+        "p": 1,
+        "head": 1,
+        "body": 1,
+        "Explanation": 1,
+        "Google": 1
+      },
+      "top_md_sections": {
+        "when to generate an image": 1,
+        "important rules": 1,
+        "saved information": 1,
+        "guidelines on how to use the user information for personaliz": 1,
+        "persona & objective": 1,
+        "core principles: the constructivist tutor": 1,
+        "dialogue flow & interaction strategy": 1,
+        "the first turn: setting the stage": 1,
+        "ongoing dialogue & guiding questions": 1,
+        "praise and correction strategy": 1
+      },
+      "structure_features": {
+        "uses_xml": 5,
+        "uses_code_blocks": 5,
+        "has_identity_section": 12,
+        "uses_markdown_headers": 7,
+        "uses_bullet_list": 9,
+        "uses_tool_definitions": 7,
+        "has_safety_section": 7,
+        "uses_numbered_list": 6,
+        "has_thinking_section": 4,
+        "uses_json_examples": 2
+      },
+      "files_by_size": [
+        {
+          "name": "gemini-workspace.md",
+          "size_kb": 20.7,
+          "word_count": 3213
+        },
+        {
+          "name": "Gemini-cli system prompt.md",
+          "size_kb": 16.9,
+          "word_count": 2436
+        },
+        {
+          "name": "gemini-2.5-pro-guided-learning.md",
+          "size_kb": 15.1,
+          "word_count": 2375
+        },
+        {
+          "name": "gemini-3-pro.md",
+          "size_kb": 13.9,
+          "word_count": 2266
+        },
+        {
+          "name": "gemini_in_chrome.md",
+          "size_kb": 11.3,
+          "word_count": 1745
+        },
+        {
+          "name": "Gemini-3-fast.md",
+          "size_kb": 10.1,
+          "word_count": 1537
+        },
+        {
+          "name": "gemini-diffusion.md",
+          "size_kb": 6.4,
+          "word_count": 896
+        },
+        {
+          "name": "gemini-2.5-flash-image-preview.md",
+          "size_kb": 4.8,
+          "word_count": 786
+        },
+        {
+          "name": "gemini-3-flash.md",
+          "size_kb": 4.8,
+          "word_count": 710
+        },
+        {
+          "name": "NotebookLM-chat.md",
+          "size_kb": 2.5,
+          "word_count": 413
+        }
+      ]
+    },
+    "misc": {
+      "file_count": 9,
+      "avg_word_count": 3605,
+      "avg_char_count": 23756,
+      "total_words": 32445,
+      "uses_xml": 8,
+      "uses_markdown": 6,
+      "top_xml_tags": {
+        "example": 3,
+        "document": 2,
+        "examples": 2,
+        "userStyle": 1,
+        "rationale": 1,
+        "core_search_behaviors": 1,
+        "document_context": 1,
+        "artifacts_info": 1,
+        "preferences_examples": 1,
+        "userExamples": 1,
+        "functions": 1,
+        "response": 1,
+        "election_info": 1,
+        "research_category": 1,
+        "userPreferences": 1
+      },
+      "top_md_sections": {
+        "tools": 3,
+        "research fellou information": 2,
+        "response formats": 2,
+        "important": 2,
+        "widgets": 2,
+        "rich tables": 2,
+        "you must use artifacts for": 1,
+        "design principles for visual artifacts": 1,
+        "usage notes": 1,
+        "critical browser storage restriction": 1
+      },
+      "structure_features": {
+        "uses_xml": 8,
+        "uses_markdown_headers": 6,
+        "uses_numbered_list": 2,
+        "uses_bullet_list": 8,
+        "uses_code_blocks": 5,
+        "uses_json_examples": 5,
+        "uses_tool_definitions": 6,
+        "has_safety_section": 3,
+        "has_identity_section": 9,
+        "has_thinking_section": 5
+      },
+      "files_by_size": [
+        {
+          "name": "claude.txt",
+          "size_kb": 99.1,
+          "word_count": 14616
+        },
+        {
+          "name": "Notion AI.md",
+          "size_kb": 32.9,
+          "word_count": 5460
+        },
+        {
+          "name": "Fellou-browser.md",
+          "size_kb": 22.3,
+          "word_count": 3262
+        },
+        {
+          "name": "Le-Chat.md",
+          "size_kb": 15.6,
+          "word_count": 2568
+        },
+        {
+          "name": "Sesame-AI-Maya.md",
+          "size_kb": 15.2,
+          "word_count": 2660
+        },
+        {
+          "name": "Warp-2.0-agent.md",
+          "size_kb": 13.4,
+          "word_count": 2306
+        },
+        {
+          "name": "Kagi Assistant.md",
+          "size_kb": 5.1,
+          "word_count": 786
+        },
+        {
+          "name": "Confer.md",
+          "size_kb": 4.1,
+          "word_count": 589
+        },
+        {
+          "name": "Raycast-AI.md",
+          "size_kb": 1.1,
+          "word_count": 198
+        }
+      ]
+    },
+    "openai": {
+      "file_count": 49,
+      "avg_word_count": 1435,
+      "avg_char_count": 9202,
+      "total_words": 70325,
+      "uses_xml": 7,
+      "uses_markdown": 36,
+      "top_xml_tags": {
+        "situations_where_you_must_not_use_web": 2,
+        "extra_considerations_for_citations": 2,
+        "situations_where_you_must_use_web": 2,
+        "function_name": 2,
+        "aspect": 1,
+        "image_search_query": 1,
+        "layout": 1,
+        "num_per_query": 1,
+        "entity_type": 1,
+        "entity_name": 1,
+        "key": 1,
+        "entity_disambiguation_term": 1,
+        "specification": 1,
+        "browser_identity": 1,
+        "file-id": 1
+      },
+      "top_md_sections": {
+        "tool definitions": 31,
+        "description": 29,
+        "target channel: analysis": 17,
+        "tools": 11,
+        "target channel: commentary": 10,
+        "python": 9,
+        "web": 8,
+        "image_gen": 8,
+        "additional instruction": 7,
+        "file_search": 6
+      },
+      "structure_features": {
+        "uses_xml": 7,
+        "uses_markdown_headers": 36,
+        "uses_bullet_list": 24,
+        "uses_code_blocks": 6,
+        "uses_json_examples": 12,
+        "uses_tool_definitions": 13,
+        "has_safety_section": 12,
+        "has_identity_section": 44,
+        "uses_numbered_list": 7,
+        "has_thinking_section": 10
+      },
+      "files_by_size": [
+        {
+          "name": "gpt-5.2-thinking.md",
+          "size_kb": 85.9,
+          "word_count": 13944
+        },
+        {
+          "name": "gpt-5-thinking.md",
+          "size_kb": 77.2,
+          "word_count": 12301
+        },
+        {
+          "name": "o3.md",
+          "size_kb": 31.5,
+          "word_count": 5009
+        },
+        {
+          "name": "2026-02-04-GPT-4o-with-deprecation-guideline.md",
+          "size_kb": 30.9,
+          "word_count": 4602
+        },
+        {
+          "name": "o4-mini-high.md",
+          "size_kb": 29.9,
+          "word_count": 4768
+        },
+        {
+          "name": "o4-mini.md",
+          "size_kb": 29.9,
+          "word_count": 4768
+        },
+        {
+          "name": "codex-cli.md",
+          "size_kb": 24.8,
+          "word_count": 3997
+        },
+        {
+          "name": "ChatGPT-GPT-5-Agent-mode-System-Prompt.md",
+          "size_kb": 20.9,
+          "word_count": 3325
+        },
+        {
+          "name": "GPT-4.1.md",
+          "size_kb": 12.6,
+          "word_count": 2048
+        },
+        {
+          "name": "GPT-4.5.md",
+          "size_kb": 10.8,
+          "word_count": 1727
+        }
+      ]
+    },
+    "perplexity": {
+      "file_count": 2,
+      "avg_word_count": 2216,
+      "avg_char_count": 13727,
+      "total_words": 4433,
+      "uses_xml": 1,
+      "uses_markdown": 2,
+      "top_xml_tags": {
+        "currently-viewed-page": 1
+      },
+      "top_md_sections": {
+        "instructions": 1,
+        "id system": 1,
+        "security guidelines": 1,
+        "tools instructions": 1,
+        "web search tools": 1,
+        "tool guidelines": 1,
+        "get_full_page_content tool guidelines": 1,
+        "browser tools": 1,
+        "control_browser tool guidelines": 1,
+        "search_browser tool guidelines": 1
+      },
+      "structure_features": {
+        "uses_xml": 1,
+        "uses_markdown_headers": 2,
+        "uses_numbered_list": 1,
+        "uses_bullet_list": 1,
+        "uses_code_blocks": 1,
+        "uses_json_examples": 1,
+        "has_safety_section": 1,
+        "has_identity_section": 2,
+        "has_thinking_section": 2,
+        "uses_tool_definitions": 1
+      },
+      "files_by_size": [
+        {
+          "name": "comet-browser-assistant.md",
+          "size_kb": 24.8,
+          "word_count": 4097
+        },
+        {
+          "name": "voice-assistant.md",
+          "size_kb": 2.0,
+          "word_count": 336
+        }
+      ]
+    },
+    "proton": {
+      "file_count": 2,
+      "avg_word_count": 1332,
+      "avg_char_count": 9172,
+      "total_words": 2665,
+      "uses_xml": 1,
+      "uses_markdown": 2,
+      "top_xml_tags": {
+        "SPECIAL_32": 1
+      },
+      "top_md_sections": {
+        "identity & personality": 2,
+        "tool usage & web search - critical instructions": 2,
+        "when to use web search tools": 2,
+        "how to use web search": 2,
+        "file handling & content recognition - critical instructions": 2,
+        "file content structure": 2,
+        "default task suggestions by file type": 2,
+        "file content response pattern": 2,
+        "product knowledge": 2,
+        "lumo offerings": 2
+      },
+      "structure_features": {
+        "uses_xml": 1,
+        "uses_markdown_headers": 2,
+        "uses_numbered_list": 2,
+        "uses_bullet_list": 2,
+        "uses_code_blocks": 2,
+        "uses_tool_definitions": 2,
+        "has_safety_section": 2,
+        "has_identity_section": 2,
+        "has_thinking_section": 1
+      },
+      "files_by_size": [
+        {
+          "name": "lumo-2025-8-26.md",
+          "size_kb": 11.3,
+          "word_count": 1655
+        },
+        {
+          "name": "Luma.md",
+          "size_kb": 6.7,
+          "word_count": 1010
+        }
+      ]
+    },
+    "xai": {
+      "file_count": 5,
+      "avg_word_count": 2293,
+      "avg_char_count": 14986,
+      "total_words": 11467,
+      "uses_xml": 1,
+      "uses_markdown": 4,
+      "top_xml_tags": {
+        "grok": 2,
+        "argument": 2,
+        "xai": 2,
+        "parameter": 2,
+        "policy": 1
+      },
+      "top_md_sections": {
+        "tools:": 3,
+        "available tools:": 3,
+        "render components:": 3,
+        "available render components:": 3,
+        "additional guidelines": 2,
+        "❤️ companion": 1,
+        "critical guidelines": 1,
+        "instructions for starting the conversation": 1,
+        "engage and lead the conversation with realistic, rich storie": 1,
+        "your tone and energy": 1
+      },
+      "structure_features": {
+        "uses_bullet_list": 5,
+        "has_identity_section": 5,
+        "has_thinking_section": 4,
+        "uses_xml": 1,
+        "uses_markdown_headers": 4,
+        "uses_numbered_list": 4,
+        "uses_tool_definitions": 3,
+        "has_safety_section": 2
+      },
+      "files_by_size": [
+        {
+          "name": "grok-personas.md",
+          "size_kb": 23.3,
+          "word_count": 3842
+        },
+        {
+          "name": "grok.com-post-new-safety-instructions.md",
+          "size_kb": 19.7,
+          "word_count": 2986
+        },
+        {
+          "name": "grok-4.1-beta.md",
+          "size_kb": 14.3,
+          "word_count": 2144
+        },
+        {
+          "name": "grok-4.md",
+          "size_kb": 11.9,
+          "word_count": 1757
+        },
+        {
+          "name": "grok-3.md",
+          "size_kb": 4.2,
+          "word_count": 738
+        }
+      ]
+    }
+  }
+}

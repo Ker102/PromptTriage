@@ -32,6 +32,7 @@ export interface AnalyzeRequestPayload {
   images?: { base64: string; mimeType: string }[];
   thinkingMode?: boolean;
   desiredOutput?: string;
+  targetVendor?: string; // anthropic | openai | google
 }
 
 export interface RefineRequestPayload extends AnalyzeRequestPayload {

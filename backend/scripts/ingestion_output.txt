@@ -1,0 +1,554 @@
+=== System Prompts Reference Ingestion ===
+Source: C:\Users\krist\Desktop\Cursor-Projects\Projects\Systempromptfactory\PromptTriage\system-prompts-reference
+Labeling model: gemini-2.0-flash
+Embedding model: models/gemini-embedding-001
+Index: prompttriage-prompts
+Dry run: False
+Namespaces: system-prompts, system-prompts-anthropic, system-prompts-openai, system-prompts-google, system-prompts-misc
+
+[FILES] Found 99 prompt files
+[STATS] By vendor: {'misc': 9, 'anthropic': 26, 'google': 13, 'openai': 42, 'perplexity': 2, 'proton': 2, 'xai': 5}
+
+[MISC] claude.txt (99.1 KB)
+  Model: unknown
+  Category: tool
+  Summary: This prompt provides instructions for an assistant on how to use tools, cite sou
+
+[ANTHROPIC] claude-sonnet-4.txt (100.0 KB)
+  Model: claude-sonnet-4
+  Category: tool
+  Summary: This prompt provides instructions for an assistant on how to cite search results
+
+[ANTHROPIC] claude.txt (109.5 KB)
+  Model: unknown
+  Category: tool
+  Summary: This prompt provides instructions for an assistant on how to cite search results
+
+[ANTHROPIC] calude_code_cli_tools.md (49.5 KB)
+  Model: claude-sonnet-4-5-20250929
+  Category: tool
+  Summary: This prompt provides technical documentation for Claude Code's internal tools, i
+
+[ANTHROPIC] claude-3.7-sonnet-full-system-message-humanreadable.md (111.1 KB)
+  Model: claude-3.7-sonnet
+  Category: tool
+  Summary: This prompt provides detailed instructions for Claude on how to use specific too
+
+[ANTHROPIC] claude-3.7-sonnet-w-tools.md (107.5 KB)
+  Model: claude-3.7-sonnet-w-tools
+  Category: tool
+  Summary: This prompt provides instructions for an assistant on how to use tools, cite sou
+
+[ANTHROPIC] claude-4.1-opus-thinking.md (104.1 KB)
+  Model: claude-4.1-opus
+  Category: tool
+  Summary: This prompt provides instructions for an assistant on how to use tools for searc
+
+[ANTHROPIC] claude-4.5-sonnet.md (140.2 KB)
+  Model: claude-4.5-sonnet
+  Category: tool
+  Summary: This prompt provides instructions for an assistant on how to use tools to search
+
+[ANTHROPIC] claude-ai-memory-system.md (16.7 KB)
+  Model: unknown
+  Category: memory
+  Summary: This prompt defines Claude's memory system, including how it should be applied, 
+
+[ANTHROPIC] claude-code-2025-11-1.md (11.0 KB)
+  Model: claude-haiku-4-5-20251001
+  Category: code
+  Summary: This prompt defines Claude Code, an Anthropic CLI tool for software engineering 
+
+[UPSERT] Batch of 10 vectors...
+  -> system-prompts-misc: 1 vectors
+  -> system-prompts-anthropic: 9 vectors
+
+[ANTHROPIC] claude-code-plan-mode.md (1.0 KB)
+  Model: unknown
+  Category: tool
+  Summary: This prompt instructs the model to operate in a 'plan mode' where it gathers inf
+
+[ANTHROPIC] claude-code.md (37.9 KB)
+  Model: unknown
+  Category: code
+  Summary: This system prompt defines the behavior of Claude Code, an interactive CLI tool 
+
+[ANTHROPIC] claude-for-excel.md (33.7 KB)
+  Model: claude
+  Category: excel
+  Summary: This prompt defines Claude as an AI assistant integrated into Microsoft Excel, p
+
+[ANTHROPIC] claude-in-chrome.md (45.8 KB)
+  Model: Claude Haiku 4.5
+  Category: tool
+  Summary: This prompt defines Claude as a web automation assistant with browser tools, emp
+
+[ANTHROPIC] claude-opus-4.6.md (141.7 KB)
+  Model: claude-opus-4.6
+  Category: tool
+  Summary: This prompt defines Claude's identity, provides it with tools for searching past
+
+[ANTHROPIC] claude-sonnet-4.md (99.1 KB)
+  Model: claude-sonnet-4
+  Category: tool
+  Summary: This prompt provides instructions for an assistant on how to use tools, cite sou
+
+[ANTHROPIC] claude.ai-injections.md (2.1 KB)
+  Model: unknown
+  Category: safety
+  Summary: This prompt describes the system's behavior when a user attempts to violate copy
+
+[ANTHROPIC] claude_works.md (112.5 KB)
+  Model: unknown
+  Category: personality
+  Summary: This prompt defines the persona and behavior of a Claude agent, specifically for
+
+[ANTHROPIC] docx.md (9.2 KB)
+  Model: unknown
+  Category: tool
+  Summary: This prompt provides comprehensive instructions for creating, editing, and analy
+
+[ANTHROPIC] end-conversation-tool.md (2.8 KB)
+  Model: unknown
+  Category: tool
+  Summary: This prompt defines rules for an assistant to use the end_conversation tool in c
+
+[UPSERT] Batch of 10 vectors...
+  -> system-prompts-anthropic: 10 vectors
+
+[ANTHROPIC] past_chats_tools.md (9.6 KB)
+  Model: unknown
+  Category: tool
+  Summary: This prompt provides Claude with tools to search past conversations based on top
+
+[ANTHROPIC] pdf.md (7.0 KB)
+  Model: unknown
+  Category: tool
+  Summary: This prompt defines a tool for comprehensive PDF manipulation, including text an
+
+[ANTHROPIC] pptx.md (18.9 KB)
+  Model: unknown
+  Category: tool
+  Summary: This prompt defines a tool for creating, editing, and analyzing PowerPoint prese
+
+[ANTHROPIC] xlsx.md (10.4 KB)
+  Model: unknown
+  Category: excel
+  Summary: This prompt provides comprehensive guidelines and instructions for creating, edi
+
+[GOOGLE] gemini-2.0-flash-webapp.md (2.3 KB)
+  Model: gemini-2.0-flash
+  Category: personality
+  Summary: This prompt defines the personality and behavior of the Gemini AI assistant, emp
+
+[GOOGLE] gemini-2.5-flash-image-preview.md (4.8 KB)
+  Model: gemini-2.5-flash-image-preview
+  Category: tool
+  Summary: This prompt defines an AI assistant that generates images based on user requests
+
+[GOOGLE] gemini-2.5-pro-guided-learning.md (15.1 KB)
+  Model: gemini-2.5-pro
+  Category: personality
+  Summary: This prompt defines a warm, friendly, and encouraging peer tutor persona within 
+
+[GOOGLE] gemini-2.5-pro-webapp.md (1.9 KB)
+  Model: gemini-2.5-pro
+  Category: tool
+  Summary: This prompt defines the role of the AI as Gemini, provides guidelines for answer
+
+[GOOGLE] Gemini-3-fast.md (10.1 KB)
+  Model: gemini-3-flash
+  Category: base
+  Summary: This prompt defines the persona, capabilities, and constraints for the Gemini 3 
+
+[GOOGLE] gemini-3-flash.md (4.8 KB)
+  Model: gemini-3-flash
+  Category: personality
+  Summary: This prompt defines the personality, capabilities, and formatting guidelines for
+
+[UPSERT] Batch of 10 vectors...
+  -> system-prompts-anthropic: 4 vectors
+  -> system-prompts-google: 6 vectors
+
+[GOOGLE] gemini-3-pro.md (13.9 KB)
+  Model: gemini-3-pro
+  Category: base
+  Summary: This prompt defines the persona, rules, and safety guidelines for the Gemini lan
+
+[GOOGLE] Gemini-cli system prompt.md (16.9 KB)
+  Model: unknown
+  Category: tool
+  Summary: This prompt defines a CLI agent specializing in software engineering tasks, emph
+
+[GOOGLE] gemini-diffusion.md (6.4 KB)
+  Model: Gemini Diffusion
+  Category: code
+  Summary: This prompt defines the persona of Gemini Diffusion, a text diffusion language m
+
+[GOOGLE] gemini-workspace.md (20.7 KB)
+  Model: gemini
+  Category: workspace
+  Summary: This system prompt instructs the Gemini model to prioritize the user's Google Wo
+
+[GOOGLE] gemini_in_chrome.md (11.3 KB)
+  Model: gemini
+  Category: chrome
+  Summary: This prompt defines the behavior of the Gemini model when assisting a user in th
+
+[GOOGLE] google-ai-studios.md (1.8 KB)
+  Model: unknown
+  Category: tool
+  Summary: This prompt defines two tools, 'google:search' and 'google:browse', and instruct
+
+[GOOGLE] NotebookLM-chat.md (2.5 KB)
+  Model: unknown
+  Category: base
+  Summary: This prompt provides a default instruction set for a chatbot that prioritizes in
+
+[MISC] Confer.md (4.1 KB)
+  Model: unknown
+  Category: tool|personality
+  Summary: This prompt defines a helpful and insightful AI assistant named Confer, created 
+
+[MISC] Fellou-browser.md (22.3 KB)
+  Model: unknown
+  Category: tool|personality|thinking|memory|chrome
+  Summary: This prompt defines Fellou, an action-oriented browser assistant, including its 
+
+[MISC] Kagi Assistant.md (5.1 KB)
+  Model: unknown
+  Category: base
+  Summary: This prompt defines an AI assistant named 'The Assistant' within a multi-agent f
+
+[UPSERT] Batch of 10 vectors...
+  -> system-prompts-google: 7 vectors
+  -> system-prompts-misc: 3 vectors
+
+[MISC] Le-Chat.md (15.6 KB)
+  Model: unknown
+  Category: tool|personality
+  Summary: This prompt defines a conversational assistant named Le Chat, created by Mistral
+
+[MISC] Notion AI.md (32.9 KB)
+  Model: unknown
+  Category: tool
+  Summary: This prompt defines the behavior of Notion AI, a tool-using AI assistant embedde
+
+[MISC] Raycast-AI.md (1.1 KB)
+  Model: unknown
+  Category: base
+  Summary: This prompt defines the identity and output format for Raycast AI, including mar
+
+[MISC] Sesame-AI-Maya.md (15.2 KB)
+  Model: unknown
+  Category: personality
+  Summary: This prompt defines the personality and behavior of an AI character named Maya, 
+
+[MISC] Warp-2.0-agent.md (13.4 KB)
+  Model: unknown
+  Category: tool
+  Summary: This prompt defines an AI agent named Agent Mode that assists users with softwar
+
+[OPENAI] 2026-02-04-GPT-4o-with-deprecation-guideline.md (30.9 KB)
+  Model: GPT-4o
+  Category: base
+  Summary: This prompt defines the identity, capabilities, and constraints for a GPT-4o mod
+
+[OPENAI] 4o-2025-09-03-new-personality.md (2.6 KB)
+  Model: GPT-4o
+  Category: base
+  Summary: This prompt defines the identity, personality, and tool usage guidelines for a C
+
+[OPENAI] chatgpt-atlas.md (3.1 KB)
+  Model: unknown
+  Category: tool
+  Summary: This system prompt defines the behavior of ChatGPT Atlas, a browser-integrated v
+
+[OPENAI] ChatGPT-GPT-5-Agent-mode-System-Prompt.md (20.9 KB)
+  Model: ChatGPT-GPT-5
+  Category: tool
+  Summary: This prompt defines the behavior of ChatGPT in agent mode, providing it with acc
+
+[OPENAI] codex-cli.md (24.8 KB)
+  Model: unknown
+  Category: code
+  Summary: This prompt defines a coding agent for the Codex CLI, outlining its personality,
+
+[UPSERT] Batch of 10 vectors...
+  -> system-prompts-misc: 5 vectors
+  -> system-prompts-openai: 5 vectors
+
+[OPENAI] Codex.md (4.7 KB)
+  Model: ChatGPT
+  Category: base
+  Summary: This prompt instructs the language model to act as a read-only quality analyst f
+
+[OPENAI] GPT-4.1-mini.md (4.8 KB)
+  Model: GPT-4o-mini
+  Category: tool
+  Summary: This prompt defines the identity, capabilities, and tool usage guidelines for a 
+
+[OPENAI] GPT-4.1.md (12.6 KB)
+  Model: ChatGPT
+  Category: tool|personality
+  Summary: This prompt defines the persona, knowledge cutoff, image input capabilities, and
+
+[OPENAI] GPT-4.5.md (10.8 KB)
+  Model: GPT-4.5
+  Category: tool|personality
+  Summary: This prompt defines the identity, capabilities, and constraints of a ChatGPT mod
+
+[OPENAI] GPT-4o-advanced-voice-mode.md (2.2 KB)
+  Model: ChatGPT
+  Category: personality
+  Summary: This prompt defines the personality and behavior of ChatGPT in a voice-based int
+
+[OPENAI] GPT-4o-legacy-voice-mode.md (5.7 KB)
+  Model: ChatGPT
+  Category: voice
+  Summary: This prompt defines the behavior of ChatGPT in voice conversation mode, emphasiz
+
+[OPENAI] GPT-4o-WhatsApp.md (2.6 KB)
+  Model: ChatGPT
+  Category: tool|personality
+  Summary: This prompt defines ChatGPT's persona, knowledge cutoff, tool usage, and constra
+
+[OPENAI] gpt-5-cynic-personality.md (2.8 KB)
+  Model: unknown
+  Category: personality
+  Summary: This prompt defines a sarcastic and cynical AI assistant with a hidden core of k
+
+[OPENAI] gpt-5-listener-personality.md (2.1 KB)
+  Model: unknown
+  Category: personality
+  Summary: This prompt defines a warm, laid-back AI personality that acts as a supportive o
+
+[OPENAI] gpt-5-nerdy-personality.md (3.1 KB)
+  Model: unknown
+  Category: personality
+  Summary: This prompt defines a nerdy, playful, and wise AI mentor persona focused on prom
+
+[UPSERT] Batch of 10 vectors...
+  -> system-prompts-openai: 10 vectors
+
+[OPENAI] gpt-5-robot-personality.md (2.5 KB)
+  Model: unknown
+  Category: personality
+  Summary: This prompt defines a synthetic, efficient, and fact-based AI personality with s
+
+[OPENAI] gpt-5-thinking.md (77.2 KB)
+  Model: GPT-5 Thinking
+  Category: tool
+  Summary: This prompt defines the behavior of a GPT-5 Thinking model, focusing on tool usa
+
+[OPENAI] gpt-5.1-candid.md (1.2 KB)
+  Model: unknown
+  Category: personality
+  Summary: This prompt defines a specific AI conversational persona characterized by eloque
+
+[OPENAI] gpt-5.1-cynical.md (2.6 KB)
+  Model: unknown
+  Category: personality
+  Summary: This prompt defines a cynical and sarcastic AI persona with a hidden core of kin
+
+[OPENAI] gpt-5.1-default.md (1.2 KB)
+  Model: unknown
+  Category: personality
+  Summary: This prompt defines the AI as a plainspoken and direct coach focused on user pro
+
+[OPENAI] gpt-5.1-efficient.md (1.1 KB)
+  Model: gpt-5.1
+  Category: personality
+  Summary: This prompt defines an efficient and direct assistant that avoids conversational
+
+[OPENAI] gpt-5.1-friendly.md (1.2 KB)
+  Model: unknown
+  Category: personality
+  Summary: This prompt defines a warm, curious, witty, and energetic AI friend persona with
+
+[OPENAI] gpt-5.1-nerdy.md (3.4 KB)
+  Model: unknown
+  Category: personality
+  Summary: This prompt defines a playful, nerdy, and wise AI mentor persona focused on prom
+
+[OPENAI] gpt-5.1-professional.md (1.0 KB)
+  Model: unknown
+  Category: personality
+  Summary: This prompt defines a contemplative and articulate AI persona with a focus on pr
+
+[OPENAI] gpt-5.1-quirky.md (1.4 KB)
+  Model: unknown
+  Category: personality
+  Summary: This prompt defines a playful and imaginative AI personality with specific styli
+
+[UPSERT] Batch of 10 vectors...
+  -> system-prompts-openai: 10 vectors
+
+[OPENAI] gpt-5.2-thinking.md (85.9 KB)
+  Model: gpt-5.2
+  Category: tool
+  Summary: This prompt defines the persona, capabilities, constraints, and tool usage guide
+
+[OPENAI] Image safety policies.md (1.7 KB)
+  Model: ChatGPT
+  Category: personality
+  Summary: This prompt defines the personality, image handling capabilities, and safety pol
+
+[OPENAI] o3.md (31.5 KB)
+  Model: o3
+  Category: tool
+  Summary: This prompt defines the behavior of a large language model with a specific knowl
+
+[OPENAI] o4-mini-high.md (29.9 KB)
+  Model: o4-mini
+  Category: tool
+  Summary: This prompt defines a reasoning language model with a knowledge cutoff of June 2
+
+[OPENAI] o4-mini.md (29.9 KB)
+  Model: o4-mini
+  Category: tool
+  Summary: This prompt defines a reasoning language model with a knowledge cutoff of June 2
+
+[OPENAI] prompt-automation-context.md (1.0 KB)
+  Model: unknown
+  Category: automation
+  Summary: This prompt provides context for an automation job, including scheduling informa
+
+[OPENAI] prompt-image-safety-policies.md (1.0 KB)
+  Model: unknown
+  Category: safety
+  Summary: This prompt provides image safety policies to prevent the AI from revealing iden
+
+[OPENAI] Study and learn.md (2.6 KB)
+  Model: unknown
+  Category: personality
+  Summary: This prompt instructs the chatbot to act as an approachable and dynamic teacher,
+
+[OPENAI] tool-advanced-memory.md (5.9 KB)
+  Model: unknown
+  Category: memory
+  Summary: This prompt provides the assistant with user preferences, past conversation high
+
+[OPENAI] tool-canvas-canmore.md (2.8 KB)
+  Model: unknown
+  Category: tool
+  Summary: This prompt defines the `canmore` tool, which allows the agent to create, update
+
+[UPSERT] Batch of 10 vectors...
+  -> system-prompts-openai: 10 vectors
+
+[OPENAI] tool-create-image-image_gen.md (2.0 KB)
+  Model: unknown
+  Category: tool
+  Summary: This prompt defines the `image_gen` tool for generating and editing images based
+
+[OPENAI] tool-deep-research.md (2.5 KB)
+  Model: unknown
+  Category: tool
+  Summary: This prompt instructs the agent on how to use the research_kickoff_tool for onli
+
+[OPENAI] tool-file_search.md (8.1 KB)
+  Model: unknown
+  Category: tool
+  Summary: This prompt defines the `file_search` tool, enabling the agent to search user-up
+
+[OPENAI] tool-memory-bio.md (0.2 KB)
+  Model: unknown
+  Category: tool
+  Summary: This prompt defines a tool called 'bio' that allows the model to persist informa
+
+[OPENAI] tool-python-code.md (1.0 KB)
+  Model: unknown
+  Category: tool
+  Summary: This prompt defines the behavior of a Python code execution tool, specifying its
+
+[OPENAI] tool-python.md (1.0 KB)
+  Model: unknown
+  Category: tool
+  Summary: This prompt defines the behavior of a Python tool, specifying its execution envi
+
+[OPENAI] tool-web-search.md (1.4 KB)
+  Model: unknown
+  Category: tool
+  Summary: This prompt defines the usage and commands for a `web` tool, instructing the mod
+
+[PERPLEXITY] comet-browser-assistant.md (24.8 KB)
+  Model: unknown
+  Category: tool
+  Summary: This prompt defines a browser assistant agent that uses various tools to help us
+
+[PERPLEXITY] voice-assistant.md (2.0 KB)
+  Model: unknown
+  Category: voice
+  Summary: This prompt defines the behavior of Perplexity's voice assistant, emphasizing co
+
+[PROTON] Luma.md (6.7 KB)
+  Model: unknown
+  Category: personality|tool
+  Summary: This prompt defines an AI assistant named Lumo with a cat-like personality, deta
+
+[UPSERT] Batch of 10 vectors...
+  -> system-prompts-openai: 7 vectors
+  -> system-prompts-misc: 3 vectors
+
+[PROTON] lumo-2025-8-26.md (11.3 KB)
+  Model: unknown
+  Category: personality
+  Summary: This system prompt defines the identity, personality, critical thinking principl
+
+[XAI] grok-3.md (4.2 KB)
+  Model: Grok 3
+  Category: tool|memory|voice|code|workspace
+  Summary: This system prompt defines the behavior of Grok 3, a multimodal AI assistant dev
+
+[XAI] grok-4.1-beta.md (14.3 KB)
+  Model: grok-4.1-beta
+  Category: tool
+  Summary: This prompt defines the behavior of the Grok model, including its core policies,
+
+[XAI] grok-4.md (11.9 KB)
+  Model: Grok 4
+  Category: tool
+  Summary: This prompt defines Grok 4, a tool-using AI assistant by xAI, equipped with web 
+
+[XAI] grok-personas.md (23.3 KB)
+  Model: grok
+  Category: personality
+  Summary: This prompt defines four distinct personas for the Grok chatbot: a flirty compan
+
+[XAI] grok.com-post-new-safety-instructions.md (19.7 KB)
+  Model: Grok 4
+  Category: tool
+  Summary: This prompt defines the behavior of the Grok 4 model, including safety instructi
+
+[ANTHROPIC] claude-3.7-sonnet-w-tools.xml (107.5 KB)
+  Model: claude-3.7-sonnet-w-tools
+  Category: tool
+  Summary: This prompt provides instructions for an assistant on how to use tools, cite sou
+
+[ANTHROPIC] claude-code.js (14.0 KB)
+  Model: claude-opus-4-1-20250805
+  Category: code
+  Summary: This prompt defines Claude Code, an Anthropic CLI tool for software engineering 
+
+[ANTHROPIC] search_instructions (22.3 KB)
+  Model: unknown
+  Category: tool
+  Summary: This prompt provides detailed instructions for an AI assistant on how to use web
+
+[UPSERT] Final batch of 9 vectors...
+  -> system-prompts-misc: 6 vectors
+  -> system-prompts-anthropic: 3 vectors
+
+[DONE] Processed: 99, Failed: 0
+
+[INDEX STATS]
+  Total vectors: 28673
+  system-prompts-google: 13 vectors
+  video-prompts: 86 vectors
+  system-prompts-anthropic: 23 vectors
+  video-negative-prompts: 12 vectors
+  system-prompts-openai: 42 vectors
+  system-prompts: 170 vectors
+  __default__: 28309 vectors
+  system-prompts-misc: 18 vectors

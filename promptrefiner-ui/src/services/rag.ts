@@ -30,9 +30,10 @@ export async function queryRAG(
         category?: string;
         useCache?: boolean;
         modality?: string;  // text, image, video, system
+        targetVendor?: string;  // anthropic, openai, google — routes to vendor-specific namespace
     } = {}
 ): Promise<RAGQueryResponse> {
-    const { topK = 5, category, useCache = true, modality = "text" } = options;
+    const { topK = 5, category, useCache = true, modality = "text", targetVendor } = options;
 
     try {
         const response = await fetch(`${RAG_BACKEND_URL}/api/rag/query`, {
@@ -47,6 +48,7 @@ export async function queryRAG(
                 use_cache: useCache,
                 include_metadata: true,
                 modality,  // Pass modality to backend for namespace routing
+                target_vendor: targetVendor,  // Vendor-specific namespace routing
             }),
         });
 
@@ -65,6 +67,7 @@ export async function queryRAG(
         };
     }
 }
+
 
 /**
  * Check if RAG backend is available

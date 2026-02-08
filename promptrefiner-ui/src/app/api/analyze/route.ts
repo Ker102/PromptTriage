@@ -142,6 +142,7 @@ export async function POST(req: Request) {
     const context = body.context?.trim();
     const thinkingMode = body.thinkingMode ?? false;
     const desiredOutput = body.desiredOutput?.trim();
+    const targetVendor = body.targetVendor?.trim(); // anthropic | openai | google
 
     // Validate modality - must be one of allowed values
     const VALID_MODALITIES = ["text", "image", "video", "system"] as const;
@@ -175,6 +176,7 @@ export async function POST(req: Request) {
       console.log("[DEBUG] Analyze request:", {
         modality,
         thinkingMode,
+        targetVendor: targetVendor || "none",
         imagesCount: images.length,
         imageDetails: images.map((img, i) => ({
           index: i,
@@ -255,6 +257,7 @@ export async function POST(req: Request) {
         topK: 3,
         category: ragCategory,
         modality: modality,  // Pass modality for namespace routing
+        targetVendor: targetVendor,  // Vendor-specific namespace routing
       });
       if (ragResults.results.length > 0) {
         ragContext = formatRAGContext(ragResults.results);
@@ -306,6 +309,21 @@ export async function POST(req: Request) {
       userPromptParts.push(
         `<desired_output_format>The refined prompt MUST specify that the target AI should output its response in: ${desiredOutput}</desired_output_format>`
       );
+    }
+
+    // Add vendor-specific styling conventions when a target vendor is selected
+    if (targetVendor && (modality === "text" || modality === "system")) {
+      const vendorConventions: Record<string, string> = {
+        anthropic: `Structure the prompt using XML tags (e.g., <identity>, <rules>, <thinking>, <output_format>). Use detailed identity blocks. Include chain-of-thought and safety sections. Anthropic prompts average ~8,000 words and heavily use XML-based section organization.`,
+        openai: `Structure the prompt using Markdown headers (## sections). Use concise, declarative language. Include tool/function schemas when relevant. OpenAI prompts average ~1,400 words, rely on numbered lists and bullet points, and rarely use XML.`,
+        google: `Use a hybrid XML/Markdown format. Include grounding instructions and multimodal considerations. Google prompts average ~1,300 words and balance structured sections with concise instructions.`,
+      };
+      const convention = vendorConventions[targetVendor];
+      if (convention) {
+        userPromptParts.push(
+          `<vendor_style_guide>Target vendor: ${targetVendor.toUpperCase()}. ${convention}</vendor_style_guide>`
+        );
+      }
     }
 
     // Add RAG context (similar prompts from our corpus)

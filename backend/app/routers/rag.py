@@ -22,6 +22,14 @@ class QueryRequest(BaseModel):
     include_metadata: bool = True
     modality: str = "text"  # text, image, video
     namespace: Optional[str] = None  # Direct namespace override
+    target_vendor: Optional[str] = None  # anthropic, openai, google — maps to vendor namespace
+
+# Vendor to Pinecone namespace mapping
+VENDOR_NAMESPACE_MAP = {
+    "anthropic": "system-prompts-anthropic",
+    "openai": "system-prompts-openai",
+    "google": "system-prompts-google",
+}
 
 
 class QueryResult(BaseModel):
@@ -89,13 +97,18 @@ async def query_prompts(request: QueryRequest):
     3. Cache results for next time
     """
     try:
+        # Resolve namespace: target_vendor takes priority, then explicit namespace, then modality default
+        resolved_namespace = request.namespace
+        if request.target_vendor and request.target_vendor in VENDOR_NAMESPACE_MAP:
+            resolved_namespace = VENDOR_NAMESPACE_MAP[request.target_vendor]
+
         results = await rag_service.query(
             query=request.query,
             top_k=request.top_k,
             category=request.category,
             use_cache=request.use_cache,
             modality=request.modality,
-            namespace=request.namespace,
+            namespace=resolved_namespace,
         )
         
         return QueryResponse(

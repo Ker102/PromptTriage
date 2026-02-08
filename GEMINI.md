@@ -18,6 +18,28 @@
 
 ## Recent Changes
 
+### 2026-01-22 - Phase 9: System Prompts Corpus Enhancement
+
+**Commit Ready**: Yes
+
+#### 9.1 RAG Corpus Enhancement
+- **99 prompts** ingested from `system-prompts-reference/` (Ker102/system_prompts_leaks)
+- **4 vendor namespaces**: `system-prompts-anthropic` (23), `system-prompts-openai` (42), `system-prompts-google` (13), `system-prompts-misc` (18)
+- **Embedding model**: `gemini-embedding-001` with 768-dim output (Pinecone index compat)
+- **Script**: `ingest_system_prompts_reference.py` (google.genai SDK)
+
+#### 9.2 Prompt Pattern Analysis
+- **106 files** analyzed via `analyze_prompt_patterns.py`
+- **Key findings**: Anthropic uses XML (73%), avg 8,021 words; OpenAI uses Markdown (73%), avg 1,435 words
+- **Output**: `prompt_patterns.json` with vendor profiles, XML tags, feature frequencies
+
+#### 9.4 Vendor-Specific RAG Context
+- **New Component**: `VendorSelector.tsx` — pill-button UI for Any/Anthropic/OpenAI/Google
+- **Full pipeline**: `page.tsx` → `analyze/route.ts` → `rag.ts` → FastAPI `rag.py` → Pinecone namespace
+- **Vendor conventions**: Injected as `<vendor_style_guide>` context with structure/style recommendations
+- **Type update**: `targetVendor` added to `AnalyzeRequestPayload`
+
+
 ### 2026-01-21 - Modality-Specific Prompts & UI Enhancements
 
 **Commit Ready**: Yes
