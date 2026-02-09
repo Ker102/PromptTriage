@@ -18,6 +18,20 @@
 
 ## Recent Changes
 
+### 2026-02-09 - Phase 9.3: Research Experiment Framework
+
+**Commit Ready**: Yes
+
+#### Research Framework (`backend/research/`)
+- **7 files** created for 3-study benchmark experiment
+- **`test_suite.py`**: 30 test prompts across 3 categories (coding, business, creative) × 3 vendors
+- **`llm_judge.py`**: LLM-as-judge scoring on 5 dimensions (structure, completeness, vendor fidelity, conciseness, actionability)
+- **`rag_methods.py`**: 6 RAG strategies (L0: No RAG → L5: Agentic RAG with query decomposition)
+- **`benchmark_runner.py`**: CLI orchestrator for Study A (RAG), Study B (Fine-Tuning), Study C (System Prompt Impact)
+- **`generate_training_pairs.py`**: Training data gen for QLoRA (corpus-direct + distillation)
+- **Target model**: Qwen 2.5 7B/14B via Google Colab + Unsloth
+- **Infrastructure**: Vertex AI (free via GCP credits) for baselines (Claude, Gemini, Llama)
+
 ### 2026-01-22 - Phase 9: System Prompts Corpus Enhancement
 
 **Commit Ready**: Yes
