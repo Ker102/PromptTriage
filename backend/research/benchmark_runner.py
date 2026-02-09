@@ -1,8 +1,8 @@
 """
 Benchmark Runner — Orchestrates all 3 studies.
 
-Study A: RAG Architecture (6 methods)
-Study B: Fine-Tuning (Qwen 7B/14B vs proprietary)
+Study A: RAG Architecture (6 methods × 30 prompts)
+Study B: Model Comparison (Qwen3 8B/30B-A3B fine-tuned vs Gemini/Claude/GPT/Llama)
 Study C: System Prompt Impact (5 complexity levels × 3 models)
 
 Usage:
@@ -155,13 +155,32 @@ def run_study_a(
 
 # ── Study B: Model Comparison ───────────────────────────────────────────
 
-# Models available via Vertex AI or direct API
+# Full model roster for Study B
+# Proprietary (Gemini direct API + Vertex AI + OpenAI)
+# Open-source fine-tuned (Qwen 3 via local/Colab endpoint)
 STUDY_B_MODELS = {
+    # ── Proprietary baselines (always available) ──
     "gemini_3_pro": "gemini-2.5-pro-preview-05-06",
     "gemini_3_flash": "gemini-2.0-flash",
-    # Add Vertex AI models when configured:
+    # ── Vertex AI models (enable when configured) ──
     # "claude_sonnet_4": "claude-sonnet-4@vertex",
     # "llama_4_maverick": "llama-4-maverick@vertex",
+    # ── OpenAI (enable when API key available) ──
+    # "gpt_5_2": "gpt-5.2",
+    # ── Open-source fine-tuned (Qwen 3 via Colab/local) ──
+    # After QLoRA training, serve via vLLM or Ollama and add endpoint:
+    # "qwen3_8b_base": "qwen3-8b@local",
+    # "qwen3_8b_qlora": "qwen3-8b-qlora@local",
+    # "qwen3_30b_a3b_base": "qwen3-30b-a3b@local",
+    # "qwen3_30b_a3b_qlora": "qwen3-30b-a3b-qlora@local",
+}
+
+# Model categories for structured comparison
+MODEL_CATEGORIES = {
+    "proprietary": ["gemini_3_pro", "gemini_3_flash", "claude_sonnet_4",
+                    "llama_4_maverick", "gpt_5_2"],
+    "open_source_base": ["qwen3_8b_base", "qwen3_30b_a3b_base"],
+    "open_source_finetuned": ["qwen3_8b_qlora", "qwen3_30b_a3b_qlora"],
 }
 
 
@@ -223,6 +242,13 @@ def run_study_b(
 
 
 # ── Study C: System Prompt Impact ────────────────────────────────────────
+
+# Models to test across all prompt levels
+STUDY_C_MODELS = {
+    "gemini_3_pro": "gemini-2.5-pro-preview-05-06",
+    # "qwen3_30b_a3b_qlora": "qwen3-30b-a3b-qlora@local",  # After fine-tuning
+    # "claude_sonnet_4": "claude-sonnet-4@vertex",  # After Vertex AI setup
+}
 
 PROMPT_LEVELS = {
     "L0_none": "",

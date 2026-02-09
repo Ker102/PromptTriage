@@ -1,9 +1,13 @@
 """
 Training Pair Generator for Study B (Fine-Tuning).
 
-Creates JSONL datasets for QLoRA fine-tuning of Qwen 2.5 7B/14B:
-  - Approach 3 (Corpus-Direct): Reverse-engineer user prompts from real system prompts
-  - Approach 4 (Distillation): Use Gemini 3 Pro as teacher to generate ideal outputs
+Creates JSONL datasets for QLoRA fine-tuning of Qwen 3 models:
+  - Qwen3-8B (dense, 8B params — fits Colab T4 with 4-bit)
+  - Qwen3-30B-A3B (MoE, 30B total / 3B active — runs like 3B, thinks like 30B)
+
+Approaches:
+  - Corpus-Direct: Reverse-engineer user prompts from real system prompts
+  - Distillation: Use Gemini 3 Pro as teacher to generate ideal outputs
 
 Output format (ChatML / Unsloth-compatible):
 {"messages": [

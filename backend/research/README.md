@@ -7,7 +7,7 @@
 | Study | Script | Question |
 |-------|--------|----------|
 | **A** | `benchmark_runner.py --study A` | Which RAG method produces best context? |
-| **B** | `benchmark_runner.py --study B` | Can QLoRA Qwen 7B match GPT-5.2? |
+| **B** | `benchmark_runner.py --study B` | Can QLoRA Qwen3-30B-A3B match GPT-5.2? |
 | **C** | `benchmark_runner.py --study C` | Does a complex system prompt help? |
 
 ## Files
