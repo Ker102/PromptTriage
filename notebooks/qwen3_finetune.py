@@ -380,3 +380,129 @@ for prompt, vendor in benchmark_prompts:
     
     print(f"\n📝 {prompt} ({vendor}): {word_count} words")
     print(f"   Preview: {response[:200]}...")
+
+# %% [markdown]
+# ## 13. Full Benchmark — Run 30 Test Prompts
+# 
+# Runs the entire test suite, saves results as JSON for local `llm_judge.py` scoring.
+# **Download the JSON** and score locally:
+# ```bash
+# cd backend
+# python -c "
+# from research.llm_judge import LLMJudge
+# import json
+# judge = LLMJudge()
+# with open('results.json') as f: data = json.load(f)
+# for r in data:
+#     score = judge.score(r['output'], r['vendor'], '', r['prompt'])
+#     print(f'{r[\"id\"]}: {score.total}/50')
+# "
+# ```
+
+# %%
+import time as _time
+
+# Full test suite from our research framework
+TEST_PROMPTS = [
+    # Coding × Anthropic
+    {"id": "code_anth_1", "prompt": "Build a Python debugging assistant that helps developers find and fix bugs", "vendor": "anthropic", "cat": "coding"},
+    {"id": "code_anth_2", "prompt": "Create a code review bot that catches security vulnerabilities and suggests fixes", "vendor": "anthropic", "cat": "coding"},
+    {"id": "code_anth_3", "prompt": "Design a SQL query optimizer that explains performance improvements", "vendor": "anthropic", "cat": "coding"},
+    # Coding × OpenAI
+    {"id": "code_oai_1", "prompt": "Build an API documentation generator from source code", "vendor": "openai", "cat": "coding"},
+    {"id": "code_oai_2", "prompt": "Create a test generation assistant for Python pytest with edge cases", "vendor": "openai", "cat": "coding"},
+    {"id": "code_oai_3", "prompt": "Design a Kubernetes troubleshooting assistant", "vendor": "openai", "cat": "coding"},
+    # Coding × Google
+    {"id": "code_goog_1", "prompt": "Build a data pipeline debugging assistant for GCP", "vendor": "google", "cat": "coding"},
+    {"id": "code_goog_2", "prompt": "Create a cloud architecture reviewer for multi-region deployments", "vendor": "google", "cat": "coding"},
+    {"id": "code_goog_3", "prompt": "Design a CI/CD pipeline assistant that suggests optimizations", "vendor": "google", "cat": "coding"},
+    # Business × Anthropic
+    {"id": "biz_anth_1", "prompt": "Create a customer support chatbot for a SaaS product", "vendor": "anthropic", "cat": "business"},
+    {"id": "biz_anth_2", "prompt": "Build a competitive analysis agent for market research", "vendor": "anthropic", "cat": "business"},
+    {"id": "biz_anth_3", "prompt": "Design a legal document reviewer for GDPR compliance", "vendor": "anthropic", "cat": "business"},
+    # Business × OpenAI
+    {"id": "biz_oai_1", "prompt": "Build a resume screening assistant with bias mitigation", "vendor": "openai", "cat": "business"},
+    {"id": "biz_oai_2", "prompt": "Create a financial planning assistant for small businesses", "vendor": "openai", "cat": "business"},
+    {"id": "biz_oai_3", "prompt": "Design an HR onboarding assistant for remote teams", "vendor": "openai", "cat": "business"},
+    # Business × Google
+    {"id": "biz_goog_1", "prompt": "Build a meeting summarizer that extracts action items", "vendor": "google", "cat": "business"},
+    {"id": "biz_goog_2", "prompt": "Create a project status reporter from Jira and GitHub", "vendor": "google", "cat": "business"},
+    {"id": "biz_goog_3", "prompt": "Design a sales proposal generator from CRM data", "vendor": "google", "cat": "business"},
+    # Creative × Anthropic
+    {"id": "cre_anth_1", "prompt": "Build a blog content writer optimized for SEO", "vendor": "anthropic", "cat": "creative"},
+    {"id": "cre_anth_2", "prompt": "Create a brand naming and trademark assistant", "vendor": "anthropic", "cat": "creative"},
+    {"id": "cre_anth_3", "prompt": "Design a storytelling assistant for interactive fiction", "vendor": "anthropic", "cat": "creative"},
+    # Creative × OpenAI
+    {"id": "cre_oai_1", "prompt": "Build a video script writer for YouTube tutorials", "vendor": "openai", "cat": "creative"},
+    {"id": "cre_oai_2", "prompt": "Create a UX copywriter for web application microcopy", "vendor": "openai", "cat": "creative"},
+    {"id": "cre_oai_3", "prompt": "Design a social media content calendar generator", "vendor": "openai", "cat": "creative"},
+    # Creative × Google
+    {"id": "cre_goog_1", "prompt": "Build an email marketing copywriter with A/B test variants", "vendor": "google", "cat": "creative"},
+    {"id": "cre_goog_2", "prompt": "Create a product description writer for e-commerce", "vendor": "google", "cat": "creative"},
+    {"id": "cre_goog_3", "prompt": "Design a podcast episode planner and script generator", "vendor": "google", "cat": "creative"},
+]
+
+SYS_MSG = "You are a system prompt engineer. Generate production-quality system prompts matching the target vendor's conventions."
+
+print(f"\n{'='*60}")
+print(f"FULL BENCHMARK: {cfg['output_dir']} — {len(TEST_PROMPTS)} prompts")
+print(f"{'='*60}\n")
+
+FastLanguageModel.for_inference(model)
+results = []
+
+for i, tp in enumerate(TEST_PROMPTS):
+    print(f"[{i+1}/{len(TEST_PROMPTS)}] {tp['id']}: {tp['prompt'][:50]}...")
+    
+    messages = [
+        {"role": "system", "content": SYS_MSG},
+        {"role": "user", "content": f"{tp['prompt']}\nTarget vendor: {tp['vendor']}"},
+    ]
+    
+    input_text = tokenizer.apply_chat_template(
+        messages, tokenize=False,
+        add_generation_prompt=True, enable_thinking=False,
+    )
+    inputs = tokenizer(input_text, return_tensors="pt").to("cuda")
+    
+    t0 = _time.time()
+    with torch.no_grad():
+        out = model.generate(**inputs, max_new_tokens=4096, temperature=0.7, do_sample=True)
+    latency_ms = int((_time.time() - t0) * 1000)
+    
+    response = tokenizer.decode(out[0][inputs["input_ids"].shape[1]:], skip_special_tokens=True)
+    
+    results.append({
+        "id": tp["id"],
+        "prompt": tp["prompt"],
+        "vendor": tp["vendor"],
+        "category": tp["cat"],
+        "output": response,
+        "word_count": len(response.split()),
+        "latency_ms": latency_ms,
+        "model": cfg["output_dir"],
+    })
+    
+    print(f"   → {len(response.split())} words, {latency_ms}ms")
+
+# Save results
+results_file = f"/content/{cfg['output_dir']}_benchmark_results.json"
+with open(results_file, "w") as f:
+    json.dump(results, f, indent=2, ensure_ascii=False)
+
+print(f"\n{'='*60}")
+print(f"✅ Benchmark complete! {len(results)} prompts processed.")
+print(f"📊 Avg words: {sum(r['word_count'] for r in results) / len(results):.0f}")
+print(f"⏱️  Avg latency: {sum(r['latency_ms'] for r in results) / len(results):.0f}ms")
+print(f"💾 Saved to: {results_file}")
+
+# %% [markdown]
+# ### Download Results
+
+# %%
+# Download the benchmark results JSON
+from google.colab import files
+files.download(results_file)
+print(f"📥 Downloading {results_file}...")
+print("Score locally: python -c 'from research.llm_judge import LLMJudge; ...'")
+

@@ -56,7 +56,7 @@ def get_pinecone_index():
     """Get Pinecone index handle."""
     from pinecone import Pinecone
     pc = Pinecone(api_key=os.getenv("PINECONE_API_KEY"))
-    return pc.Index("system-prompts")
+    return pc.Index(os.getenv("PINECONE_INDEX_NAME", "prompttriage-prompts"))
 
 
 def query_pinecone(index, embedding, top_k=5, namespace=""):

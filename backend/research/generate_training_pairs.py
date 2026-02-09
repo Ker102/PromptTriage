@@ -7,7 +7,7 @@ Creates JSONL datasets for QLoRA fine-tuning of Qwen 3 models:
 
 Approaches:
   - Corpus-Direct: Reverse-engineer user prompts from real system prompts
-  - Distillation: Use Gemini 3 Pro as teacher to generate ideal outputs
+  - Distillation: Use Claude Opus 4.6 (Vertex AI) as teacher to generate ideal outputs
 
 Output format (ChatML / Unsloth-compatible):
 {"messages": [
@@ -50,7 +50,23 @@ def get_client():
 def get_pinecone_index():
     from pinecone import Pinecone
     pc = Pinecone(api_key=os.getenv("PINECONE_API_KEY"))
-    return pc.Index("system-prompts")
+    return pc.Index(os.getenv("PINECONE_INDEX_NAME", "prompttriage-prompts"))
+
+
+def get_vertex_claude_client():
+    """Create Anthropic client via Vertex AI for Claude Opus 4.6."""
+    try:
+        from anthropic import AnthropicVertex
+        project_id = os.getenv("GOOGLE_CLOUD_PROJECT", os.getenv("GCP_PROJECT_ID"))
+        location = os.getenv("GOOGLE_CLOUD_LOCATION", "us-east5")
+        if not project_id:
+            raise ValueError(
+                "Set GOOGLE_CLOUD_PROJECT env var for Vertex AI. "
+                "Also ensure: gcloud auth application-default login"
+            )
+        return AnthropicVertex(project_id=project_id, region=location)
+    except ImportError:
+        raise ImportError("Install anthropic: pip install anthropic[vertex]")
 
 
 # ── Approach 3: Corpus-Direct ────────────────────────────────────────────
@@ -179,10 +195,10 @@ DISTILLATION_SCENARIOS = [
 
 def generate_distillation_pairs(
     max_pairs: int = 500,
-    teacher_model: str = "gemini-2.5-pro-preview-05-06",
+    teacher_model: str = "claude-opus-4-20250514",
 ) -> list[dict]:
-    """Generate pairs using a teacher model (distillation)."""
-    client = get_client()
+    """Generate pairs using Claude Opus 4.6 via Vertex AI as teacher."""
+    vertex_client = get_vertex_claude_client()
     vendors = ["anthropic", "openai", "google"]
     pairs = []
 
@@ -204,31 +220,31 @@ def generate_distillation_pairs(
             if len(scenarios) >= max_pairs:
                 break
 
-    print(f"\nGenerating {len(scenarios[:max_pairs])} distillation pairs...")
+    print(f"\nGenerating {len(scenarios[:max_pairs])} distillation pairs ")
+    print(f"  Teacher: {teacher_model} (Claude Opus 4.6 via Vertex AI)")
 
     for i, s in enumerate(scenarios[:max_pairs]):
         if i % 10 == 0:
             print(f"  [{i}/{max_pairs}]")
         try:
             user_msg = f"{s['prompt']}\nTarget vendor: {s['vendor']}"
-            resp = client.models.generate_content(
+            resp = vertex_client.messages.create(
                 model=teacher_model,
-                contents=user_msg,
-                config={
-                    "system_instruction": SYSTEM_MSG,
-                    "temperature": 0.7,
-                    "max_output_tokens": 16384,
-                },
+                max_tokens=16384,
+                system=SYSTEM_MSG,
+                messages=[{"role": "user", "content": user_msg}],
+                temperature=0.7,
             )
+            assistant_text = resp.content[0].text
             pair = {
                 "messages": [
                     {"role": "system", "content": SYSTEM_MSG},
                     {"role": "user", "content": user_msg},
-                    {"role": "assistant", "content": resp.text},
+                    {"role": "assistant", "content": assistant_text},
                 ]
             }
             pairs.append(pair)
-            time.sleep(1)
+            time.sleep(1.5)  # Vertex AI rate limiting
         except Exception as e:
             print(f"  Skip {i}: {e}")
 
