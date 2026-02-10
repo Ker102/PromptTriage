@@ -9,7 +9,10 @@
 # - **Qwen3-30B-A3B** (MoE, 30B total / 3B active — fits T4 too!)
 # 
 # **Stack**: Unsloth + QLoRA + SFTTrainer
-# **Runtime**: Google Colab (T4 GPU, ~30min per model)
+# **Runtime**: Colab Enterprise (A100 via GCP credits) or Colab Free (T4)
+#
+# **Training data**: 155 pairs (95 corpus-direct + 60 distillation)
+# These are for fine-tuning ONLY — NOT for RAG pipeline.
 
 # %% [markdown]
 # ## 1. Install Dependencies
@@ -97,6 +100,10 @@ print(f"🔧 Trainable: {trainable:,} / {total:,} ({100*trainable/total:.2f}%)")
 # ## 5. Load Training Data
 #
 # Upload your JSONL training data from the research pipeline.
+# The data is split into train.jsonl (~139 pairs) and val.jsonl (~16 pairs).
+#
+# **Important**: This data is for fine-tuning ONLY, not for RAG/Pinecone.
+#
 # Expected format (ChatML):
 # ```json
 # {"messages": [
@@ -107,27 +114,46 @@ print(f"🔧 Trainable: {trainable:,} / {total:,} ({100*trainable/total:.2f}%)")
 # ```
 
 # %%
-from google.colab import files
 from datasets import Dataset
+import glob
 
-# Option A: Upload from local machine
-print("📤 Upload your training JSONL file:")
+def load_jsonl(path: str) -> list:
+    records = []
+    with open(path, "r", encoding="utf-8") as f:
+        for line in f:
+            if line.strip():
+                records.append(json.loads(line))
+    return records
+
+# ============================================================
+# DATA LOADING — Choose ONE option below
+# ============================================================
+
+# Option A: Upload from local machine (Colab Free / Pro)
+from google.colab import files
+print("📤 Upload train.jsonl and val.jsonl:")
 uploaded = files.upload()
-data_file = list(uploaded.keys())[0]
+train_file = "train.jsonl"
+val_file = "val.jsonl" if "val.jsonl" in uploaded else None
 
-# Option B: If on Google Drive (uncomment below)
+# Option B: Colab Enterprise with GCS bucket (uncomment below)
+# !gsutil cp gs://YOUR_BUCKET/prompttriage/train.jsonl .
+# !gsutil cp gs://YOUR_BUCKET/prompttriage/val.jsonl .
+# train_file = "train.jsonl"
+# val_file = "val.jsonl"
+
+# Option C: Google Drive (uncomment below)
 # from google.colab import drive
 # drive.mount('/content/drive')
-# data_file = '/content/drive/MyDrive/prompttriage/corpus_direct_pairs.jsonl'
+# train_file = '/content/drive/MyDrive/prompttriage/train.jsonl'
+# val_file = '/content/drive/MyDrive/prompttriage/val.jsonl'
 
-# Load the JSONL data
-records = []
-with open(data_file, "r", encoding="utf-8") as f:
-    for line in f:
-        if line.strip():
-            records.append(json.loads(line))
+# Load the data
+train_records = load_jsonl(train_file)
+val_records = load_jsonl(val_file) if val_file else []
 
-print(f"📊 Loaded {len(records)} training examples")
+print(f"📊 Training examples:   {len(train_records)}")
+print(f"📊 Validation examples: {len(val_records)}")
 
 # %% [markdown]
 # ## 6. Format Dataset for SFTTrainer
@@ -147,15 +173,22 @@ def format_training_example(example):
     return {"text": text}
 
 
-# Create HuggingFace Dataset
-dataset = Dataset.from_list(records)
-dataset = dataset.map(format_training_example)
+# Create HuggingFace Datasets
+train_dataset = Dataset.from_list(train_records)
+train_dataset = train_dataset.map(format_training_example)
+
+eval_dataset = None
+if val_records:
+    eval_dataset = Dataset.from_list(val_records)
+    eval_dataset = eval_dataset.map(format_training_example)
 
 # Quick sanity check
-print(f"\n📋 Dataset size: {len(dataset)}")
-print(f"📏 Avg text length: {sum(len(x['text']) for x in dataset) / len(dataset):.0f} chars")
+print(f"\n📋 Train dataset: {len(train_dataset)} examples")
+print(f"📏 Avg text length: {sum(len(x['text']) for x in train_dataset) / len(train_dataset):.0f} chars")
+if eval_dataset:
+    print(f"📋 Val dataset:   {len(eval_dataset)} examples")
 print(f"\n--- Sample (first 500 chars) ---")
-print(dataset[0]["text"][:500])
+print(train_dataset[0]["text"][:500])
 
 # %% [markdown]
 # ## 7. Train with SFTTrainer
@@ -167,7 +200,8 @@ from trl import SFTTrainer, SFTConfig
 trainer = SFTTrainer(
     model=model,
     tokenizer=tokenizer,
-    train_dataset=dataset,
+    train_dataset=train_dataset,
+    eval_dataset=eval_dataset,
     args=SFTConfig(
         dataset_text_field="text",
         per_device_train_batch_size=1,
@@ -186,6 +220,9 @@ trainer = SFTTrainer(
         bf16=is_bfloat16_supported(),
         output_dir=cfg["output_dir"],
         save_strategy="epoch",
+        # Validation evaluation
+        eval_strategy="epoch" if eval_dataset else "no",
+        per_device_eval_batch_size=1,
     ),
 )
 

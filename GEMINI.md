@@ -18,6 +18,29 @@
 
 ## Recent Changes
 
+### 2026-02-10 - Phase 9.4: Training Data Generation
+
+**Commit Ready**: Yes
+
+#### Distillation Data Generation
+- **60 distillation pairs** generated using `gemini-3-pro-preview` as teacher model
+- **100% success rate** — all 60 pairs generated without errors or rate limits
+- **Output quality**: Avg 8,107 chars/response (range 4,854 – 14,141 chars)
+- **Vendor balanced**: 20 Anthropic, 20 OpenAI, 20 Google pairs
+- **Script**: `generate_training_pairs.py` updated to support 3 teacher backends (gemini, gradient, vertex)
+
+#### Combined Training Dataset
+- **155 total pairs**: 95 corpus-direct + 60 distillation
+- **train.jsonl**: 139 pairs (90%), **val.jsonl**: 16 pairs (10%)
+- **Total assistant content**: 998,601 chars, avg 6,443 chars/response
+- **Script**: `combine_training_data.py` (combine, validate, split)
+- **NOTE**: Training data ONLY — NOT for RAG pipeline or Pinecone
+
+#### Colab Notebook Updates
+- Added **Colab Enterprise** support (GCS bucket, A100 GPU via GCP credits)
+- Added **train/val split** loading and validation evaluation
+- Updated runtime description and data loading options
+
 ### 2026-02-09 - Phase 9.3: Research Experiment Framework
 
 **Commit Ready**: Yes

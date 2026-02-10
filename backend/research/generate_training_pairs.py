@@ -58,7 +58,7 @@ def get_vertex_claude_client():
     try:
         from anthropic import AnthropicVertex
         project_id = os.getenv("GOOGLE_CLOUD_PROJECT", os.getenv("GCP_PROJECT_ID"))
-        location = os.getenv("GOOGLE_CLOUD_LOCATION", "us-east5")
+        location = os.getenv("GOOGLE_CLOUD_LOCATION", "global")
         if not project_id:
             raise ValueError(
                 "Set GOOGLE_CLOUD_PROJECT env var for Vertex AI. "
@@ -195,10 +195,15 @@ DISTILLATION_SCENARIOS = [
 
 def generate_distillation_pairs(
     max_pairs: int = 500,
-    teacher_model: str = "claude-opus-4-20250514",
+    teacher: str = "gemini",  # "gemini", "gradient", or "vertex"
 ) -> list[dict]:
-    """Generate pairs using Claude Opus 4.6 via Vertex AI as teacher."""
-    vertex_client = get_vertex_claude_client()
+    """Generate pairs using a teacher model.
+
+    Teachers:
+        gemini   — Gemini 3 Pro via Google API key (default, fast)
+        gradient — Claude Opus 4.6 via DigitalOcean Gradient (best quality)
+        vertex   — Claude Opus 4.5 via Vertex AI (needs quota)
+    """
     vendors = ["anthropic", "openai", "google"]
     pairs = []
 
@@ -220,33 +225,103 @@ def generate_distillation_pairs(
             if len(scenarios) >= max_pairs:
                 break
 
-    print(f"\nGenerating {len(scenarios[:max_pairs])} distillation pairs ")
-    print(f"  Teacher: {teacher_model} (Claude Opus 4.6 via Vertex AI)")
+    # ── Initialize teacher client ─────────────────────────────────────
+    if teacher == "gradient":
+        try:
+            from gradient import Gradient
+        except ImportError:
+            raise ImportError("Install gradient SDK: pip install gradient")
+        gradient_client = Gradient(
+            model_access_key=os.getenv("GRADIENT_MODEL_ACCESS_KEY"),
+        )
+        model_id = os.getenv("GRADIENT_MODEL_ID", "anthropic-claude-opus-4.6")
+        print(f"\nGenerating {len(scenarios[:max_pairs])} distillation pairs")
+        print(f"  Teacher: {model_id} (Claude Opus 4.6 via DigitalOcean Gradient)")
 
+    elif teacher == "vertex":
+        vertex_client = get_vertex_claude_client()
+        model_id = "claude-opus-4-5@20251101"
+        print(f"\nGenerating {len(scenarios[:max_pairs])} distillation pairs")
+        print(f"  Teacher: {model_id} (Claude Opus via Vertex AI)")
+
+    else:  # gemini (default)
+        from google import genai
+        gemini_client = genai.Client(api_key=os.getenv("GOOGLE_API_KEY"))
+        model_id = "gemini-3-pro-preview"
+        print(f"\nGenerating {len(scenarios[:max_pairs])} distillation pairs")
+        print(f"  Teacher: {model_id} (Gemini via API)")
+
+    # ── Generate pairs ────────────────────────────────────────────────
     for i, s in enumerate(scenarios[:max_pairs]):
         if i % 10 == 0:
             print(f"  [{i}/{max_pairs}]")
-        try:
-            user_msg = f"{s['prompt']}\nTarget vendor: {s['vendor']}"
-            resp = vertex_client.messages.create(
-                model=teacher_model,
-                max_tokens=16384,
-                system=SYSTEM_MSG,
-                messages=[{"role": "user", "content": user_msg}],
-                temperature=0.7,
-            )
-            assistant_text = resp.content[0].text
-            pair = {
-                "messages": [
-                    {"role": "system", "content": SYSTEM_MSG},
-                    {"role": "user", "content": user_msg},
-                    {"role": "assistant", "content": assistant_text},
-                ]
-            }
-            pairs.append(pair)
-            time.sleep(1.5)  # Vertex AI rate limiting
-        except Exception as e:
-            print(f"  Skip {i}: {e}")
+        retries = 3
+        for attempt in range(retries):
+            try:
+                user_msg = f"{s['prompt']}\nTarget vendor: {s['vendor']}"
+
+                if teacher == "gradient":
+                    # Claude Opus 4.6 via DigitalOcean Gradient
+                    resp = gradient_client.chat.completions.create(
+                        model=model_id,
+                        messages=[
+                            {"role": "system", "content": SYSTEM_MSG},
+                            {"role": "user", "content": user_msg},
+                        ],
+                        max_tokens=16384,
+                        temperature=0.7,
+                    )
+                    assistant_text = resp.choices[0].message.content
+
+                elif teacher == "vertex":
+                    # Claude Opus via Vertex AI (streaming required)
+                    collected_text = []
+                    with vertex_client.messages.stream(
+                        model=model_id,
+                        max_tokens=16384,
+                        system=SYSTEM_MSG,
+                        messages=[{"role": "user", "content": user_msg}],
+                        temperature=0.7,
+                    ) as stream:
+                        for text in stream.text_stream:
+                            collected_text.append(text)
+                    assistant_text = "".join(collected_text)
+
+                else:  # gemini
+                    resp = gemini_client.models.generate_content(
+                        model=model_id,
+                        contents=user_msg,
+                        config={
+                            "system_instruction": SYSTEM_MSG,
+                            "temperature": 0.7,
+                            "max_output_tokens": 16384,
+                        },
+                    )
+                    assistant_text = resp.text
+
+                if len(assistant_text) < 50:
+                    print(f"  Skip {i}: Response too short ({len(assistant_text)} chars)")
+                    break
+                pair = {
+                    "messages": [
+                        {"role": "system", "content": SYSTEM_MSG},
+                        {"role": "user", "content": user_msg},
+                        {"role": "assistant", "content": assistant_text},
+                    ]
+                }
+                pairs.append(pair)
+                print(f"  ✓ {i}: {len(assistant_text)} chars")
+                time.sleep(2)  # Rate-limit spacing
+                break  # Success
+            except Exception as e:
+                err_str = str(e)
+                if "429" in err_str or "RESOURCE_EXHAUSTED" in err_str:
+                    wait = 30 * (2 ** attempt)
+                    print(f"  ⏳ Rate limited ({i}), waiting {wait}s (attempt {attempt+1}/{retries})")
+                    time.sleep(wait)
+                else:
+                    print(f"  Skip {i}: {err_str[:120]}")
+                    break
 
     return pairs
 
@@ -270,6 +345,11 @@ def main():
     parser.add_argument("--approach", choices=["corpus", "distillation", "both"],
                         default="both")
     parser.add_argument("--max-pairs", type=int, default=500)
+    parser.add_argument("--teacher", choices=["gemini", "gradient", "vertex"],
+                        default="gemini",
+                        help="Teacher model for distillation: "
+                             "gemini (default), gradient (DO Claude Opus 4.6), "
+                             "vertex (GCP Claude)")
     args = parser.parse_args()
 
     if args.approach in ("corpus", "both"):
@@ -277,9 +357,10 @@ def main():
         save_jsonl(pairs, "corpus_direct_pairs.jsonl")
 
     if args.approach in ("distillation", "both"):
-        pairs = generate_distillation_pairs(args.max_pairs)
+        pairs = generate_distillation_pairs(args.max_pairs, teacher=args.teacher)
         save_jsonl(pairs, "distillation_pairs.jsonl")
 
 
 if __name__ == "__main__":
     main()
+
