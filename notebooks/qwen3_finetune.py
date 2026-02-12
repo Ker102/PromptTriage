@@ -73,7 +73,7 @@ model, tokenizer = FastLanguageModel.from_pretrained(
     model_name=cfg["name"],
     max_seq_length=cfg["max_seq_length"],
     load_in_4bit=True,
-    fast_inference=True,
+    fast_inference=False,  # Set True only if vLLM installed (not needed for training)
     max_lora_rank=cfg["lora_rank"],
     gpu_memory_utilization=cfg["gpu_memory_utilization"],
 )

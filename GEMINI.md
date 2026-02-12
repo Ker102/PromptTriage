@@ -18,6 +18,18 @@
 
 ## Recent Changes
 
+### 2026-02-12 - Phase 9.4b: Research Pause & Documentation
+
+**Commit Ready**: Yes
+
+#### Research Status: ⏸️ PAUSED
+- **Reason**: GPU quota = 0 on both GCP and Azure
+- **GCP**: `GPUS_ALL_REGIONS` quota increase requested
+- **Azure**: $1000 credits available, NCASv3_T4/NCSv3/NCADSA100v4 quota requested
+- **Colab Enterprise**: Org policies fixed (domain restriction, internet access)
+- **Notebook**: Updated for Qwen3-8B vs Qwen3-235B-A22B MoE size comparison
+- **Next**: Resume when GPU quota approved → train 8B → benchmark → 235B
+
 ### 2026-02-10 - Phase 9.4: Training Data Generation
 
 **Commit Ready**: Yes
