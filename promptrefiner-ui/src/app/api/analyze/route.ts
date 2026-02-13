@@ -24,11 +24,8 @@ import {
 import { searchFirecrawl } from "@/services/firecrawl";
 import { queryRAG, formatRAGContext } from "@/services/rag";
 import {
-  detectLibraries,
   needsLiveDocs,
-  buildContext7Query,
-  formatContext7Docs,
-  Context7DocResult,
+  fetchLiveDocsForPrompt,
 } from "@/services/context7";
 import { authOptions } from "@/auth";
 import {
@@ -279,36 +276,25 @@ export async function POST(req: Request) {
       console.warn("RAG query failed, continuing without similar prompts:", ragError);
     }
 
-    // Context7: Detect libraries and fetch live documentation
+    // Context7: Fetch live documentation for detected libraries via MCP
     let liveDocsContext = "";
     const combinedText = `${prompt} ${context ?? ""}`;
     if (needsLiveDocs(combinedText)) {
-      const detectedLibraries = detectLibraries(combinedText);
-      if (detectedLibraries.length > 0) {
-        const context7Query = buildContext7Query(prompt, detectedLibraries);
-        if (context7Query) {
-          try {
-            // Make MCP call to Context7 for live documentation
-            const context7Url = process.env.CONTEXT7_API_URL || "http://localhost:3100";
-            const docsResponse = await fetch(`${context7Url}/api/docs`, {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({
-                libraryId: context7Query.libraryId,
-                query: context7Query.query,
-              }),
-            });
-
-            if (docsResponse.ok) {
-              const docs: Context7DocResult[] = await docsResponse.json();
-              liveDocsContext = formatContext7Docs(docs);
-              console.log(`Context7: Retrieved ${docs.length} docs for ${context7Query.libraryId}`);
-            }
-          } catch (context7Error) {
-            console.warn("Context7 lookup failed, continuing without live docs:", context7Error);
-          }
+      try {
+        log.step("CONTEXT7_DETECT", `Detected live docs need — querying Context7 MCP`);
+        const { docs, librariesQueried } = await fetchLiveDocsForPrompt(combinedText);
+        if (docs) {
+          liveDocsContext = docs;
+          log.step("CONTEXT7_RESULTS", `Retrieved docs for: ${librariesQueried.join(", ")}`);
+        } else {
+          log.skip("CONTEXT7_RESULTS", `Libraries detected but no docs returned (queried: ${librariesQueried.join(", ") || "none"})`);
         }
+      } catch (context7Error) {
+        log.error("CONTEXT7_QUERY", context7Error);
+        console.warn("Context7 lookup failed, continuing without live docs:", context7Error);
       }
+    } else {
+      log.skip("CONTEXT7_DETECT", "No libraries or live-doc keywords detected");
     }
 
     const userPromptParts = [
