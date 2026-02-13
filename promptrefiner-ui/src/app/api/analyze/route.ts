@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { PipelineLogger } from "@/lib/pipelineLogger";
 import { getServerSession } from "next-auth";
 import { getGeminiModel, extractJsonFromText } from "@/lib/gemini";
 import type { Part } from "@google/generative-ai";
@@ -115,6 +116,7 @@ function validateAnalysisPayload(payload: PromptAnalysisResult, thinkingMode = f
 }
 
 export async function POST(req: Request) {
+  const log = new PipelineLogger("ANALYZE");
   try {
     const session = await getServerSession(authOptions);
 
@@ -124,7 +126,10 @@ export async function POST(req: Request) {
     const isDev = allowDevBypass && isLocalhost;
     const email = session?.user?.email ?? (isDev ? "dev@localhost" : null);
 
+    log.step("AUTH", `user=${email ?? "NONE"}, isDev=${isDev}, plan=${isDev ? "PRO" : "FREE"}`);
+
     if (!email) {
+      log.end("REJECTED — unauthenticated");
       return NextResponse.json(
         { error: "You must be signed in to analyze prompts." },
         { status: 401 },
@@ -143,6 +148,8 @@ export async function POST(req: Request) {
     const thinkingMode = body.thinkingMode ?? false;
     const desiredOutput = body.desiredOutput?.trim();
     const targetVendor = body.targetVendor?.trim(); // anthropic | openai | google
+
+    log.step("INPUT", `prompt="${prompt?.slice(0, 80)}..." | model=${rawTargetModel} | modality=${body.modality} | thinkingMode=${thinkingMode} | desiredOutput=${desiredOutput ?? "none"} | vendor=${targetVendor ?? "auto"}`);
 
     // Validate modality - must be one of allowed values
     const VALID_MODALITIES = ["text", "image", "video", "system"] as const;
@@ -234,6 +241,7 @@ export async function POST(req: Request) {
     }
 
     const model = getGeminiModel(thinkingMode);
+    log.decision("GEMINI_MODEL", thinkingMode ? "gemini-2.5-pro (thinking)" : "gemini-2.0-flash (fast)", thinkingMode ? "Thinking mode enabled — deeper multi-pass analysis" : "Fast mode — quick single-pass generation");
 
     try {
       recordUsageOrThrow(email, subscriptionPlan);
@@ -253,6 +261,7 @@ export async function POST(req: Request) {
     let ragContext = "";
     try {
       const ragCategory = modality === "system" ? "system-prompts" : undefined;
+      log.step("RAG_QUERY", `modality=${modality} | vendor=${targetVendor ?? "none"} | category=${ragCategory ?? "default"} | topK=3`);
       const ragResults = await queryRAG(prompt, {
         topK: 3,
         category: ragCategory,
@@ -261,8 +270,12 @@ export async function POST(req: Request) {
       });
       if (ragResults.results.length > 0) {
         ragContext = formatRAGContext(ragResults.results);
+        log.step("RAG_RESULTS", `Found ${ragResults.results.length} similar prompts (top score: ${ragResults.results[0]?.similarity?.toFixed(3) ?? "?"})`);
+      } else {
+        log.skip("RAG_RESULTS", "No similar prompts found in corpus");
       }
     } catch (ragError) {
+      log.error("RAG_QUERY", ragError);
       console.warn("RAG query failed, continuing without similar prompts:", ragError);
     }
 
@@ -309,6 +322,11 @@ export async function POST(req: Request) {
       userPromptParts.push(
         `<desired_output_format>The refined prompt MUST specify that the target AI should output its response in: ${desiredOutput}</desired_output_format>`
       );
+      log.step("DESIRED_OUTPUT", `Injected: ${desiredOutput}`);
+    } else if (desiredOutput) {
+      log.skip("DESIRED_OUTPUT", `desiredOutput="${desiredOutput}" but modality=${modality} (only text/system supported)`);
+    } else {
+      log.skip("DESIRED_OUTPUT", "No desired output format selected");
     }
 
     // Add vendor-specific styling conventions when a target vendor is selected
@@ -323,7 +341,10 @@ export async function POST(req: Request) {
         userPromptParts.push(
           `<vendor_style_guide>Target vendor: ${targetVendor.toUpperCase()}. ${convention}</vendor_style_guide>`
         );
+        log.step("VENDOR_STYLE", `Injected ${targetVendor.toUpperCase()} style conventions`);
       }
+    } else {
+      log.skip("VENDOR_STYLE", targetVendor ? `modality=${modality} not text/system` : "No vendor derived from model");
     }
 
     // Add RAG context (similar prompts from our corpus)
@@ -364,6 +385,9 @@ export async function POST(req: Request) {
     };
 
     const basePrompt = getBaseSystemPrompt(modality, thinkingMode);
+    const promptLabel = modality === "video" ? "VIDEO" : modality === "image" ? "IMAGE" : modality === "system" ? "SYSTEM" : "TEXT";
+    log.decision("SYSTEM_PROMPT", `${promptLabel}_${thinkingMode ? "THINKING" : "FAST"}_MODE`, `modality=${modality}, thinkingMode=${thinkingMode}`);
+    log.step("PROMPT_ASSEMBLY", `Parts: target_model + original_prompt + context${desiredOutput ? " + desired_output" : ""}${targetVendor ? " + vendor_style" : ""}${ragContext ? " + rag_context" : ""}${liveDocsContext ? " + context7_docs" : ""}${externalContext.length ? " + web_search" : ""}`);
 
     // Add thinking mode enhancements for deeper analysis
     const systemPrompt = thinkingMode
@@ -405,6 +429,7 @@ You are in THINKING MODE - perform deeper, multi-pass analysis:
       console.log("📸 Images added successfully - model will analyze them");
     }
 
+    log.step("GENERATING", `Sending to Gemini (temp=${generationConfig.temperature}, topP=${generationConfig.topP}, fewShots=${fewShotMessages.length / 2}, images=${images.length})`);
     const result = await model.generateContent({
       systemInstruction: {
         role: "system",
@@ -438,8 +463,12 @@ You are in THINKING MODE - perform deeper, multi-pass analysis:
         externalContextError ?? parsed.externalContextError,
     };
 
+    log.step("RESPONSE", `Questions: ${enriched.questions?.length ?? 0}, Blueprint sections: ${Object.keys(enriched.blueprint ?? {}).length}, Confidence: ${enriched.overallConfidence?.slice(0, 50)}...`);
+    log.end("SUCCESS");
     return NextResponse.json(enriched);
   } catch (error) {
+    log.error("PIPELINE_FAILURE", error);
+    log.end("FAILED");
     if (error instanceof SyntaxError) {
       return NextResponse.json(
         {

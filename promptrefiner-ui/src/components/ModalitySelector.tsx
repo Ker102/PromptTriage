@@ -5,7 +5,7 @@ import { useState } from "react";
 // Modality types
 export type Modality = "text" | "image" | "video" | "system";
 
-// Models organized by modality
+// Models organized by modality — use generic family names, not specific versions
 export const MODALITY_CONFIG = {
     text: {
         label: "Text Generation",
@@ -13,19 +13,16 @@ export const MODALITY_CONFIG = {
         description: "Chat, completions, reasoning",
         models: [
             "None / Not sure yet",
-            "OpenAI GPT-4o",
-            "OpenAI GPT-4 Turbo",
-            "OpenAI O1",
-            "OpenAI O3",
-            "Anthropic Claude 4 Sonnet",
-            "Anthropic Claude 4 Opus",
-            "Anthropic Claude Haiku",
-            "Google Gemini 2.0 Pro",
-            "Google Gemini 2.0 Flash",
-            "xAI Grok",
-            "Mistral Large",
-            "DeepSeek V3",
-            "Meta Llama 3.3",
+            "OpenAI (GPT)",
+            "OpenAI (o-series reasoning)",
+            "Anthropic (Claude)",
+            "Google (Gemini)",
+            "xAI (Grok)",
+            "Mistral",
+            "DeepSeek",
+            "Meta (Llama)",
+            "Qwen (Alibaba)",
+            "Cohere (Command)",
         ],
     },
     image: {
@@ -34,14 +31,12 @@ export const MODALITY_CONFIG = {
         description: "Text-to-image, img2img, editing",
         models: [
             "None / Not sure yet",
-            "OpenAI DALL-E 3",
-            "Midjourney v6.1",
-            "Stable Diffusion XL",
-            "Stable Diffusion 3.5",
-            "FLUX.1 Pro",
-            "FLUX.1 Dev",
-            "Ideogram 2.0",
-            "Google Imagen 3",
+            "OpenAI (DALL-E / GPT Image)",
+            "Midjourney",
+            "Stable Diffusion (Stability AI)",
+            "FLUX (Black Forest Labs)",
+            "Ideogram",
+            "Google (Imagen)",
             "Leonardo AI",
             "Adobe Firefly",
         ],
@@ -52,14 +47,14 @@ export const MODALITY_CONFIG = {
         description: "Text-to-video, img2video",
         models: [
             "None / Not sure yet",
-            "Runway Gen-3 Alpha",
-            "Pika 2.0",
-            "Kling AI",
-            "Luma Dream Machine",
-            "OpenAI Sora",
-            "Google Veo 2",
-            "Minimax Video-01",
-            "Haiper 2.0",
+            "Runway (Gen series)",
+            "Pika",
+            "Kling AI (Kuaishou)",
+            "Luma (Dream Machine)",
+            "OpenAI (Sora)",
+            "Google (Veo)",
+            "Minimax (Video)",
+            "Wan (Alibaba)",
         ],
     },
     system: {
@@ -69,7 +64,7 @@ export const MODALITY_CONFIG = {
         models: [
             "Any AI Model",
             "Claude (Anthropic)",
-            "GPT-4 (OpenAI)",
+            "ChatGPT / GPT (OpenAI)",
             "Gemini (Google)",
             "Cursor IDE",
             "Coding Agent",

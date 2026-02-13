@@ -9,7 +9,7 @@ import { OutputFormatSelector, OutputFormatId } from "@/components/OutputFormatS
 import { ModalitySelector, Modality, MODALITY_CONFIG } from "@/components/ModalitySelector";
 import { ImageUploader, UploadedImage } from "@/components/ImageUploader";
 import { DesiredOutputSelector, DesiredOutputId } from "@/components/DesiredOutputSelector";
-import { VendorSelector, VendorId } from "@/components/VendorSelector";
+
 import type {
   PromptAnalysisResult,
   PromptRefinementResult,
@@ -18,19 +18,14 @@ import type {
 type RefinementStage = "collect" | "analyzed" | "refined";
 type PendingAction = "analyze" | "refine" | null;
 
-const MODEL_PRESETS = [
-  "None / Not sure yet",
-  "OpenAI GPT (chat/completions)",
-  "OpenAI O-models",
-  "OpenAI Codex (legacy)",
-  "Anthropic Claude Sonnet",
-  "Anthropic Claude Opus",
-  "Anthropic Claude Haiku",
-  "Google Gemini Pro",
-  "Google Gemini Flash",
-  "xAI Grok",
-  "Mistral (general)",
-] as const;
+// Auto-derive vendor from the selected target model for RAG namespace routing
+function deriveVendorFromModel(model: string): string | undefined {
+  const lower = model.toLowerCase();
+  if (lower.includes("anthropic") || lower.includes("claude")) return "anthropic";
+  if (lower.includes("openai") || lower.includes("gpt") || lower.includes("chatgpt") || lower.includes("o-series") || lower.includes("dall-e") || lower.includes("sora")) return "openai";
+  if (lower.includes("google") || lower.includes("gemini") || lower.includes("imagen") || lower.includes("veo")) return "google";
+  return undefined;
+}
 
 const INITIAL_FORM = {
   prompt: "",
@@ -40,7 +35,7 @@ const INITIAL_FORM = {
   tone: "",
   outputFormats: [] as OutputFormatId[],
   desiredOutput: null as DesiredOutputId | null,
-  targetVendor: "none" as VendorId,
+
   useWebSearch: false,
   images: [] as UploadedImage[],
   thinkingMode: false,
@@ -321,7 +316,7 @@ export default function Home() {
           tone: form.tone || undefined,
           outputFormats: form.outputFormats.length > 0 ? form.outputFormats : undefined,
           desiredOutput: form.desiredOutput || undefined,
-          targetVendor: form.targetVendor !== "none" ? form.targetVendor : undefined,
+          targetVendor: deriveVendorFromModel(form.targetModel),
           modality: form.modality,
           thinkingMode: form.thinkingMode,
           useWebSearch: form.useWebSearch || undefined,
@@ -724,24 +719,7 @@ export default function Home() {
               </div>
             )}
 
-            {/* Target Vendor - only for Text and System modalities */}
-            {(form.modality === "text" || form.modality === "system") && (
-              <div className="space-y-2">
-                <label
-                  htmlFor="targetVendor"
-                  className="text-sm font-medium text-soft"
-                >
-                  Target prompt style (optional)
-                </label>
-                <VendorSelector
-                  selected={form.targetVendor}
-                  onChange={(vendor) => setForm((prev) => ({ ...prev, targetVendor: vendor }))}
-                />
-                <p className="text-xs text-muted">
-                  Match your prompt structure to vendor conventions using our reference corpus.
-                </p>
-              </div>
-            )}
+
 
             <div className="rounded-2xl border border-[var(--surface-border)] bg-[var(--surface-card-soft)] p-4">
               <label
