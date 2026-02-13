@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { PipelineLogger } from "@/lib/pipelineLogger";
 import { getServerSession } from "next-auth";
 import { getGeminiModel, extractJsonFromText } from "@/lib/gemini";
 import type {
@@ -60,6 +61,7 @@ function validateRefinementPayload(payload: PromptRefinementResult): string | nu
 }
 
 export async function POST(req: Request) {
+  const log = new PipelineLogger("REFINE");
   try {
     const session = await getServerSession(authOptions);
 
@@ -73,6 +75,7 @@ export async function POST(req: Request) {
     const email = session?.user?.email ?? (isDev ? "dev@localhost" : null);
 
     if (!email) {
+      log.skip("AUTH", "No session and not in dev mode");
       return NextResponse.json(
         { error: "You must be signed in to refine prompts." },
         { status: 401 },
@@ -83,6 +86,7 @@ export async function POST(req: Request) {
     const subscriptionPlan =
       (session?.user?.subscriptionPlan as string | undefined)?.toUpperCase() ??
       (isDev ? "PRO" : "FREE");
+    log.step("AUTH", `user=${email} | isDev=${isDev} | plan=${subscriptionPlan}`);
 
     const body = (await req.json()) as RefineRequestPayload;
     const prompt = body.prompt?.trim();
@@ -102,6 +106,8 @@ export async function POST(req: Request) {
     const modality = VALID_MODALITIES.includes(rawModality as typeof VALID_MODALITIES[number])
       ? (rawModality as typeof VALID_MODALITIES[number])
       : "text";
+
+    log.step("INPUT", `prompt="${prompt?.slice(0, 50)}..." | model=${rawTargetModel} | modality=${modality} | questions=${questions.length}`);
 
     if (!prompt) {
       return NextResponse.json(
@@ -143,6 +149,7 @@ export async function POST(req: Request) {
     }
 
     const model = getGeminiModel();
+    log.step("BLUEPRINT", `version=${blueprint?.version} | valid=true`);
 
     if (externalContext.length && !isFirecrawlAvailable(subscriptionPlan)) {
       return NextResponse.json(
@@ -225,6 +232,7 @@ export async function POST(req: Request) {
     };
 
     const systemPrompt = getRefinerSystemPrompt(modality);
+    log.decision("MODALITY_PROMPT", modality === "text" ? "REFINER_SYSTEM_PROMPT (default)" : `${modality.toUpperCase()}_REFINER`);
 
     const result = await model.generateContent({
       systemInstruction: {
@@ -245,6 +253,8 @@ export async function POST(req: Request) {
       },
     });
 
+    log.step("GENERATING", `temp=0.4 | topP=0.9 | fewShots=${REFINER_FEW_SHOTS.length} | modality=${modality}`);
+
     const rawText = result.response.text();
     const parsed = extractJsonFromText<PromptRefinementResult>(rawText);
     const validationError = validateRefinementPayload(parsed);
@@ -256,6 +266,8 @@ export async function POST(req: Request) {
       );
     }
 
+    log.step("RESPONSE", `refinedPrompt=${parsed.refinedPrompt?.length ?? 0} chars | changes=${parsed.changeSummary?.length ?? 0} | assumptions=${parsed.assumptions?.length ?? 0}`);
+    log.end(true);
     return NextResponse.json(parsed);
   } catch (error) {
     if (error instanceof SyntaxError) {
@@ -268,6 +280,8 @@ export async function POST(req: Request) {
     const message =
       error instanceof Error ? error.message : "Unknown error occurred.";
 
+    log.error("PIPELINE_FAILURE", message);
+    log.end(false);
     return NextResponse.json(
       { error: `Prompt refinement failed: ${message}` },
       { status: 500 },
