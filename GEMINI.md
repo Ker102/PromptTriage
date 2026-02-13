@@ -30,6 +30,19 @@
 - **`requirements.txt`**: Removed `redis>=5.2.0` and `redisvl>=0.3.0`
 - **Rationale**: Redis Cloud free tier was dormant, adding 2s timeout per request before fallback. Pinecone-only is simpler and sufficient.
 
+### 2026-02-13 - Phase 10.2: Error Feedback UX
+
+**Commit Ready**: Yes
+
+#### ErrorFeedback Component
+- **New Component**: `ErrorFeedback.tsx` — glassmorphic error card with:
+  - "Submit Feedback" button (primary) — inline form that sends bug details to dev
+  - "Report on GitHub" link (secondary) — pre-filled GitHub issue with error context
+  - "Try Again" button — retries the failed action
+  - Auto-captures: browser info, modality, model, timestamp
+- **New API Route**: `/api/feedback/route.ts` — logs feedback to console, optionally forwards to webhook
+- **Integration**: Replaced plain error `<p>` in `page.tsx` with `ErrorFeedback` component
+
 ### 2026-02-12 - Phase 9.4b: Research Pause & Documentation
 
 **Commit Ready**: Yes

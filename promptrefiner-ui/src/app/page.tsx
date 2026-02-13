@@ -9,6 +9,7 @@ import { OutputFormatSelector, OutputFormatId } from "@/components/OutputFormatS
 import { ModalitySelector, Modality, MODALITY_CONFIG } from "@/components/ModalitySelector";
 import { ImageUploader, UploadedImage } from "@/components/ImageUploader";
 import { DesiredOutputSelector, DesiredOutputId } from "@/components/DesiredOutputSelector";
+import ErrorFeedback from "@/components/ErrorFeedback";
 
 import type {
   PromptAnalysisResult,
@@ -772,9 +773,21 @@ export default function Home() {
             </div>
 
             {error && stage === "collect" ? (
-              <p className="rounded-2xl border border-red-500/40 bg-red-500/10 px-4 py-3 text-sm text-red-200">
-                {error}
-              </p>
+              <ErrorFeedback
+                errorMessage={error}
+                onRetry={() => {
+                  setError(null);
+                  const fakeEvent = { preventDefault: () => { } } as FormEvent;
+                  submitAnalyze(fakeEvent);
+                }}
+                onDismiss={() => setError(null)}
+                context={{
+                  modality: form.modality,
+                  targetModel: form.targetModel,
+                  thinkingMode: form.thinkingMode,
+                  action: "analyze",
+                }}
+              />
             ) : null}
 
             <div className="flex flex-wrap gap-3">
