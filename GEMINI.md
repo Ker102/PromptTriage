@@ -6,17 +6,29 @@
 ---
 
 ## Current Version
-`2026-01-rag-enhanced`
+`2026-02-phase10-production-polish`
 
 ## Project Context
 - **Framework**: Next.js 15.1.6 (Frontend) + FastAPI (Backend)
 - **AI Model**: Gemini 3 Pro Preview (generation), Gemini 1.5 Flash (fine-tuning)
-- **RAG**: Hybrid Redis (Hot Cache) + Pinecone (Vector Store) with Gemini Embeddings
+- **RAG**: Pinecone (Vector Store) with Gemini Embeddings (gemini-embedding-001, 768d)
 - **Key Dependencies**: @google/generative-ai, next-auth, Firecrawl, LangChain
 
 ---
 
 ## Recent Changes
+
+### 2026-02-13 - Phase 10.1: Remove Redis — Pinecone-Only Architecture
+
+**Commit Ready**: Yes
+
+#### Redis & LangCache Removal
+- **Backend `rag.py`**: Removed all Redis cache logic (check/write), `add_to_hot_cache()`, LangCache methods (`cache_llm_response`, `get_cached_response`)
+- **Backend `config.py`**: Removed 6 settings (`redis_url`, `redis_index_name`, `langcache_url`, `langcache_api_key`, `cache_top_k`, `cache_ttl_seconds`)
+- **Backend `rag.py` router**: Removed `/cache` and `/cache/search` endpoints, `use_cache` param, `cache_hit` response field, `storage` field
+- **Frontend `rag.ts`**: Removed `use_cache` param, `cache_hit` from response type
+- **`requirements.txt`**: Removed `redis>=5.2.0` and `redisvl>=0.3.0`
+- **Rationale**: Redis Cloud free tier was dormant, adding 2s timeout per request before fallback. Pinecone-only is simpler and sufficient.
 
 ### 2026-02-12 - Phase 9.4b: Research Pause & Documentation
 
