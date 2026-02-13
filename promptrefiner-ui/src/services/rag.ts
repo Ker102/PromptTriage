@@ -17,7 +17,6 @@ export interface RAGQueryResponse {
     results: RAGQueryResult[];
     query: string;
     total_results: number;
-    cache_hit?: boolean;
 }
 
 /**
@@ -28,12 +27,11 @@ export async function queryRAG(
     options: {
         topK?: number;
         category?: string;
-        useCache?: boolean;
         modality?: string;  // text, image, video, system
         targetVendor?: string;  // anthropic, openai, google — routes to vendor-specific namespace
     } = {}
 ): Promise<RAGQueryResponse> {
-    const { topK = 5, category, useCache = true, modality = "text", targetVendor } = options;
+    const { topK = 5, category, modality = "text", targetVendor } = options;
 
     try {
         const response = await fetch(`${RAG_BACKEND_URL}/api/rag/query`, {
@@ -45,7 +43,6 @@ export async function queryRAG(
                 query,
                 top_k: topK,
                 category,
-                use_cache: useCache,
                 include_metadata: true,
                 modality,  // Pass modality to backend for namespace routing
                 target_vendor: targetVendor,  // Vendor-specific namespace routing

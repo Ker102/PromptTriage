@@ -1,90 +1,86 @@
 """
-Hybrid RAG Service - Gemini Embeddings + Pinecone + Redis Cache
+RAG Service - Gemini Embeddings + Pinecone
 
 Architecture:
-- Gemini: embedding-001 model (768d, high quality)
-- Pinecone: Stores all 20,800+ prompts (100K free tier)
-- Redis: Caches frequently accessed prompts (~2,000, fits in 30MB)
-- LangCache: Semantic caching for LLM responses
+- Gemini: gemini-embedding-001 model (768d, high quality)
+- Pinecone: Stores all 20,800+ prompts across vendor/modality namespaces
 
 Query Flow:
-1. Check Redis cache first (fast, <1ms)
-2. On miss, query Pinecone (full corpus)
-3. Cache top results in Redis for next time
+1. Embed query with Gemini
+2. Search Pinecone (full corpus, namespace-routed)
+3. Return top-K results
 """
 
 import uuid
-import hashlib
-import httpx
 from typing import Optional, List
-import google.generativeai as genai
+from google import genai
 from pinecone import Pinecone, ServerlessSpec
-import redis
 
 from app.config import settings
 
 
-class HybridRAGService:
+class RAGService:
     """
-    Hybrid RAG service using Gemini embeddings + Pinecone + Redis cache.
+    RAG service using Gemini embeddings + Pinecone.
     
     Gemini: High-quality embeddings (768d)
-    Pinecone: Full corpus of all prompts
-    Redis: Hot cache for frequently accessed prompts
+    Pinecone: Full corpus of all prompts, organized by namespace
     """
     
     def __init__(self):
         """Initialize connections."""
         self._pinecone_index = None
-        self._redis_client = None
-        self._genai_configured = False
+        self._genai_client = None
     
-    def _ensure_genai(self):
-        """Ensure Gemini API is configured."""
-        if not self._genai_configured and settings.google_api_key:
-            genai.configure(api_key=settings.google_api_key)
-            self._genai_configured = True
+    def _get_genai_client(self):
+        """Get or create Gemini client."""
+        if self._genai_client is None and settings.google_api_key:
+            self._genai_client = genai.Client(api_key=settings.google_api_key)
+        return self._genai_client
     
     def embed_text(self, text: str) -> List[float]:
-        """Generate embedding using Gemini embedding-001."""
-        self._ensure_genai()
+        """Generate embedding using Gemini gemini-embedding-001."""
+        client = self._get_genai_client()
         
-        if not settings.google_api_key:
+        if not client:
             raise ValueError("GOOGLE_API_KEY environment variable is required")
         
-        result = genai.embed_content(
-            model=settings.embedding_model,
-            content=text,
-            task_type="retrieval_document",
+        result = client.models.embed_content(
+            model="gemini-embedding-001",
+            contents=text,
+            config={"task_type": "RETRIEVAL_DOCUMENT", "output_dimensionality": settings.embedding_dimensions},
         )
-        return result["embedding"]
+        return result.embeddings[0].values
     
     def embed_query(self, text: str) -> List[float]:
         """Generate query embedding using Gemini."""
-        self._ensure_genai()
+        client = self._get_genai_client()
         
-        if not settings.google_api_key:
+        if not client:
             raise ValueError("GOOGLE_API_KEY environment variable is required")
         
-        result = genai.embed_content(
-            model=settings.embedding_model,
-            content=text,
-            task_type="retrieval_query",
+        result = client.models.embed_content(
+            model="gemini-embedding-001",
+            contents=text,
+            config={"task_type": "RETRIEVAL_QUERY", "output_dimensionality": settings.embedding_dimensions},
         )
-        return result["embedding"]
+        return result.embeddings[0].values
     
     def embed_batch(self, texts: List[str]) -> List[List[float]]:
         """Batch embed texts using Gemini."""
-        self._ensure_genai()
+        client = self._get_genai_client()
+        
+        if not client:
+            raise ValueError("GOOGLE_API_KEY environment variable is required")
         
         embeddings = []
         for text in texts:
-            result = genai.embed_content(
-                model=settings.embedding_model,
-                content=text,
-                task_type="retrieval_document",
+            result = client.models.embed_content(
+                model="gemini-embedding-001",
+                contents=text,
+                config={"task_type": "RETRIEVAL_DOCUMENT", "output_dimensionality": settings.embedding_dimensions},
             )
-            embeddings.append(result["embedding"])
+            embeddings.append(result.embeddings[0].values)
         return embeddings
     
     @property
@@ -112,33 +108,16 @@ class HybridRAGService:
         
         return self._pinecone_index
     
-    @property
-    def redis_client(self):
-        """Get Redis client for caching."""
-        if self._redis_client is None:
-            if settings.redis_url:
-                self._redis_client = redis.from_url(settings.redis_url)
-        return self._redis_client
-    
-    def _cache_key(self, query: str) -> str:
-        """Generate cache key from query."""
-        return f"rag:cache:{hashlib.md5(query.encode()).hexdigest()}"
-    
     async def query(
         self,
         query: str,
         top_k: int = 5,
         category: Optional[str] = None,
-        use_cache: bool = True,
         modality: str = "text",
         namespace: Optional[str] = None,
     ) -> List[dict]:
         """
-        Query for similar prompts using hybrid approach.
-        
-        1. Check Redis cache first
-        2. On miss, query Pinecone (full corpus) in specific namespace
-        3. Cache results in Redis
+        Query Pinecone for similar prompts.
         
         Namespace logic:
         - If 'namespace' is provided explicitly, use it.
@@ -150,20 +129,8 @@ class HybridRAGService:
         if not target_namespace:
             if modality == "video":
                 target_namespace = "video-prompts"
-            # Add other modalities here if they have dedicated namespaces
         
-        # Step 1: Check Redis cache
-        # Include namespace/modality in cache key to avoid mixing results
-        cache_key_suffix = f":{target_namespace}" if target_namespace else ""
-        
-        if use_cache and self.redis_client:
-            cache_key = self._cache_key(query + cache_key_suffix)
-            cached = self.redis_client.get(cache_key)
-            if cached:
-                import json
-                return json.loads(cached)[:top_k]
-        
-        # Step 2: Embed query and search Pinecone
+        # Embed query and search Pinecone
         query_embedding = self.embed_query(query)
         
         # Build filter for Pinecone
@@ -172,7 +139,7 @@ class HybridRAGService:
         # Query Pinecone with namespace
         results = self.pinecone_index.query(
             vector=query_embedding,
-            top_k=top_k * 2,  # Get more for caching
+            top_k=top_k,
             include_metadata=True,
             filter=filter_dict,
             namespace=target_namespace or ""  # Pinecone uses "" for default
@@ -187,16 +154,6 @@ class HybridRAGService:
                 "similarity": match.score,
                 "metadata": {k: v for k, v in match.metadata.items() if k != "content"},
             })
-        
-        # Step 3: Cache in Redis
-        if self.redis_client and formatted:
-            import json
-            cache_key = self._cache_key(query + cache_key_suffix)
-            self.redis_client.setex(
-                cache_key,
-                3600,  # 1 hour TTL
-                json.dumps(formatted),
-            )
         
         return formatted[:top_k]
     
@@ -258,43 +215,15 @@ class HybridRAGService:
         
         return doc_ids
     
-    async def add_to_hot_cache(
-        self,
-        doc_id: str,
-        content: str,
-        metadata: dict = None,
-    ) -> bool:
-        """Add a prompt to Redis hot cache."""
-        if not self.redis_client:
-            return False
-        
-        import json
-        key = f"rag:hot:{doc_id}"
-        value = json.dumps({
-            "id": doc_id,
-            "content": content,
-            "metadata": metadata or {},
-        })
-        
-        self.redis_client.set(key, value)
-        return True
-    
     async def get_stats(self) -> dict:
-        """Get hybrid RAG statistics."""
+        """Get RAG system statistics."""
         stats = {
-            "embedding_model": settings.embedding_model,
+            "embedding_model": "gemini-embedding-001",
             "embedding_dimensions": settings.embedding_dimensions,
             "embedding_provider": "Google Gemini",
             "pinecone": {
                 "index_name": settings.pinecone_index_name,
                 "connected": bool(settings.pinecone_api_key),
-            },
-            "redis": {
-                "connected": bool(self.redis_client),
-                "purpose": "hot_cache",
-            },
-            "langcache": {
-                "enabled": bool(settings.langcache_url),
             },
         }
         
@@ -307,51 +236,3 @@ class HybridRAGService:
                 stats["pinecone"]["total_vectors"] = "unknown"
         
         return stats
-    
-    # LangCache methods
-    async def cache_llm_response(self, prompt: str, response: str) -> bool:
-        """Cache an LLM response using LangCache."""
-        if not settings.langcache_url or not settings.langcache_api_key:
-            return False
-        
-        try:
-            async with httpx.AsyncClient() as client:
-                result = await client.post(
-                    f"{settings.langcache_url}/v1/caches/default/entries",
-                    headers={
-                        "Authorization": f"Bearer {settings.langcache_api_key}",
-                        "Content-Type": "application/json",
-                    },
-                    json={"prompt": prompt, "response": response},
-                )
-                return result.status_code == 200
-        except Exception:
-            return False
-    
-    async def get_cached_response(self, prompt: str, threshold: float = 0.9) -> Optional[str]:
-        """Check LangCache for a semantically similar cached response."""
-        if not settings.langcache_url or not settings.langcache_api_key:
-            return None
-        
-        try:
-            async with httpx.AsyncClient() as client:
-                result = await client.post(
-                    f"{settings.langcache_url}/v1/caches/default/entries/search",
-                    headers={
-                        "Authorization": f"Bearer {settings.langcache_api_key}",
-                        "Content-Type": "application/json",
-                    },
-                    json={"prompt": prompt, "threshold": threshold},
-                )
-                
-                if result.status_code == 200:
-                    data = result.json()
-                    if data.get("entries"):
-                        return data["entries"][0].get("response")
-                return None
-        except Exception:
-            return None
-
-
-# Create singleton instance
-RAGService = HybridRAGService

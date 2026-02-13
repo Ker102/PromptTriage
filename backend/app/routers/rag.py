@@ -1,6 +1,6 @@
 """
 RAG (Retrieval Augmented Generation) endpoints.
-Uses hybrid Redis (cache) + Pinecone (corpus) architecture.
+Uses Pinecone vector store for prompt retrieval.
 """
 
 from fastapi import APIRouter, HTTPException
@@ -18,7 +18,6 @@ class QueryRequest(BaseModel):
     query: str
     top_k: int = 5
     category: Optional[str] = None
-    use_cache: bool = True
     include_metadata: bool = True
     modality: str = "text"  # text, image, video
     namespace: Optional[str] = None  # Direct namespace override
@@ -45,14 +44,12 @@ class QueryResponse(BaseModel):
     results: List[QueryResult]
     query: str
     total_results: int
-    cache_hit: bool = False
 
 
 class IngestRequest(BaseModel):
     """Request model for ingesting new prompts."""
     content: str
     metadata: dict = {}
-    add_to_hot_cache: bool = False
 
 
 class BatchIngestRequest(BaseModel):
@@ -64,7 +61,6 @@ class IngestResponse(BaseModel):
     """Response for ingestion."""
     id: str
     message: str
-    storage: str  # "pinecone" or "redis+pinecone"
 
 
 class BatchIngestResponse(BaseModel):
@@ -74,27 +70,12 @@ class BatchIngestResponse(BaseModel):
     message: str
 
 
-class CacheRequest(BaseModel):
-    """Request for caching LLM response."""
-    prompt: str
-    response: str
-
-
-class CacheSearchRequest(BaseModel):
-    """Request for searching cached responses."""
-    prompt: str
-    threshold: float = 0.9
-
-
 @router.post("/query", response_model=QueryResponse)
 async def query_prompts(request: QueryRequest):
     """
-    Query the hybrid RAG system for similar prompts.
+    Query Pinecone for similar prompts.
     
-    Flow:
-    1. Check Redis cache (fast)
-    2. On miss, query Pinecone (full corpus)
-    3. Cache results for next time
+    Supports vendor-specific namespace routing and modality-based defaults.
     """
     try:
         # Resolve namespace: target_vendor takes priority, then explicit namespace, then modality default
@@ -106,7 +87,6 @@ async def query_prompts(request: QueryRequest):
             query=request.query,
             top_k=request.top_k,
             category=request.category,
-            use_cache=request.use_cache,
             modality=request.modality,
             namespace=resolved_namespace,
         )
@@ -127,35 +107,22 @@ async def query_prompts(request: QueryRequest):
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
     except Exception as e:
+        import traceback; traceback.print_exc()
         raise HTTPException(status_code=500, detail=f"Query failed: {str(e)}")
 
 
 @router.post("/ingest", response_model=IngestResponse)
 async def ingest_prompt(request: IngestRequest):
-    """
-    Ingest a new prompt to Pinecone.
-    Optionally add to Redis hot cache for frequently accessed prompts.
-    """
+    """Ingest a new prompt to Pinecone."""
     try:
         doc_id = await rag_service.ingest_to_pinecone(
             content=request.content,
             metadata=request.metadata,
         )
         
-        storage = "pinecone"
-        
-        if request.add_to_hot_cache:
-            await rag_service.add_to_hot_cache(
-                doc_id=doc_id,
-                content=request.content,
-                metadata=request.metadata,
-            )
-            storage = "redis+pinecone"
-        
         return IngestResponse(
             id=doc_id,
             message="Prompt ingested successfully",
-            storage=storage,
         )
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
@@ -190,45 +157,9 @@ async def batch_ingest_prompts(request: BatchIngestRequest):
 
 @router.get("/stats")
 async def get_stats():
-    """Get hybrid RAG system statistics."""
+    """Get RAG system statistics."""
     try:
         stats = await rag_service.get_stats()
         return stats
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Stats retrieval failed: {str(e)}")
-
-
-# LangCache endpoints
-
-@router.post("/cache")
-async def cache_response(request: CacheRequest):
-    """Cache an LLM response for semantic retrieval via LangCache."""
-    try:
-        success = await rag_service.cache_llm_response(
-            prompt=request.prompt,
-            response=request.response,
-        )
-        
-        if success:
-            return {"status": "cached", "message": "Response cached in LangCache"}
-        else:
-            return {"status": "skipped", "message": "LangCache not configured"}
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Caching failed: {str(e)}")
-
-
-@router.post("/cache/search")
-async def search_cache(request: CacheSearchRequest):
-    """Search LangCache for semantically similar cached response."""
-    try:
-        cached_response = await rag_service.get_cached_response(
-            prompt=request.prompt,
-            threshold=request.threshold,
-        )
-        
-        if cached_response:
-            return {"hit": True, "response": cached_response}
-        else:
-            return {"hit": False, "response": None}
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Cache search failed: {str(e)}")
