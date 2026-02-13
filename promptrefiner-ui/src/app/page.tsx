@@ -10,6 +10,7 @@ import { ModalitySelector, Modality, MODALITY_CONFIG } from "@/components/Modali
 import { ImageUploader, UploadedImage } from "@/components/ImageUploader";
 import { DesiredOutputSelector, DesiredOutputId } from "@/components/DesiredOutputSelector";
 import ErrorFeedback from "@/components/ErrorFeedback";
+import PipelineProgress from "@/components/PipelineProgress";
 
 import type {
   PromptAnalysisResult,
@@ -811,6 +812,14 @@ export default function Home() {
             </div>
           </form>
         </div>
+
+        {/* Pipeline Progress Indicator */}
+        {pendingAction && (
+          <PipelineProgress
+            mode={pendingAction === "analyze" ? "analyze" : "refine"}
+            thinkingMode={form.thinkingMode}
+          />
+        )}
 
         {
           analysis ? (
