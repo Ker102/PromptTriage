@@ -38,7 +38,7 @@ export default function ErrorFeedback({
         const body = encodeURIComponent(
             `## Bug Report\n\n**Error:** ${errorMessage}\n\n**Context:**\n- Modality: ${context?.modality ?? "unknown"}\n- Model: ${context?.targetModel ?? "unknown"}\n- Thinking Mode: ${context?.thinkingMode ?? false}\n- Action: ${context?.action ?? "unknown"}\n- Browser: ${typeof navigator !== "undefined" ? navigator.userAgent : "unknown"}\n- Timestamp: ${new Date().toISOString()}\n\n## Steps to Reproduce\n1. \n2. \n\n## Expected Behavior\n\n\n## Additional Notes\n`
         );
-        return `https://github.com/KristijanTs/PromptTriage/issues/new?title=${title}&body=${body}&labels=bug`;
+        return `https://github.com/Ker102/PromptTriage/issues/new?title=${title}&body=${body}&labels=bug`;
     };
 
     const handleSubmitFeedback = async () => {

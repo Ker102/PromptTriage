@@ -2,7 +2,7 @@
 
 <div align="center">
 
-![RAG Pipeline](https://img.shields.io/badge/RAG-Hybrid_Pipeline-FF6B6B?style=for-the-badge&logo=database)
+![RAG Pipeline](https://img.shields.io/badge/RAG-Pinecone_Pipeline-FF6B6B?style=for-the-badge&logo=database)
 ![Multi-Modal](https://img.shields.io/badge/Multi--Modal-Text_|_Image_|_Video-9B59B6?style=for-the-badge)
 ![Vectors](https://img.shields.io/badge/Vectors-28K+-00D4AA?style=for-the-badge&logo=pinecone)
 ![MCP Tools](https://img.shields.io/badge/MCP-Context7_Integrated-3498DB?style=for-the-badge)
@@ -31,7 +31,7 @@ The platform excels at **system prompt generation** by referencing a curated cor
 
 ### What Sets PromptTriage Apart
 
-- **Hybrid RAG Architecture**: Combines Redis (hot cache) + Pinecone (28K+ vectors) for sub-millisecond retrieval of similar high-quality prompts
+- **Pinecone RAG Architecture**: 28K+ vectors for fast semantic retrieval of similar high-quality prompts
 - **Modality-Specific Prompts**: Dedicated metaprompts for Text, Image, Video, and System Prompt generation—each optimized for their domain
 - **MCP Tool Integration**: Context7 integration provides live documentation lookup for current library APIs
 - **Fine-Tuning Ready**: Curated datasets prepared for model fine-tuning (Gemini 1.5 Flash tuning supported)
@@ -54,8 +54,8 @@ The platform excels at **system prompt generation** by referencing a curated cor
 - **Quality Guardrails**: Includes assumptions, change summaries, and evaluation criteria for response validation
 
 ### 🧠 **Advanced RAG Architecture**
-- **Hybrid Vector Store**: Combines **Redis** (hot cache) and **Pinecone** (long-term storage) for sub-millisecond retrieval
-- **Smart Retrieval**: Uses Google's `text-embedding-004` model to semantic search across **28,000+** verified prompts
+- **Pinecone Vector Store**: 28K+ embeddings for fast semantic retrieval
+- **Smart Retrieval**: Uses Google's `gemini-embedding-001` model (768d) to search across **28,000+** verified prompts
 - **System Prompts Corpus**: Curated library of **79+ system prompts** from frontier models (Claude Code, Cursor, v0, Gemini CLI), professionally categorized and labeled
 - **Modality Routing**: Automatic namespace selection based on prompt type (text → `system-prompts`, image → `image-prompts`, video → `video-prompts`)
 
@@ -149,17 +149,17 @@ The platform integrates with MCP tools for real-time context:
 │                                                              │
 │  ┌──────────────────┐    ┌──────────────────────────────┐  │
 │  │ Modality Router  │───▶│ RAG Service (FastAPI)         │  │
-│  │ Text/Image/Video │    │ ┌──────────┐ ┌─────────────┐ │  │
-│  └──────────────────┘    │ │  Redis   │ │  Pinecone   │ │  │
-│           │              │ │(Hot Cache)│ │ (28K+ Vecs) │ │  │
-│           ▼              │ └──────────┘ └─────────────┘ │  │
-│  ┌──────────────────┐    └──────────────────────────────┘  │
+│  │ Text/Image/Video │    │ ┌─────────────────────────┐  │  │
+│  └──────────────────┘    │ │  Pinecone (28K+ Vecs)   │  │  │
+│           │              │ └─────────────────────────┘  │  │
+│           ▼              └──────────────────────────────┘  │
+│  ┌──────────────────┐                                       │
 │  │ Metaprompt       │◄────── 9 Modality-Specific Prompts   │
 │  │ (v2025-01)       │        + RAG Context                 │
 │  └──────────────────┘    ┌──────────────────────────────┐  │
-│           │              │ MCP Tools (Optional)          │  │
-│           ▼              │ • Context7 → Live Docs        │  │
-│  ┌──────────────────┐    │ • Firecrawl → Web Search      │  │
+│           │              │ MCP Tools                      │  │
+│           ▼              │ • Context7 MCP → Live Docs     │  │
+│  ┌──────────────────┐    │ • Firecrawl → Web Search       │  │
 │  │ AI Generation     │    └──────────────────────────────┘  │
 │  └──────────────────┘                                       │
 │           │                                                  │
@@ -199,15 +199,16 @@ The platform integrates with MCP tools for real-time context:
 
 #### Frontend Layer (`promptrefiner-ui/src/`)
 - **`app/page.tsx`**: Main UI with modality selection and form orchestration
-- **`components/`**: ModalitySelector, OutputFormatSelector, DesiredOutputSelector, ImageUploader
-- **`services/`**: RAG client, Context7 integration, Firecrawl client
+- **`components/`**: ModalitySelector, OutputFormatSelector, DesiredOutputSelector, ImageUploader, ErrorFeedback, PipelineProgress
+- **`services/`**: RAG client, Context7 MCP integration, Firecrawl client
+- **`lib/`**: PipelineLogger (structured agentic logging)
 
 #### API Layer (`src/app/api/`)
 - **`analyze/route.ts`**: Prompt analysis with modality routing and RAG context
 - **`refine/route.ts`**: Prompt refinement with modality-specific system prompts
 
 #### Backend Layer (`backend/`)
-- **`app/routers/rag.py`**: RAG endpoints with hybrid Redis + Pinecone retrieval
+- **`app/routers/rag.py`**: RAG endpoints with Pinecone retrieval
 - **`app/services/rag.py`**: RAG service with modality-based namespace routing
 - **`scripts/`**: Dataset ingestion and labeling pipelines
 
@@ -230,11 +231,10 @@ The platform integrates with MCP tools for real-time context:
 ### Backend
 - **[FastAPI](https://fastapi.tiangolo.com/)**: Python backend for RAG services
 - **[Pinecone](https://www.pinecone.io/)**: Vector database (28K+ embeddings)
-- **[Redis](https://redis.io/)**: Hot cache for frequent retrievals
 
 ### AI & RAG
 - **Google Gemini API**: Generation with `gemini-2.5-pro-preview-05-06`
-- **Gemini Embeddings**: `text-embedding-004` for vector similarity
+- **Gemini Embeddings**: `gemini-embedding-001` (768d) for vector similarity
 - **9 Modality Metaprompts**: Text, Image, Video, System Prompt specializations
 - **Fine-Tuning Ready**: Datasets prepared for `gemini-1.5-flash-001-tuning`
 
@@ -290,11 +290,14 @@ Plus metadata:
 ## 🚀 Roadmap
 
 ### ✅ Completed
-- [x] Hybrid RAG pipeline (Redis + Pinecone)
+- [x] Pinecone RAG pipeline (28K+ vectors)
 - [x] 9 modality-specific metaprompts
-- [x] MCP tool integration (Context7)
+- [x] Context7 MCP integration (direct `mcp.context7.com`)
 - [x] System prompt corpus from frontier models
 - [x] Google OAuth authentication
+- [x] Error feedback UX (inline form + GitHub issues)
+- [x] Chain-of-thought loading indicator
+- [x] Pipeline logging (PipelineLogger)
 
 ### 🔜 In Progress
 - [ ] Fine-tuned model deployment (Gemini 1.5 Flash)

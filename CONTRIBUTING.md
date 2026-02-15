@@ -30,7 +30,6 @@ Before you begin, ensure you have the following installed:
 - **Git**: For version control
 - **Google Gemini API Key**: Required for AI functionality
 - **Pinecone API Key**: Required for RAG functionality
-- **Redis**: Optional, for hot caching
 
 ### First-Time Contributors
 
@@ -87,8 +86,8 @@ NEXTAUTH_SECRET=your_nextauth_secret
 NEXTAUTH_URL=http://localhost:3000
 
 # Optional: Enhancements
-REDIS_URL=redis://localhost:6379
 FIRECRAWL_API_KEY=your_firecrawl_api_key
+FEEDBACK_WEBHOOK_URL=your_webhook_url_for_error_reports
 ```
 
 **How to get API keys:**
