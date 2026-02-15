@@ -11,6 +11,7 @@
   --surface-border: rgba(148, 163, 184, 0.25);
   --text-soft: #e2e8f0;
   --text-muted: rgba(226, 232, 240, 0.7);
+  --font-sans: var(--font-inter), system-ui, -apple-system, sans-serif;
 }
 
 [data-theme="light"] {
@@ -26,9 +27,10 @@
 
 body {
   min-height: 100vh;
+  font-family: var(--font-sans);
   background:
-    radial-gradient(120% 120% at 0% 0%, rgba(34, 211, 238, 0.12) 0%, transparent 55%),
-    radial-gradient(120% 140% at 100% 0%, rgba(110, 231, 183, 0.12) 0%, transparent 60%),
+    radial-gradient(120% 120% at 0% 0%, rgba(148, 163, 184, 0.08) 0%, transparent 55%),
+    radial-gradient(120% 140% at 100% 0%, rgba(203, 213, 225, 0.06) 0%, transparent 60%),
     var(--background);
   color: var(--foreground);
   position: relative;
@@ -42,9 +44,9 @@ body::before {
   inset: -30vh -30vw;
   background: conic-gradient(
     from 180deg at 50% 50%,
-    rgba(56, 189, 248, 0.12),
-    rgba(16, 185, 129, 0.06),
-    rgba(56, 189, 248, 0.12)
+    rgba(148, 163, 184, 0.08),
+    rgba(203, 213, 225, 0.04),
+    rgba(148, 163, 184, 0.08)
   );
   filter: blur(120px);
   opacity: 0.7;
@@ -53,6 +55,7 @@ body::before {
   transform: translateZ(0);
 }
 
+/* ── Glass surfaces ─────────────────────────── */
 .theme-card {
   background: var(--surface-card);
   border: 1px solid var(--surface-border);
@@ -70,8 +73,8 @@ body::before {
 }
 
 .theme-info {
-  background: linear-gradient(135deg, rgba(56, 189, 248, 0.15), rgba(16, 185, 129, 0.12));
-  border: 1px solid rgba(56, 189, 248, 0.25);
+  background: linear-gradient(135deg, rgba(148, 163, 184, 0.12), rgba(203, 213, 225, 0.08));
+  border: 1px solid rgba(148, 163, 184, 0.2);
 }
 
 .text-soft {
@@ -82,6 +85,59 @@ body::before {
   color: var(--text-muted);
 }
 
+/* ── Liquid glass navigation (iOS 26 style) ── */
+.liquid-glass-nav {
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(28px) saturate(1.8);
+  -webkit-backdrop-filter: blur(28px) saturate(1.8);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  border-radius: 9999px;
+  transition: box-shadow 0.4s ease, border-color 0.4s ease;
+}
+
+.liquid-glass-nav:hover {
+  border-color: rgba(255, 255, 255, 0.16);
+  box-shadow:
+    0 12px 40px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+[data-theme="light"] .liquid-glass-nav {
+  background: rgba(255, 255, 255, 0.55);
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+/* ── Nav link hover indicator ─────────────── */
+.nav-link {
+  position: relative;
+  padding: 0.35rem 0;
+  transition: color 0.3s ease;
+}
+
+.nav-link::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 50%;
+  width: 0;
+  height: 1.5px;
+  background: var(--foreground);
+  transition: width 0.3s ease, left 0.3s ease;
+  opacity: 0.6;
+}
+
+.nav-link:hover::after {
+  width: 100%;
+  left: 0;
+}
+
+/* ── Hero gradient text ──────────────────────── */
 .hero-gradient-text {
   background: linear-gradient(90deg, #ff3bff 0%, #ecbfbf 38.02%, #5c24ff 75.83%, #d94fd5 100%);
   background-size: 200% 200%;
@@ -90,18 +146,7 @@ body::before {
   animation: hero-gradient-shift 12s ease infinite;
 }
 
-@keyframes hero-gradient-shift {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
-
+/* ── CTA buttons ─────────────────────────────── */
 .cta-primary,
 .cta-secondary {
   position: relative;
@@ -139,20 +184,7 @@ body::before {
   border-color: rgba(148, 163, 184, 0.65);
 }
 
-@keyframes bg-pan {
-  0% {
-    transform: rotate(0deg) scale(1.1);
-    opacity: 0.65;
-  }
-  50% {
-    transform: rotate(180deg) scale(1.05);
-    opacity: 0.85;
-  }
-  100% {
-    transform: rotate(360deg) scale(1.1);
-    opacity: 0.65;
-  }
-}
+/* ── Prompt panel glow ───────────────────────── */
 .prompt-panel-shell {
   position: relative;
   border-radius: 1.9rem;
@@ -185,11 +217,49 @@ body::before {
   z-index: 1;
 }
 
+/* ── Keyframes ───────────────────────────────── */
+@keyframes hero-gradient-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes bg-pan {
+  0% { transform: rotate(0deg) scale(1.1); opacity: 0.65; }
+  50% { transform: rotate(180deg) scale(1.05); opacity: 0.85; }
+  100% { transform: rotate(360deg) scale(1.1); opacity: 0.65; }
+}
+
 @keyframes panel-glow {
-  0% {
-    background-position: 0% 50%;
-  }
-  100% {
-    background-position: 200% 50%;
-  }
+  0% { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
+}
+
+@keyframes dotPulse {
+  0%, 100% { opacity: 0.3; transform: scale(0.85); }
+  50% { opacity: 1; transform: scale(1.15); }
+}
+
+/* ── Selection ───────────────────────────────── */
+::selection {
+  background: rgba(148, 163, 184, 0.3);
+  color: var(--foreground);
+}
+
+/* ── Scrollbar ───────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.2);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(148, 163, 184, 0.35);
 }

@@ -112,7 +112,7 @@ export function ModalitySelector({
                                 onModelChange(MODALITY_CONFIG[mod].models[0]);
                             }}
                             className={`flex-1 rounded-xl px-4 py-3 text-center transition-all duration-300 ${isActive
-                                ? "bg-gradient-to-r from-cyan-500/20 to-emerald-500/20 border-2 border-cyan-400/60 text-[var(--foreground)] shadow-[0_0_20px_rgba(34,211,238,0.15)]"
+                                ? "bg-white/10 border-2 border-white/30 text-[var(--foreground)] shadow-[0_0_15px_rgba(255,255,255,0.06)]"
                                 : "border border-[var(--surface-border)] bg-[var(--surface-card)] text-muted hover:border-[rgba(148,163,184,0.5)] hover:text-soft"
                                 } disabled:cursor-not-allowed disabled:opacity-50`}
                         >

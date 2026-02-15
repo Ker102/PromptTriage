@@ -160,7 +160,7 @@ export default function ErrorFeedback({
                         </button>
                     </div>
                     {submitState === "sent" && (
-                        <p className="text-xs text-emerald-400">
+                        <p className="text-xs text-slate-400">
                             Thanks! Your feedback has been submitted.
                         </p>
                     )}

@@ -120,7 +120,7 @@ export default function PricingPage() {
               <ul className="space-y-3 rounded-2xl border border-[var(--surface-border)] bg-[var(--surface-card-soft)] p-4 text-sm text-muted">
                 {plan.features.map((feature) => (
                   <li key={feature} className="flex items-start gap-2">
-                    <span className="mt-1 h-2 w-2 rounded-full bg-gradient-to-br from-cyan-400 to-emerald-400" />
+                    <span className="mt-1 h-2 w-2 rounded-full bg-white/90" />
                     <span>{feature}</span>
                   </li>
                 ))}
@@ -219,7 +219,7 @@ export default function PricingPage() {
               </div>
               <button
                 type="submit"
-                className="inline-flex items-center justify-center rounded-full border border-cyan-400/50 bg-gradient-to-r from-cyan-500/25 via-emerald-500/20 to-cyan-500/25 px-5 py-2 text-sm font-semibold uppercase tracking-[0.28em] text-soft shadow-[0_20px_45px_-28px_rgba(34,211,238,0.85)] transition duration-300 hover:-translate-y-0.5 hover:scale-[1.04] hover:border-cyan-300 hover:text-white"
+                className="inline-flex items-center justify-center rounded-full border border-cyan-400/50 bg-gradient-to-r from-white/15 via-white/10 to-white/15 px-5 py-2 text-sm font-semibold uppercase tracking-[0.28em] text-soft shadow-[0_20px_45px_-28px_rgba(34,211,238,0.85)] transition duration-300 hover:-translate-y-0.5 hover:scale-[1.04] hover:border-cyan-300 hover:text-white"
               >
                 Send message
               </button>
@@ -266,7 +266,7 @@ function PlanCallToAction({
 
   if (variant === "outlined") {
     return (
-      <span className="inline-flex items-center justify-center rounded-full border border-emerald-400/40 bg-emerald-400/10 px-5 py-2 text-sm font-semibold uppercase tracking-[0.28em] text-emerald-200">
+      <span className="inline-flex items-center justify-center rounded-full border border-white/20 bg-white/5 px-5 py-2 text-sm font-semibold uppercase tracking-[0.28em] text-slate-300">
         {label}
       </span>
     );
@@ -275,7 +275,7 @@ function PlanCallToAction({
   return (
     <Link
       href={href}
-      className="inline-flex items-center justify-center rounded-full border border-cyan-400/50 bg-gradient-to-r from-cyan-500/25 via-emerald-500/20 to-cyan-500/25 px-5 py-2 text-sm font-semibold uppercase tracking-[0.28em] text-soft shadow-[0_20px_45px_-28px_rgba(34,211,238,0.85)] transition duration-300 hover:-translate-y-0.5 hover:scale-[1.04] hover:border-cyan-300 hover:text-white"
+      className="inline-flex items-center justify-center rounded-full border border-cyan-400/50 bg-gradient-to-r from-white/15 via-white/10 to-white/15 px-5 py-2 text-sm font-semibold uppercase tracking-[0.28em] text-soft shadow-[0_20px_45px_-28px_rgba(34,211,238,0.85)] transition duration-300 hover:-translate-y-0.5 hover:scale-[1.04] hover:border-cyan-300 hover:text-white"
     >
       {label}
     </Link>

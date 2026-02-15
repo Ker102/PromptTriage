@@ -232,7 +232,7 @@ export async function POST(req: Request) {
     };
 
     const systemPrompt = getRefinerSystemPrompt(modality);
-    log.decision("MODALITY_PROMPT", modality === "text" ? "REFINER_SYSTEM_PROMPT (default)" : `${modality.toUpperCase()}_REFINER`);
+    log.decision("MODALITY_PROMPT", modality === "text" ? "REFINER_SYSTEM_PROMPT (default)" : `${modality.toUpperCase()}_REFINER`, `Modality is ${modality}`);
 
     const result = await model.generateContent({
       systemInstruction: {
@@ -267,7 +267,7 @@ export async function POST(req: Request) {
     }
 
     log.step("RESPONSE", `refinedPrompt=${parsed.refinedPrompt?.length ?? 0} chars | changes=${parsed.changeSummary?.length ?? 0} | assumptions=${parsed.assumptions?.length ?? 0}`);
-    log.end(true);
+    log.end("SUCCESS");
     return NextResponse.json(parsed);
   } catch (error) {
     if (error instanceof SyntaxError) {
@@ -281,7 +281,7 @@ export async function POST(req: Request) {
       error instanceof Error ? error.message : "Unknown error occurred.";
 
     log.error("PIPELINE_FAILURE", message);
-    log.end(false);
+    log.end("FAILED");
     return NextResponse.json(
       { error: `Prompt refinement failed: ${message}` },
       { status: 500 },

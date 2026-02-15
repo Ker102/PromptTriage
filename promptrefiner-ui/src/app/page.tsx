@@ -11,6 +11,8 @@ import { ImageUploader, UploadedImage } from "@/components/ImageUploader";
 import { DesiredOutputSelector, DesiredOutputId } from "@/components/DesiredOutputSelector";
 import ErrorFeedback from "@/components/ErrorFeedback";
 import PipelineProgress from "@/components/PipelineProgress";
+import { motion } from "framer-motion";
+import { Github, Instagram, ArrowUpRight, Moon, Sun } from "lucide-react";
 
 import type {
   PromptAnalysisResult,
@@ -44,12 +46,11 @@ const INITIAL_FORM = {
 };
 
 const HERO_TAGLINES = [
-  "Designed for clarity. Crafted for results.",
-  "Built for precision. Optimized for impact.",
-  "Made for simplicity. Tuned for excellence.",
-  "Created for purpose. Delivered with power.",
-  "Refined for insight. Made to drive change.",
-  "Focused on clarity. Engineered for success.",
+  "Powered by 28,000+ expert-analyzed prompt patterns.",
+  "Turn vague ideas into precise, model-ready instructions.",
+  "Your prompts, refined by real prompt engineering data.",
+  "Built on patterns from leading AI systems worldwide.",
+  "From rough draft to production-ready in seconds.",
 ] as const;
 
 async function parseJson<T>(response: Response): Promise<T> {
@@ -64,10 +65,9 @@ async function parseJson<T>(response: Response): Promise<T> {
   }
 }
 
-function ThinkingIndicator({ color = "cyan" }: { color?: "cyan" | "emerald" | "slate" }) {
+function ThinkingIndicator({ color = "white" }: { color?: "white" | "slate" }) {
   const palette: Record<string, string> = {
-    cyan: "bg-cyan-200 shadow-[0_0_8px_rgba(56,189,248,0.55)]",
-    emerald: "bg-emerald-200 shadow-[0_0_8px_rgba(16,185,129,0.55)]",
+    white: "bg-white/80 shadow-[0_0_8px_rgba(255,255,255,0.4)]",
     slate: "bg-slate-300 shadow-[0_0_6px_rgba(148,163,184,0.45)]",
   };
 
@@ -76,7 +76,7 @@ function ThinkingIndicator({ color = "cyan" }: { color?: "cyan" | "emerald" | "s
       {Array.from({ length: 3 }).map((_, index) => (
         <span
           key={index}
-          className={`h-1.5 w-1.5 rounded-full animate-dotPulse ${palette[color] ?? palette.cyan
+          className={`h-1.5 w-1.5 rounded-full animate-dotPulse ${palette[color] ?? palette.white
             }`}
           style={{ animationDelay: `${index * 0.18}s` }}
         />
@@ -100,7 +100,7 @@ function SocialIcon({
       target="_blank"
       rel="noopener noreferrer"
       aria-label={label}
-      className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-[rgba(148,163,184,0.35)] bg-[var(--surface-card-soft)] text-soft transition duration-300 hover:-translate-y-0.5 hover:scale-[1.05] hover:border-[rgba(148,163,184,0.65)] hover:text-white"
+      className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-[rgba(148,163,184,0.2)] bg-transparent text-[var(--text-muted)] transition duration-300 hover:scale-110 hover:border-[rgba(148,163,184,0.5)] hover:text-[var(--foreground)]"
     >
       {children}
     </a>
@@ -115,51 +115,10 @@ function ThemeToggle() {
     <button
       type="button"
       onClick={toggleTheme}
-      className="group relative inline-flex items-center gap-3 rounded-full border border-[var(--surface-border)] bg-[var(--surface-card-soft)] px-3 py-1.5 text-xs font-semibold tracking-[0.28em] uppercase text-soft transition duration-300 hover:shadow-[0_18px_45px_-28px_rgba(56,189,248,0.55)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-400"
+      className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-[rgba(148,163,184,0.2)] bg-transparent text-[var(--text-muted)] transition duration-300 hover:scale-110 hover:border-[rgba(148,163,184,0.5)] hover:text-[var(--foreground)]"
       aria-label="Toggle theme"
     >
-      <span className="hidden sm:inline">{isLight ? "Light" : "Dark"}</span>
-      <span className="relative flex h-8 w-16 items-center justify-start overflow-hidden rounded-full bg-[var(--surface-card)] px-1 py-0.5">
-        <span className="absolute inset-0 rounded-full bg-gradient-to-r from-cyan-400/40 via-emerald-400/30 to-cyan-400/40 opacity-20 blur" />
-        <span
-          className={`relative z-10 flex h-6 w-6 items-center justify-center rounded-full bg-gradient-to-br from-cyan-400 to-emerald-400 text-slate-900 shadow-lg transition-transform duration-500 ease-out ${isLight ? "translate-x-8" : "translate-x-0"
-            }`}
-        >
-          {isLight ? (
-            <svg
-              className="h-3 w-3"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <circle cx="12" cy="12" r="5" />
-              <line x1="12" y1="1" x2="12" y2="3" />
-              <line x1="12" y1="21" x2="12" y2="23" />
-              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
-              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
-              <line x1="1" y1="12" x2="3" y2="12" />
-              <line x1="21" y1="12" x2="23" y2="12" />
-              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
-              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
-            </svg>
-          ) : (
-            <svg
-              className="h-3 w-3"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
-            </svg>
-          )}
-        </span>
-      </span>
+      {isLight ? <Moon className="h-3.5 w-3.5" /> : <Sun className="h-3.5 w-3.5" />}
     </button>
   );
 }
@@ -174,43 +133,20 @@ function formatPlanLabel(plan?: string | null): string | null {
 
 export default function Home() {
   const navLinks = [
-    { label: "Features", href: "#features" },
-    { label: "Blueprints", href: "#blueprint" },
-    { label: "Contact", href: "/pricing#contact" },
-    { label: "Docs", href: "#docs" },
+    { label: "Refiner", href: "#prompt-refiner" },
     { label: "Pricing", href: "/pricing" },
   ];
 
   const socialLinks = [
     {
-      label: "Twitter",
-      href: "https://x.com/ker102dev",
-      icon: (
-        <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="currentColor">
-          <path d="M22.46 6c-.77.35-1.6.58-2.46.69a4.18 4.18 0 0 0 1.84-2.31 8.36 8.36 0 0 1-2.65 1.04 4.14 4.14 0 0 0-7.06 3.77A11.73 11.73 0 0 1 3.16 4.9a4.12 4.12 0 0 0 1.28 5.52 4.11 4.11 0 0 1-1.87-.52v.05a4.14 4.14 0 0 0 3.32 4.06 4.2 4.2 0 0 1-1.86.07 4.15 4.15 0 0 0 3.87 2.88A8.33 8.33 0 0 1 2 19.54a11.75 11.75 0 0 0 6.29 1.84c7.55 0 11.68-6.26 11.68-11.68 0-.18 0-.35-.01-.53A8.35 8.35 0 0 0 22.46 6Z" />
-        </svg>
-      ),
-    },
-    {
       label: "GitHub",
       href: "https://github.com/Ker102/PromptTriage",
-      icon: (
-        <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="currentColor">
-          <path
-            fillRule="evenodd"
-            d="M12 2a10 10 0 0 0-3.16 19.48c.5.09.68-.22.68-.48v-1.7c-2.78.61-3.37-1.34-3.37-1.34-.45-1.16-1.1-1.47-1.1-1.47-.9-.62.07-.6.07-.6 1 .07 1.53 1.05 1.53 1.05.88 1.52 2.32 1.08 2.88.83.09-.64.35-1.08.63-1.33-2.22-.25-4.55-1.11-4.55-4.95 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02a9.6 9.6 0 0 1 2.5-.34c.85 0 1.7.11 2.5.34 1.9-1.29 2.74-1.02 2.74-1.02.56 1.37.21 2.39.1 2.64.65.7 1.03 1.59 1.03 2.68 0 3.85-2.34 4.7-4.57 4.95.36.32.68.94.68 1.9v2.82c0 .27.18.58.69.48A10 10 0 0 0 12 2Z"
-          />
-        </svg>
-      ),
+      icon: <Github className="h-3.5 w-3.5" />,
     },
     {
       label: "Instagram",
       href: "https://instagram.com/kaelux.dev",
-      icon: (
-        <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="currentColor">
-          <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z" />
-        </svg>
-      ),
+      icon: <Instagram className="h-3.5 w-3.5" />,
     },
   ];
   const [form, setForm] = useState(() => ({ ...INITIAL_FORM }));
@@ -490,31 +426,25 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)] transition-colors duration-500">
-      <main className="mx-auto flex w-full max-w-5xl flex-col gap-10 px-6 py-12">
-        <nav className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
-          <div className="flex items-center justify-between gap-4">
-            <span className="text-sm font-semibold uppercase tracking-[0.4em] text-soft">
-              PromptTriage
-            </span>
-            <div className="flex items-center gap-3 md:hidden">
-              <ThemeToggle />
-              <button
-                type="button"
-                disabled={status === "loading"}
-                onClick={handleAuthButtonClick}
-                className="inline-flex items-center gap-2 rounded-full border border-[rgba(148,163,184,0.35)] bg-[var(--surface-card)] px-3 py-1 text-[0.6rem] font-semibold uppercase tracking-[0.32em] text-soft transition duration-200 hover:-translate-y-0.5 hover:border-[rgba(148,163,184,0.55)] hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-400 disabled:cursor-not-allowed disabled:opacity-70"
-              >
-                {isAuthenticated ? "Sign out" : "Login / Sign up"}
-              </button>
-            </div>
-          </div>
-          <div className="hidden items-center gap-8 text-xs font-medium text-muted md:flex">
-            {navLinks.map((link) => (
+      <main className="mx-auto flex w-full max-w-5xl flex-col gap-10 px-6 pt-6 pb-12">
+        {/* ── Liquid Glass Navigation ── */}
+        <motion.nav
+          initial={{ y: -20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+          className="liquid-glass-nav sticky top-4 z-50 mx-auto flex w-full max-w-3xl items-center justify-between px-5 py-2.5"
+        >
+          <span className="text-sm font-semibold uppercase tracking-[0.3em] text-soft">
+            PromptTriage
+          </span>
+
+          <div className="flex items-center gap-6 text-xs font-medium text-muted">
+            {navLinks.map((link) =>
               link.href.startsWith("#") ? (
                 <a
                   key={link.label}
                   href={link.href}
-                  className="tracking-[0.36em] uppercase transition duration-300 hover:text-soft"
+                  className="nav-link tracking-[0.2em] uppercase transition duration-300 hover:text-[var(--foreground)]"
                 >
                   {link.label}
                 </a>
@@ -522,14 +452,15 @@ export default function Home() {
                 <Link
                   key={link.label}
                   href={link.href}
-                  className="tracking-[0.36em] uppercase transition duration-300 hover:text-soft"
+                  className="nav-link tracking-[0.2em] uppercase transition duration-300 hover:text-[var(--foreground)]"
                 >
                   {link.label}
                 </Link>
               )
-            ))}
+            )}
           </div>
-          <div className="hidden items-center gap-3 md:flex">
+
+          <div className="flex items-center gap-2">
             <ThemeToggle />
             {socialLinks.map((item) => (
               <SocialIcon key={item.label} href={item.href} label={item.label}>
@@ -537,8 +468,8 @@ export default function Home() {
               </SocialIcon>
             ))}
             {isAuthenticated && planLabel ? (
-              <span className="inline-flex items-center gap-[6px] rounded-full border border-[rgba(148,163,184,0.35)] bg-[var(--surface-card-soft)] px-3 py-[6px] text-[0.6rem] font-semibold uppercase tracking-[0.32em] text-soft">
-                <span className="h-1.5 w-1.5 rounded-full bg-gradient-to-br from-cyan-400 to-emerald-400" />
+              <span className="inline-flex items-center gap-[5px] rounded-full border border-[rgba(148,163,184,0.2)] px-2.5 py-1 text-[0.55rem] font-semibold uppercase tracking-[0.2em] text-muted">
+                <span className="h-1.5 w-1.5 rounded-full bg-white/70" />
                 {planLabel}
               </span>
             ) : null}
@@ -546,62 +477,79 @@ export default function Home() {
               type="button"
               disabled={status === "loading"}
               onClick={handleAuthButtonClick}
-              className="inline-flex items-center gap-2 rounded-full border border-[rgba(148,163,184,0.35)] bg-[var(--surface-card)] px-5 py-1.5 text-xs font-semibold uppercase tracking-[0.28em] text-soft transition duration-200 hover:-translate-y-0.5 hover:border-[rgba(148,163,184,0.55)] hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-400 disabled:cursor-not-allowed disabled:opacity-70"
+              className="inline-flex items-center gap-1.5 rounded-full border border-[rgba(148,163,184,0.25)] px-4 py-1.5 text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-muted transition duration-300 hover:border-[rgba(148,163,184,0.5)] hover:text-[var(--foreground)] disabled:cursor-not-allowed disabled:opacity-50"
             >
-              {isAuthenticated ? "Sign out" : "Login / Sign up"}
+              {isAuthenticated ? "Sign out" : "Sign in"}
             </button>
           </div>
-        </nav>
+        </motion.nav>
 
-        <section className="flex flex-col items-center gap-6 text-center">
-          <Link
-            href="https://kaelux.dev"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.4em] text-muted transition duration-200 hover:text-soft"
+        {/* ── Hero Section ── */}
+        <section className="flex flex-col items-center gap-7 pt-8 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
           >
-            <span>A Kaelux Project</span>
-            <span className="text-lg leading-none">↗</span>
-          </Link>
-          <h1 className="hero-gradient-text text-4xl font-semibold md:text-6xl">
-            A Fast Prompt. <br className="hidden md:block" /> Scalable Guidance.
-          </h1>
-          <h2 className="text-3xl font-semibold text-soft md:text-5xl">
+            <Link
+              href="https://kaelux.dev"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.35em] text-muted transition duration-300 hover:text-[var(--foreground)]"
+            >
+              <span>A Kaelux Technologies Product</span>
+              <ArrowUpRight className="h-3.5 w-3.5" />
+            </Link>
+          </motion.div>
+
+          <motion.h1
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.35 }}
+            className="hero-gradient-text text-4xl font-semibold md:text-6xl"
+          >
+            Write Better Prompts. <br className="hidden md:block" /> Get Better Results.
+          </motion.h1>
+
+          <motion.h2
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.5 }}
+            className="text-xl font-medium text-soft md:text-2xl"
+          >
             <DecryptedText
               phrases={HERO_TAGLINES}
               interval={5200}
               duration={1400}
-              className="block text-soft whitespace-nowrap"
+              className="block text-soft"
             />
-          </h2>
-          <p className="max-w-2xl text-base leading-relaxed text-muted md:text-lg">
-            From quick iterations to production-ready briefs, PromptTriage refines your ideas
-            into crisp instructions tailored for any model. Turn vague requests into structured,
-            high-impact prompts—without losing your creative spark.
-          </p>
-          <div className="flex flex-wrap items-center justify-center gap-4">
+          </motion.h2>
+
+          <motion.p
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.65 }}
+            className="max-w-2xl text-base leading-relaxed text-muted md:text-lg"
+          >
+            PromptTriage analyzes your prompt against a knowledge base of 28,000+ real-world
+            patterns from leading AI systems — then rewrites it for maximum clarity and impact.
+          </motion.p>
+
+          <motion.div
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.8 }}
+            className="flex flex-wrap items-center justify-center gap-4"
+          >
             <a className="cta-primary" href="#prompt-refiner">
               Get started
             </a>
-            <a className="cta-secondary" href="#blueprint">
-              View blueprint
-            </a>
-          </div>
+            <Link className="cta-secondary" href="/pricing">
+              View pricing
+            </Link>
+          </motion.div>
         </section>
 
-        <div className="flex items-center justify-center gap-3 md:hidden">
-          {socialLinks.map((item) => (
-            <SocialIcon key={item.label} href={item.href} label={item.label}>
-              {item.icon}
-            </SocialIcon>
-          ))}
-          {isAuthenticated && planLabel ? (
-            <span className="inline-flex items-center gap-[6px] rounded-full border border-[rgba(148,163,184,0.35)] bg-[var(--surface-card-soft)] px-3 py-[6px] text-[0.6rem] font-semibold uppercase tracking-[0.32em] text-soft">
-              <span className="h-1.5 w-1.5 rounded-full bg-gradient-to-br from-cyan-400 to-emerald-400" />
-              {planLabel}
-            </span>
-          ) : null}
-        </div>
 
         <div className="prompt-panel-shell">
           <form
@@ -753,14 +701,14 @@ export default function Home() {
                     id="thinkingMode"
                     name="thinkingMode"
                     type="checkbox"
-                    className="h-4 w-4 rounded border-[var(--surface-border)] bg-[var(--surface-card-strong)] text-emerald-400 transition duration-200 ease-out focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:ring-offset-0 checked:shadow-[0_0_12px_rgba(16,185,129,0.45)]"
+                    className="h-4 w-4 rounded border-[var(--surface-border)] bg-[var(--surface-card-strong)] text-white/80 transition duration-200 ease-out focus:outline-none focus:ring-2 focus:ring-white/30 focus:ring-offset-0 checked:shadow-[0_0_12px_rgba(255,255,255,0.2)]"
                     checked={form.thinkingMode}
                     disabled={!isPaidPlan}
                     onChange={(event) => setForm((prev) => ({ ...prev, thinkingMode: event.target.checked }))}
                   />
                   <div>
                     <span>Thinking Mode</span>
-                    <span className="ml-2 rounded-full bg-emerald-500/20 px-2 py-0.5 text-xs text-emerald-300">
+                    <span className="ml-2 rounded-full bg-white/10 px-2 py-0.5 text-xs text-slate-400">
                       Deep Analysis
                     </span>
                   </div>
@@ -778,8 +726,8 @@ export default function Home() {
                 errorMessage={error}
                 onRetry={() => {
                   setError(null);
-                  const fakeEvent = { preventDefault: () => { } } as FormEvent;
-                  submitAnalyze(fakeEvent);
+                  const fakeEvent = { preventDefault: () => { } } as FormEvent<HTMLFormElement>;
+                  handleAnalyze(fakeEvent);
                 }}
                 onDismiss={() => setError(null)}
                 context={{
@@ -799,7 +747,7 @@ export default function Home() {
               >
                 <span className="flex items-center gap-2">
                   <span>{isAnalyzing ? "Analyzing prompt..." : "Analyze prompt"}</span>
-                  {isAnalyzing ? <ThinkingIndicator color="cyan" /> : null}
+                  {isAnalyzing ? <ThinkingIndicator color="white" /> : null}
                 </span>
               </button>
               <button
@@ -823,9 +771,9 @@ export default function Home() {
 
         {
           analysis ? (
-            <section className="space-y-8 rounded-3xl theme-card p-8 shadow-[0_45px_120px_-80px_rgba(15,118,110,0.65)] transition duration-500">
+            <section className="space-y-8 rounded-3xl theme-card p-8 shadow-[0_45px_120px_-80px_rgba(148,163,184,0.15)] transition duration-500">
               <header className="space-y-2">
-                <p className="text-xs uppercase tracking-[0.3em] text-cyan-300">
+                <p className="text-xs uppercase tracking-[0.3em] text-slate-400">
                   {analysis.questions?.length > 0 ? "phase 02" : "refined prompt"}
                 </p>
                 <h2 className="text-2xl font-semibold text-soft md:text-3xl">
@@ -845,7 +793,7 @@ export default function Home() {
                     type="button"
                     onClick={handleFastModeRefine}
                     disabled={isRefining || !analysis.refinedPrompt}
-                    className="group relative inline-flex w-full items-center justify-center overflow-hidden rounded-2xl bg-emerald-500/90 px-6 py-3 text-base font-semibold text-emerald-950 shadow-[0_25px_55px_-30px_rgba(16,185,129,0.85)] transition-transform duration-300 ease-out hover:-translate-y-0.5 hover:scale-[1.03] hover:bg-emerald-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-400 disabled:translate-y-0 disabled:scale-100 disabled:cursor-not-allowed disabled:bg-[var(--surface-card-soft)] disabled:text-muted"
+                    className="group relative inline-flex w-full items-center justify-center overflow-hidden rounded-2xl bg-white/90 px-6 py-3 text-base font-semibold text-slate-900 shadow-[0_20px_45px_-28px_rgba(255,255,255,0.25)] transition-transform duration-300 ease-out hover:-translate-y-0.5 hover:scale-[1.03] hover:bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/60 disabled:translate-y-0 disabled:scale-100 disabled:cursor-not-allowed disabled:bg-[var(--surface-card-soft)] disabled:text-muted"
                   >
                     <span className="flex items-center gap-2">
                       <span>
@@ -1146,7 +1094,7 @@ export default function Home() {
                     <button
                       type="submit"
                       disabled={isRefining || unansweredQuestions}
-                      className="group relative inline-flex w-full items-center justify-center overflow-hidden rounded-2xl bg-emerald-500/90 px-6 py-3 text-base font-semibold text-emerald-950 shadow-[0_25px_55px_-30px_rgba(16,185,129,0.85)] transition-transform duration-300 ease-out hover:-translate-y-0.5 hover:scale-[1.03] hover:bg-emerald-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-400 disabled:translate-y-0 disabled:scale-100 disabled:cursor-not-allowed disabled:bg-[var(--surface-card-soft)] disabled:text-muted"
+                      className="group relative inline-flex w-full items-center justify-center overflow-hidden rounded-2xl bg-white/90 px-6 py-3 text-base font-semibold text-slate-900 shadow-[0_20px_45px_-28px_rgba(255,255,255,0.25)] transition-transform duration-300 ease-out hover:-translate-y-0.5 hover:scale-[1.03] hover:bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/60 disabled:translate-y-0 disabled:scale-100 disabled:cursor-not-allowed disabled:bg-[var(--surface-card-soft)] disabled:text-muted"
                     >
                       <span className="flex items-center gap-2">
                         <span>
@@ -1156,7 +1104,7 @@ export default function Home() {
                               ? "Answer all questions to continue"
                               : "Generate refined prompt"}
                         </span>
-                        {isRefining ? <ThinkingIndicator color="emerald" /> : null}
+                        {isRefining ? <ThinkingIndicator color="white" /> : null}
                       </span>
                       <span className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-40">
                         <span className="absolute inset-y-0 left-0 w-1/2 -translate-x-full bg-gradient-to-r from-transparent via-white/40 to-transparent animate-shimmer" />
@@ -1171,9 +1119,9 @@ export default function Home() {
 
         {
           refinement ? (
-            <section className="space-y-6 rounded-3xl theme-card p-8 shadow-[0_55px_150px_-90px_rgba(14,116,144,0.75)] transition duration-500">
+            <section className="space-y-6 rounded-3xl theme-card p-8 shadow-[0_55px_150px_-90px_rgba(148,163,184,0.15)] transition duration-500">
               <header className="space-y-2">
-                <p className="text-xs uppercase tracking-[0.3em] text-emerald-300">
+                <p className="text-xs uppercase tracking-[0.3em] text-slate-400">
                   phase 03
                 </p>
                 <h2 className="text-2xl font-semibold text-soft md:text-3xl">
@@ -1195,11 +1143,11 @@ export default function Home() {
                       type="button"
                       onClick={handleRewrite}
                       disabled={isRefining || unansweredQuestions}
-                      className="inline-flex items-center justify-center rounded-xl border border-emerald-500/40 bg-emerald-500/10 px-4 py-2 text-sm font-medium text-emerald-100 transition-transform duration-300 ease-out hover:-translate-y-0.5 hover:scale-[1.02] hover:border-emerald-400 hover:bg-emerald-400/20 disabled:translate-y-0 disabled:scale-100 disabled:cursor-not-allowed disabled:border-[var(--surface-border)] disabled:bg-[var(--surface-card-soft)] disabled:text-muted"
+                      className="inline-flex items-center justify-center rounded-xl border border-white/20 bg-white/5 px-4 py-2 text-sm font-medium text-slate-200 transition-transform duration-300 ease-out hover:-translate-y-0.5 hover:scale-[1.02] hover:border-white/40 hover:bg-white/20 disabled:translate-y-0 disabled:scale-100 disabled:cursor-not-allowed disabled:border-[var(--surface-border)] disabled:bg-[var(--surface-card-soft)] disabled:text-muted"
                     >
                       <span className="flex items-center gap-2">
                         <span>{isRefining ? "Rewriting..." : "Re-write with new angle"}</span>
-                        {isRefining ? <ThinkingIndicator color="emerald" /> : null}
+                        {isRefining ? <ThinkingIndicator color="white" /> : null}
                       </span>
                     </button>
                     <button
@@ -1244,7 +1192,7 @@ export default function Home() {
                     >
                       <span className="flex items-center gap-2">
                         <span>{isRefining ? "Modifying..." : "Apply Modification"}</span>
-                        {isRefining ? <ThinkingIndicator color="cyan" /> : null}
+                        {isRefining ? <ThinkingIndicator color="white" /> : null}
                       </span>
                     </button>
                   </div>
@@ -1312,7 +1260,7 @@ export default function Home() {
           </div>
           <div className="flex items-center gap-4">
             <a
-              href="https://github.com/Ker102/PromptTriage"
+              href="https://github.com/Kaelux Technologies/PromptTriage"
               target="_blank"
               rel="noopener noreferrer"
               className="text-xs text-muted transition hover:text-soft"
@@ -1321,7 +1269,7 @@ export default function Home() {
             </a>
             <span className="text-xs text-muted/30">|</span>
             <span className="text-xs text-muted/50">
-              © {new Date().getFullYear()} Ker102
+              © {new Date().getFullYear()} Kaelux Technologies
             </span>
           </div>
         </div>
