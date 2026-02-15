@@ -18,6 +18,28 @@
 
 ## Recent Changes
 
+### 2026-02-15 - Phase 11: Documentation, UI Polish & Deployment Prep
+
+**Commit Ready**: Yes
+
+#### 11.1 Documentation Updates
+- **`README.md`**: Removed 8× stale Redis references, updated architecture diagram to Pinecone-only, updated roadmap with Phase 10 features, fixed embedding model to `gemini-embedding-001`
+- **`CONTRIBUTING.md`**: Removed Redis from prerequisites and env example, added `FEEDBACK_WEBHOOK_URL`
+- **`ErrorFeedback.tsx`**: Fixed GitHub org link (`KristijanTs` → `Ker102`)
+- **`backend/.env.example`**: Removed Redis/LangCache vars, updated embedding model
+- **New**: `promptrefiner-ui/.env.local.example` with all frontend env vars
+
+#### 11.2 UI Polish
+- **`layout.tsx`**: Updated title to "PromptTriage", added OG/Twitter meta tags, keywords, metadataBase
+- **`page.tsx`**: Fixed social links (Twitter → `x.com/ker102dev`, GitHub → `Ker102/PromptTriage`), removed generic Dribbble link
+- **New Footer**: Professional footer with branding, GitHub link, and copyright
+
+#### 11.3 Deployment Prep
+- **New**: `promptrefiner-ui/Dockerfile` — multi-stage Next.js standalone build (Alpine, non-root)
+- **New**: `docker-compose.yml` — frontend + backend with health checks
+- **`next.config.ts`**: Added `output: "standalone"`, security headers, `poweredByHeader: false`
+- **New**: `DEPLOYMENT.md` — guide for Docker, GCP Cloud Run, and DigitalOcean
+
 ### 2026-02-13 - Phase 10.1: Remove Redis — Pinecone-Only Architecture
 
 **Commit Ready**: Yes
