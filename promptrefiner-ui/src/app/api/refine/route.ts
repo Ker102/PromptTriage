@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { PipelineLogger } from "@/lib/pipelineLogger";
-import { getServerSession } from "next-auth";
+import { createClient } from "@/lib/supabase/server";
 import { getGeminiModel, extractJsonFromText } from "@/lib/gemini";
 import type {
   PromptBlueprint,
@@ -16,7 +16,7 @@ import {
   IMAGE_REFINER_SYSTEM_PROMPT,
   SYSTEM_PROMPT_REFINER,
 } from "@/prompts/metaprompt";
-import { authOptions } from "@/auth";
+
 import {
   isFirecrawlAvailable,
   recordUsageOrThrow,
@@ -63,7 +63,8 @@ function validateRefinementPayload(payload: PromptRefinementResult): string | nu
 export async function POST(req: Request) {
   const log = new PipelineLogger("REFINE");
   try {
-    const session = await getServerSession(authOptions);
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
 
     // Secure development bypass: requires explicit flag AND strict localhost match
     const allowDevBypass = process.env.ALLOW_DEV_BYPASS === "true";
@@ -72,7 +73,7 @@ export async function POST(req: Request) {
     const SAFE_HOSTS = /^(localhost|127\.0\.0\.1|::1)$/;
     const isLocalhost = SAFE_HOSTS.test(hostname);
     const isDev = allowDevBypass && isLocalhost;
-    const email = session?.user?.email ?? (isDev ? "dev@localhost" : null);
+    const email = user?.email ?? (isDev ? "dev@localhost" : null);
 
     if (!email) {
       log.skip("AUTH", "No session and not in dev mode");
@@ -84,7 +85,7 @@ export async function POST(req: Request) {
 
     // Only grant PRO if explicit dev bypass is enabled
     const subscriptionPlan =
-      (session?.user?.subscriptionPlan as string | undefined)?.toUpperCase() ??
+      (user?.user_metadata?.subscriptionPlan as string | undefined)?.toUpperCase() ??
       (isDev ? "PRO" : "FREE");
     log.step("AUTH", `user=${email} | isDev=${isDev} | plan=${subscriptionPlan}`);
 

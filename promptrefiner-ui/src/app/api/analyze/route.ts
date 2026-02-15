@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { PipelineLogger } from "@/lib/pipelineLogger";
-import { getServerSession } from "next-auth";
+import { createClient } from "@/lib/supabase/server";
 import { getGeminiModel, extractJsonFromText } from "@/lib/gemini";
 import type { Part } from "@google/generative-ai";
 import type {
@@ -27,7 +27,7 @@ import {
   needsLiveDocs,
   fetchLiveDocsForPrompt,
 } from "@/services/context7";
-import { authOptions } from "@/auth";
+
 import {
   isFirecrawlAvailable,
   recordUsageOrThrow,
@@ -115,13 +115,14 @@ function validateAnalysisPayload(payload: PromptAnalysisResult, thinkingMode = f
 export async function POST(req: Request) {
   const log = new PipelineLogger("ANALYZE");
   try {
-    const session = await getServerSession(authOptions);
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
 
     // Secure development bypass: requires explicit flag AND localhost
     const allowDevBypass = process.env.ALLOW_DEV_BYPASS === "true";
     const isLocalhost = req.headers.get("host")?.includes("localhost") ?? false;
     const isDev = allowDevBypass && isLocalhost;
-    const email = session?.user?.email ?? (isDev ? "dev@localhost" : null);
+    const email = user?.email ?? (isDev ? "dev@localhost" : null);
 
     log.step("AUTH", `user=${email ?? "NONE"}, isDev=${isDev}, plan=${isDev ? "PRO" : "FREE"}`);
 
@@ -135,7 +136,7 @@ export async function POST(req: Request) {
 
     // Only grant PRO if explicit dev bypass is enabled
     const subscriptionPlan =
-      (session?.user?.subscriptionPlan as string | undefined)?.toUpperCase() ??
+      (user?.user_metadata?.subscriptionPlan as string | undefined)?.toUpperCase() ??
       (isDev ? "PRO" : "FREE");
 
     const body = (await req.json()) as AnalyzeRequestPayload;

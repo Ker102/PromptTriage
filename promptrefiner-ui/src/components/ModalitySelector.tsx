@@ -1,7 +1,7 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { MessageSquare, Image, Film, Settings } from "lucide-react";
+import { MessageSquare, Image as ImageIcon, Film, Settings } from "lucide-react";
 
 // Modality types
 export type Modality = "text" | "image" | "video" | "system";
@@ -28,7 +28,7 @@ export const MODALITY_CONFIG: Record<Modality, { label: string; icon: ReactNode;
     },
     image: {
         label: "Image Generation",
-        icon: <Image className="h-5 w-5" />,
+        icon: <ImageIcon className="h-5 w-5" />,
         description: "Text-to-image, img2img, editing",
         models: [
             "None / Not sure yet",

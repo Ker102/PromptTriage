@@ -1,12 +1,11 @@
 import { NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
+import { createClient } from "@/lib/supabase/server";
 import { getGeminiModel, extractJsonFromText } from "@/lib/gemini";
 import {
     SYSTEM_PROMPT_GENERATOR_PROMPT,
     SYSTEM_PROMPT_GENERATOR_FEW_SHOTS,
 } from "@/prompts/systemPromptGenerator";
 import { PROMPT_VERSION } from "@/prompts/metaprompt";
-import { authOptions } from "@/auth";
 import { recordUsageOrThrow } from "@/services/usage-limit";
 
 export interface GenerateSystemPromptRequest {
@@ -68,15 +67,17 @@ function validateResult(result: GeneratedSystemPromptResult): string | null {
 
 export async function POST(req: Request) {
     try {
-        const session = await getServerSession(authOptions);
-        if (!session) {
+        const supabase = await createClient();
+        const { data: { user } } = await supabase.auth.getUser();
+
+        if (!user) {
             return NextResponse.json(
                 { error: "You must be signed in to generate system prompts." },
                 { status: 401 },
             );
         }
 
-        const email = session.user?.email;
+        const email = user.email;
         if (!email) {
             return NextResponse.json(
                 { error: "Unable to resolve your account email." },
@@ -85,7 +86,7 @@ export async function POST(req: Request) {
         }
 
         const subscriptionPlan =
-            (session.user?.subscriptionPlan as string | undefined)?.toUpperCase() ??
+            (user.user_metadata?.subscriptionPlan as string | undefined)?.toUpperCase() ??
             "FREE";
 
         const body = (await req.json()) as GenerateSystemPromptRequest;

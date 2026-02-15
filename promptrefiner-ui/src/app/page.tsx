@@ -1,8 +1,9 @@
 'use client';
 
-import { FormEvent, ReactNode, useEffect, useMemo, useState } from "react";
+import { FormEvent, ReactNode, useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { signIn, signOut, useSession } from "next-auth/react";
+import type { User } from "@supabase/supabase-js";
+import { createClient } from "@/lib/supabase/client";
 import { useTheme } from "@/components/theme-provider";
 import { DecryptedText } from "@/components/decrypted-text";
 import { OutputFormatSelector, OutputFormatId } from "@/components/OutputFormatSelector";
@@ -163,11 +164,30 @@ export default function Home() {
   // Modify feature: allow user to refine the generated prompt with additional instructions
   const [showModifyInput, setShowModifyInput] = useState(false);
   const [modifyInstruction, setModifyInstruction] = useState("");
-  const { data: session, status } = useSession();
-  const planLabel = formatPlanLabel(session?.user?.subscriptionPlan);
+  // ── Supabase Auth ──
+  const [supabase] = useState(() => createClient());
+  const [user, setUser] = useState<User | null>(null);
+  const [authLoading, setAuthLoading] = useState(true);
+
+  useEffect(() => {
+    // Get initial user
+    supabase.auth.getUser().then(({ data: { user: u } }) => {
+      setUser(u);
+      setAuthLoading(false);
+    });
+    // Listen for auth changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      (_event, session) => {
+        setUser(session?.user ?? null);
+        setAuthLoading(false);
+      },
+    );
+    return () => subscription.unsubscribe();
+  }, [supabase]);
+
   const subscriptionPlan =
-    (session?.user?.subscriptionPlan as string | undefined)?.toUpperCase() ??
-    "FREE";
+    (user?.user_metadata?.subscriptionPlan as string | undefined)?.toUpperCase() ?? "FREE";
+  const planLabel = formatPlanLabel(user?.user_metadata?.subscriptionPlan as string | undefined);
   // Dev bypass: treat as paid plan for UI testing when NEXT_PUBLIC_DEV_SUPERUSER is true
   const isDevSuperuser = process.env.NEXT_PUBLIC_DEV_SUPERUSER === "true";
   const isPaidPlan = subscriptionPlan !== "FREE" || isDevSuperuser;
@@ -175,18 +195,19 @@ export default function Home() {
     ? "Pulls supporting facts from the web to help Gemini identify missing context. Requires a valid FIRECRAWL_API_KEY."
     : "Available on Pro plans. Upgrade to unlock Firecrawl web search for richer context.";
 
-  const isAuthenticated = status === "authenticated";
-  const handleAuthButtonClick = () => {
+  const isAuthenticated = !!user;
+  const handleAuthButtonClick = useCallback(async () => {
     if (isAuthenticated) {
-      const callbackUrl =
-        typeof window !== "undefined" ? window.location.origin : "/";
-      void signOut({ callbackUrl });
+      await supabase.auth.signOut();
       return;
     }
-    const callbackUrl =
-      typeof window !== "undefined" ? window.location.href : "/";
-    void signIn("google", { callbackUrl });
-  };
+    await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        redirectTo: `${window.location.origin}/auth/callback`,
+      },
+    });
+  }, [isAuthenticated, supabase]);
 
   const isAnalyzing = pendingAction === "analyze";
   const isRefining = pendingAction === "refine";
@@ -233,7 +254,10 @@ export default function Home() {
     // Require authentication unless dev bypass is enabled
     const isDevSuperuser = process.env.NEXT_PUBLIC_DEV_SUPERUSER === "true";
     if (!isAuthenticated && !isDevSuperuser) {
-      await signIn("google", { callbackUrl: window.location.href });
+      await supabase.auth.signInWithOAuth({
+        provider: "google",
+        options: { redirectTo: `${window.location.origin}/auth/callback` },
+      });
       return;
     }
 
@@ -296,7 +320,10 @@ export default function Home() {
     // Require authentication unless dev bypass is enabled
     const isDevSuperuser = process.env.NEXT_PUBLIC_DEV_SUPERUSER === "true";
     if (!isAuthenticated && !isDevSuperuser) {
-      await signIn("google", { callbackUrl: window.location.href });
+      await supabase.auth.signInWithOAuth({
+        provider: "google",
+        options: { redirectTo: `${window.location.origin}/auth/callback` },
+      });
       return false;
     }
 
@@ -475,7 +502,7 @@ export default function Home() {
             ) : null}
             <button
               type="button"
-              disabled={status === "loading"}
+              disabled={authLoading}
               onClick={handleAuthButtonClick}
               className="inline-flex items-center gap-1.5 rounded-full border border-[rgba(148,163,184,0.25)] px-4 py-1.5 text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-muted transition duration-300 hover:border-[rgba(148,163,184,0.5)] hover:text-[var(--foreground)] disabled:cursor-not-allowed disabled:opacity-50"
             >
