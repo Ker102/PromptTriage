@@ -91,7 +91,7 @@ export default function PricingPage() {
         <div className="flex justify-center">
           <Link
             href="/"
-            className="inline-flex items-center justify-center rounded-full border border-[rgba(148,163,184,0.35)] bg-[var(--surface-card)] px-5 py-2 text-sm font-semibold uppercase tracking-[0.28em] text-soft transition duration-200 hover:-translate-y-0.5 hover:border-[rgba(148,163,184,0.55)] hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-400"
+            className="inline-flex items-center justify-center rounded-full border border-[rgba(148,163,184,0.35)] bg-[var(--surface-card)] px-5 py-2 text-sm font-semibold uppercase tracking-[0.28em] text-soft transition duration-200 hover:-translate-y-0.5 hover:border-[rgba(148,163,184,0.55)] hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/60"
           >
             Back to app
           </Link>
@@ -101,7 +101,7 @@ export default function PricingPage() {
           {PLANS.map((plan) => (
             <article
               key={plan.id}
-              className={`flex flex-col gap-5 rounded-3xl border border-[var(--surface-border)] bg-[var(--surface-card)] p-6 backdrop-blur transition duration-300 hover:-translate-y-1 hover:border-cyan-400/40 hover:shadow-[0_45px_95px_-70px_rgba(56,189,248,0.65)] ${
+              className={`flex flex-col gap-5 rounded-3xl border border-[var(--surface-border)] bg-[var(--surface-card)] p-6 backdrop-blur transition duration-300 hover:-translate-y-1 hover:border-white/20 hover:shadow-[0_45px_95px_-70px_rgba(255,255,255,0.12)] ${
                 plan.id === "pro" ? "md:-translate-y-4 md:shadow-[0_60px_110px_-80px_rgba(16,185,129,0.55)]" : ""
               }`}
             >
@@ -152,7 +152,7 @@ export default function PricingPage() {
               <p>
                 Email{" "}
                 <a
-                  className="text-cyan-300 underline underline-offset-4 hover:text-white"
+                  className="text-slate-300 underline underline-offset-4 hover:text-white"
                   href="mailto:hello@promptrefiner.app"
                 >
                   hello@promptrefiner.app
@@ -161,7 +161,7 @@ export default function PricingPage() {
               <p>
                 Slack Community{" "}
                 <a
-                  className="text-cyan-300 underline underline-offset-4 hover:text-white"
+                  className="text-slate-300 underline underline-offset-4 hover:text-white"
                   href="https://promptrefiner.app/slack"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -187,7 +187,7 @@ export default function PricingPage() {
                   name="name"
                   type="text"
                   required
-                  className="w-full rounded-2xl border border-[var(--surface-border)] bg-[var(--surface-card)] px-4 py-3 text-sm text-soft placeholder:text-muted focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/30"
+                  className="w-full rounded-2xl border border-[var(--surface-border)] bg-[var(--surface-card)] px-4 py-3 text-sm text-soft placeholder:text-muted focus:border-white/40 focus:outline-none focus:ring-2 focus:ring-white/20"
                   placeholder="Your name"
                 />
               </div>
@@ -200,7 +200,7 @@ export default function PricingPage() {
                   name="_replyto"
                   type="email"
                   required
-                  className="w-full rounded-2xl border border-[var(--surface-border)] bg-[var(--surface-card)] px-4 py-3 text-sm text-soft placeholder:text-muted focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/30"
+                  className="w-full rounded-2xl border border-[var(--surface-border)] bg-[var(--surface-card)] px-4 py-3 text-sm text-soft placeholder:text-muted focus:border-white/40 focus:outline-none focus:ring-2 focus:ring-white/20"
                   placeholder="you@company.com"
                 />
               </div>
@@ -213,13 +213,13 @@ export default function PricingPage() {
                   name="message"
                   rows={4}
                   required
-                  className="w-full rounded-2xl border border-[var(--surface-border)] bg-[var(--surface-card)] px-4 py-3 text-sm text-soft placeholder:text-muted focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/30"
+                  className="w-full rounded-2xl border border-[var(--surface-border)] bg-[var(--surface-card)] px-4 py-3 text-sm text-soft placeholder:text-muted focus:border-white/40 focus:outline-none focus:ring-2 focus:ring-white/20"
                   placeholder="Tell us about your workflow or feature request..."
                 />
               </div>
               <button
                 type="submit"
-                className="inline-flex items-center justify-center rounded-full border border-cyan-400/50 bg-gradient-to-r from-white/15 via-white/10 to-white/15 px-5 py-2 text-sm font-semibold uppercase tracking-[0.28em] text-soft shadow-[0_20px_45px_-28px_rgba(34,211,238,0.85)] transition duration-300 hover:-translate-y-0.5 hover:scale-[1.04] hover:border-cyan-300 hover:text-white"
+                className="inline-flex items-center justify-center rounded-full border border-white/25 bg-gradient-to-r from-white/15 via-white/10 to-white/15 px-5 py-2 text-sm font-semibold uppercase tracking-[0.28em] text-soft shadow-[0_20px_45px_-28px_rgba(255,255,255,0.25)] transition duration-300 hover:-translate-y-0.5 hover:scale-[1.04] hover:border-white/50 hover:text-white"
               >
                 Send message
               </button>
@@ -236,7 +236,7 @@ export default function PricingPage() {
           </p>
           <p className="mt-2">
             We can tailor PromptRefiner to your security, compliance, and
-            workflow needs. <Link className="text-cyan-300 underline underline-offset-4 hover:text-white" href="mailto:hello@promptrefiner.app">Contact sales</Link> for a bespoke quote.
+            workflow needs. <Link className="text-slate-300 underline underline-offset-4 hover:text-white" href="mailto:hello@promptrefiner.app">Contact sales</Link> for a bespoke quote.
           </p>
         </footer>
       </main>
@@ -275,7 +275,7 @@ function PlanCallToAction({
   return (
     <Link
       href={href}
-      className="inline-flex items-center justify-center rounded-full border border-cyan-400/50 bg-gradient-to-r from-white/15 via-white/10 to-white/15 px-5 py-2 text-sm font-semibold uppercase tracking-[0.28em] text-soft shadow-[0_20px_45px_-28px_rgba(34,211,238,0.85)] transition duration-300 hover:-translate-y-0.5 hover:scale-[1.04] hover:border-cyan-300 hover:text-white"
+      className="inline-flex items-center justify-center rounded-full border border-white/25 bg-gradient-to-r from-white/15 via-white/10 to-white/15 px-5 py-2 text-sm font-semibold uppercase tracking-[0.28em] text-soft shadow-[0_20px_45px_-28px_rgba(255,255,255,0.25)] transition duration-300 hover:-translate-y-0.5 hover:scale-[1.04] hover:border-white/50 hover:text-white"
     >
       {label}
     </Link>

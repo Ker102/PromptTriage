@@ -132,8 +132,8 @@ export function ImageUploader({
                     onClick={() => !disabled && fileInputRef.current?.click()}
                     className={`
             flex flex-col items-center justify-center gap-2 rounded-2xl border-2 border-dashed p-6 cursor-pointer transition-all duration-300
-            ${disabled ? 'opacity-50 cursor-not-allowed' : 'hover:border-cyan-400 hover:bg-cyan-500/5'}
-            ${isDragOver ? 'border-cyan-400 bg-cyan-500/10 scale-[1.02]' : 'border-[var(--surface-border)]'}
+            ${disabled ? 'opacity-50 cursor-not-allowed' : 'hover:border-white/40 hover:bg-white/[0.03]'}
+            ${isDragOver ? 'border-white/40 bg-white/5 scale-[1.02]' : 'border-[var(--surface-border)]'}
           `}
                 >
                     <svg

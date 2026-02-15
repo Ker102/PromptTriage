@@ -1,15 +1,16 @@
 "use client";
 
-import { useState } from "react";
+import type { ReactNode } from "react";
+import { MessageSquare, Image, Film, Settings } from "lucide-react";
 
 // Modality types
 export type Modality = "text" | "image" | "video" | "system";
 
 // Models organized by modality — use generic family names, not specific versions
-export const MODALITY_CONFIG = {
+export const MODALITY_CONFIG: Record<Modality, { label: string; icon: ReactNode; description: string; models: readonly string[] }> = {
     text: {
         label: "Text Generation",
-        icon: "💬",
+        icon: <MessageSquare className="h-5 w-5" />,
         description: "Chat, completions, reasoning",
         models: [
             "None / Not sure yet",
@@ -27,7 +28,7 @@ export const MODALITY_CONFIG = {
     },
     image: {
         label: "Image Generation",
-        icon: "🎨",
+        icon: <Image className="h-5 w-5" />,
         description: "Text-to-image, img2img, editing",
         models: [
             "None / Not sure yet",
@@ -43,7 +44,7 @@ export const MODALITY_CONFIG = {
     },
     video: {
         label: "Video Generation",
-        icon: "🎬",
+        icon: <Film className="h-5 w-5" />,
         description: "Text-to-video, img2video",
         models: [
             "None / Not sure yet",
@@ -59,7 +60,7 @@ export const MODALITY_CONFIG = {
     },
     system: {
         label: "System Prompt",
-        icon: "⚙️",
+        icon: <Settings className="h-5 w-5" />,
         description: "Create AI agent prompts",
         models: [
             "Any AI Model",
@@ -72,9 +73,9 @@ export const MODALITY_CONFIG = {
             "Writing Assistant",
         ],
     },
-} as const;
+};
 
-export type ModalityModel = typeof MODALITY_CONFIG[Modality]["models"][number];
+export type ModalityModel = string;
 
 interface ModalitySelectorProps {
     modality: Modality;
@@ -108,7 +109,6 @@ export function ModalitySelector({
                             disabled={disabled}
                             onClick={() => {
                                 onModalityChange(mod);
-                                // Reset to first model when switching modality
                                 onModelChange(MODALITY_CONFIG[mod].models[0]);
                             }}
                             className={`flex-1 rounded-xl px-4 py-3 text-center transition-all duration-300 ${isActive
@@ -116,7 +116,7 @@ export function ModalitySelector({
                                 : "border border-[var(--surface-border)] bg-[var(--surface-card)] text-muted hover:border-[rgba(148,163,184,0.5)] hover:text-soft"
                                 } disabled:cursor-not-allowed disabled:opacity-50`}
                         >
-                            <span className="text-xl">{cfg.icon}</span>
+                            <span className="flex items-center justify-center">{cfg.icon}</span>
                             <span className="mt-1 block text-sm font-medium">{cfg.label}</span>
                             <span className="block text-xs text-muted">{cfg.description}</span>
                         </button>
@@ -136,7 +136,7 @@ export function ModalitySelector({
                     id="targetModel"
                     name="targetModel"
                     disabled={disabled}
-                    className="w-full rounded-2xl border border-[var(--surface-border)] bg-[var(--surface-card-strong)] px-4 py-2.5 text-base text-[var(--foreground)] placeholder:text-muted transition-all duration-300 ease-out focus:-translate-y-0.5 focus:scale-[1.01] focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/30 disabled:cursor-not-allowed disabled:opacity-50"
+                    className="w-full rounded-2xl border border-[var(--surface-border)] bg-[var(--surface-card-strong)] px-4 py-2.5 text-base text-[var(--foreground)] placeholder:text-muted transition-all duration-300 ease-out focus:-translate-y-0.5 focus:scale-[1.01] focus:border-white/40 focus:outline-none focus:ring-2 focus:ring-white/20 disabled:cursor-not-allowed disabled:opacity-50"
                     value={model}
                     onChange={(e) => onModelChange(e.target.value)}
                 >

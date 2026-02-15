@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { AlertTriangle, RotateCcw, MessageCircle, Bug, CheckCircle2, XCircle } from "lucide-react";
 
 interface ErrorFeedbackProps {
     /** The error message to display */
@@ -82,7 +83,7 @@ export default function ErrorFeedback({
         <div className="rounded-2xl border border-red-500/30 bg-gradient-to-br from-red-500/10 via-red-900/5 to-transparent p-5 backdrop-blur-sm">
             {/* Error Message */}
             <div className="flex items-start gap-3">
-                <span className="mt-0.5 text-lg">⚠️</span>
+                <AlertTriangle className="mt-0.5 h-5 w-5 text-red-400" />
                 <div className="flex-1 space-y-1">
                     <p className="text-sm font-semibold text-red-300">
                         Something went wrong
@@ -107,16 +108,16 @@ export default function ErrorFeedback({
                 {onRetry && (
                     <button
                         onClick={onRetry}
-                        className="inline-flex items-center gap-1.5 rounded-xl bg-cyan-500/20 px-4 py-2 text-sm font-medium text-cyan-300 transition-all hover:bg-cyan-500/30 hover:text-cyan-200"
+                        className="inline-flex items-center gap-1.5 rounded-xl bg-white/10 px-4 py-2 text-sm font-medium text-slate-300 transition-all hover:bg-white/15 hover:text-white"
                     >
-                        🔄 Try Again
+                        <RotateCcw className="h-3.5 w-3.5" /> Try Again
                     </button>
                 )}
                 <button
                     onClick={() => setShowFeedbackForm((v) => !v)}
                     className="inline-flex items-center gap-1.5 rounded-xl bg-amber-500/15 px-4 py-2 text-sm font-medium text-amber-300 transition-all hover:bg-amber-500/25 hover:text-amber-200"
                 >
-                    💬 {showFeedbackForm ? "Hide Feedback" : "Submit Feedback"}
+                    <MessageCircle className="h-3.5 w-3.5" /> {showFeedbackForm ? "Hide Feedback" : "Submit Feedback"}
                 </button>
                 <a
                     href={buildGitHubIssueUrl()}
@@ -124,7 +125,7 @@ export default function ErrorFeedback({
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-1.5 rounded-xl border border-slate-600/40 px-4 py-2 text-sm font-medium text-slate-400 transition-all hover:border-slate-500/60 hover:text-slate-300"
                 >
-                    🐛 Report on GitHub
+                    <Bug className="h-3.5 w-3.5" /> Report on GitHub
                 </a>
             </div>
 
@@ -155,8 +156,8 @@ export default function ErrorFeedback({
                         >
                             {submitState === "idle" && "Send"}
                             {submitState === "sending" && "Sending..."}
-                            {submitState === "sent" && "✅ Sent!"}
-                            {submitState === "error" && "❌ Retry"}
+                            {submitState === "sent" && <><CheckCircle2 className="h-3.5 w-3.5" /> Sent!</>}
+                            {submitState === "error" && <><XCircle className="h-3.5 w-3.5" /> Retry</>}
                         </button>
                     </div>
                     {submitState === "sent" && (

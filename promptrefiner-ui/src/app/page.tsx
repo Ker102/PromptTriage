@@ -570,7 +570,7 @@ export default function Home() {
                 rows={8}
                 required
                 placeholder="Describe the task you want an AI to complete..."
-                className="w-full rounded-2xl border border-[var(--surface-border)] bg-[var(--surface-card-strong)] p-4 text-base text-[var(--foreground)] placeholder:text-muted transition-all duration-300 ease-out focus:-translate-y-0.5 focus:scale-[1.01] focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/30"
+                className="w-full rounded-2xl border border-[var(--surface-border)] bg-[var(--surface-card-strong)] p-4 text-base text-[var(--foreground)] placeholder:text-muted transition-all duration-300 ease-out focus:-translate-y-0.5 focus:scale-[1.01] focus:border-white/40 focus:outline-none focus:ring-2 focus:ring-white/20"
                 value={form.prompt}
                 onChange={(event) => handleFormChange("prompt", event.target.value)}
               />
@@ -612,7 +612,7 @@ export default function Home() {
                   name="context"
                   rows={4}
                   placeholder="Domain knowledge, constraints, success metrics, or any background the model should know."
-                  className="w-full rounded-2xl border border-[var(--surface-border)] bg-[var(--surface-card-strong)] p-3 text-base text-[var(--foreground)] placeholder:text-muted transition-all duration-300 ease-out focus:-translate-y-0.5 focus:scale-[1.01] focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/30"
+                  className="w-full rounded-2xl border border-[var(--surface-border)] bg-[var(--surface-card-strong)] p-3 text-base text-[var(--foreground)] placeholder:text-muted transition-all duration-300 ease-out focus:-translate-y-0.5 focus:scale-[1.01] focus:border-white/40 focus:outline-none focus:ring-2 focus:ring-white/20"
                   value={form.context}
                   onChange={(event) =>
                     handleFormChange("context", event.target.value)
@@ -631,7 +631,7 @@ export default function Home() {
                   name="tone"
                   type="text"
                   placeholder="e.g. friendly, expert, concise, marketing-savvy"
-                  className="w-full rounded-2xl border border-[var(--surface-border)] bg-[var(--surface-card-strong)] px-4 py-2.5 text-base text-[var(--foreground)] placeholder:text-muted transition-all duration-300 ease-out focus:-translate-y-0.5 focus:scale-[1.01] focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/30"
+                  className="w-full rounded-2xl border border-[var(--surface-border)] bg-[var(--surface-card-strong)] px-4 py-2.5 text-base text-[var(--foreground)] placeholder:text-muted transition-all duration-300 ease-out focus:-translate-y-0.5 focus:scale-[1.01] focus:border-white/40 focus:outline-none focus:ring-2 focus:ring-white/20"
                   value={form.tone}
                   onChange={(event) => handleFormChange("tone", event.target.value)}
                 />
@@ -680,7 +680,7 @@ export default function Home() {
                   id="useWebSearch"
                   name="useWebSearch"
                   type="checkbox"
-                  className="h-4 w-4 rounded border-[var(--surface-border)] bg-[var(--surface-card-strong)] text-cyan-400 transition duration-200 ease-out focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:ring-offset-0 checked:shadow-[0_0_12px_rgba(56,189,248,0.45)]"
+                  className="h-4 w-4 rounded border-[var(--surface-border)] bg-[var(--surface-card-strong)] text-white/80 transition duration-200 ease-out focus:outline-none focus:ring-2 focus:ring-white/30 focus:ring-offset-0 checked:shadow-[0_0_12px_rgba(255,255,255,0.15)]"
                   checked={form.useWebSearch}
                   disabled={!isPaidPlan}
                   onChange={(event) => handleWebSearchToggle(event.target.checked)}
@@ -743,7 +743,7 @@ export default function Home() {
               <button
                 type="submit"
                 disabled={isAnalyzing || !form.prompt.trim()}
-                className="inline-flex items-center justify-center rounded-2xl bg-cyan-500/90 px-6 py-3 text-base font-semibold text-slate-900 shadow-[0_20px_45px_-28px_rgba(34,211,238,0.85)] transition-transform duration-300 ease-out hover:-translate-y-0.5 hover:scale-[1.03] hover:bg-cyan-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-400 disabled:translate-y-0 disabled:scale-100 disabled:cursor-not-allowed disabled:bg-[var(--surface-card-soft)] disabled:text-muted"
+                className="inline-flex items-center justify-center rounded-2xl bg-white/90 px-6 py-3 text-base font-semibold text-[#0f172a] shadow-[0_20px_45px_-28px_rgba(255,255,255,0.25)] transition-transform duration-300 ease-out hover:-translate-y-0.5 hover:scale-[1.03] hover:bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/60 disabled:translate-y-0 disabled:scale-100 disabled:cursor-not-allowed disabled:bg-[var(--surface-card-soft)] disabled:text-muted"
               >
                 <span className="flex items-center gap-2">
                   <span>{isAnalyzing ? "Analyzing prompt..." : "Analyze prompt"}</span>
@@ -793,7 +793,7 @@ export default function Home() {
                     type="button"
                     onClick={handleFastModeRefine}
                     disabled={isRefining || !analysis.refinedPrompt}
-                    className="group relative inline-flex w-full items-center justify-center overflow-hidden rounded-2xl bg-white/90 px-6 py-3 text-base font-semibold text-slate-900 shadow-[0_20px_45px_-28px_rgba(255,255,255,0.25)] transition-transform duration-300 ease-out hover:-translate-y-0.5 hover:scale-[1.03] hover:bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/60 disabled:translate-y-0 disabled:scale-100 disabled:cursor-not-allowed disabled:bg-[var(--surface-card-soft)] disabled:text-muted"
+                    className="group relative inline-flex w-full items-center justify-center overflow-hidden rounded-2xl bg-white/90 px-6 py-3 text-base font-semibold text-[#0f172a] shadow-[0_20px_45px_-28px_rgba(255,255,255,0.25)] transition-transform duration-300 ease-out hover:-translate-y-0.5 hover:scale-[1.03] hover:bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/60 disabled:translate-y-0 disabled:scale-100 disabled:cursor-not-allowed disabled:bg-[var(--surface-card-soft)] disabled:text-muted"
                   >
                     <span className="flex items-center gap-2">
                       <span>
@@ -1074,7 +1074,7 @@ export default function Home() {
                             name={question.id}
                             rows={3}
                             required
-                            className="w-full rounded-2xl border border-[var(--surface-border)] bg-[var(--surface-card-strong)] p-3 text-sm text-[var(--foreground)] placeholder:text-muted transition-all duration-300 ease-out focus:-translate-y-0.5 focus:scale-[1.01] focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/30"
+                            className="w-full rounded-2xl border border-[var(--surface-border)] bg-[var(--surface-card-strong)] p-3 text-sm text-[var(--foreground)] placeholder:text-muted transition-all duration-300 ease-out focus:-translate-y-0.5 focus:scale-[1.01] focus:border-white/40 focus:outline-none focus:ring-2 focus:ring-white/20"
                             placeholder="Type your answer..."
                             value={answers[question.id] ?? ""}
                             onChange={(event) =>
@@ -1094,7 +1094,7 @@ export default function Home() {
                     <button
                       type="submit"
                       disabled={isRefining || unansweredQuestions}
-                      className="group relative inline-flex w-full items-center justify-center overflow-hidden rounded-2xl bg-white/90 px-6 py-3 text-base font-semibold text-slate-900 shadow-[0_20px_45px_-28px_rgba(255,255,255,0.25)] transition-transform duration-300 ease-out hover:-translate-y-0.5 hover:scale-[1.03] hover:bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/60 disabled:translate-y-0 disabled:scale-100 disabled:cursor-not-allowed disabled:bg-[var(--surface-card-soft)] disabled:text-muted"
+                      className="group relative inline-flex w-full items-center justify-center overflow-hidden rounded-2xl bg-white/90 px-6 py-3 text-base font-semibold text-[#0f172a] shadow-[0_20px_45px_-28px_rgba(255,255,255,0.25)] transition-transform duration-300 ease-out hover:-translate-y-0.5 hover:scale-[1.03] hover:bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/60 disabled:translate-y-0 disabled:scale-100 disabled:cursor-not-allowed disabled:bg-[var(--surface-card-soft)] disabled:text-muted"
                     >
                       <span className="flex items-center gap-2">
                         <span>
@@ -1154,7 +1154,7 @@ export default function Home() {
                       type="button"
                       onClick={() => setShowModifyInput(!showModifyInput)}
                       disabled={isRefining}
-                      className="inline-flex items-center justify-center rounded-xl border border-cyan-500/40 bg-cyan-500/10 px-4 py-2 text-sm font-medium text-cyan-100 transition-transform duration-300 ease-out hover:-translate-y-0.5 hover:scale-[1.02] hover:border-cyan-400 hover:bg-cyan-400/20 disabled:translate-y-0 disabled:scale-100 disabled:cursor-not-allowed disabled:border-[var(--surface-border)] disabled:bg-[var(--surface-card-soft)] disabled:text-muted"
+                      className="inline-flex items-center justify-center rounded-xl border border-white/20 bg-white/5 px-4 py-2 text-sm font-medium text-slate-200 transition-transform duration-300 ease-out hover:-translate-y-0.5 hover:scale-[1.02] hover:border-white/40 hover:bg-white/20 disabled:translate-y-0 disabled:scale-100 disabled:cursor-not-allowed disabled:border-[var(--surface-border)] disabled:bg-[var(--surface-card-soft)] disabled:text-muted"
                     >
                       {showModifyInput ? "Cancel" : "Modify"}
                     </button>
@@ -1173,7 +1173,7 @@ export default function Home() {
 
                 {/* Modify Input Section */}
                 {showModifyInput && (
-                  <div className="space-y-3 rounded-2xl border border-cyan-500/30 bg-cyan-500/5 p-4">
+                  <div className="space-y-3 rounded-2xl border border-white/15 bg-white/[0.03] p-4">
                     <label className="text-sm font-medium text-soft">
                       How would you like to modify this prompt?
                     </label>
@@ -1182,13 +1182,13 @@ export default function Home() {
                       onChange={(e) => setModifyInstruction(e.target.value)}
                       placeholder="e.g., Make it more formal, add more detail about X, shorten the introduction..."
                       rows={3}
-                      className="w-full rounded-xl border border-[var(--surface-border)] bg-[var(--surface-card)] p-3 text-sm text-[var(--foreground)] placeholder:text-muted transition-all duration-300 focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/30"
+                      className="w-full rounded-xl border border-[var(--surface-border)] bg-[var(--surface-card)] p-3 text-sm text-[var(--foreground)] placeholder:text-muted transition-all duration-300 focus:border-white/40 focus:outline-none focus:ring-2 focus:ring-white/20"
                     />
                     <button
                       type="button"
                       onClick={handleModify}
                       disabled={isRefining || !modifyInstruction.trim()}
-                      className="inline-flex items-center justify-center rounded-xl bg-cyan-500/90 px-4 py-2 text-sm font-medium text-cyan-950 transition-transform duration-300 ease-out hover:-translate-y-0.5 hover:scale-[1.02] hover:bg-cyan-400 disabled:translate-y-0 disabled:scale-100 disabled:cursor-not-allowed disabled:bg-[var(--surface-card-soft)] disabled:text-muted"
+                      className="inline-flex items-center justify-center rounded-xl bg-white/90 px-4 py-2 text-sm font-medium text-[#0f172a] transition-transform duration-300 ease-out hover:-translate-y-0.5 hover:scale-[1.02] hover:bg-white disabled:translate-y-0 disabled:scale-100 disabled:cursor-not-allowed disabled:bg-[var(--surface-card-soft)] disabled:text-muted"
                     >
                       <span className="flex items-center gap-2">
                         <span>{isRefining ? "Modifying..." : "Apply Modification"}</span>

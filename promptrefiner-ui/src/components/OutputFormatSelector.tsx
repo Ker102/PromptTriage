@@ -65,7 +65,7 @@ export function OutputFormatSelector({
                 type="button"
                 disabled={disabled}
                 onClick={() => setIsOpen(!isOpen)}
-                className="w-full rounded-2xl border border-[var(--surface-border)] bg-[var(--surface-card-strong)] px-4 py-2.5 text-left text-base text-[var(--foreground)] transition-all duration-300 ease-out focus:-translate-y-0.5 focus:scale-[1.01] focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/30 disabled:cursor-not-allowed disabled:opacity-50"
+                className="w-full rounded-2xl border border-[var(--surface-border)] bg-[var(--surface-card-strong)] px-4 py-2.5 text-left text-base text-[var(--foreground)] transition-all duration-300 ease-out focus:-translate-y-0.5 focus:scale-[1.01] focus:border-white/40 focus:outline-none focus:ring-2 focus:ring-white/20 disabled:cursor-not-allowed disabled:opacity-50"
             >
                 {selectedLabels.length === 0 ? (
                     <span className="text-muted">Select output formats...</span>
@@ -74,13 +74,13 @@ export function OutputFormatSelector({
                         {selectedLabels.map((opt) => (
                             <span
                                 key={opt.id}
-                                className="inline-flex items-center gap-1 rounded-full bg-cyan-500/20 px-2.5 py-0.5 text-xs font-medium text-cyan-300"
+                                className="inline-flex items-center gap-1 rounded-full bg-white/10 px-2.5 py-0.5 text-xs font-medium text-slate-300"
                             >
                                 {opt.label}
                                 <button
                                     type="button"
                                     onClick={(e) => removeOption(opt.id, e)}
-                                    className="ml-0.5 rounded-full p-0.5 hover:bg-cyan-500/30 focus:outline-none"
+                                    className="ml-0.5 rounded-full p-0.5 hover:bg-white/15 focus:outline-none"
                                     aria-label={`Remove ${opt.label}`}
                                 >
                                     <svg
@@ -127,13 +127,13 @@ export function OutputFormatSelector({
                                 type="button"
                                 onClick={() => toggleOption(option.id)}
                                 className={`flex w-full items-center gap-3 rounded-lg px-3 py-2 text-left transition-colors duration-150 ${isSelected
-                                        ? "bg-cyan-500/10 text-cyan-300"
+                                        ? "bg-white/5 text-slate-300"
                                         : "text-soft hover:bg-[var(--surface-card-soft)]"
                                     }`}
                             >
                                 <span
                                     className={`flex h-4 w-4 items-center justify-center rounded border ${isSelected
-                                            ? "border-cyan-400 bg-cyan-500"
+                                            ? "border-white/40 bg-white/90"
                                             : "border-[var(--surface-border)] bg-transparent"
                                         }`}
                                 >
