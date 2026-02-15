@@ -184,7 +184,7 @@ export default function Home() {
   const socialLinks = [
     {
       label: "Twitter",
-      href: "https://twitter.com",
+      href: "https://x.com/ker102dev",
       icon: (
         <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="currentColor">
           <path d="M22.46 6c-.77.35-1.6.58-2.46.69a4.18 4.18 0 0 0 1.84-2.31 8.36 8.36 0 0 1-2.65 1.04 4.14 4.14 0 0 0-7.06 3.77A11.73 11.73 0 0 1 3.16 4.9a4.12 4.12 0 0 0 1.28 5.52 4.11 4.11 0 0 1-1.87-.52v.05a4.14 4.14 0 0 0 3.32 4.06 4.2 4.2 0 0 1-1.86.07 4.15 4.15 0 0 0 3.87 2.88A8.33 8.33 0 0 1 2 19.54a11.75 11.75 0 0 0 6.29 1.84c7.55 0 11.68-6.26 11.68-11.68 0-.18 0-.35-.01-.53A8.35 8.35 0 0 0 22.46 6Z" />
@@ -193,22 +193,13 @@ export default function Home() {
     },
     {
       label: "GitHub",
-      href: "https://github.com",
+      href: "https://github.com/Ker102/PromptTriage",
       icon: (
         <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="currentColor">
           <path
             fillRule="evenodd"
             d="M12 2a10 10 0 0 0-3.16 19.48c.5.09.68-.22.68-.48v-1.7c-2.78.61-3.37-1.34-3.37-1.34-.45-1.16-1.1-1.47-1.1-1.47-.9-.62.07-.6.07-.6 1 .07 1.53 1.05 1.53 1.05.88 1.52 2.32 1.08 2.88.83.09-.64.35-1.08.63-1.33-2.22-.25-4.55-1.11-4.55-4.95 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02a9.6 9.6 0 0 1 2.5-.34c.85 0 1.7.11 2.5.34 1.9-1.29 2.74-1.02 2.74-1.02.56 1.37.21 2.39.1 2.64.65.7 1.03 1.59 1.03 2.68 0 3.85-2.34 4.7-4.57 4.95.36.32.68.94.68 1.9v2.82c0 .27.18.58.69.48A10 10 0 0 0 12 2Z"
           />
-        </svg>
-      ),
-    },
-    {
-      label: "Dribbble",
-      href: "https://dribbble.com",
-      icon: (
-        <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="currentColor">
-          <path d="M12 2C6.49 2 2 6.49 2 12s4.49 10 10 10 10-4.49 10-10S17.51 2 12 2Zm6.6 4.81a8.15 8.15 0 0 1 1.86 5.15c-.28-.06-3-.62-5.76-.27-.12-.29-.23-.6-.37-.9-.37-.87-.8-1.71-1.24-2.52 3.37-1.45 5.38-1.4 5.51-1.39ZM12 3.65c2 0 3.83.76 5.2 2-1.13-.03-2.74.16-4.7.92a31.9 31.9 0 0 0-3.63-4.44c.37-.05.73-.08 1.13-.08Zm-2.22.32a30.76 30.76 0 0 1 3.48 4.26c-4.61 1.73-8.7 1.67-8.96 1.67a8.33 8.33 0 0 1 5.48-5.93ZM3.62 12.1v-.1c.25.01 4.9.03 9.34-1.6.3.53.57 1.1.82 1.67-.1.03-.2.06-.3.1-4.7 1.52-7.26 5.1-7.44 5.36A8.3 8.3 0 0 1 3.62 12.1Zm2.77 6.3c.14-.23 2.06-3.2 6.93-4.75 1.85 4.81 2.61 8.75 2.72 9.43-1.26.54-2.64.84-4.04.84-2.27 0-4.35-.8-5.96-2.14Zm11.36.75c-.07-.46-.8-4.23-2.54-8.64 2.51-.4 4.7.25 4.96.33a8.3 8.3 0 0 1-2.42 8.3Z" />
         </svg>
       ),
     },
@@ -1298,7 +1289,34 @@ export default function Home() {
             </section>
           ) : null
         }
-      </main >
+      </main>
+
+      {/* Footer */}
+      <footer className="mx-auto w-full max-w-5xl border-t border-[var(--surface-border)] px-6 py-8">
+        <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
+          <div className="flex items-center gap-3">
+            <span className="text-xs font-semibold uppercase tracking-[0.3em] text-muted">
+              PromptTriage
+            </span>
+            <span className="text-xs text-muted/50">•</span>
+            <span className="text-xs text-muted/70">RAG-Powered Prompt Engineering</span>
+          </div>
+          <div className="flex items-center gap-4">
+            <a
+              href="https://github.com/Ker102/PromptTriage"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs text-muted transition hover:text-soft"
+            >
+              GitHub
+            </a>
+            <span className="text-xs text-muted/30">|</span>
+            <span className="text-xs text-muted/50">
+              © {new Date().getFullYear()} Ker102
+            </span>
+          </div>
+        </div>
+      </footer>
     </div >
   );
 }

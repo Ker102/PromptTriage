@@ -14,9 +14,23 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "PromptRefiner | AI-ready prompt builder",
+  title: "PromptTriage | RAG-Powered Prompt Engineering Platform",
   description:
-    "Analyze your prompt, gather missing context, and craft an AI-ready version using Gemini.",
+    "Transform rough ideas into production-ready AI prompts with RAG retrieval, modality-specific optimization, and Context7 MCP integration.",
+  keywords: ["prompt engineering", "RAG", "AI prompts", "Gemini", "LLM", "system prompts", "Context7"],
+  authors: [{ name: "Ker102" }],
+  openGraph: {
+    title: "PromptTriage — AI-Ready Prompt Engineering",
+    description: "RAG-powered prompt refinement for Text, Image, Video, and System Prompts.",
+    type: "website",
+    siteName: "PromptTriage",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "PromptTriage — AI-Ready Prompt Engineering",
+    description: "RAG-powered prompt refinement for Text, Image, Video, and System Prompts.",
+  },
+  metadataBase: new URL("https://prompttriage.dev"),
 };
 
 export default function RootLayout({
