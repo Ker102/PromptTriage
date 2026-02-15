@@ -18,6 +18,42 @@
 
 ## Recent Changes
 
+### 2026-02-15 - Phase 11.4: UI Overhaul — Liquid Glass + Professional Polish
+
+**Commit Ready**: Yes (`40057b5`)
+
+#### Navigation
+- **Liquid glass pill**: `backdrop-filter: blur(28px) saturate(1.8)`, pill-shaped, sticky top-4
+- **Framer Motion**: slide-down entrance animation
+- **Links trimmed**: Refiner + Pricing only
+- **Social**: Lucide `Github` + `Instagram` (removed Twitter, inline SVGs)
+
+#### Hero
+- **Headline**: "Write Better Prompts. Get Better Results."
+- **Taglines**: Data-backed, rotating via `DecryptedText`
+- **Body**: "28,000+ real-world patterns from leading AI systems"
+- **Animations**: Staggered `motion.div` cascade (0.2s–0.8s delay)
+
+#### Color Palette
+- **All emerald/green → white/chrome/slate** across 6 files
+- Button shadows: `rgba(16,185,129)` → `rgba(255,255,255)`
+- Active indicators: cyan → neutral white
+
+#### Icons
+- **PipelineProgress**: All emojis → Lucide (Lock, Brain, Search, Sparkles, etc.)
+- **Thinking badge**: Brain emoji → `<Brain />` Lucide icon
+
+#### Branding
+- **Ker102 → Kaelux Technologies** (footer, badge)
+- **Instagram**: `instagram.com/kaelux.dev`
+
+#### Font
+- Geist Sans/Mono → **Inter** (Google Fonts)
+
+#### Bug Fixes
+- `log.decision()` missing 3rd arg, `log.end(bool)` → string
+- `submitAnalyze` → `handleAnalyze` reference error
+
 ### 2026-02-15 - Phase 11: Documentation, UI Polish & Deployment Prep
 
 **Commit Ready**: Yes
