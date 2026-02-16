@@ -1,6 +1,9 @@
 # Cloud Build config for the backend (FastAPI)
 # Builds the Docker image and deploys to Cloud Run automatically.
 
+options:
+  logging: CLOUD_LOGGING_ONLY
+
 steps:
   # Build the Docker image
   - name: "gcr.io/cloud-builders/docker"
