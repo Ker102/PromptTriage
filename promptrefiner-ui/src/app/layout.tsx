@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   title: "PromptTriage | RAG-Powered Prompt Engineering Platform",
   description:
     "Transform rough ideas into production-ready AI prompts with RAG retrieval, modality-specific optimization, and Context7 MCP integration.",
-  keywords: ["prompt engineering", "RAG", "AI prompts", "Gemini", "LLM", "system prompts", "Context7"],
+  keywords: ["prompt engineering", "RAG", "AI prompts", "prompt refinement", "LLM", "system prompts", "Context7"],
   authors: [{ name: "Kaelux Technologies" }],
   openGraph: {
     title: "PromptTriage — Write Better Prompts, Get Better Results",

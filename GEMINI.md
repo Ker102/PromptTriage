@@ -12,11 +12,25 @@
 - **Framework**: Next.js 15.1.6 (Frontend) + FastAPI (Backend)
 - **AI Model**: Gemini 3 Pro Preview (generation), Gemini 1.5 Flash (fine-tuning)
 - **RAG**: Pinecone (Vector Store) with Gemini Embeddings (gemini-embedding-001, 768d)
-- **Key Dependencies**: @google/generative-ai, next-auth, Firecrawl, LangChain
+- **Key Dependencies**: @google/generative-ai, @supabase/ssr, @supabase/supabase-js, Firecrawl, LangChain
 
 ---
 
 ## Recent Changes
+
+### 2026-02-15 - Phase 12: NextAuth → Supabase Auth Migration
+
+**Commit Ready**: Yes (`1f3c70c`)
+
+#### Auth Migration
+- **Removed**: `next-auth`, `auth.ts`, `[...nextauth]/route.ts`, `next-auth.d.ts`
+- **New**: `lib/supabase/client.ts` (browser), `server.ts` (SSR), `middleware.ts` (session refresh)
+- **New**: `src/middleware.ts` — refreshes Supabase sessions on every request
+- **New**: `app/auth/callback/route.ts` — OAuth code exchange
+- **Updated**: `page.tsx` — `useSession` → `onAuthStateChange`, `signIn` → `signInWithOAuth`
+- **Updated**: `app-providers.tsx` — removed `SessionProvider`
+- **Updated**: analyze, refine, generate-system-prompt routes — `getServerSession` → `createClient()` + `getUser()`
+- **Env**: Supabase URL + publishable/secret keys replace NextAuth vars
 
 ### 2026-02-15 - Phase 11.4: UI Overhaul — Liquid Glass + Professional Polish
 

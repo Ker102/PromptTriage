@@ -30,7 +30,7 @@ const PLANS = [
     highlight: "Unlock 100 monthly requests and premium tooling.",
     features: [
       "Up to 100 prompt requests every month",
-      "Priority Gemini quota with faster retries",
+      "Priority AI quota with faster retries",
       "Shared prompt workspaces & version history",
       "Advanced tone + output templates library",
       "Firecrawl web enrichment included",
@@ -101,9 +101,8 @@ export default function PricingPage() {
           {PLANS.map((plan) => (
             <article
               key={plan.id}
-              className={`flex flex-col gap-5 rounded-3xl border border-[var(--surface-border)] bg-[var(--surface-card)] p-6 backdrop-blur transition duration-300 hover:-translate-y-1 hover:border-white/20 hover:shadow-[0_45px_95px_-70px_rgba(255,255,255,0.12)] ${
-                plan.id === "pro" ? "md:-translate-y-4 md:shadow-[0_60px_110px_-80px_rgba(16,185,129,0.55)]" : ""
-              }`}
+              className={`flex flex-col gap-5 rounded-3xl border border-[var(--surface-border)] bg-[var(--surface-card)] p-6 backdrop-blur transition duration-300 hover:-translate-y-1 hover:border-white/20 hover:shadow-[0_45px_95px_-70px_rgba(255,255,255,0.12)] ${plan.id === "pro" ? "md:-translate-y-4 md:shadow-[0_60px_110px_-80px_rgba(16,185,129,0.55)]" : ""
+                }`}
             >
               <div className="space-y-2">
                 <div className="flex items-center justify-between text-xs uppercase tracking-[0.4em] text-muted">

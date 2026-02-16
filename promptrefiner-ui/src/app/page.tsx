@@ -192,7 +192,7 @@ export default function Home() {
   const isDevSuperuser = process.env.NEXT_PUBLIC_DEV_SUPERUSER === "true";
   const isPaidPlan = subscriptionPlan !== "FREE" || isDevSuperuser;
   const firecrawlHelperText = isPaidPlan
-    ? "Pulls supporting facts from the web to help Gemini identify missing context. Requires a valid FIRECRAWL_API_KEY."
+    ? "Pulls supporting facts from the web to help our AI identify missing context. Requires a valid FIRECRAWL_API_KEY."
     : "Available on Pro plans. Upgrade to unlock Firecrawl web search for richer context.";
 
   const isAuthenticated = !!user;
@@ -804,7 +804,7 @@ export default function Home() {
                   {analysis.questions?.length > 0 ? "phase 02" : "refined prompt"}
                 </p>
                 <h2 className="text-2xl font-semibold text-soft md:text-3xl">
-                  Gemini&apos;s take on your prompt
+                  PromptTriage&apos;s take on your prompt
                 </h2>
                 <p className="text-muted">
                   {analysis.questions?.length > 0
