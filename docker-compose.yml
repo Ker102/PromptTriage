@@ -1,4 +1,4 @@
-# PromptTriage — Docker Compose
+# PromptTriage — Docker Compose (Local Development)
 # Run: docker-compose up --build
 
 services:
@@ -6,6 +6,9 @@ services:
     build:
       context: ./promptrefiner-ui
       dockerfile: Dockerfile
+      args:
+        NEXT_PUBLIC_SUPABASE_URL: ${NEXT_PUBLIC_SUPABASE_URL}
+        NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: ${NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY}
     ports:
       - "3000:3000"
     env_file:

@@ -1,124 +1,195 @@
-# Deployment Guide
+# PromptTriage — GCP Cloud Run Deployment Guide
 
-PromptTriage is a two-service application: **Next.js frontend** + **FastAPI backend**.
+> Deploy both frontend and backend to Cloud Run with custom subdomains on `kaelux.dev`.
 
 ---
 
-## Quick Start (Docker Compose)
+## Prerequisites
+
+1. [Google Cloud CLI](https://cloud.google.com/sdk/docs/install) installed (`gcloud`)
+2. A GCP project with billing enabled
+3. Docker installed locally (for testing)
+4. DNS access for `kaelux.dev`
+
+---
+
+## One-Time GCP Setup
 
 ```bash
-# 1. Create env files from examples
-cp backend/.env.example backend/.env
-cp promptrefiner-ui/.env.local.example promptrefiner-ui/.env.local
+# Set your project
+export PROJECT_ID=your-gcp-project-id
+export REGION=europe-west1   # or us-central1, etc.
 
-# 2. Fill in your API keys in both files
+gcloud config set project $PROJECT_ID
 
-# 3. Build and run
-docker-compose up --build
+# Enable required APIs
+gcloud services enable run.googleapis.com \
+  cloudbuild.googleapis.com \
+  artifactregistry.googleapis.com
+
+# Create Artifact Registry repo for Docker images
+gcloud artifacts repositories create prompttriage \
+  --repository-format=docker \
+  --location=$REGION
 ```
 
-- Frontend: `http://localhost:3000`
-- Backend: `http://localhost:8080`
-
 ---
 
-## Environment Variables
-
-### Backend (`backend/.env`)
-
-| Variable | Required | Description |
-|----------|----------|-------------|
-| `GOOGLE_API_KEY` | ✅ | Gemini API key for embeddings |
-| `PINECONE_API_KEY` | ✅ | Pinecone vector database key |
-| `PINECONE_INDEX_NAME` | ✅ | Pinecone index name (default: `prompttriage-prompts`) |
-| `PINECONE_ENVIRONMENT` | ✅ | Pinecone region (default: `us-east-1`) |
-| `FRONTEND_URL` | ❌ | CORS allowed origin (default: `http://localhost:3000`) |
-
-### Frontend (`promptrefiner-ui/.env.local`)
-
-| Variable | Required | Description |
-|----------|----------|-------------|
-| `GEMINI_API_KEY` | ✅ | Gemini API key for generation |
-| `GOOGLE_CLIENT_ID` | ✅ | Google OAuth client ID |
-| `GOOGLE_CLIENT_SECRET` | ✅ | Google OAuth client secret |
-| `NEXTAUTH_SECRET` | ✅ | Random secret for session encryption |
-| `NEXTAUTH_URL` | ✅ | Public URL (e.g., `https://prompttriage.dev`) |
-| `RAG_API_URL` | ✅ | Backend URL (e.g., `http://backend:8080` in Docker) |
-| `FIRECRAWL_API_KEY` | ❌ | Optional web search enrichment |
-| `FEEDBACK_WEBHOOK_URL` | ❌ | Optional error report webhook |
-
----
-
-## GCP Cloud Run
-
-The project includes `cloudbuild.yaml` for the backend. To deploy both services:
-
-### Backend
+## Deploy Backend (FastAPI)
 
 ```bash
-# Deploy backend to Cloud Run
-gcloud builds submit --config cloudbuild.yaml
+# From repo root
+cd backend
 
-# Set env vars
-gcloud run services update prompttriage-api \
-  --set-env-vars "GOOGLE_API_KEY=xxx,PINECONE_API_KEY=xxx,PINECONE_INDEX_NAME=prompttriage-prompts"
-```
-
-### Frontend
-
-```bash
-# Build and push frontend image
-docker build -t gcr.io/YOUR_PROJECT/prompttriage-web ./promptrefiner-ui
-docker push gcr.io/YOUR_PROJECT/prompttriage-web
+# Build & push via Cloud Build
+gcloud builds submit \
+  --tag $REGION-docker.pkg.dev/$PROJECT_ID/prompttriage/api:latest
 
 # Deploy to Cloud Run
-gcloud run deploy prompttriage-web \
-  --image gcr.io/YOUR_PROJECT/prompttriage-web \
-  --region us-central1 \
+gcloud run deploy prompttriage-api \
+  --image $REGION-docker.pkg.dev/$PROJECT_ID/prompttriage/api:latest \
+  --region $REGION \
   --platform managed \
   --allow-unauthenticated \
+  --port 8080 \
   --memory 512Mi \
-  --set-env-vars "GEMINI_API_KEY=xxx,RAG_API_URL=https://prompttriage-api-xxxx.run.app,NEXTAUTH_SECRET=xxx,NEXTAUTH_URL=https://your-domain.com"
+  --cpu 1 \
+  --min-instances 0 \
+  --max-instances 3 \
+  --set-env-vars "PINECONE_API_KEY=<your-key>" \
+  --set-env-vars "PINECONE_INDEX_NAME=system-prompts" \
+  --set-env-vars "GOOGLE_GEMINI_API_KEY=<your-key>" \
+  --set-env-vars "FRONTEND_URL=https://prompttriage.kaelux.dev"
 ```
+
+> **Tip**: Use `gcloud run services update` to change env vars without redeploying the image.
 
 ---
 
-## DigitalOcean App Platform
-
-### Option A: App Platform (Recommended)
-
-1. Connect your GitHub repo at [cloud.digitalocean.com/apps](https://cloud.digitalocean.com/apps)
-2. Add two components:
-   - **Web Service** → `promptrefiner-ui/` with Dockerfile
-   - **Web Service** → `backend/` with Dockerfile
-3. Set environment variables for each component
-4. Deploy
-
-### Option B: Droplet
+## Deploy Frontend (Next.js)
 
 ```bash
-# On your droplet
-git clone https://github.com/Ker102/PromptTriage.git
-cd PromptTriage
+# From repo root
+cd promptrefiner-ui
 
-# Set up env files
-cp backend/.env.example backend/.env
-cp promptrefiner-ui/.env.local.example promptrefiner-ui/.env.local
-# Edit both files with your API keys
+# Build & push — Supabase keys needed at build time (NEXT_PUBLIC_*)
+gcloud builds submit \
+  --tag $REGION-docker.pkg.dev/$PROJECT_ID/prompttriage/ui:latest \
+  --build-arg NEXT_PUBLIC_SUPABASE_URL=https://drayjtbfdtadsbtwitls.supabase.co \
+  --build-arg NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=<your-publishable-key>
 
-# Run with Docker Compose
-docker-compose up -d --build
+# Deploy to Cloud Run
+gcloud run deploy prompttriage-ui \
+  --image $REGION-docker.pkg.dev/$PROJECT_ID/prompttriage/ui:latest \
+  --region $REGION \
+  --platform managed \
+  --allow-unauthenticated \
+  --port 3000 \
+  --memory 256Mi \
+  --cpu 1 \
+  --min-instances 0 \
+  --max-instances 5 \
+  --set-env-vars "GOOGLE_GEMINI_API_KEY=<your-key>" \
+  --set-env-vars "SUPABASE_SECRET_KEY=<your-secret-key>" \
+  --set-env-vars "RAG_API_URL=https://api.prompttriage.kaelux.dev"
 ```
-
-Configure Nginx or Caddy as a reverse proxy for HTTPS.
 
 ---
 
-## Production Checklist
+## Custom Domain Setup
 
-- [ ] Set `NEXTAUTH_URL` to your production domain
-- [ ] Configure Google OAuth redirect URI in Google Console
-- [ ] Set `FRONTEND_URL` in backend to match your frontend domain
-- [ ] Enable HTTPS (Cloud Run handles this; for DO Droplet, use Caddy/Nginx)
-- [ ] Set strong `NEXTAUTH_SECRET` (use `openssl rand -base64 32`)
-- [ ] Remove `ALLOW_DEV_BYPASS` and `NEXT_PUBLIC_DEV_SUPERUSER` in production
+### 1. Map domains in Cloud Run
+
+```bash
+# Frontend
+gcloud run domain-mappings create \
+  --service prompttriage-ui \
+  --domain prompttriage.kaelux.dev \
+  --region $REGION
+
+# Backend API
+gcloud run domain-mappings create \
+  --service prompttriage-api \
+  --domain api.prompttriage.kaelux.dev \
+  --region $REGION
+```
+
+### 2. Add DNS records
+
+Cloud Run will give you the CNAME target. Add these in your DNS provider:
+
+| Type | Name | Value |
+|------|------|-------|
+| CNAME | `prompttriage` | `ghs.googlehosted.com` |
+| CNAME | `api.prompttriage` | `ghs.googlehosted.com` |
+
+SSL certificates are provisioned automatically by Google (takes ~15 min).
+
+---
+
+## Supabase Configuration
+
+Add these to **Auth → URL Configuration → Redirect URLs**:
+
+```
+https://prompttriage.kaelux.dev/**
+http://localhost:8081/**
+http://localhost:3000/**
+```
+
+Set **Site URL** to: `https://prompttriage.kaelux.dev`
+
+---
+
+## Environment Variables Reference
+
+### Frontend (`prompttriage-ui`)
+
+| Variable | Build/Runtime | Description |
+|----------|---------------|-------------|
+| `NEXT_PUBLIC_SUPABASE_URL` | **Build** | Supabase project URL |
+| `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` | **Build** | Supabase publishable (anon) key |
+| `SUPABASE_SECRET_KEY` | Runtime | Supabase secret key (server only) |
+| `GOOGLE_GEMINI_API_KEY` | Runtime | Gemini API key |
+| `RAG_API_URL` | Runtime | Backend URL (`https://api.prompttriage.kaelux.dev`) |
+| `FIRECRAWL_API_KEY` | Runtime | Optional — for web search feature |
+
+### Backend (`prompttriage-api`)
+
+| Variable | Description |
+|----------|-------------|
+| `GOOGLE_GEMINI_API_KEY` | Gemini API key |
+| `PINECONE_API_KEY` | Pinecone vector store key |
+| `PINECONE_INDEX_NAME` | Pinecone index name (`system-prompts`) |
+| `FRONTEND_URL` | Frontend URL (for CORS) |
+
+---
+
+## CI/CD (Optional — GitHub Auto-Deploy)
+
+To auto-deploy on `git push`, connect Cloud Run to your GitHub repo:
+
+1. Go to [Cloud Run Console](https://console.cloud.google.com/run)
+2. Select a service → **Edit & Deploy** → **Continuous Deployment**
+3. Connect your GitHub repo
+4. Set the **Dockerfile path** and **build context**
+5. Every push to `main` triggers a new deployment
+
+---
+
+## Migrating to Another Provider
+
+Since both services are standard Docker containers, migration is simple:
+
+```bash
+# DigitalOcean App Platform
+doctl apps create --spec .do/app.yaml
+
+# Azure Container Apps
+az containerapp up --name prompttriage-api --image <img> --env-vars "..."
+
+# AWS App Runner
+aws apprunner create-service --service-name prompttriage-api --source-configuration ...
+```
+
+Same Docker images, different deploy command.
