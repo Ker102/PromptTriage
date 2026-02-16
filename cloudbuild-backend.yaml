@@ -31,7 +31,7 @@ steps:
     args:
       - "run"
       - "deploy"
-      - "prompttriageapi"
+      - "prompttriagebe"
       - "--image"
       - "gcr.io/$PROJECT_ID/prompttriage-api:$COMMIT_SHA"
       - "--region"
