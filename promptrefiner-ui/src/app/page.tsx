@@ -251,16 +251,6 @@ export default function Home() {
   const handleAnalyze = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    // Require authentication unless dev bypass is enabled
-    const isDevSuperuser = process.env.NEXT_PUBLIC_DEV_SUPERUSER === "true";
-    if (!isAuthenticated && !isDevSuperuser) {
-      await supabase.auth.signInWithOAuth({
-        provider: "google",
-        options: { redirectTo: `${window.location.origin}/auth/callback` },
-      });
-      return;
-    }
-
     setPendingAction("analyze");
     setError(null);
     setAnalysis(null);
@@ -314,16 +304,6 @@ export default function Home() {
 
   const submitRefine = async (variationHint?: string): Promise<boolean> => {
     if (!analysis) {
-      return false;
-    }
-
-    // Require authentication unless dev bypass is enabled
-    const isDevSuperuser = process.env.NEXT_PUBLIC_DEV_SUPERUSER === "true";
-    if (!isAuthenticated && !isDevSuperuser) {
-      await supabase.auth.signInWithOAuth({
-        provider: "google",
-        options: { redirectTo: `${window.location.origin}/auth/callback` },
-      });
       return false;
     }
 
@@ -500,14 +480,22 @@ export default function Home() {
                 {planLabel}
               </span>
             ) : null}
-            <button
-              type="button"
-              disabled={authLoading}
-              onClick={handleAuthButtonClick}
-              className="inline-flex items-center gap-1.5 rounded-full border border-[rgba(148,163,184,0.25)] px-4 py-1.5 text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-muted transition duration-300 hover:border-[rgba(148,163,184,0.5)] hover:text-[var(--foreground)] disabled:cursor-not-allowed disabled:opacity-50"
-            >
-              {isAuthenticated ? "Sign out" : "Sign in"}
-            </button>
+            {isAuthenticated ? (
+              <button
+                type="button"
+                onClick={handleAuthButtonClick}
+                className="inline-flex items-center gap-1.5 rounded-full border border-[rgba(148,163,184,0.25)] px-4 py-1.5 text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-muted transition duration-300 hover:border-[rgba(148,163,184,0.5)] hover:text-[var(--foreground)]"
+              >
+                Sign out
+              </button>
+            ) : (
+              <a
+                href="/login"
+                className="inline-flex items-center gap-1.5 rounded-full border border-[rgba(148,163,184,0.25)] px-4 py-1.5 text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-muted transition duration-300 hover:border-[rgba(148,163,184,0.5)] hover:text-[var(--foreground)]"
+              >
+                Sign in
+              </a>
+            )}
           </div>
         </motion.nav>
 
