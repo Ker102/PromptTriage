@@ -41,25 +41,22 @@ body {
 body::before {
   content: "";
   position: fixed;
-  inset: -30vh -30vw;
-  background: conic-gradient(
-    from 180deg at 50% 50%,
-    rgba(148, 163, 184, 0.08),
-    rgba(203, 213, 225, 0.04),
-    rgba(148, 163, 184, 0.08)
-  );
-  filter: blur(120px);
-  opacity: 0.7;
+  inset: 0;
+  background: radial-gradient(ellipse 80% 60% at 30% 20%,
+      rgba(148, 163, 184, 0.06),
+      transparent 70%),
+    radial-gradient(ellipse 60% 50% at 70% 80%,
+      rgba(203, 213, 225, 0.04),
+      transparent 70%);
   pointer-events: none;
-  animation: bg-pan 28s linear infinite;
-  transform: translateZ(0);
+  z-index: -1;
 }
 
 /* ── Glass surfaces ─────────────────────────── */
 .theme-card {
   background: var(--surface-card);
   border: 1px solid var(--surface-border);
-  backdrop-filter: blur(18px);
+  backdrop-filter: blur(12px);
 }
 
 .theme-card-soft {
@@ -88,8 +85,8 @@ body::before {
 /* ── Liquid glass navigation (iOS 26 style) ── */
 .liquid-glass-nav {
   background: rgba(255, 255, 255, 0.04);
-  backdrop-filter: blur(28px) saturate(1.8);
-  -webkit-backdrop-filter: blur(28px) saturate(1.8);
+  backdrop-filter: blur(16px) saturate(1.4);
+  -webkit-backdrop-filter: blur(16px) saturate(1.4);
   border: 1px solid rgba(255, 255, 255, 0.1);
   box-shadow:
     0 8px 32px rgba(0, 0, 0, 0.25),
@@ -196,13 +193,11 @@ body::before {
   position: absolute;
   inset: -14px;
   border-radius: calc(1.9rem + 14px);
-  background: linear-gradient(
-    90deg,
-    rgba(255, 59, 255, 0.9),
-    rgba(236, 191, 191, 0.45),
-    rgba(92, 36, 255, 0.85),
-    rgba(217, 79, 213, 0.9)
-  );
+  background: linear-gradient(90deg,
+      rgba(255, 59, 255, 0.9),
+      rgba(236, 191, 191, 0.45),
+      rgba(92, 36, 255, 0.85),
+      rgba(217, 79, 213, 0.9));
   background-size: 200% 200%;
   transform: translateZ(0);
   filter: blur(26px);
@@ -210,6 +205,7 @@ body::before {
   animation: panel-glow 18s linear infinite;
   pointer-events: none;
   z-index: 0;
+  will-change: background-position;
 }
 
 .prompt-panel {
@@ -219,25 +215,55 @@ body::before {
 
 /* ── Keyframes ───────────────────────────────── */
 @keyframes hero-gradient-shift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 @keyframes bg-pan {
-  0% { transform: rotate(0deg) scale(1.1); opacity: 0.65; }
-  50% { transform: rotate(180deg) scale(1.05); opacity: 0.85; }
-  100% { transform: rotate(360deg) scale(1.1); opacity: 0.65; }
+  0% {
+    opacity: 0.65;
+  }
+
+  50% {
+    opacity: 0.85;
+  }
+
+  100% {
+    opacity: 0.65;
+  }
 }
 
 @keyframes panel-glow {
-  0% { background-position: 0% 50%; }
-  100% { background-position: 200% 50%; }
+  0% {
+    background-position: 0% 50%;
+  }
+
+  100% {
+    background-position: 200% 50%;
+  }
 }
 
 @keyframes dotPulse {
-  0%, 100% { opacity: 0.3; transform: scale(0.85); }
-  50% { opacity: 1; transform: scale(1.15); }
+
+  0%,
+  100% {
+    opacity: 0.3;
+    transform: scale(0.85);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.15);
+  }
 }
 
 /* ── Selection ───────────────────────────────── */

@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     title: "PromptTriage — Write Better Prompts, Get Better Results",
     description: "RAG-powered prompt refinement for Text, Image, Video, and System Prompts.",
   },
-  metadataBase: new URL("https://prompttriage.dev"),
+  metadataBase: new URL("https://prompttriage.kaelux.dev"),
 };
 
 export default function RootLayout({
