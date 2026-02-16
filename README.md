@@ -17,7 +17,9 @@
 
 *System prompts are generated referencing frontier LLM providers (Claude, Cursor, v0, Gemini CLI)*
 
-[Features](#-features) • [System Design](#-system-design-philosophy) • [Architecture](#-architecture) • [Technologies](#-technologies) • [Contributing](CONTRIBUTING.md) • [Security](SECURITY.md)
+[![Live](https://img.shields.io/badge/🚀_Live-prompttriage.kaelux.dev-00D4AA?style=for-the-badge)](https://prompttriage.kaelux.dev)
+
+[Try it Live](https://prompttriage.kaelux.dev) • [Features](#-features) • [System Design](#-system-design-philosophy) • [Architecture](#-architecture) • [Technologies](#-technologies) • [Contributing](CONTRIBUTING.md) • [Security](SECURITY.md)
 
 </div>
 
