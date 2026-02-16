@@ -251,6 +251,12 @@ export default function Home() {
   const handleAnalyze = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
+    // Require authentication — redirect to login page if not signed in
+    if (!isAuthenticated) {
+      window.location.href = "/login";
+      return;
+    }
+
     setPendingAction("analyze");
     setError(null);
     setAnalysis(null);
@@ -304,6 +310,12 @@ export default function Home() {
 
   const submitRefine = async (variationHint?: string): Promise<boolean> => {
     if (!analysis) {
+      return false;
+    }
+
+    // Require authentication — redirect to login page if not signed in
+    if (!isAuthenticated) {
+      window.location.href = "/login";
       return false;
     }
 
