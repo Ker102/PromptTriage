@@ -2,8 +2,12 @@
 Training Pair Generator for Study B (Fine-Tuning).
 
 Creates JSONL datasets for QLoRA fine-tuning of Qwen 3 models:
-  - Qwen3-8B (dense, 8B params — fits Colab T4 with 4-bit)
-  - Qwen3-30B-A3B (MoE, 30B total / 3B active — runs like 3B, thinks like 30B)
+  - Qwen3-8B (dense, 8B active — Round 1 vs MoE)
+  - Qwen3-14B (dense, 14B active — Round 2 vs MoE)
+  - Qwen3-32B (dense, 32B active — Round 3 vs MoE)
+  - Qwen3-30B-A3B (MoE, 3B active — constant across rounds)
+
+Platform: Azure ML Standard_NC24ads_A100_v4 (A100 80GB)
 
 Approaches:
   - Corpus-Direct: Reverse-engineer user prompts from real system prompts
