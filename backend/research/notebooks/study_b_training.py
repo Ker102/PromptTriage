@@ -21,10 +21,12 @@
 import subprocess, sys
 
 def install(pkg):
-    subprocess.check_call([sys.executable, "-m", "pip", "install", "-q", pkg])
+    try:
+        subprocess.check_call([sys.executable, "-m", "pip", "install", "-q", pkg])
+    except subprocess.CalledProcessError:
+        print(f"⚠️ Failed to install {pkg} — may already be installed")
 
-# Fix Azure ML environment first
-install("packaging>=20.0")
+# Prereq: run `pip install --force-reinstall packaging==25.0` if on Azure ML
 
 # Core training stack
 install("unsloth")
