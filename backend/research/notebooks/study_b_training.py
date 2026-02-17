@@ -23,6 +23,9 @@ import subprocess, sys
 def install(pkg):
     subprocess.check_call([sys.executable, "-m", "pip", "install", "-q", pkg])
 
+# Fix Azure ML environment first
+install("packaging>=20.0")
+
 # Core training stack
 install("unsloth")
 install("trl>=0.15.0")
