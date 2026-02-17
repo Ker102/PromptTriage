@@ -13,19 +13,24 @@ echo "  Study B: Azure ML Environment Setup"
 echo "══════════════════════════════════════════════"
 
 # 1. Fix packaging (known Azure ML issue)
-echo "[1/6] Fixing packaging..."
+echo "[1/7] Fixing packaging..."
 pip install --no-cache-dir "packaging>=20.0,<26.0"
 
-# 2. Fix TF/Keras conflict (Azure ML has TF 2.15 + Keras 3, breaks transformers)
-echo "[2/6] Fixing TensorFlow/Keras conflict..."
-pip install tf-keras 2>/dev/null || pip uninstall -y tensorflow keras 2>/dev/null || true
+# 2. Remove TensorFlow/Keras (causes import conflicts with transformers)
+#    We only use PyTorch — TF is pre-installed by Azure ML but not needed
+echo "[2/7] Removing TensorFlow/Keras (not needed, causes conflicts)..."
+pip uninstall -y tensorflow tf-keras keras tensorboard 2>/dev/null || true
 
-# 3. Install training deps
-echo "[3/6] Installing training dependencies..."
+# 3. Pin numpy to match pre-installed pandas (pandas 1.5.3 needs numpy <2)
+echo "[3/7] Pinning numpy for pandas compatibility..."
+pip install "numpy==1.23.5"
+
+# 4. Install training deps
+echo "[4/7] Installing training dependencies..."
 pip install -r requirements.txt
 
-# 4. Symlink training data
-echo "[4/6] Linking training data..."
+# 5. Symlink training data
+echo "[5/7] Linking training data..."
 if [ ! -e ./training_data ]; then
     ln -s ../training_data ./training_data
     echo "  Created symlink: training_data -> ../training_data"
@@ -33,12 +38,12 @@ else
     echo "  training_data already linked"
 fi
 
-# 5. Create outputs dir
-echo "[5/6] Creating outputs directory..."
+# 6. Create outputs dir
+echo "[6/7] Creating outputs directory..."
 mkdir -p ./outputs
 
-# 6. Verify
-echo "[6/6] Verifying..."
+# 7. Verify
+echo "[7/7] Verifying..."
 python -c "
 import torch
 print(f'PyTorch: {torch.__version__}')
