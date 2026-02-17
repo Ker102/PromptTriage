@@ -1,0 +1,8 @@
+# Study B Training Dependencies
+# Run: pip install -r requirements.txt
+packaging>=20.0,<26.0
+unsloth
+trl>=0.15.0
+datasets
+sentencepiece
+protobuf
