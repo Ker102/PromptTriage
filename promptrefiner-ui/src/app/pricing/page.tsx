@@ -109,19 +109,19 @@ export default function PricingPage() {
       <main className="mx-auto flex w-full max-w-5xl flex-col gap-16 px-4 py-24 md:px-6">
         {/* Header */}
         <header className="space-y-4 text-center">
-          <p className="text-[11px] font-medium uppercase tracking-[0.35em] text-slate-500">
+          <p className="text-[11px] font-medium uppercase tracking-[0.35em] text-slate-400">
             Pricing
           </p>
-          <h1 className="text-4xl font-bold tracking-tight text-white md:text-5xl">
+          <h1 className="hero-gradient-text text-4xl font-bold tracking-tight md:text-5xl">
             Simple, transparent pricing
           </h1>
-          <p className="mx-auto max-w-lg text-[15px] leading-relaxed text-slate-400">
+          <p className="mx-auto max-w-lg text-[15px] leading-relaxed text-slate-300">
             Start free. Upgrade when you need more power.
           </p>
           <div className="pt-2">
             <Link
               href="/"
-              className="text-sm text-slate-500 transition-colors hover:text-white"
+              className="text-sm text-slate-400 transition-colors hover:text-white"
             >
               ← Back to app
             </Link>
@@ -161,7 +161,7 @@ export default function PricingPage() {
                 >
                   {/* Plan name + badge */}
                   <div className="flex items-center gap-3">
-                    <h3 className="text-[13px] font-semibold uppercase tracking-[0.18em] text-slate-400">
+                    <h3 className="text-[13px] font-semibold uppercase tracking-[0.18em] text-slate-300">
                       {plan.name}
                     </h3>
                     {plan.popular && (
@@ -181,11 +181,11 @@ export default function PricingPage() {
                     <span className={`text-4xl font-bold tracking-tight ${isPro ? "text-white" : "text-slate-200"}`}>
                       {plan.price}
                     </span>
-                    <span className="text-sm text-slate-600">/mo</span>
+                    <span className="text-sm text-slate-500">/mo</span>
                   </div>
 
                   {/* Tagline */}
-                  <p className="mt-3 text-[13px] leading-relaxed text-slate-500">
+                  <p className="mt-3 text-[13px] leading-relaxed text-slate-400">
                     {plan.tagline}
                   </p>
 
@@ -197,7 +197,7 @@ export default function PricingPage() {
                     {plan.features.map((f) => (
                       <li key={f} className="flex items-start gap-2.5 text-[13px]">
                         <svg
-                          className={`mt-[3px] h-3.5 w-3.5 flex-shrink-0 ${isPro ? "text-blue-400/70" : plan.id === "scale" ? "text-slate-400/50" : "text-slate-600"
+                          className={`mt-[3px] h-3.5 w-3.5 flex-shrink-0 ${isPro ? "text-blue-400/80" : plan.id === "scale" ? "text-slate-300/60" : "text-slate-400"
                             }`}
                           viewBox="0 0 16 16"
                           fill="none"
@@ -210,7 +210,7 @@ export default function PricingPage() {
                             strokeLinejoin="round"
                           />
                         </svg>
-                        <span className="text-slate-400">{f}</span>
+                        <span className="text-slate-300">{f}</span>
                       </li>
                     ))}
                   </ul>
@@ -238,12 +238,12 @@ export default function PricingPage() {
             <h2 className="text-2xl font-bold tracking-tight text-slate-200">
               Need a custom plan?
             </h2>
-            <p className="text-sm leading-relaxed text-slate-500">
+            <p className="text-sm leading-relaxed text-slate-400">
               We can tailor PromptTriage to your security, compliance, and
               workflow needs. Reach out for yearly billing or enterprise
               deployment options.
             </p>
-            <p className="text-sm text-slate-600">
+            <p className="text-sm text-slate-500">
               <a
                 className="text-slate-400 underline underline-offset-4 transition-colors hover:text-white"
                 href="mailto:kristijan@kaelux.dev"
@@ -262,21 +262,21 @@ export default function PricingPage() {
               name="name"
               type="text"
               required
-              className="w-full rounded-lg border border-white/[0.06] bg-transparent px-4 py-2.5 text-sm text-slate-200 placeholder:text-slate-600 focus:border-white/15 focus:outline-none transition-colors"
+              className="w-full rounded-lg border border-white/[0.06] bg-transparent px-4 py-2.5 text-sm text-slate-200 placeholder:text-slate-500 focus:border-white/15 focus:outline-none transition-colors"
               placeholder="Name"
             />
             <input
               name="_replyto"
               type="email"
               required
-              className="w-full rounded-lg border border-white/[0.06] bg-transparent px-4 py-2.5 text-sm text-slate-200 placeholder:text-slate-600 focus:border-white/15 focus:outline-none transition-colors"
+              className="w-full rounded-lg border border-white/[0.06] bg-transparent px-4 py-2.5 text-sm text-slate-200 placeholder:text-slate-500 focus:border-white/15 focus:outline-none transition-colors"
               placeholder="Work email"
             />
             <textarea
               name="message"
               rows={3}
               required
-              className="w-full rounded-lg border border-white/[0.06] bg-transparent px-4 py-2.5 text-sm text-slate-200 placeholder:text-slate-600 focus:border-white/15 focus:outline-none transition-colors resize-none"
+              className="w-full rounded-lg border border-white/[0.06] bg-transparent px-4 py-2.5 text-sm text-slate-200 placeholder:text-slate-500 focus:border-white/15 focus:outline-none transition-colors resize-none"
               placeholder="How can we help?"
             />
             <button
@@ -326,7 +326,7 @@ function PlanCTA({
 
   if (planId === "free") {
     return (
-      <div className="rounded-lg border border-white/[0.06] py-2.5 text-center text-sm text-slate-600">
+      <div className="rounded-lg border border-white/[0.06] py-2.5 text-center text-sm text-slate-400">
         {isPaidUser ? "Included" : "Current plan"}
       </div>
     );
