@@ -85,9 +85,17 @@ export async function POST(req: Request) {
             );
         }
 
-        const subscriptionPlan =
-            (user.user_metadata?.subscriptionPlan as string | undefined)?.toUpperCase() ??
-            "FREE";
+        let subscriptionPlan = "FREE";
+        {
+            const { data: sub } = await supabase
+                .from("subscriptions")
+                .select("plan, status")
+                .eq("user_id", user.id)
+                .single();
+            if (sub && sub.status === "active") {
+                subscriptionPlan = (sub.plan as string)?.toUpperCase() ?? "FREE";
+            }
+        }
 
         const body = (await req.json()) as GenerateSystemPromptRequest;
 

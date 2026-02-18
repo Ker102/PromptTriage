@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { useState, useEffect } from "react";
 
 const PLANS = [
   {
@@ -16,8 +19,8 @@ const PLANS = [
       "Email support within 48 hours",
     ],
     cta: {
-      label: "You’re on this plan",
-      href: "/",
+      label: "You're on this plan",
+      action: "none" as const,
       variant: "outlined" as const,
     },
   },
@@ -38,7 +41,7 @@ const PLANS = [
     ],
     cta: {
       label: "Upgrade to Pro",
-      href: "/checkout/pro",
+      action: "checkout" as const,
       variant: "primary" as const,
     },
   },
@@ -58,22 +61,61 @@ const PLANS = [
     ],
     cta: {
       label: "Talk to sales",
+      action: "mailto" as const,
       href: "mailto:hello@promptrefiner.app",
       variant: "ghost" as const,
     },
   },
 ];
 
-export const metadata = {
-  title: "PromptRefiner Pricing",
-  description:
-    "Choose the plan that fits your prompt orchestration workflow—from Free experimentation to enterprise-scale refinement.",
-};
-
 export default function PricingPage() {
+  const [loading, setLoading] = useState(false);
+  const [userPlan, setUserPlan] = useState<string>("FREE");
+
+  useEffect(() => {
+    fetch("/api/subscription")
+      .then((r) => r.json())
+      .then((data) => setUserPlan(data.plan ?? "FREE"))
+      .catch(() => setUserPlan("FREE"));
+  }, []);
+
+  async function handleCheckout() {
+    setLoading(true);
+    try {
+      const res = await fetch("/api/checkout", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({}) });
+      const data = await res.json();
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        alert(data.error || "Something went wrong. Please try again.");
+        setLoading(false);
+      }
+    } catch {
+      alert("Could not start checkout. Are you signed in?");
+      setLoading(false);
+    }
+  }
+
+  async function handleManageBilling() {
+    setLoading(true);
+    try {
+      const res = await fetch("/api/billing/portal", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({}) });
+      const data = await res.json();
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        alert(data.error || "Could not open billing portal.");
+        setLoading(false);
+      }
+    } catch {
+      alert("Could not open billing portal.");
+      setLoading(false);
+    }
+  }
+
   return (
     <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)]">
-      <main className="mx-auto flex w-full max-w-6xl flex-col gap-10 px-6 py-16">
+      <main className="mx-auto flex w-full max-w-6xl flex-col gap-10 px-4 py-16 md:px-6">
         <header className="space-y-4 text-center">
           <p className="text-xs uppercase tracking-[0.4em] text-muted">
             Plans & Pricing
@@ -125,9 +167,11 @@ export default function PricingPage() {
                 ))}
               </ul>
               <PlanCallToAction
-                href={plan.cta.href}
-                label={plan.cta.label}
-                variant={plan.cta.variant}
+                plan={plan}
+                userPlan={userPlan}
+                loading={loading}
+                onCheckout={handleCheckout}
+                onManage={handleManageBilling}
               />
             </article>
           ))}
@@ -135,17 +179,17 @@ export default function PricingPage() {
 
         <section
           id="contact"
-          className="grid gap-8 rounded-3xl border border-[var(--surface-border)] bg-[var(--surface-card)] p-10 md:grid-cols-2"
+          className="grid gap-8 rounded-3xl border border-[var(--surface-border)] bg-[var(--surface-card)] p-6 md:p-10 md:grid-cols-2"
         >
           <div className="space-y-4">
             <p className="text-xs uppercase tracking-[0.4em] text-muted">
               Contact
             </p>
             <h2 className="text-3xl font-semibold text-soft md:text-4xl">
-              Let’s build prompts that scale with your team
+              Let&apos;s build prompts that scale with your team
             </h2>
             <p className="text-sm text-muted md:text-base">
-              Need a feature walkthrough, billing help, or enterprise quote? Drop us a note and the PromptRefiner team will get back to you within one business day.
+              Need a feature walkthrough, billing help, or enterprise quote? Drop us a note and the PromptTriage team will get back to you within one business day.
             </p>
             <div className="space-y-2 text-sm text-muted">
               <p>
@@ -224,17 +268,17 @@ export default function PricingPage() {
               </button>
             </form>
             <p className="text-xs text-muted">
-              By submitting this form you agree to our processing of your personal data for the purpose of contacting you regarding PromptRefiner.
+              By submitting this form you agree to our processing of your personal data for the purpose of contacting you regarding PromptTriage.
             </p>
           </div>
         </section>
 
-        <footer className="mx-auto max-w-4xl rounded-3xl border border-[var(--surface-border)] bg-[var(--surface-card)] p-8 text-center text-sm text-muted">
+        <footer className="mx-auto max-w-4xl rounded-3xl border border-[var(--surface-border)] bg-[var(--surface-card)] p-5 md:p-8 text-center text-sm text-muted">
           <p className="text-soft text-lg font-semibold">
             Need a custom deployment or yearly billing?
           </p>
           <p className="mt-2">
-            We can tailor PromptRefiner to your security, compliance, and
+            We can tailor PromptTriage to your security, compliance, and
             workflow needs. <Link className="text-slate-300 underline underline-offset-4 hover:text-white" href="mailto:hello@promptrefiner.app">Contact sales</Link> for a bespoke quote.
           </p>
         </footer>
@@ -244,39 +288,69 @@ export default function PricingPage() {
 }
 
 function PlanCallToAction({
-  href,
-  label,
-  variant,
+  plan,
+  userPlan,
+  loading,
+  onCheckout,
+  onManage,
 }: {
-  href: string;
-  label: string;
-  variant: "primary" | "outlined" | "ghost";
+  plan: typeof PLANS[number];
+  userPlan: string;
+  loading: boolean;
+  onCheckout: () => void;
+  onManage: () => void;
 }) {
-  if (variant === "ghost") {
-    return (
-      <Link
-        href={href}
-        className="inline-flex items-center justify-center rounded-full border border-[var(--surface-border)] bg-transparent px-5 py-2 text-sm font-semibold uppercase tracking-[0.28em] text-soft transition duration-300 hover:-translate-y-0.5 hover:scale-[1.03] hover:border-[rgba(148,163,184,0.65)] hover:text-white"
-      >
-        {label}
-      </Link>
-    );
-  }
+  const isPro = userPlan === "PRO" || userPlan === "SCALE";
 
-  if (variant === "outlined") {
+  // Free plan card
+  if (plan.id === "free") {
+    if (isPro) {
+      return (
+        <span className="inline-flex items-center justify-center rounded-full border border-white/20 bg-white/5 px-5 py-2 text-sm font-semibold uppercase tracking-[0.28em] text-slate-300">
+          Included
+        </span>
+      );
+    }
     return (
       <span className="inline-flex items-center justify-center rounded-full border border-white/20 bg-white/5 px-5 py-2 text-sm font-semibold uppercase tracking-[0.28em] text-slate-300">
-        {label}
+        You&apos;re on this plan
       </span>
     );
   }
 
+  // Pro plan card
+  if (plan.id === "pro") {
+    if (isPro) {
+      return (
+        <button
+          type="button"
+          onClick={onManage}
+          disabled={loading}
+          className="inline-flex items-center justify-center rounded-full border border-white/25 bg-gradient-to-r from-white/15 via-white/10 to-white/15 px-5 py-2 text-sm font-semibold uppercase tracking-[0.28em] text-soft shadow-[0_20px_45px_-28px_rgba(255,255,255,0.25)] transition duration-300 hover:-translate-y-0.5 hover:scale-[1.04] hover:border-white/50 hover:text-white disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          {loading ? "Loading..." : "Manage Subscription"}
+        </button>
+      );
+    }
+    return (
+      <button
+        type="button"
+        onClick={onCheckout}
+        disabled={loading}
+        className="inline-flex items-center justify-center rounded-full border border-white/25 bg-gradient-to-r from-white/15 via-white/10 to-white/15 px-5 py-2 text-sm font-semibold uppercase tracking-[0.28em] text-soft shadow-[0_20px_45px_-28px_rgba(255,255,255,0.25)] transition duration-300 hover:-translate-y-0.5 hover:scale-[1.04] hover:border-white/50 hover:text-white disabled:opacity-50 disabled:cursor-not-allowed"
+      >
+        {loading ? "Redirecting..." : "Upgrade to Pro"}
+      </button>
+    );
+  }
+
+  // Scale plan card
   return (
     <Link
-      href={href}
-      className="inline-flex items-center justify-center rounded-full border border-white/25 bg-gradient-to-r from-white/15 via-white/10 to-white/15 px-5 py-2 text-sm font-semibold uppercase tracking-[0.28em] text-soft shadow-[0_20px_45px_-28px_rgba(255,255,255,0.25)] transition duration-300 hover:-translate-y-0.5 hover:scale-[1.04] hover:border-white/50 hover:text-white"
+      href={plan.cta.href ?? "mailto:hello@promptrefiner.app"}
+      className="inline-flex items-center justify-center rounded-full border border-[var(--surface-border)] bg-transparent px-5 py-2 text-sm font-semibold uppercase tracking-[0.28em] text-soft transition duration-300 hover:-translate-y-0.5 hover:scale-[1.03] hover:border-[rgba(148,163,184,0.65)] hover:text-white"
     >
-      {label}
+      {plan.cta.label}
     </Link>
   );
 }

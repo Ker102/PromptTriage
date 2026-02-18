@@ -13,7 +13,7 @@ import { DesiredOutputSelector, DesiredOutputId } from "@/components/DesiredOutp
 import ErrorFeedback from "@/components/ErrorFeedback";
 import PipelineProgress from "@/components/PipelineProgress";
 import { motion } from "framer-motion";
-import { Github, Instagram, ArrowUpRight, Moon, Sun } from "lucide-react";
+import { Github, Instagram, ArrowUpRight, Moon, Sun, Menu, X } from "lucide-react";
 
 import type {
   PromptAnalysisResult,
@@ -161,6 +161,7 @@ export default function Home() {
   const [error, setError] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
   const [rewriteCount, setRewriteCount] = useState(0);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   // Modify feature: allow user to refine the generated prompt with additional instructions
   const [showModifyInput, setShowModifyInput] = useState(false);
   const [modifyInstruction, setModifyInstruction] = useState("");
@@ -185,9 +186,19 @@ export default function Home() {
     return () => subscription.unsubscribe();
   }, [supabase]);
 
-  const subscriptionPlan =
-    (user?.user_metadata?.subscriptionPlan as string | undefined)?.toUpperCase() ?? "FREE";
-  const planLabel = formatPlanLabel(user?.user_metadata?.subscriptionPlan as string | undefined);
+  // Fetch subscription plan from server-side subscriptions table
+  const [serverPlan, setServerPlan] = useState<string>("FREE");
+  useEffect(() => {
+    if (user) {
+      fetch("/api/subscription")
+        .then((r) => r.json())
+        .then((data) => setServerPlan(data.plan ?? "FREE"))
+        .catch(() => setServerPlan("FREE"));
+    }
+  }, [user]);
+
+  const subscriptionPlan = serverPlan;
+  const planLabel = formatPlanLabel(subscriptionPlan === "FREE" ? null : subscriptionPlan);
   // Dev bypass: treat as paid plan for UI testing when NEXT_PUBLIC_DEV_SUPERUSER is true
   const isDevSuperuser = process.env.NEXT_PUBLIC_DEV_SUPERUSER === "true";
   const isPaidPlan = subscriptionPlan !== "FREE" || isDevSuperuser;
@@ -445,19 +456,20 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)] transition-colors duration-500">
-      <main className="mx-auto flex w-full max-w-5xl flex-col gap-10 px-6 pt-6 pb-12">
+      <main className="mx-auto flex w-full max-w-5xl flex-col gap-10 px-4 pt-6 pb-12 md:px-6">
         {/* ── Liquid Glass Navigation ── */}
         <motion.nav
           initial={{ y: -20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.6, ease: "easeOut" }}
-          className="liquid-glass-nav sticky top-4 z-50 mx-auto flex w-full max-w-3xl items-center justify-between px-5 py-2.5"
+          className="liquid-glass-nav sticky top-4 z-50 mx-auto flex w-full max-w-3xl items-center justify-between px-4 py-2.5 md:px-5"
         >
           <span className="text-sm font-semibold uppercase tracking-[0.3em] text-soft">
             PromptTriage
           </span>
 
-          <div className="flex items-center gap-6 text-xs font-medium text-muted">
+          {/* Desktop nav */}
+          <div className="hidden items-center gap-6 text-xs font-medium text-muted md:flex">
             {navLinks.map((link) =>
               link.href.startsWith("#") ? (
                 <a
@@ -479,7 +491,7 @@ export default function Home() {
             )}
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="hidden items-center gap-2 md:flex">
             <ThemeToggle />
             {socialLinks.map((item) => (
               <SocialIcon key={item.label} href={item.href} label={item.label}>
@@ -509,7 +521,80 @@ export default function Home() {
               </a>
             )}
           </div>
+
+          {/* Mobile hamburger */}
+          <button
+            type="button"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-[rgba(148,163,184,0.2)] bg-transparent text-[var(--text-muted)] transition duration-300 hover:text-[var(--foreground)] md:hidden"
+            aria-label="Toggle menu"
+          >
+            {mobileMenuOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
+          </button>
         </motion.nav>
+
+        {/* Mobile menu overlay */}
+        {mobileMenuOpen && (
+          <div className="fixed inset-x-0 top-[68px] z-40 mx-auto w-full max-w-3xl px-4 md:hidden">
+            <div className="rounded-2xl border border-[var(--surface-border)] bg-[var(--surface-card-strong)] p-5 shadow-2xl backdrop-blur-xl">
+              <div className="flex flex-col gap-4">
+                {navLinks.map((link) =>
+                  link.href.startsWith("#") ? (
+                    <a
+                      key={link.label}
+                      href={link.href}
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="text-sm font-medium uppercase tracking-[0.2em] text-soft transition hover:text-[var(--foreground)]"
+                    >
+                      {link.label}
+                    </a>
+                  ) : (
+                    <Link
+                      key={link.label}
+                      href={link.href}
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="text-sm font-medium uppercase tracking-[0.2em] text-soft transition hover:text-[var(--foreground)]"
+                    >
+                      {link.label}
+                    </Link>
+                  )
+                )}
+                <div className="h-px bg-[var(--surface-border)]" />
+                <div className="flex items-center gap-3">
+                  <ThemeToggle />
+                  {socialLinks.map((item) => (
+                    <SocialIcon key={item.label} href={item.href} label={item.label}>
+                      {item.icon}
+                    </SocialIcon>
+                  ))}
+                  {isAuthenticated && planLabel ? (
+                    <span className="inline-flex items-center gap-[5px] rounded-full border border-[rgba(148,163,184,0.2)] px-2.5 py-1 text-[0.55rem] font-semibold uppercase tracking-[0.2em] text-muted">
+                      <span className="h-1.5 w-1.5 rounded-full bg-white/70" />
+                      {planLabel}
+                    </span>
+                  ) : null}
+                </div>
+                {isAuthenticated ? (
+                  <button
+                    type="button"
+                    onClick={() => { handleAuthButtonClick(); setMobileMenuOpen(false); }}
+                    className="inline-flex items-center justify-center rounded-full border border-[rgba(148,163,184,0.25)] px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-muted transition duration-300 hover:text-[var(--foreground)]"
+                  >
+                    Sign out
+                  </button>
+                ) : (
+                  <a
+                    href="/login"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="inline-flex items-center justify-center rounded-full border border-[rgba(148,163,184,0.25)] px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-muted transition duration-300 hover:text-[var(--foreground)]"
+                  >
+                    Sign in
+                  </a>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* ── Hero Section ── */}
         <section className="flex flex-col items-center gap-7 pt-8 text-center">
@@ -582,7 +667,7 @@ export default function Home() {
           <form
             id="prompt-refiner"
             onSubmit={handleAnalyze}
-            className="prompt-panel space-y-6 rounded-3xl theme-card p-8 shadow-xl shadow-slate-950/40"
+            className="prompt-panel space-y-6 rounded-2xl md:rounded-3xl theme-card p-4 md:p-8 shadow-xl shadow-slate-950/40"
           >
             <div className="space-y-2">
               <label
@@ -798,7 +883,7 @@ export default function Home() {
 
         {
           analysis ? (
-            <section className="space-y-8 rounded-3xl theme-card p-8 shadow-[0_45px_120px_-80px_rgba(148,163,184,0.15)] transition duration-500">
+            <section className="space-y-8 rounded-2xl md:rounded-3xl theme-card p-4 md:p-8 shadow-[0_45px_120px_-80px_rgba(148,163,184,0.15)] transition duration-500">
               <header className="space-y-2">
                 <p className="text-xs uppercase tracking-[0.3em] text-slate-400">
                   {analysis.questions?.length > 0 ? "phase 02" : "refined prompt"}
@@ -1146,7 +1231,7 @@ export default function Home() {
 
         {
           refinement ? (
-            <section className="space-y-6 rounded-3xl theme-card p-8 shadow-[0_55px_150px_-90px_rgba(148,163,184,0.15)] transition duration-500">
+            <section className="space-y-6 rounded-2xl md:rounded-3xl theme-card p-4 md:p-8 shadow-[0_55px_150px_-90px_rgba(148,163,184,0.15)] transition duration-500">
               <header className="space-y-2">
                 <p className="text-xs uppercase tracking-[0.3em] text-slate-400">
                   phase 03

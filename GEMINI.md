@@ -18,6 +18,26 @@
 
 ## Recent Changes
 
+### 2026-02-18 - Phase 13: Stripe Payments Integration
+
+**Commit Ready**: Yes
+
+#### New Files (7)
+- `lib/stripe.ts`: Lazy Stripe client + `getOrCreateCustomer()` (Proxy-based for build safety)
+- `lib/supabase/admin.ts`: Service-role admin client (bypasses RLS for webhooks)
+- `lib/subscriptions.ts`: `getUserPlan()`, `upsertSubscription()`, `findUserByStripeCustomer()`
+- `supabase/migrations/001_create_subscriptions.sql`: subscriptions table, RLS, auto-updated_at trigger
+- `api/checkout/route.ts`: POST → creates Stripe Checkout session
+- `api/webhooks/stripe/route.ts`: Handles checkout.completed, subscription.updated/deleted
+- `api/billing/portal/route.ts`: POST → creates Stripe Customer Portal session
+- `api/subscription/route.ts`: GET → returns user's current plan from subscriptions table
+
+#### Modified Files (6)
+- `pricing/page.tsx`: Converted to client component; "Upgrade to Pro" calls `/api/checkout`; Pro users see "Manage Subscription" → Stripe portal
+- `page.tsx`: Fetches plan from `/api/subscription` instead of `user_metadata`
+- `analyze/route.ts`, `refine/route.ts`, `generate-system-prompt/route.ts`: All switched from `user_metadata.subscriptionPlan` to `subscriptions` table lookup
+- `.env.local.example`: Added Stripe + `SUPABASE_SERVICE_ROLE_KEY` vars; removed stale NextAuth vars
+
 ### 2026-02-15 - Phase 12: NextAuth → Supabase Auth Migration
 
 **Commit Ready**: Yes (`1f3c70c`)

@@ -208,6 +208,16 @@ body::before {
   will-change: background-position;
 }
 
+/* Reduce glow overflow on mobile */
+@media (max-width: 767px) {
+  .prompt-panel-shell::after {
+    inset: -6px;
+    border-radius: calc(1.25rem + 6px);
+    filter: blur(14px);
+    opacity: 0.6;
+  }
+}
+
 .prompt-panel {
   position: relative;
   z-index: 1;

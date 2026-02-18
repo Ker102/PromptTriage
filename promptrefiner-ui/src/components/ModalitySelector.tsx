@@ -97,7 +97,7 @@ export function ModalitySelector({
     return (
         <div className="space-y-4">
             {/* Modality Tabs */}
-            <div className="flex gap-2">
+            <div className="grid grid-cols-2 gap-2 md:flex">
                 {(Object.keys(MODALITY_CONFIG) as Modality[]).map((mod) => {
                     const cfg = MODALITY_CONFIG[mod];
                     const isActive = modality === mod;
@@ -111,14 +111,14 @@ export function ModalitySelector({
                                 onModalityChange(mod);
                                 onModelChange(MODALITY_CONFIG[mod].models[0]);
                             }}
-                            className={`flex-1 rounded-xl px-4 py-3 text-center transition-all duration-300 ${isActive
+                            className={`md:flex-1 rounded-xl px-3 py-2 md:px-4 md:py-3 text-center transition-all duration-300 ${isActive
                                 ? "bg-white/10 border-2 border-white/30 text-[var(--foreground)] shadow-[0_0_15px_rgba(255,255,255,0.06)]"
                                 : "border border-[var(--surface-border)] bg-[var(--surface-card)] text-muted hover:border-[rgba(148,163,184,0.5)] hover:text-soft"
                                 } disabled:cursor-not-allowed disabled:opacity-50`}
                         >
                             <span className="flex items-center justify-center">{cfg.icon}</span>
                             <span className="mt-1 block text-sm font-medium">{cfg.label}</span>
-                            <span className="block text-xs text-muted">{cfg.description}</span>
+                            <span className="hidden md:block text-xs text-muted">{cfg.description}</span>
                         </button>
                     );
                 })}

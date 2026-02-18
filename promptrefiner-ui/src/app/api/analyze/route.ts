@@ -135,9 +135,19 @@ export async function POST(req: Request) {
     }
 
     // Only grant PRO if explicit dev bypass is enabled
-    const subscriptionPlan =
-      (user?.user_metadata?.subscriptionPlan as string | undefined)?.toUpperCase() ??
-      (isDev ? "PRO" : "FREE");
+    let subscriptionPlan = "FREE";
+    if (isDev) {
+      subscriptionPlan = "PRO";
+    } else if (user) {
+      const { data: sub } = await supabase
+        .from("subscriptions")
+        .select("plan, status")
+        .eq("user_id", user.id)
+        .single();
+      if (sub && sub.status === "active") {
+        subscriptionPlan = (sub.plan as string)?.toUpperCase() ?? "FREE";
+      }
+    }
 
     const body = (await req.json()) as AnalyzeRequestPayload;
     const prompt = body.prompt?.trim();
