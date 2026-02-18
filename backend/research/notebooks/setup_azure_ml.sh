@@ -2,35 +2,38 @@
 # ═══════════════════════════════════════════════════════
 # Study B Setup — Run ONCE on a fresh Azure ML instance
 # ═══════════════════════════════════════════════════════
+#
+# Creates an ISOLATED conda environment to avoid conflicts
+# with Azure ML's pre-installed packages.
+#
 # Usage:
 #   cd ~/cloudfiles/code/Users/<user>/prompttriage/backend/research/notebooks
 #   chmod +x setup_azure_ml.sh && ./setup_azure_ml.sh
+#
+# After setup, always activate before running:
+#   conda activate unsloth
+#   python study_b_training.py
 
 set -e
 
 echo "══════════════════════════════════════════════"
-echo "  Study B: Azure ML Environment Setup"
+echo "  Study B: Isolated Environment Setup"
 echo "══════════════════════════════════════════════"
 
-# 1. Fix packaging (known Azure ML issue)
-echo "[1/7] Fixing packaging..."
-pip install --no-cache-dir "packaging>=20.0,<26.0"
+ENV_NAME="unsloth"
 
-# 2. Remove TensorFlow/Keras (causes import conflicts with transformers)
-#    We only use PyTorch — TF is pre-installed by Azure ML but not needed
-echo "[2/7] Removing TensorFlow/Keras (not needed, causes conflicts)..."
-pip uninstall -y tensorflow tf-keras keras tensorboard 2>/dev/null || true
+# 1. Check if env already exists
+if conda info --envs | grep -q "^${ENV_NAME} "; then
+    echo "[1/4] Environment '${ENV_NAME}' already exists."
+    echo "  To recreate: conda env remove -n ${ENV_NAME} && ./setup_azure_ml.sh"
+else
+    echo "[1/4] Creating isolated conda environment '${ENV_NAME}'..."
+    echo "  This installs Python 3.11 + PyTorch + Unsloth + TRL (5-10 min)"
+    conda env create -f environment.yml
+fi
 
-# 3. Pin numpy to match pre-installed pandas (pandas 1.5.3 needs numpy <2)
-echo "[3/7] Pinning numpy for pandas compatibility..."
-pip install "numpy==1.23.5"
-
-# 4. Install training deps
-echo "[4/7] Installing training dependencies..."
-pip install -r requirements.txt
-
-# 5. Symlink training data
-echo "[5/7] Linking training data..."
+# 2. Symlink training data
+echo "[2/4] Linking training data..."
 if [ ! -e ./training_data ]; then
     ln -s ../training_data ./training_data
     echo "  Created symlink: training_data -> ../training_data"
@@ -38,13 +41,13 @@ else
     echo "  training_data already linked"
 fi
 
-# 6. Create outputs dir
-echo "[6/7] Creating outputs directory..."
+# 3. Create outputs dir
+echo "[3/4] Creating outputs directory..."
 mkdir -p ./outputs
 
-# 7. Verify
-echo "[7/7] Verifying..."
-python -c "
+# 4. Verify (must run inside the conda env)
+echo "[4/4] Verifying installation..."
+conda run -n ${ENV_NAME} python -c "
 import torch
 print(f'PyTorch: {torch.__version__}')
 print(f'CUDA: {torch.cuda.is_available()}')
@@ -57,6 +60,16 @@ from trl import SFTTrainer, SFTConfig
 print('TRL: OK')
 from datasets import load_dataset
 print('Datasets: OK')
+import numpy; print(f'NumPy: {numpy.__version__}')
+import pandas; print(f'Pandas: {pandas.__version__}')
 print()
-print('✅ All good! Run: python study_b_training.py')
+print('✅ All good!')
 "
+
+echo ""
+echo "══════════════════════════════════════════════"
+echo "  Setup complete! Run training with:"
+echo ""
+echo "  conda activate ${ENV_NAME}"
+echo "  python study_b_training.py"
+echo "══════════════════════════════════════════════"
