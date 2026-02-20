@@ -455,8 +455,24 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)] transition-colors duration-500">
-      <main className="mx-auto flex w-full max-w-5xl flex-col gap-10 px-4 pt-6 pb-12 md:px-6">
+    <div className="relative min-h-screen bg-[var(--background)] text-[var(--foreground)] transition-colors duration-500 overflow-hidden">
+      {/* Background Crystals (Light Mode) */}
+      <div className="absolute inset-0 pointer-events-none z-0 dark:hidden">
+        <img src="/whitebgcrystals/Layer 0 - 15whitebg.png" alt="" className="absolute -left-16 top-20 w-72 h-auto drop-shadow-[0_20px_40px_rgba(0,0,0,0.15)] opacity-80" />
+        <img src="/whitebgcrystals/Layer 0 - 6whitebg.png" alt="" className="absolute -right-20 top-64 w-64 h-auto drop-shadow-[0_20px_40px_rgba(0,0,0,0.15)] opacity-80" />
+        <img src="/whitebgcrystals/Layer 0 - 12whitebg.png" alt="" className="absolute left-4 top-[500px] w-56 h-auto drop-shadow-[0_20px_40px_rgba(0,0,0,0.15)] opacity-80" />
+        <img src="/whitebgcrystals/Layer 0 - 5whitebg.png" alt="" className="absolute right-12 top-[750px] w-72 h-auto drop-shadow-[0_20px_40px_rgba(0,0,0,0.15)] opacity-80" />
+      </div>
+
+      {/* Background Crystals (Dark Mode) */}
+      <div className="absolute inset-0 pointer-events-none z-0 hidden dark:block">
+        <img src="/blackbgcrystals/Layer 0 - 15blackbg.png" alt="" className="absolute -left-16 top-20 w-72 h-auto drop-shadow-[0_20px_40px_rgba(0,0,0,0.6)] opacity-70" />
+        <img src="/blackbgcrystals/Layer 0 - 6blackbg.png" alt="" className="absolute -right-20 top-64 w-64 h-auto drop-shadow-[0_20px_40px_rgba(0,0,0,0.6)] opacity-70" />
+        <img src="/blackbgcrystals/Layer 0 - 1blackbg.png" alt="" className="absolute left-4 top-[500px] w-56 h-auto drop-shadow-[0_20px_40px_rgba(0,0,0,0.6)] opacity-70" />
+        <img src="/blackbgcrystals/Layer 0 - 5blackbg.png" alt="" className="absolute right-12 top-[750px] w-72 h-auto drop-shadow-[0_20px_40px_rgba(0,0,0,0.6)] opacity-70" />
+      </div>
+
+      <main className="relative z-10 mx-auto flex w-full max-w-5xl flex-col gap-10 px-4 pt-6 pb-12 md:px-6">
         {/* ── Liquid Glass Navigation ── */}
         <motion.nav
           initial={{ y: -20, opacity: 0 }}
