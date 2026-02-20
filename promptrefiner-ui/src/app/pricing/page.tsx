@@ -173,7 +173,7 @@ export default function PricingPage() {
           <img
             src="/whitebgcrystals/Layer 0 - 5whitebg.png"
             alt="Decorative crystal"
-            className="absolute right-8 bottom-[22rem] w-72 h-auto drop-shadow-[0_20px_40px_rgba(0,0,0,0.25)]"
+            className="absolute right-8 bottom-[14rem] w-72 h-auto drop-shadow-[0_20px_40px_rgba(0,0,0,0.25)]"
           />
         </div>
 
@@ -236,7 +236,7 @@ export default function PricingPage() {
               <img
                 src="/whitebgcrystals/Layer 0 - 14whitebg.png"
                 alt=""
-                className="absolute -right-20 top-8 w-64 h-auto drop-shadow-[0_20px_40px_rgba(0,0,0,0.25)]"
+                className="absolute -right-20 -top-16 w-64 h-auto drop-shadow-[0_20px_40px_rgba(0,0,0,0.25)]"
               />
             </div>
 
