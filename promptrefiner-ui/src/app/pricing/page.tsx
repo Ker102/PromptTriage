@@ -114,175 +114,255 @@ export default function PricingPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)]">
-      <main className="mx-auto flex w-full max-w-6xl flex-col gap-10 px-4 py-16 md:px-6">
-        <header className="space-y-4 text-center">
-          <p className="text-xs uppercase tracking-[0.4em] text-muted">
+    <div className="min-h-screen relative flex flex-col font-sans bg-black selection:bg-cyan-500/30">
+      {/* 1. TOP BLACK SECTION */}
+      <section className="relative w-full bg-black text-white pt-24 pb-24 z-10">
+        <header className="mx-auto max-w-6xl px-4 text-center space-y-5 relative z-20">
+          <p className="text-xs uppercase tracking-[0.4em] text-slate-400 font-semibold">
             Plans & Pricing
           </p>
-          <h1 className="hero-gradient-text text-4xl font-semibold md:text-5xl">
-            Scale your prompt operations with confidence
+          <h1 className="hero-gradient-text text-4xl font-bold tracking-tight md:text-6xl">
+            Scale your prompt operations<br className="hidden md:block" /> with confidence
           </h1>
-          <p className="mx-auto max-w-3xl text-base text-muted md:text-lg">
+          <p className="mx-auto max-w-2xl text-base text-slate-300 md:text-lg leading-relaxed">
             Start for free and upgrade when you need premium guardrails,
             collaboration tooling, and enterprise controls. Every account begins
-            on the <span className="text-soft font-semibold">Free</span> plan.
+            on the <span className="font-semibold text-white">Free</span> plan.
           </p>
+          <div className="pt-6 flex justify-center">
+            <Link
+              href="/"
+              className="inline-flex items-center justify-center rounded-full border border-white/20 bg-white/5 px-6 py-2.5 text-xs font-semibold uppercase tracking-[0.2em] text-slate-300 transition-all duration-300 hover:-translate-y-0.5 hover:border-white/40 hover:text-white"
+            >
+              Back to app
+            </Link>
+          </div>
         </header>
+      </section>
 
-        <div className="flex justify-center">
-          <Link
-            href="/"
-            className="inline-flex items-center justify-center rounded-full border border-[rgba(148,163,184,0.35)] bg-[var(--surface-card)] px-5 py-2 text-sm font-semibold uppercase tracking-[0.28em] text-soft transition duration-200 hover:-translate-y-0.5 hover:border-[rgba(148,163,184,0.55)] hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/60"
-          >
-            Back to app
-          </Link>
+      {/* 2. BLACK TO WHITE TRANSITION */}
+      <div className="relative w-full h-[300px] md:h-[500px] bg-white -mt-16">
+        <div
+          className="absolute inset-0 w-full h-full"
+          style={{
+            backgroundImage: 'url("/Using_my_brand_4k_202602182321.jpeg")',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center 30%'
+          }}
+        >
+          {/* Smooth blend top and bottom */}
+          <div className="absolute top-0 left-0 w-full h-40 bg-gradient-to-b from-black via-black/80 to-transparent"></div>
+          <div className="absolute bottom-0 left-0 w-full h-40 bg-gradient-to-t from-white via-white/80 to-transparent"></div>
+        </div>
+      </div>
+
+      {/* 3. WHITE CONTENT SECTION */}
+      <section className="relative w-full bg-white text-slate-900 pb-20 z-10">
+        {/* Floating Background Crystals with Shadows */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
+          <img
+            src="/whitebgcrystals/Layer 0 - 15whitebg.png"
+            alt="Decorative crystal"
+            className="absolute -left-16 top-10 w-72 h-auto opacity-90 drop-shadow-[0_25px_35px_rgba(0,0,0,0.15)] animate-[pulse_6s_ease-in-out_infinite]"
+          />
+          <img
+            src="/whitebgcrystals/Layer 0 - 6whitebg.png"
+            alt="Decorative crystal"
+            className="absolute -right-12 top-64 w-56 h-auto opacity-80 drop-shadow-[0_15px_25px_rgba(0,0,0,0.12)] animate-[pulse_5s_ease-in-out_infinite_1s]"
+          />
+          <img
+            src="/whitebgcrystals/Layer 0 - 12whitebg.png"
+            alt="Decorative crystal"
+            className="absolute left-8 bottom-80 w-64 h-auto opacity-85 drop-shadow-[0_30px_40px_rgba(0,0,0,0.15)] animate-[pulse_7s_ease-in-out_infinite_2s]"
+          />
+          <img
+            src="/whitebgcrystals/Layer 0 - 1whitebg.png"
+            alt="Decorative crystal"
+            className="absolute right-16 bottom-20 w-80 h-auto opacity-70 drop-shadow-[0_20px_30px_rgba(0,0,0,0.1)] animate-[pulse_8s_ease-in-out_infinite_0.5s]"
+          />
         </div>
 
-        <section id="pricing" className="grid gap-6 md:grid-cols-3">
-          {PLANS.map((plan) => (
-            <article
-              key={plan.id}
-              className={`flex flex-col gap-5 rounded-3xl border border-[var(--surface-border)] bg-[var(--surface-card)] p-6 backdrop-blur transition duration-300 hover:-translate-y-1 hover:border-white/20 hover:shadow-[0_45px_95px_-70px_rgba(255,255,255,0.12)] ${plan.id === "pro" ? "md:-translate-y-4 md:shadow-[0_60px_110px_-80px_rgba(16,185,129,0.55)]" : ""
-                }`}
-            >
-              <div className="space-y-2">
-                <div className="flex items-center justify-between text-xs uppercase tracking-[0.4em] text-muted">
-                  <span>{plan.name}</span>
-                  <span>{plan.cadence}</span>
+        <main className="relative mx-auto max-w-6xl px-4 z-20 space-y-24 -mt-32 md:-mt-56">
+
+          {/* Pricing Cards */}
+          <section id="pricing" className="grid gap-8 md:grid-cols-3 items-stretch">
+            {PLANS.map((plan) => (
+              <article
+                key={plan.id}
+                className={`flex flex-col gap-6 rounded-3xl border border-slate-200/60 bg-white/70 backdrop-blur-xl p-8 shadow-xl transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:border-slate-300/80
+                  ${plan.id === "pro" ? "md:-translate-y-4 ring-1 ring-slate-900/5 hover:ring-slate-900/10 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.12)]" : "shadow-[0_10px_40px_-15px_rgba(0,0,0,0.06)]"}
+                `}
+              >
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between text-xs font-bold uppercase tracking-[0.3em] text-slate-500">
+                    <span>{plan.name}</span>
+                    {plan.id === "pro" && <span className="rounded-full bg-slate-900 px-3 py-1 text-[10px] text-white tracking-widest">Popular</span>}
+                  </div>
+                  <p className="text-5xl font-bold tracking-tight text-slate-900">
+                    {plan.price}
+                    <span className="text-lg font-medium text-slate-500 tracking-normal">/{plan.cadence.split(" ")[1]}</span>
+                  </p>
                 </div>
-                <p className="text-soft text-3xl font-semibold">
-                  {plan.price}
-                  <span className="text-base font-medium text-muted">/{plan.cadence.split(" ")[1]}</span>
+
+                <div className="space-y-1 py-2">
+                  <p className="font-semibold text-slate-900">{plan.highlight}</p>
+                  <p className="text-sm text-slate-600 leading-relaxed">{plan.tagline}</p>
+                </div>
+
+                <ul className="space-y-4 rounded-2xl border border-slate-100 bg-slate-50/50 p-5 pl-2 text-sm text-slate-700 flex-1">
+                  {plan.features.map((feature) => (
+                    <li key={feature} className="flex items-start gap-3">
+                      <svg className="h-5 w-5 shrink-0 text-slate-900" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                      </svg>
+                      <span className="leading-tight">{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                <PlanCallToAction
+                  plan={plan}
+                  userPlan={userPlan}
+                  loading={loading}
+                  onCheckout={handleCheckout}
+                  onManage={handleManageBilling}
+                />
+              </article>
+            ))}
+          </section>
+
+          {/* Contact Section */}
+          <section
+            id="contact"
+            className="grid gap-12 rounded-[2.5rem] border border-slate-200/60 bg-white/60 backdrop-blur-xl p-8 md:p-12 md:grid-cols-2 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.05)] relative overflow-hidden"
+          >
+            {/* Subtle light effect inside contact card */}
+            <div className="absolute top-0 right-0 -m-32 w-96 h-96 bg-cyan-100/50 rounded-full blur-3xl pointer-events-none"></div>
+
+            <div className="space-y-6 relative z-10 p-2">
+              <p className="text-xs font-bold uppercase tracking-[0.3em] text-slate-500">
+                Contact
+              </p>
+              <h2 className="text-3xl font-bold tracking-tight text-slate-900 md:text-5xl md:leading-tight">
+                Let&apos;s build prompts that scale with your team
+              </h2>
+              <p className="text-base text-slate-600 leading-relaxed">
+                Need a feature walkthrough, billing help, or enterprise quote? Drop us a note and the PromptTriage team will get back to you within one business day.
+              </p>
+              <div className="pt-4 space-y-3 text-sm font-medium text-slate-600">
+                <p className="flex items-center gap-2">
+                  <span className="w-16 uppercase tracking-wider text-xs text-slate-400">Email</span>
+                  <a className="text-slate-900 underline decoration-slate-300 underline-offset-4 hover:decoration-slate-900 transition-colors" href="mailto:hello@promptrefiner.app">
+                    hello@promptrefiner.app
+                  </a>
+                </p>
+                <p className="flex items-center gap-2">
+                  <span className="w-16 uppercase tracking-wider text-xs text-slate-400">Slack</span>
+                  <a className="text-slate-900 underline decoration-slate-300 underline-offset-4 hover:decoration-slate-900 transition-colors" href="https://promptrefiner.app/slack" target="_blank" rel="noopener noreferrer">
+                    Join our Community
+                  </a>
                 </p>
               </div>
-              <p className="text-sm font-semibold text-soft">{plan.highlight}</p>
-              <p className="text-sm text-muted">{plan.tagline}</p>
-              <ul className="space-y-3 rounded-2xl border border-[var(--surface-border)] bg-[var(--surface-card-soft)] p-4 text-sm text-muted">
-                {plan.features.map((feature) => (
-                  <li key={feature} className="flex items-start gap-2">
-                    <span className="mt-1 h-2 w-2 rounded-full bg-white/90" />
-                    <span>{feature}</span>
-                  </li>
-                ))}
-              </ul>
-              <PlanCallToAction
-                plan={plan}
-                userPlan={userPlan}
-                loading={loading}
-                onCheckout={handleCheckout}
-                onManage={handleManageBilling}
-              />
-            </article>
-          ))}
-        </section>
+            </div>
 
-        <section
-          id="contact"
-          className="grid gap-8 rounded-3xl border border-[var(--surface-border)] bg-[var(--surface-card)] p-6 md:p-10 md:grid-cols-2"
-        >
-          <div className="space-y-4">
-            <p className="text-xs uppercase tracking-[0.4em] text-muted">
-              Contact
-            </p>
-            <h2 className="text-3xl font-semibold text-soft md:text-4xl">
-              Let&apos;s build prompts that scale with your team
-            </h2>
-            <p className="text-sm text-muted md:text-base">
-              Need a feature walkthrough, billing help, or enterprise quote? Drop us a note and the PromptTriage team will get back to you within one business day.
-            </p>
-            <div className="space-y-2 text-sm text-muted">
-              <p>
-                Email{" "}
-                <a
-                  className="text-slate-300 underline underline-offset-4 hover:text-white"
-                  href="mailto:hello@promptrefiner.app"
+            <div className="relative z-10">
+              <form
+                className="space-y-5 rounded-3xl border border-slate-200 bg-white p-6 md:p-8 shadow-lg shadow-slate-200/50"
+                action="https://formspree.io/f/xdknzjwa"
+                method="POST"
+              >
+                <div className="space-y-2">
+                  <label className="text-[11px] font-bold uppercase tracking-[0.2em] text-slate-500" htmlFor="contact-name">
+                    Name
+                  </label>
+                  <input
+                    id="contact-name"
+                    name="name"
+                    type="text"
+                    required
+                    className="w-full rounded-xl border border-slate-200 bg-slate-50/50 px-4 py-3.5 text-sm text-slate-900 placeholder:text-slate-400 transition-colors focus:border-slate-400 focus:bg-white focus:outline-none focus:ring-4 focus:ring-slate-900/5"
+                    placeholder="Your name"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-[11px] font-bold uppercase tracking-[0.2em] text-slate-500" htmlFor="contact-email">
+                    Work email
+                  </label>
+                  <input
+                    id="contact-email"
+                    name="_replyto"
+                    type="email"
+                    required
+                    className="w-full rounded-xl border border-slate-200 bg-slate-50/50 px-4 py-3.5 text-sm text-slate-900 placeholder:text-slate-400 transition-colors focus:border-slate-400 focus:bg-white focus:outline-none focus:ring-4 focus:ring-slate-900/5"
+                    placeholder="you@company.com"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-[11px] font-bold uppercase tracking-[0.2em] text-slate-500" htmlFor="contact-message">
+                    How can we help?
+                  </label>
+                  <textarea
+                    id="contact-message"
+                    name="message"
+                    rows={4}
+                    required
+                    className="w-full resize-none rounded-xl border border-slate-200 bg-slate-50/50 px-4 py-3.5 text-sm text-slate-900 placeholder:text-slate-400 transition-colors focus:border-slate-400 focus:bg-white focus:outline-none focus:ring-4 focus:ring-slate-900/5"
+                    placeholder="Tell us about your workflow or feature request..."
+                  />
+                </div>
+                <button
+                  type="submit"
+                  className="w-full inline-flex items-center justify-center rounded-xl bg-slate-900 px-5 py-4 text-sm font-bold uppercase tracking-[0.2em] text-white shadow-md transition-all hover:-translate-y-0.5 hover:shadow-xl hover:bg-slate-800"
                 >
-                  hello@promptrefiner.app
-                </a>
-              </p>
-              <p>
-                Slack Community{" "}
-                <a
-                  className="text-slate-300 underline underline-offset-4 hover:text-white"
-                  href="https://promptrefiner.app/slack"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  promptrefiner.app/slack
-                </a>
+                  Send message
+                </button>
+              </form>
+              <p className="mt-4 px-2 text-center text-[11px] text-slate-500 leading-relaxed">
+                By submitting this form you agree to our processing of your personal data for the purpose of contacting you.
               </p>
             </div>
+          </section>
+
+        </main>
+      </section>
+
+      {/* 4. WHITE TO BLACK TRANSITION */}
+      <div className="relative w-full h-[300px] md:h-[400px] bg-black mt-auto">
+        <div
+          className="absolute inset-0 w-full h-full"
+          style={{
+            backgroundImage: 'url("/Same_scene_but_4k_202602182323.jpeg")',
+            backgroundSize: 'cover',
+            backgroundPosition: 'top center'
+          }}
+        >
+          {/* Smooth blend top and bottom */}
+          <div className="absolute top-0 left-0 w-full h-40 bg-gradient-to-b from-white via-white/80 to-transparent"></div>
+          <div className="absolute bottom-0 left-0 w-full h-48 bg-gradient-to-t from-black via-black/80 to-transparent"></div>
+        </div>
+      </div>
+
+      {/* 5. BOTTOM BLACK SECTION */}
+      <section className="relative w-full bg-black text-white pt-10 pb-32 z-10 px-4">
+        <footer className="relative z-20 mx-auto max-w-4xl text-center">
+          {/* Adding some subtle dark crystals at the bottom */}
+          <div className="absolute inset-0 overflow-hidden pointer-events-none flex justify-center items-center opacity-40 mix-blend-screen space-x-10 md:space-x-40 -z-10 -mt-20">
+            <img src="/blackbgcrystals/Layer 0 - 2blackbg.png" alt="" className="w-64 blur-[2px]" />
+            <img src="/blackbgcrystals/Layer 0 - 6blackbg.png" alt="" className="w-48 blur-[1px]" />
           </div>
 
-          <div className="space-y-4">
-            <form
-              className="space-y-4 rounded-2xl border border-[var(--surface-border)] bg-[var(--surface-card-soft)] p-6"
-              action="https://formspree.io/f/xdknzjwa"
-              method="POST"
-            >
-              <div className="space-y-2">
-                <label className="text-xs font-semibold uppercase tracking-[0.3em] text-muted" htmlFor="contact-name">
-                  Name
-                </label>
-                <input
-                  id="contact-name"
-                  name="name"
-                  type="text"
-                  required
-                  className="w-full rounded-2xl border border-[var(--surface-border)] bg-[var(--surface-card)] px-4 py-3 text-sm text-soft placeholder:text-muted focus:border-white/40 focus:outline-none focus:ring-2 focus:ring-white/20"
-                  placeholder="Your name"
-                />
-              </div>
-              <div className="space-y-2">
-                <label className="text-xs font-semibold uppercase tracking-[0.3em] text-muted" htmlFor="contact-email">
-                  Work email
-                </label>
-                <input
-                  id="contact-email"
-                  name="_replyto"
-                  type="email"
-                  required
-                  className="w-full rounded-2xl border border-[var(--surface-border)] bg-[var(--surface-card)] px-4 py-3 text-sm text-soft placeholder:text-muted focus:border-white/40 focus:outline-none focus:ring-2 focus:ring-white/20"
-                  placeholder="you@company.com"
-                />
-              </div>
-              <div className="space-y-2">
-                <label className="text-xs font-semibold uppercase tracking-[0.3em] text-muted" htmlFor="contact-message">
-                  How can we help?
-                </label>
-                <textarea
-                  id="contact-message"
-                  name="message"
-                  rows={4}
-                  required
-                  className="w-full rounded-2xl border border-[var(--surface-border)] bg-[var(--surface-card)] px-4 py-3 text-sm text-soft placeholder:text-muted focus:border-white/40 focus:outline-none focus:ring-2 focus:ring-white/20"
-                  placeholder="Tell us about your workflow or feature request..."
-                />
-              </div>
-              <button
-                type="submit"
-                className="inline-flex items-center justify-center rounded-full border border-white/25 bg-gradient-to-r from-white/15 via-white/10 to-white/15 px-5 py-2 text-sm font-semibold uppercase tracking-[0.28em] text-soft shadow-[0_20px_45px_-28px_rgba(255,255,255,0.25)] transition duration-300 hover:-translate-y-0.5 hover:scale-[1.04] hover:border-white/50 hover:text-white"
-              >
-                Send message
-              </button>
-            </form>
-            <p className="text-xs text-muted">
-              By submitting this form you agree to our processing of your personal data for the purpose of contacting you regarding PromptTriage.
+          <div className="mx-auto max-w-3xl rounded-3xl border border-white/10 bg-white/5 p-8 md:p-12 backdrop-blur-md">
+            <h3 className="text-xl md:text-2xl font-bold text-white tracking-tight">
+              Need a custom deployment or yearly billing?
+            </h3>
+            <p className="mt-4 text-sm md:text-base text-slate-400 max-w-2xl mx-auto leading-relaxed">
+              We can tailor PromptTriage to your security, compliance, and
+              workflow needs. <br className="hidden sm:block" />
+              <Link className="text-white underline decoration-white/30 underline-offset-4 hover:decoration-white transition-colors font-medium" href="mailto:hello@promptrefiner.app">Contact sales</Link> for a bespoke quote.
             </p>
           </div>
-        </section>
-
-        <footer className="mx-auto max-w-4xl rounded-3xl border border-[var(--surface-border)] bg-[var(--surface-card)] p-5 md:p-8 text-center text-sm text-muted">
-          <p className="text-soft text-lg font-semibold">
-            Need a custom deployment or yearly billing?
-          </p>
-          <p className="mt-2">
-            We can tailor PromptTriage to your security, compliance, and
-            workflow needs. <Link className="text-slate-300 underline underline-offset-4 hover:text-white" href="mailto:hello@promptrefiner.app">Contact sales</Link> for a bespoke quote.
-          </p>
         </footer>
-      </main>
+      </section>
     </div>
   );
 }
@@ -306,14 +386,14 @@ function PlanCallToAction({
   if (plan.id === "free") {
     if (isPro) {
       return (
-        <span className="inline-flex items-center justify-center rounded-full border border-white/20 bg-white/5 px-5 py-2 text-sm font-semibold uppercase tracking-[0.28em] text-slate-300">
+        <span className="mt-2 inline-flex w-full items-center justify-center rounded-xl bg-slate-100 px-5 py-3.5 text-xs font-bold uppercase tracking-[0.2em] text-slate-400">
           Included
         </span>
       );
     }
     return (
-      <span className="inline-flex items-center justify-center rounded-full border border-white/20 bg-white/5 px-5 py-2 text-sm font-semibold uppercase tracking-[0.28em] text-slate-300">
-        You&apos;re on this plan
+      <span className="mt-2 inline-flex w-full items-center justify-center rounded-xl bg-slate-900/5 px-5 py-3.5 text-xs font-bold uppercase tracking-[0.2em] text-slate-600">
+        Current Plan
       </span>
     );
   }
@@ -326,7 +406,7 @@ function PlanCallToAction({
           type="button"
           onClick={onManage}
           disabled={loading}
-          className="inline-flex items-center justify-center rounded-full border border-white/25 bg-gradient-to-r from-white/15 via-white/10 to-white/15 px-5 py-2 text-sm font-semibold uppercase tracking-[0.28em] text-soft shadow-[0_20px_45px_-28px_rgba(255,255,255,0.25)] transition duration-300 hover:-translate-y-0.5 hover:scale-[1.04] hover:border-white/50 hover:text-white disabled:opacity-50 disabled:cursor-not-allowed"
+          className="mt-2 w-full inline-flex items-center justify-center rounded-xl bg-slate-900 px-5 py-3.5 text-xs font-bold uppercase tracking-[0.2em] text-white shadow-lg shadow-slate-900/20 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-slate-900/30 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {loading ? "Loading..." : "Manage Subscription"}
         </button>
@@ -337,7 +417,7 @@ function PlanCallToAction({
         type="button"
         onClick={onCheckout}
         disabled={loading}
-        className="inline-flex items-center justify-center rounded-full border border-white/25 bg-gradient-to-r from-white/15 via-white/10 to-white/15 px-5 py-2 text-sm font-semibold uppercase tracking-[0.28em] text-soft shadow-[0_20px_45px_-28px_rgba(255,255,255,0.25)] transition duration-300 hover:-translate-y-0.5 hover:scale-[1.04] hover:border-white/50 hover:text-white disabled:opacity-50 disabled:cursor-not-allowed"
+        className="mt-2 w-full inline-flex items-center justify-center rounded-xl bg-slate-900 px-5 py-3.5 text-xs font-bold uppercase tracking-[0.2em] text-white shadow-lg shadow-slate-900/20 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-slate-900/30 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
       >
         {loading ? "Redirecting..." : "Upgrade to Pro"}
       </button>
@@ -348,7 +428,7 @@ function PlanCallToAction({
   return (
     <Link
       href={plan.cta.href ?? "mailto:hello@promptrefiner.app"}
-      className="inline-flex items-center justify-center rounded-full border border-[var(--surface-border)] bg-transparent px-5 py-2 text-sm font-semibold uppercase tracking-[0.28em] text-soft transition duration-300 hover:-translate-y-0.5 hover:scale-[1.03] hover:border-[rgba(148,163,184,0.65)] hover:text-white"
+      className="mt-2 w-full inline-flex items-center justify-center rounded-xl border-2 border-slate-200 bg-transparent px-5 py-3 text-xs font-bold uppercase tracking-[0.2em] text-slate-600 transition-all duration-300 hover:border-slate-900 hover:bg-slate-900 hover:text-white active:scale-95"
     >
       {plan.cta.label}
     </Link>
