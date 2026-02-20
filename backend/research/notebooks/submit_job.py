@@ -28,7 +28,7 @@ import sys
 from pathlib import Path
 from azure.ai.ml import MLClient, command, Input, Output
 from azure.ai.ml.entities import AmlCompute, Environment
-from azure.identity import DefaultAzureCredential
+from azure.identity import AzureCliCredential, InteractiveBrowserCredential, ChainedTokenCredential
 
 # Resolve paths relative to this script's location
 SCRIPT_DIR = Path(__file__).resolve().parent
@@ -68,7 +68,20 @@ def get_client(args) -> MLClient:
         print("   Or set them at the top of this script.")
         sys.exit(1)
 
-    credential = DefaultAzureCredential()
+    # Ensure az CLI is on PATH (Windows installs to a fixed location)
+    az_path = r"C:\Program Files\Microsoft SDKs\Azure\CLI2\wbin"
+    if az_path not in os.environ.get("PATH", ""):
+        os.environ["PATH"] = az_path + os.pathsep + os.environ.get("PATH", "")
+
+    # Try CLI credential first, fall back to browser login
+    try:
+        credential = AzureCliCredential()
+        credential.get_token("https://management.azure.com/.default")
+        print("✅ Authenticated via Azure CLI")
+    except Exception:
+        print("⚠️  Azure CLI auth failed — opening browser login...")
+        credential = InteractiveBrowserCredential()
+
     client = MLClient(credential, sub, rg, ws)
     print(f"✅ Connected to workspace: {client.workspace_name}")
     return client
