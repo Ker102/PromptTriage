@@ -158,22 +158,22 @@ export default function PricingPage() {
           <img
             src="/whitebgcrystals/Layer 0 - 15whitebg.png"
             alt="Decorative crystal"
-            className="absolute -left-16 top-10 w-72 h-auto drop-shadow-2xl"
+            className="absolute -left-16 top-10 w-72 h-auto drop-shadow-[0_20px_40px_rgba(0,0,0,0.25)]"
           />
           <img
             src="/whitebgcrystals/Layer 0 - 6whitebg.png"
             alt="Decorative crystal"
-            className="absolute -right-12 top-64 w-56 h-auto drop-shadow-2xl"
+            className="absolute -right-12 top-64 w-56 h-auto drop-shadow-[0_20px_40px_rgba(0,0,0,0.25)]"
           />
           <img
             src="/whitebgcrystals/Layer 0 - 12whitebg.png"
             alt="Decorative crystal"
-            className="absolute left-8 bottom-80 w-64 h-auto drop-shadow-2xl"
+            className="absolute left-8 bottom-80 w-64 h-auto drop-shadow-[0_20px_40px_rgba(0,0,0,0.25)]"
           />
           <img
             src="/whitebgcrystals/Layer 0 - 5whitebg.png"
             alt="Decorative crystal"
-            className="absolute right-8 bottom-[22rem] w-72 h-auto drop-shadow-2xl"
+            className="absolute right-8 bottom-[22rem] w-72 h-auto drop-shadow-[0_20px_40px_rgba(0,0,0,0.25)]"
           />
         </div>
 
@@ -236,7 +236,7 @@ export default function PricingPage() {
               <img
                 src="/whitebgcrystals/Layer 0 - 14whitebg.png"
                 alt=""
-                className="absolute -right-20 -top-16 w-64 h-auto drop-shadow-2xl"
+                className="absolute -right-20 top-8 w-64 h-auto drop-shadow-[0_20px_40px_rgba(0,0,0,0.25)]"
               />
             </div>
 
