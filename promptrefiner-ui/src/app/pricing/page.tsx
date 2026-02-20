@@ -171,9 +171,9 @@ export default function PricingPage() {
             className="absolute left-8 bottom-80 w-64 h-auto drop-shadow-2xl"
           />
           <img
-            src="/whitebgcrystals/Layer 0 - 20whitebg.png"
+            src="/whitebgcrystals/Layer 0 - 5whitebg.png"
             alt="Decorative crystal"
-            className="absolute right-16 bottom-20 w-80 h-auto drop-shadow-2xl"
+            className="absolute right-8 bottom-[22rem] w-72 h-auto drop-shadow-2xl"
           />
         </div>
 
@@ -229,92 +229,111 @@ export default function PricingPage() {
           {/* Contact Section */}
           <section
             id="contact"
-            className="grid gap-12 rounded-[2.5rem] border border-slate-200/60 bg-white/60 backdrop-blur-xl p-8 md:p-12 md:grid-cols-2 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.05)] relative overflow-hidden"
+            className="relative rounded-3xl border border-slate-200/60 bg-white/50 backdrop-blur-xl p-8 md:p-12 shadow-xl hover:shadow-2xl transition-all duration-300 overflow-visible"
           >
-            {/* Subtle light effect inside contact card */}
-            <div className="absolute top-0 right-0 -m-32 w-96 h-96 bg-cyan-100/50 rounded-full blur-3xl pointer-events-none"></div>
-
-            <div className="space-y-6 relative z-10 p-2">
-              <p className="text-xs font-bold uppercase tracking-[0.3em] text-slate-500">
-                Contact
-              </p>
-              <h2 className="text-3xl font-bold tracking-tight text-slate-900 md:text-5xl md:leading-tight">
-                Let&apos;s build prompts that scale with your team
-              </h2>
-              <p className="text-base text-slate-600 leading-relaxed">
-                Need a feature walkthrough, billing help, or enterprise quote? Drop us a note and the PromptTriage team will get back to you within one business day.
-              </p>
-              <div className="pt-4 space-y-3 text-sm font-medium text-slate-600">
-                <p className="flex items-center gap-2">
-                  <span className="w-16 uppercase tracking-wider text-xs text-slate-400">Email</span>
-                  <a className="text-slate-900 underline decoration-slate-300 underline-offset-4 hover:decoration-slate-900 transition-colors" href="mailto:hello@promptrefiner.app">
-                    hello@promptrefiner.app
-                  </a>
-                </p>
-                <p className="flex items-center gap-2">
-                  <span className="w-16 uppercase tracking-wider text-xs text-slate-400">Slack</span>
-                  <a className="text-slate-900 underline decoration-slate-300 underline-offset-4 hover:decoration-slate-900 transition-colors" href="https://promptrefiner.app/slack" target="_blank" rel="noopener noreferrer">
-                    Join our Community
-                  </a>
-                </p>
-              </div>
+            {/* Crystals peeking behind the contact card */}
+            <div className="absolute inset-0 -z-10 overflow-visible pointer-events-none">
+              <img
+                src="/whitebgcrystals/Layer 0 - 18whitebg.png"
+                alt=""
+                className="absolute -left-24 -bottom-12 w-56 h-auto drop-shadow-2xl"
+              />
+              <img
+                src="/whitebgcrystals/Layer 0 - 14whitebg.png"
+                alt=""
+                className="absolute -right-20 -top-16 w-64 h-auto drop-shadow-2xl"
+              />
+              <img
+                src="/whitebgcrystals/Layer 0 - 4whitebg.png"
+                alt=""
+                className="absolute right-1/4 -bottom-10 w-40 h-auto drop-shadow-2xl"
+              />
             </div>
 
-            <div className="relative z-10">
-              <form
-                className="space-y-5 rounded-3xl border border-slate-200 bg-white p-6 md:p-8 shadow-lg shadow-slate-200/50"
-                action="https://formspree.io/f/xdknzjwa"
-                method="POST"
-              >
-                <div className="space-y-2">
-                  <label className="text-[11px] font-bold uppercase tracking-[0.2em] text-slate-500" htmlFor="contact-name">
-                    Name
-                  </label>
-                  <input
-                    id="contact-name"
-                    name="name"
-                    type="text"
-                    required
-                    className="w-full rounded-xl border border-slate-200 bg-slate-50/50 px-4 py-3.5 text-sm text-slate-900 placeholder:text-slate-400 transition-colors focus:border-slate-400 focus:bg-white focus:outline-none focus:ring-4 focus:ring-slate-900/5"
-                    placeholder="Your name"
-                  />
+            <div className="grid gap-12 md:grid-cols-2 relative z-10">
+
+              <div className="space-y-6 relative z-10 p-2">
+                <p className="text-xs font-bold uppercase tracking-[0.3em] text-slate-500">
+                  Contact
+                </p>
+                <h2 className="text-3xl font-bold tracking-tight text-slate-900 md:text-5xl md:leading-tight">
+                  Let&apos;s build prompts that scale with your team
+                </h2>
+                <p className="text-base text-slate-600 leading-relaxed">
+                  Need a feature walkthrough, billing help, or enterprise quote? Drop us a note and the PromptTriage team will get back to you within one business day.
+                </p>
+                <div className="pt-4 space-y-3 text-sm font-medium text-slate-600">
+                  <p className="flex items-center gap-2">
+                    <span className="w-16 uppercase tracking-wider text-xs text-slate-400">Email</span>
+                    <a className="text-slate-900 underline decoration-slate-300 underline-offset-4 hover:decoration-slate-900 transition-colors" href="mailto:hello@promptrefiner.app">
+                      hello@promptrefiner.app
+                    </a>
+                  </p>
+                  <p className="flex items-center gap-2">
+                    <span className="w-16 uppercase tracking-wider text-xs text-slate-400">Slack</span>
+                    <a className="text-slate-900 underline decoration-slate-300 underline-offset-4 hover:decoration-slate-900 transition-colors" href="https://promptrefiner.app/slack" target="_blank" rel="noopener noreferrer">
+                      Join our Community
+                    </a>
+                  </p>
                 </div>
-                <div className="space-y-2">
-                  <label className="text-[11px] font-bold uppercase tracking-[0.2em] text-slate-500" htmlFor="contact-email">
-                    Work email
-                  </label>
-                  <input
-                    id="contact-email"
-                    name="_replyto"
-                    type="email"
-                    required
-                    className="w-full rounded-xl border border-slate-200 bg-slate-50/50 px-4 py-3.5 text-sm text-slate-900 placeholder:text-slate-400 transition-colors focus:border-slate-400 focus:bg-white focus:outline-none focus:ring-4 focus:ring-slate-900/5"
-                    placeholder="you@company.com"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <label className="text-[11px] font-bold uppercase tracking-[0.2em] text-slate-500" htmlFor="contact-message">
-                    How can we help?
-                  </label>
-                  <textarea
-                    id="contact-message"
-                    name="message"
-                    rows={4}
-                    required
-                    className="w-full resize-none rounded-xl border border-slate-200 bg-slate-50/50 px-4 py-3.5 text-sm text-slate-900 placeholder:text-slate-400 transition-colors focus:border-slate-400 focus:bg-white focus:outline-none focus:ring-4 focus:ring-slate-900/5"
-                    placeholder="Tell us about your workflow or feature request..."
-                  />
-                </div>
-                <button
-                  type="submit"
-                  className="w-full inline-flex items-center justify-center rounded-xl bg-slate-900 px-5 py-4 text-sm font-bold uppercase tracking-[0.2em] text-white shadow-md transition-all hover:-translate-y-0.5 hover:shadow-xl hover:bg-slate-800"
+              </div>
+
+              <div className="relative z-10">
+                <form
+                  className="space-y-5 rounded-3xl border border-slate-200 bg-white p-6 md:p-8 shadow-lg shadow-slate-200/50"
+                  action="https://formspree.io/f/xdknzjwa"
+                  method="POST"
                 >
-                  Send message
-                </button>
-              </form>
-              <p className="mt-4 px-2 text-center text-[11px] text-slate-500 leading-relaxed">
-                By submitting this form you agree to our processing of your personal data for the purpose of contacting you.
-              </p>
+                  <div className="space-y-2">
+                    <label className="text-[11px] font-bold uppercase tracking-[0.2em] text-slate-500" htmlFor="contact-name">
+                      Name
+                    </label>
+                    <input
+                      id="contact-name"
+                      name="name"
+                      type="text"
+                      required
+                      className="w-full rounded-xl border border-slate-200 bg-slate-50/50 px-4 py-3.5 text-sm text-slate-900 placeholder:text-slate-400 transition-colors focus:border-slate-400 focus:bg-white focus:outline-none focus:ring-4 focus:ring-slate-900/5"
+                      placeholder="Your name"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-[11px] font-bold uppercase tracking-[0.2em] text-slate-500" htmlFor="contact-email">
+                      Work email
+                    </label>
+                    <input
+                      id="contact-email"
+                      name="_replyto"
+                      type="email"
+                      required
+                      className="w-full rounded-xl border border-slate-200 bg-slate-50/50 px-4 py-3.5 text-sm text-slate-900 placeholder:text-slate-400 transition-colors focus:border-slate-400 focus:bg-white focus:outline-none focus:ring-4 focus:ring-slate-900/5"
+                      placeholder="you@company.com"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-[11px] font-bold uppercase tracking-[0.2em] text-slate-500" htmlFor="contact-message">
+                      How can we help?
+                    </label>
+                    <textarea
+                      id="contact-message"
+                      name="message"
+                      rows={4}
+                      required
+                      className="w-full resize-none rounded-xl border border-slate-200 bg-slate-50/50 px-4 py-3.5 text-sm text-slate-900 placeholder:text-slate-400 transition-colors focus:border-slate-400 focus:bg-white focus:outline-none focus:ring-4 focus:ring-slate-900/5"
+                      placeholder="Tell us about your workflow or feature request..."
+                    />
+                  </div>
+                  <button
+                    type="submit"
+                    className="w-full inline-flex items-center justify-center rounded-xl bg-slate-900 px-5 py-4 text-sm font-bold uppercase tracking-[0.2em] text-white shadow-md transition-all hover:-translate-y-0.5 hover:shadow-xl hover:bg-slate-800"
+                  >
+                    Send message
+                  </button>
+                </form>
+                <p className="mt-4 px-2 text-center text-[11px] text-slate-500 leading-relaxed">
+                  By submitting this form you agree to our processing of your personal data for the purpose of contacting you.
+                </p>
+              </div>
             </div>
           </section>
 
