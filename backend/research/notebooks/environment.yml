@@ -18,3 +18,4 @@ dependencies:
     - sentencepiece
     - protobuf
     - packaging>=20.0,<26.0
+    - ipykernel

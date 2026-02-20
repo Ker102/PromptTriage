@@ -45,8 +45,13 @@ fi
 echo "[3/4] Creating outputs directory..."
 mkdir -p ./outputs
 
-# 4. Verify (must run inside the conda env)
-echo "[4/4] Verifying installation..."
+# 4. Register as Jupyter kernel
+echo "[4/5] Registering Jupyter kernel..."
+conda run -n ${ENV_NAME} python -m ipykernel install --user --name ${ENV_NAME} --display-name "Python (unsloth)"
+echo "  Kernel 'Python (unsloth)' registered"
+
+# 5. Verify (must run inside the conda env)
+echo "[5/5] Verifying installation..."
 conda run -n ${ENV_NAME} python -c "
 import torch
 print(f'PyTorch: {torch.__version__}')
@@ -68,8 +73,14 @@ print('✅ All good!')
 
 echo ""
 echo "══════════════════════════════════════════════"
-echo "  Setup complete! Run training with:"
+echo "  Setup complete! Two ways to train:"
 echo ""
-echo "  conda activate ${ENV_NAME}"
-echo "  python study_b_training.py"
+echo "  Option A (terminal):"
+echo "    conda activate ${ENV_NAME}"
+echo "    python study_b_training.py"
+echo ""
+echo "  Option B (notebook):"
+echo "    Open study_b_training.ipynb in Azure ML"
+echo "    Select kernel: Python (unsloth)"
+echo "    Run All Cells"
 echo "══════════════════════════════════════════════"
