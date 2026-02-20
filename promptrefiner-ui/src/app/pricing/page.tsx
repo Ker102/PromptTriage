@@ -145,7 +145,7 @@ export default function PricingPage() {
         <div
           className="absolute inset-0 w-full h-full"
           style={{
-            backgroundImage: 'url("/Using_my_brand_4k_202602182321.jpeg")',
+            backgroundImage: 'url("/Same_scene_but_4k_202602182323.jpeg")',
             backgroundSize: 'cover',
             backgroundPosition: 'center 30%'
           }}
@@ -331,7 +331,7 @@ export default function PricingPage() {
         <div
           className="absolute inset-0 w-full h-full"
           style={{
-            backgroundImage: 'url("/Same_scene_but_4k_202602182323.jpeg")',
+            backgroundImage: 'url("/Using_my_brand_4k_202602182321.jpeg")',
             backgroundSize: 'cover',
             backgroundPosition: 'top center'
           }}
