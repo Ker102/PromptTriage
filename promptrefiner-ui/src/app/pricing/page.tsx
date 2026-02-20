@@ -141,7 +141,7 @@ export default function PricingPage() {
       </section>
 
       {/* 2. BLACK TO WHITE TRANSITION */}
-      <div className="relative w-full h-[300px] md:h-[500px] bg-white -mt-16">
+      <div className="relative w-full h-[300px] md:h-[500px] bg-white">
         <div
           className="absolute inset-0 w-full h-full"
           style={{
@@ -177,7 +177,7 @@ export default function PricingPage() {
           />
         </div>
 
-        <main className="relative mx-auto max-w-6xl px-4 z-20 space-y-24 mt-4 md:mt-12">
+        <main className="relative mx-auto max-w-6xl px-4 z-20 space-y-24 -mt-24 md:-mt-40 lg:-mt-56">
 
           {/* Pricing Cards */}
           <section id="pricing" className="grid gap-8 md:grid-cols-3 items-stretch">
