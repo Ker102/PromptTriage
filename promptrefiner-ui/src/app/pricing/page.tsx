@@ -158,26 +158,26 @@ export default function PricingPage() {
           <img
             src="/whitebgcrystals/Layer 0 - 15whitebg.png"
             alt="Decorative crystal"
-            className="absolute -left-16 top-10 w-72 h-auto opacity-90 drop-shadow-[0_25px_35px_rgba(0,0,0,0.15)] animate-[pulse_6s_ease-in-out_infinite]"
+            className="absolute -left-16 top-10 w-72 h-auto drop-shadow-2xl"
           />
           <img
             src="/whitebgcrystals/Layer 0 - 6whitebg.png"
             alt="Decorative crystal"
-            className="absolute -right-12 top-64 w-56 h-auto opacity-80 drop-shadow-[0_15px_25px_rgba(0,0,0,0.12)] animate-[pulse_5s_ease-in-out_infinite_1s]"
+            className="absolute -right-12 top-64 w-56 h-auto drop-shadow-2xl"
           />
           <img
             src="/whitebgcrystals/Layer 0 - 12whitebg.png"
             alt="Decorative crystal"
-            className="absolute left-8 bottom-80 w-64 h-auto opacity-85 drop-shadow-[0_30px_40px_rgba(0,0,0,0.15)] animate-[pulse_7s_ease-in-out_infinite_2s]"
+            className="absolute left-8 bottom-80 w-64 h-auto drop-shadow-2xl"
           />
           <img
-            src="/whitebgcrystals/Layer 0 - 1whitebg.png"
+            src="/whitebgcrystals/Layer 0 - 20whitebg.png"
             alt="Decorative crystal"
-            className="absolute right-16 bottom-20 w-80 h-auto opacity-70 drop-shadow-[0_20px_30px_rgba(0,0,0,0.1)] animate-[pulse_8s_ease-in-out_infinite_0.5s]"
+            className="absolute right-16 bottom-20 w-80 h-auto drop-shadow-2xl"
           />
         </div>
 
-        <main className="relative mx-auto max-w-6xl px-4 z-20 space-y-24 -mt-32 md:-mt-56">
+        <main className="relative mx-auto max-w-6xl px-4 z-20 space-y-24 mt-4 md:mt-12">
 
           {/* Pricing Cards */}
           <section id="pricing" className="grid gap-8 md:grid-cols-3 items-stretch">
@@ -336,9 +336,9 @@ export default function PricingPage() {
       <section className="relative w-full bg-black text-white pt-10 pb-32 z-10 px-4">
         <footer className="relative z-20 mx-auto max-w-4xl text-center">
           {/* Adding some subtle dark crystals at the bottom */}
-          <div className="absolute inset-0 overflow-hidden pointer-events-none flex justify-center items-center opacity-40 mix-blend-screen space-x-10 md:space-x-40 -z-10 -mt-20">
-            <img src="/blackbgcrystals/Layer 0 - 2blackbg.png" alt="" className="w-64 blur-[2px]" />
-            <img src="/blackbgcrystals/Layer 0 - 6blackbg.png" alt="" className="w-48 blur-[1px]" />
+          <div className="absolute inset-0 overflow-hidden pointer-events-none flex justify-center items-center space-x-10 md:space-x-40 -z-10 -mt-20">
+            <img src="/blackbgcrystals/Layer 0 - 8blackbg.png" alt="" className="w-64" />
+            <img src="/blackbgcrystals/Layer 0 - 18blackbg.png" alt="" className="w-48" />
           </div>
 
           <div className="mx-auto max-w-3xl rounded-3xl border border-white/10 bg-white/5 p-8 md:p-12 backdrop-blur-md">
