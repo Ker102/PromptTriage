@@ -231,12 +231,24 @@ export default function PricingPage() {
             id="contact"
             className="relative rounded-3xl border border-slate-200/60 bg-white/50 backdrop-blur-xl p-8 md:p-12 shadow-xl hover:shadow-2xl transition-all duration-300 overflow-visible"
           >
-            {/* Single crystal peeking from under the contact card */}
-            <img
-              src="/whitebgcrystals/Layer 0 - 14whitebg.png"
-              alt=""
-              className="absolute -right-10 -bottom-14 w-64 h-auto drop-shadow-2xl blur-[1.5px] opacity-60 -z-10 pointer-events-none"
-            />
+            {/* Crystals peeking behind the contact card */}
+            <div className="absolute inset-0 -z-10 overflow-visible pointer-events-none">
+              <img
+                src="/whitebgcrystals/Layer 0 - 18whitebg.png"
+                alt=""
+                className="absolute -left-24 -bottom-12 w-56 h-auto drop-shadow-2xl"
+              />
+              <img
+                src="/whitebgcrystals/Layer 0 - 14whitebg.png"
+                alt=""
+                className="absolute -right-20 -top-16 w-64 h-auto drop-shadow-2xl"
+              />
+              <img
+                src="/whitebgcrystals/Layer 0 - 4whitebg.png"
+                alt=""
+                className="absolute right-1/4 -bottom-10 w-40 h-auto drop-shadow-2xl"
+              />
+            </div>
 
             <div className="grid gap-12 md:grid-cols-2 relative z-10">
 
