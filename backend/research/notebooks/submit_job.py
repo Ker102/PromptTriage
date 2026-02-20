@@ -32,9 +32,9 @@ from azure.identity import DefaultAzureCredential
 # ══════════════════════════════════════════════════════
 # CONFIGURE THESE — match your Azure ML workspace
 # ══════════════════════════════════════════════════════
-SUBSCRIPTION_ID = None    # Set via --subscription or env var AZURE_SUBSCRIPTION_ID
-RESOURCE_GROUP = None     # Set via --resource-group or env var AZURE_RESOURCE_GROUP
-WORKSPACE_NAME = None     # Set via --workspace or env var AZURE_WORKSPACE_NAME
+SUBSCRIPTION_ID = "2405d969-2c8b-4b70-949e-f250bc25fa9f"
+RESOURCE_GROUP = "DefaultResourceGroup-eastus2"
+WORKSPACE_NAME = "qwentrain"
 
 CLUSTER_NAME = "gpu-a100"
 CLUSTER_VM_SIZE = "Standard_NC24ads_A100_v4"  # A100 80GB
@@ -145,11 +145,11 @@ def check_status(client: MLClient):
     print(f"{'Name':<45} {'Status':<15} {'Model':<15}")
     print("─" * 75)
 
-    jobs = client.jobs.list(
-        experiment_name="prompttriage-study-b",
-        max_results=10,
-    )
+    jobs = client.jobs.list(max_results=20)
     for job in jobs:
+        # Filter to our experiment
+        if getattr(job, 'experiment_name', '') != 'prompttriage-study-b':
+            continue
         model_tag = job.tags.get("model", "?") if job.tags else "?"
         print(f"{job.name:<45} {job.status:<15} {model_tag:<15}")
 
