@@ -25,9 +25,16 @@ Prerequisites:
 """
 import argparse
 import sys
+from pathlib import Path
 from azure.ai.ml import MLClient, command, Input, Output
 from azure.ai.ml.entities import AmlCompute, Environment
 from azure.identity import DefaultAzureCredential
+
+# Resolve paths relative to this script's location
+SCRIPT_DIR = Path(__file__).resolve().parent
+NOTEBOOKS_DIR = str(SCRIPT_DIR)
+TRAINING_DATA_DIR = str(SCRIPT_DIR.parent / "training_data")
+CONDA_FILE = str(SCRIPT_DIR / "environment.yml")
 
 # ══════════════════════════════════════════════════════
 # CONFIGURE THESE — match your Azure ML workspace
@@ -98,7 +105,7 @@ def submit_training_job(client: MLClient, model_key: str, epochs: int, lora_rank
     env = Environment(
         name="unsloth-training",
         image="mcr.microsoft.com/azureml/curated/acft-hf-nlp-gpu:latest",
-        conda_file="environment.yml",
+        conda_file=CONDA_FILE,
     )
 
     # Build the command
@@ -108,7 +115,7 @@ def submit_training_job(client: MLClient, model_key: str, epochs: int, lora_rank
         description=f"QLoRA fine-tuning {model_key} for Dense vs MoE benchmark",
         compute=CLUSTER_NAME,
         environment=env,
-        code=".",  # Upload current directory
+        code=NOTEBOOKS_DIR,
         command=(
             f"export CURRENT_MODEL={model_key} "
             f"TRAIN_EPOCHS={epochs} "
@@ -119,7 +126,7 @@ def submit_training_job(client: MLClient, model_key: str, epochs: int, lora_rank
             f"python study_b_cluster.py"
         ),
         inputs={
-            "training_data": Input(type="uri_folder", path="../training_data"),
+            "training_data": Input(type="uri_folder", path=TRAINING_DATA_DIR),
         },
         outputs={
             "model_output": Output(type="uri_folder"),
@@ -131,7 +138,6 @@ def submit_training_job(client: MLClient, model_key: str, epochs: int, lora_rank
         },
     )
     job.name = job_name
-    job.limits = {"timeout": 14400}  # 4 hours max
 
     created_job = client.jobs.create_or_update(job)
     print(f"✅ Job submitted: {job_name}")
