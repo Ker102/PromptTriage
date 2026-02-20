@@ -146,14 +146,9 @@ export default function PricingPage() {
           className="absolute inset-0 w-full h-full"
           style={{
             backgroundImage: 'url("/Same_scene_but_4k_202602182323.jpeg")',
-            backgroundSize: 'cover',
-            backgroundPosition: 'center 30%'
+            backgroundSize: '100% 100%'
           }}
-        >
-          {/* Smooth blend top and bottom */}
-          <div className="absolute top-0 left-0 w-full h-40 bg-gradient-to-b from-black via-black/80 to-transparent"></div>
-          <div className="absolute bottom-0 left-0 w-full h-40 bg-gradient-to-t from-white via-white/80 to-transparent"></div>
-        </div>
+        />
       </div>
 
       {/* 3. WHITE CONTENT SECTION */}
@@ -332,14 +327,9 @@ export default function PricingPage() {
           className="absolute inset-0 w-full h-full"
           style={{
             backgroundImage: 'url("/Using_my_brand_4k_202602182321.jpeg")',
-            backgroundSize: 'cover',
-            backgroundPosition: 'top center'
+            backgroundSize: '100% 100%'
           }}
-        >
-          {/* Smooth blend top and bottom */}
-          <div className="absolute top-0 left-0 w-full h-40 bg-gradient-to-b from-white via-white/80 to-transparent"></div>
-          <div className="absolute bottom-0 left-0 w-full h-48 bg-gradient-to-t from-black via-black/80 to-transparent"></div>
-        </div>
+        />
       </div>
 
       {/* 5. BOTTOM BLACK SECTION */}
