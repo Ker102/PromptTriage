@@ -1,0 +1,87 @@
+$schema: https://azuremlschemas.azureedge.net/latest/commandJob.schema.json
+
+# ═══════════════════════════════════════════════════════
+# Azure ML Compute Cluster Job — Study B Training
+# ═══════════════════════════════════════════════════════
+#
+# Submits QLoRA fine-tuning to a GPU cluster that auto-scales to 0.
+# No idle cost — the node spins up, trains, saves results, shuts down.
+#
+# Usage:
+#   az ml job create --file azure_ml_job.yml \
+#     --set inputs.model_key="qwen3_8b" \
+#     --workspace-name <workspace> \
+#     --resource-group <rg>
+
+type: command
+
+# ── Display ──
+display_name: study-b-training
+experiment_name: prompttriage-study-b
+description: "QLoRA fine-tuning for Dense vs MoE breaking point (Study B)"
+
+# ── Compute ──
+# Create cluster first:
+#   az ml compute create --name gpu-a100 --type amlcompute \
+#     --size Standard_NC24ads_A100_v4 \
+#     --min-instances 0 --max-instances 1
+compute: azureml:gpu-a100
+
+# ── Environment ──
+# Curated Unsloth environment (installs from requirements)
+environment:
+  name: unsloth-training
+  version: 1
+  image: mcr.microsoft.com/azureml/curated/acft-hf-nlp-gpu:latest
+  conda_file: environment.yml
+
+# ── Inputs ──
+inputs:
+  model_key:
+    type: string
+    default: "qwen3_8b"
+  training_data:
+    type: uri_folder
+    path: ../training_data
+  epochs:
+    type: integer
+    default: 3
+  lora_rank:
+    type: integer
+    default: 32
+  learning_rate:
+    type: number
+    default: 0.0002
+
+# ── Outputs ──
+outputs:
+  model_output:
+    type: uri_folder
+    mode: rw_mount
+
+# ── Command ──
+command: >-
+  bash train_entrypoint.sh
+  ${{inputs.model_key}}
+  ${{inputs.training_data}}
+  ${{outputs.model_output}}
+  ${{inputs.epochs}}
+  ${{inputs.lora_rank}}
+  ${{inputs.learning_rate}}
+
+# ── Code ──
+code: .
+
+# ── Resources ──
+resources:
+  instance_count: 1
+
+# ── Tags ──
+tags:
+  study: B
+  framework: unsloth
+  task: qlora-finetuning
+
+# ── Limits ──
+limits:
+  timeout: 14400  # 4 hours max
