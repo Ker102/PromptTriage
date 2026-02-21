@@ -18,6 +18,38 @@
 
 ## Recent Changes
 
+### 2026-02-21 - Phase 14: Azure ML Compute Cluster Training Pipeline
+
+**Commit Ready**: Yes (multiple commits pushed)
+
+#### New Files (6)
+- `notebooks/study_b_training.ipynb`: Jupyter notebook version of training script (for Azure ML notebook UI)
+- `notebooks/azure_ml_job.yml`: Azure ML job spec — defines A100 compute cluster, conda env, inputs/outputs
+- `notebooks/study_b_cluster.py`: Headless training script reading config from env vars (for cluster execution)
+- `notebooks/train_entrypoint.sh`: Bash entrypoint that runs inside the cluster node
+- `notebooks/submit_job.sh`: Shell-based job submission helper (alternative)
+- `notebooks/submit_job.py`: **Python SDK job submission** — auth, cluster auto-creation (0→1 A100 nodes), job submission, status checking, log streaming
+
+#### Modified Files (2)
+- `notebooks/environment.yml`: Added `ipykernel` for Jupyter kernel registration
+- `notebooks/setup_azure_ml.sh`: Added kernel registration step + dual usage instructions (terminal + notebook)
+
+#### Infrastructure
+- **Compute Cluster**: `gpu-a100` — `Standard_NC24ads_A100_v4` (A100 80GB), min 0 / max 1 nodes, auto-scales to zero
+- **Azure ML Workspace**: `qwentrain` in `DefaultResourceGroup-eastus2`
+- **SDK**: `azure-ai-ml` v1.31.0 + `azure-identity` (installed via pip)
+- **Auth**: Azure CLI with PATH fix for Windows + browser login fallback
+
+#### Current Status
+- **Job**: `study-b-qwen3_8b-20260221-012917` submitted to A100 cluster
+- **Status**: Preparing (environment building)
+- **Monitor**: `python backend/research/notebooks/submit_job.py --status`
+
+#### Local Setup (Windows)
+- Azure CLI v2.83.0 installed via winget (PATH: `C:\Program Files\Microsoft SDKs\Azure\CLI2\wbin`)
+- `az extension add -n ml` has a known Windows pip bug — using Python SDK instead
+- Login: `& "C:\Program Files\Microsoft SDKs\Azure\CLI2\wbin\az.cmd" login`
+
 ### 2026-02-18 - Phase 13: Stripe Payments Integration
 
 **Commit Ready**: Yes
