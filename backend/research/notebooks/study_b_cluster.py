@@ -65,9 +65,8 @@ model, tokenizer = FastLanguageModel.from_pretrained(
     model_name=MODEL_ID,
     max_seq_length=MAX_SEQ_LEN,
     load_in_4bit=True,
-    fast_inference=True,
+    fast_inference=False,  # vLLM not installed; only affects inference speed, not training
     max_lora_rank=LORA_RANK,
-    gpu_memory_utilization=0.8,
 )
 
 model = FastLanguageModel.get_peft_model(
