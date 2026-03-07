@@ -1,0 +1,343 @@
+PyTorch: 2.10.0+cu128
+CUDA: True
+GPU: NVIDIA A100 80GB PCIe
+VRAM: 85.1 GB
+
+Test prompts: 30
+Models: ['qwen3_8b', 'qwen3_14b', 'qwen3_32b', 'qwen3_30b_a3b']
+Adapter base: /mnt/adapters
+  qwen3_14b/: 10 items
+    - special_tokens_map.json
+    - tokenizer.json
+    - chat_template.jinja
+    - vocab.json
+    - README.md
+  qwen3_30b_a3b/: 10 items
+    - special_tokens_map.json
+    - tokenizer.json
+    - chat_template.jinja
+    - vocab.json
+    - README.md
+  qwen3_32b/: 10 items
+    - special_tokens_map.json
+    - tokenizer.json
+    - chat_template.jinja
+    - vocab.json
+    - README.md
+  qwen3_8b/: 10 items
+    - special_tokens_map.json
+    - tokenizer.json
+    - chat_template.jinja
+    - vocab.json
+    - README.md
+🦥 Unsloth: Will patch your computer to enable 2x faster free finetuning.
+🦥 Unsloth Zoo will now patch everything to make training faster!
+
+============================================================
+BENCHMARK: qwen3_8b (unsloth/Qwen3-8B)
+Adapter: /mnt/adapters/qwen3_8b
+============================================================
+==((====))==  Unsloth 2026.2.1: Fast Qwen3 patching. Transformers: 4.57.6.
+   \\   /|    NVIDIA A100 80GB PCIe. Num GPUs = 1. Max memory: 79.251 GB. Platform: Linux.
+O^O/ \_/ \    Torch: 2.10.0+cu128. CUDA: 8.0. CUDA Toolkit: 12.8. Triton: 3.6.0
+\        /    Bfloat16 = TRUE. FA [Xformers = 0.0.35. FA2 = False]
+ "-____-"     Free license: http://github.com/unslothai/unsloth
+Unsloth: Fast downloading is enabled - ignore downloading bars which are red colored!
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:00<00:00,  1.01it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:01<00:00,  1.47it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:01<00:00,  1.38it/s]
+Unsloth 2026.2.1 patched 36 layers with 36 QKV layers, 36 O layers and 36 MLP layers.
+Model loaded. Starting generation...
+  [1/30] code-01 (anthropic)
+The attention mask is not set and cannot be inferred from input because pad token is same as eos token. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+    -> 86695 chars, 876233ms
+  [2/30] code-02 (openai)
+    -> 1365 chars, 32052ms
+  [3/30] code-03 (google)
+    -> 13083 chars, 167274ms
+  [4/30] code-04 (anthropic)
+    -> 44256 chars, 872306ms
+  [5/30] code-05 (openai)
+    -> 12498 chars, 135462ms
+  [6/30] code-06 (google)
+    -> 8432 chars, 103774ms
+  [7/30] code-07 (anthropic)
+    -> 51228 chars, 865729ms
+  [8/30] code-08 (openai)
+    -> 5839 chars, 75259ms
+  [9/30] code-09 (google)
+    -> 10022 chars, 120290ms
+  [10/30] code-10 (anthropic)
+    -> 11056 chars, 133818ms
+  [11/30] biz-01 (anthropic)
+    -> 84981 chars, 843140ms
+  [12/30] biz-02 (openai)
+    -> 4326 chars, 56870ms
+  [13/30] biz-03 (google)
+    -> 66942 chars, 841570ms
+  [14/30] biz-04 (anthropic)
+    -> 7776 chars, 92265ms
+  [15/30] biz-05 (openai)
+    -> 5492 chars, 70206ms
+  [16/30] biz-06 (google)
+    -> 7475 chars, 90784ms
+  [17/30] biz-07 (anthropic)
+    -> 7306 chars, 90280ms
+  [18/30] biz-08 (openai)
+    -> 6587 chars, 78566ms
+  [19/30] biz-09 (google)
+    -> 9903 chars, 112706ms
+  [20/30] biz-10 (anthropic)
+    -> 12697 chars, 326643ms
+  [21/30] creative-01 (anthropic)
+    -> 308 chars, 3906ms
+  [22/30] creative-02 (openai)
+    -> 6064 chars, 77325ms
+  [23/30] creative-03 (google)
+    -> 6741 chars, 88564ms
+  [24/30] creative-04 (anthropic)
+    -> 9721 chars, 116182ms
+  [25/30] creative-05 (openai)
+    -> 7255 chars, 92413ms
+  [26/30] creative-06 (google)
+    -> 3659 chars, 61785ms
+  [27/30] creative-07 (anthropic)
+    -> 15012 chars, 165653ms
+  [28/30] creative-08 (openai)
+    -> 10254 chars, 127692ms
+  [29/30] creative-09 (google)
+    -> 6389 chars, 154870ms
+  [30/30] creative-10 (anthropic)
+    -> 3761 chars, 44019ms
+Freeing GPU memory for qwen3_8b...
+  Saved 30 results so far
+
+============================================================
+BENCHMARK: qwen3_14b (unsloth/Qwen3-14B)
+Adapter: /mnt/adapters/qwen3_14b
+============================================================
+==((====))==  Unsloth 2026.2.1: Fast Qwen3 patching. Transformers: 4.57.6.
+   \\   /|    NVIDIA A100 80GB PCIe. Num GPUs = 1. Max memory: 79.251 GB. Platform: Linux.
+O^O/ \_/ \    Torch: 2.10.0+cu128. CUDA: 8.0. CUDA Toolkit: 12.8. Triton: 3.6.0
+\        /    Bfloat16 = TRUE. FA [Xformers = 0.0.35. FA2 = False]
+ "-____-"     Free license: http://github.com/unslothai/unsloth
+Unsloth: Fast downloading is enabled - ignore downloading bars which are red colored!
+Loading checkpoint shards:   0%|          | 0/3 [00:00<?, ?it/s]Loading checkpoint shards:  33%|███▎      | 1/3 [00:00<00:01,  1.09it/s]Loading checkpoint shards:  67%|██████▋   | 2/3 [00:01<00:00,  1.12it/s]Loading checkpoint shards: 100%|██████████| 3/3 [00:02<00:00,  1.69it/s]Loading checkpoint shards: 100%|██████████| 3/3 [00:02<00:00,  1.48it/s]
+Unsloth 2026.2.1 patched 40 layers with 40 QKV layers, 40 O layers and 40 MLP layers.
+Model loaded. Starting generation...
+  [1/30] code-01 (anthropic)
+    -> 3964 chars, 57592ms
+  [2/30] code-02 (openai)
+    -> 2340 chars, 29725ms
+  [3/30] code-03 (google)
+    -> 8575 chars, 116859ms
+  [4/30] code-04 (anthropic)
+    -> 7550 chars, 108496ms
+  [5/30] code-05 (openai)
+    -> 6415 chars, 95605ms
+  [6/30] code-06 (google)
+    -> 5829 chars, 80762ms
+  [7/30] code-07 (anthropic)
+    -> 7665 chars, 121672ms
+  [8/30] code-08 (openai)
+    -> 7699 chars, 111550ms
+  [9/30] code-09 (google)
+    -> 267 chars, 3517ms
+  [10/30] code-10 (anthropic)
+    -> 5664 chars, 74127ms
+  [11/30] biz-01 (anthropic)
+    -> 6969 chars, 90635ms
+  [12/30] biz-02 (openai)
+    -> 4157 chars, 58390ms
+  [13/30] biz-03 (google)
+    -> 5762 chars, 74897ms
+  [14/30] biz-04 (anthropic)
+    -> 7331 chars, 99397ms
+  [15/30] biz-05 (openai)
+    -> 5355 chars, 73892ms
+  [16/30] biz-06 (google)
+    -> 6278 chars, 89700ms
+  [17/30] biz-07 (anthropic)
+    -> 6242 chars, 74760ms
+  [18/30] biz-08 (openai)
+    -> 4772 chars, 62176ms
+  [19/30] biz-09 (google)
+    -> 5764 chars, 75712ms
+  [20/30] biz-10 (anthropic)
+    -> 4418 chars, 69377ms
+  [21/30] creative-01 (anthropic)
+    -> 1538 chars, 22511ms
+  [22/30] creative-02 (openai)
+    -> 5565 chars, 75692ms
+  [23/30] creative-03 (google)
+    -> 2248 chars, 29055ms
+  [24/30] creative-04 (anthropic)
+    -> 825 chars, 10127ms
+  [25/30] creative-05 (openai)
+    -> 4606 chars, 64102ms
+  [26/30] creative-06 (google)
+    -> 5488 chars, 88348ms
+  [27/30] creative-07 (anthropic)
+    -> 5578 chars, 77659ms
+  [28/30] creative-08 (openai)
+    -> 4045 chars, 58818ms
+  [29/30] creative-09 (google)
+    -> 5737 chars, 79317ms
+  [30/30] creative-10 (anthropic)
+    -> 4215 chars, 62585ms
+Freeing GPU memory for qwen3_14b...
+  Saved 60 results so far
+
+============================================================
+BENCHMARK: qwen3_32b (unsloth/Qwen3-32B)
+Adapter: /mnt/adapters/qwen3_32b
+============================================================
+==((====))==  Unsloth 2026.2.1: Fast Qwen3 patching. Transformers: 4.57.6.
+   \\   /|    NVIDIA A100 80GB PCIe. Num GPUs = 1. Max memory: 79.251 GB. Platform: Linux.
+O^O/ \_/ \    Torch: 2.10.0+cu128. CUDA: 8.0. CUDA Toolkit: 12.8. Triton: 3.6.0
+\        /    Bfloat16 = TRUE. FA [Xformers = 0.0.35. FA2 = False]
+ "-____-"     Free license: http://github.com/unslothai/unsloth
+Unsloth: Fast downloading is enabled - ignore downloading bars which are red colored!
+Loading checkpoint shards:   0%|          | 0/4 [00:00<?, ?it/s]Loading checkpoint shards:  25%|██▌       | 1/4 [00:03<00:09,  3.27s/it]Loading checkpoint shards:  50%|█████     | 2/4 [00:04<00:03,  1.89s/it]Loading checkpoint shards:  75%|███████▌  | 3/4 [00:05<00:01,  1.45s/it]Loading checkpoint shards: 100%|██████████| 4/4 [00:05<00:00,  1.17s/it]Loading checkpoint shards: 100%|██████████| 4/4 [00:05<00:00,  1.47s/it]
+Unsloth 2026.2.1 patched 64 layers with 64 QKV layers, 64 O layers and 64 MLP layers.
+Model loaded. Starting generation...
+  [1/30] code-01 (anthropic)
+    -> 6901 chars, 142335ms
+  [2/30] code-02 (openai)
+    -> 6367 chars, 131574ms
+  [3/30] code-03 (google)
+    -> 9 chars, 361ms
+  [4/30] code-04 (anthropic)
+    -> 3912 chars, 85793ms
+  [5/30] code-05 (openai)
+    -> 7127 chars, 161335ms
+  [6/30] code-06 (google)
+    -> 3917 chars, 77384ms
+  [7/30] code-07 (anthropic)
+    -> 55220 chars, 1852467ms
+  [8/30] code-08 (openai)
+    -> 4898 chars, 104519ms
+  [9/30] code-09 (google)
+    -> 7129 chars, 147286ms
+  [10/30] code-10 (anthropic)
+    -> 173 chars, 4972ms
+  [11/30] biz-01 (anthropic)
+    -> 6955 chars, 147355ms
+  [12/30] biz-02 (openai)
+    -> 3569 chars, 76758ms
+  [13/30] biz-03 (google)
+    -> 4275 chars, 91383ms
+  [14/30] biz-04 (anthropic)
+    -> 8028 chars, 168647ms
+  [15/30] biz-05 (openai)
+    -> 3100 chars, 66470ms
+  [16/30] biz-06 (google)
+    -> 7093 chars, 158368ms
+  [17/30] biz-07 (anthropic)
+    -> 5211 chars, 106565ms
+  [18/30] biz-08 (openai)
+    -> 2378 chars, 53221ms
+  [19/30] biz-09 (google)
+    -> 6761 chars, 147120ms
+  [20/30] biz-10 (anthropic)
+    -> 7794 chars, 189661ms
+  [21/30] creative-01 (anthropic)
+    -> 3797 chars, 76943ms
+  [22/30] creative-02 (openai)
+    -> 5267 chars, 120151ms
+  [23/30] creative-03 (google)
+    -> 5345 chars, 111519ms
+  [24/30] creative-04 (anthropic)
+    -> 8152 chars, 177286ms
+  [25/30] creative-05 (openai)
+    -> 8178 chars, 182339ms
+  [26/30] creative-06 (google)
+    -> 3926 chars, 89390ms
+  [27/30] creative-07 (anthropic)
+    -> 7227 chars, 163601ms
+  [28/30] creative-08 (openai)
+    -> 4413 chars, 100156ms
+  [29/30] creative-09 (google)
+    -> 4942 chars, 102815ms
+  [30/30] creative-10 (anthropic)
+    -> 3284 chars, 73602ms
+Freeing GPU memory for qwen3_32b...
+  Saved 90 results so far
+
+============================================================
+BENCHMARK: qwen3_30b_a3b (unsloth/Qwen3-30B-A3B)
+Adapter: /mnt/adapters/qwen3_30b_a3b
+============================================================
+==((====))==  Unsloth 2026.2.1: Fast Qwen3_MoE patching. Transformers: 4.57.6.
+   \\   /|    NVIDIA A100 80GB PCIe. Num GPUs = 1. Max memory: 79.251 GB. Platform: Linux.
+O^O/ \_/ \    Torch: 2.10.0+cu128. CUDA: 8.0. CUDA Toolkit: 12.8. Triton: 3.6.0
+\        /    Bfloat16 = TRUE. FA [Xformers = 0.0.35. FA2 = False]
+ "-____-"     Free license: http://github.com/unslothai/unsloth
+Unsloth: Fast downloading is enabled - ignore downloading bars which are red colored!
+
+❌ FATAL ERROR for qwen3_30b_a3b: Data processing error: CAS service error : IO Error: No space left on device (os error 28)
+Traceback (most recent call last):
+  File "/mnt/azureml/cr/j/3924d04e7ffd4cfb832cbe1a05f53910/exe/wd/study_b_benchmark.py", line 221, in main
+    results = generate_with_adapter(model_key, str(adapter_dir))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/azureml/cr/j/3924d04e7ffd4cfb832cbe1a05f53910/exe/wd/study_b_benchmark.py", line 99, in generate_with_adapter
+    model, tokenizer = FastLanguageModel.from_pretrained(
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/azureml-envs/azureml_05871c28d9c7cf4926d3a936e0b1bc59/lib/python3.11/site-packages/unsloth/models/loader.py", line 543, in from_pretrained
+    return FastModel.from_pretrained(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/azureml-envs/azureml_05871c28d9c7cf4926d3a936e0b1bc59/lib/python3.11/site-packages/unsloth/models/loader.py", line 1292, in from_pretrained
+    model, tokenizer = FastBaseModel.from_pretrained(
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/azureml-envs/azureml_05871c28d9c7cf4926d3a936e0b1bc59/lib/python3.11/site-packages/unsloth/models/vision.py", line 775, in from_pretrained
+    model = auto_model.from_pretrained(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/azureml-envs/azureml_05871c28d9c7cf4926d3a936e0b1bc59/lib/python3.11/site-packages/transformers/models/auto/auto_factory.py", line 604, in from_pretrained
+    return model_class.from_pretrained(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/azureml-envs/azureml_05871c28d9c7cf4926d3a936e0b1bc59/lib/python3.11/site-packages/transformers/modeling_utils.py", line 277, in _wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/azureml-envs/azureml_05871c28d9c7cf4926d3a936e0b1bc59/lib/python3.11/site-packages/transformers/modeling_utils.py", line 4900, in from_pretrained
+    checkpoint_files, sharded_metadata = _get_resolved_checkpoint_files(
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/azureml-envs/azureml_05871c28d9c7cf4926d3a936e0b1bc59/lib/python3.11/site-packages/transformers/modeling_utils.py", line 1200, in _get_resolved_checkpoint_files
+    checkpoint_files, sharded_metadata = get_checkpoint_shard_files(
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/azureml-envs/azureml_05871c28d9c7cf4926d3a936e0b1bc59/lib/python3.11/site-packages/transformers/utils/hub.py", line 1084, in get_checkpoint_shard_files
+    cached_filenames = cached_files(
+                       ^^^^^^^^^^^^^
+  File "/azureml-envs/azureml_05871c28d9c7cf4926d3a936e0b1bc59/lib/python3.11/site-packages/transformers/utils/hub.py", line 567, in cached_files
+    raise e
+  File "/azureml-envs/azureml_05871c28d9c7cf4926d3a936e0b1bc59/lib/python3.11/site-packages/transformers/utils/hub.py", line 494, in cached_files
+    snapshot_download(
+  File "/azureml-envs/azureml_05871c28d9c7cf4926d3a936e0b1bc59/lib/python3.11/site-packages/huggingface_hub/utils/_validators.py", line 114, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/azureml-envs/azureml_05871c28d9c7cf4926d3a936e0b1bc59/lib/python3.11/site-packages/huggingface_hub/_snapshot_download.py", line 330, in snapshot_download
+    _inner_hf_hub_download(file)
+  File "/azureml-envs/azureml_05871c28d9c7cf4926d3a936e0b1bc59/lib/python3.11/site-packages/huggingface_hub/_snapshot_download.py", line 306, in _inner_hf_hub_download
+    return hf_hub_download(
+           ^^^^^^^^^^^^^^^^
+  File "/azureml-envs/azureml_05871c28d9c7cf4926d3a936e0b1bc59/lib/python3.11/site-packages/huggingface_hub/utils/_validators.py", line 114, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/azureml-envs/azureml_05871c28d9c7cf4926d3a936e0b1bc59/lib/python3.11/site-packages/huggingface_hub/file_download.py", line 1014, in hf_hub_download
+    return _hf_hub_download_to_cache_dir(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/azureml-envs/azureml_05871c28d9c7cf4926d3a936e0b1bc59/lib/python3.11/site-packages/huggingface_hub/file_download.py", line 1175, in _hf_hub_download_to_cache_dir
+    _download_to_tmp_and_move(
+  File "/azureml-envs/azureml_05871c28d9c7cf4926d3a936e0b1bc59/lib/python3.11/site-packages/huggingface_hub/file_download.py", line 1727, in _download_to_tmp_and_move
+    xet_get(
+  File "/azureml-envs/azureml_05871c28d9c7cf4926d3a936e0b1bc59/lib/python3.11/site-packages/huggingface_hub/file_download.py", line 633, in xet_get
+    download_files(
+RuntimeError: Data processing error: CAS service error : IO Error: No space left on device (os error 28)
+  Saved 90 results so far
+
+✅ Saved 90 results to /mnt/azureml/cr/j/3924d04e7ffd4cfb832cbe1a05f53910/cap/data-capability/wd/benchmark_output/benchmark_outputs.json
+
+============================================================
+BENCHMARK SUMMARY
+============================================================
+  qwen3_8b: 30 outputs, avg 17571 chars, avg 230588ms
+  qwen3_14b: 30 outputs, avg 5095 chars, avg 71235ms
+  qwen3_32b: 30 outputs, avg 6845 chars, avg 170379ms
+  qwen3_30b_a3b: SKIPPED

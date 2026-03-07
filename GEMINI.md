@@ -18,6 +18,42 @@
 
 ## Recent Changes
 
+### 2026-03-07 - Phase 15: Study B Benchmark — Dense Model Comparison
+
+**Commit Ready**: Yes
+
+#### Benchmark Setup
+- **30 test prompts** (10 coding, 10 business, 10 creative) × 3 vendors (Anthropic/OpenAI/Google)
+- **Generation**: Azure ML A100 80GB, QLoRA adapters loaded via Unsloth, thinking mode enabled, max_new_tokens=16384
+- **Judging**: Gemini 3.1 Pro LLM-as-judge, 5 dimensions (structure, completeness, vendor fidelity, conciseness, actionability), each 1–10
+
+#### Results (90 total judgments)
+
+| Model | Total /50 | Structure | Completeness | Vendor Fidelity | Conciseness | Actionability | Avg Words | Avg Latency |
+|-------|-----------|-----------|-------------|-----------------|-------------|---------------|-----------|-------------|
+| **🏆 qwen3_14b** | **26.8** | **5.0** | **5.8** | **4.0** | **5.5** | **6.4** | 720 | 71s |
+| qwen3_32b | 21.3 | 3.8 | 5.0 | 3.2 | 4.1 | 5.2 | 980 | 170s |
+| qwen3_8b | 18.8 | 3.7 | 3.9 | 2.8 | 4.4 | 4.0 | 2,232 | 231s |
+
+#### Key Findings
+- **14B wins all 5 dimensions** despite higher eval_loss (1.5598 vs 32B's 1.4838)
+- **Eval loss ≠ downstream quality**: 32B memorized patterns but generalizes worse
+- **8B runaway generation**: Some outputs hit 86K chars / 16K token limit
+- **Vendor fidelity universally low** (2.8–4.0/10): 155 training pairs insufficient for vendor-specific conventions
+
+#### MoE Status
+- Original training: Severely overfit (eval_loss 3.54), benchmark crashed (disk space)
+- **Retrain submitted** (`study-b-qwen3_30b_a3b-20260307-164316`) with early stopping (patience=2, eval every 5 steps)
+- Results pending — will add to comparison when complete
+
+#### Production Recommendation: **qwen3_14b**
+- Highest quality (26.8/50), fastest (71s), most concise (720 words avg)
+
+#### New Files
+- `notebooks/study_b_benchmark.py`: A100 benchmark script (Unsloth + 30 embedded test prompts)
+- `notebooks/study_b_judge.py`: Local Gemini 3.1 Pro LLM-as-judge scoring script
+- `notebooks/download_benchmark.py`: Azure ML output downloader
+
 ### 2026-02-21 - Phase 14: Azure ML Compute Cluster Training Pipeline
 
 **Commit Ready**: Yes (multiple commits pushed)

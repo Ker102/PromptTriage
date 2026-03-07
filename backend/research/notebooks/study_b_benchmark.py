@@ -1,288 +1,256 @@
-# %% [markdown]
-# # Study B Part 2: Progressive Benchmark
-#
-# Serves fine-tuned models via vLLM and runs the dense vs MoE
-# breaking point analysis.
-#
-# **Prerequisites**: Run `study_b_training.py` for each model first.
-# **Hardware**: Azure ML `Standard_NC24ads_A100_v4` (A100 80GB)
+"""
+Study B Benchmark — Generate system prompts from all fine-tuned models.
 
-# %% [markdown]
-# ## 1. Setup
+Runs on Azure ML A100 cluster. For each adapter:
+1. Loads base model + QLoRA adapter with Unsloth
+2. Generates system prompts for all 30 test cases
+3. Saves outputs to benchmark_outputs.json
 
-# %%
-import subprocess, sys, os, json, time
+Usage (via submit_job.py --benchmark):
+  Env vars: ADAPTER_BASE (path with model subdirs), OUTPUT_DIR
+"""
+import os
+import sys
+import json
+import time
+import torch
 from pathlib import Path
 
-def install(pkg):
-    subprocess.check_call([sys.executable, "-m", "pip", "install", "-q", pkg])
+# ── Config ──
+ADAPTER_BASE = Path(os.environ.get("ADAPTER_BASE", "/mnt/outputs"))
+OUTPUT_DIR = Path(os.environ.get("OUTPUT_DIR", "./benchmark_output"))
+OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
-install("vllm")
-install("openai")
-install("matplotlib")
-install("pinecone")
-install("google-genai")
+MAX_NEW_TOKENS = 16384  # Thinking chain (~5K) + long system prompts (10K+)
+TEMPERATURE = 0.7
 
-# %%
-import torch
-import matplotlib.pyplot as plt
-import numpy as np
-from openai import OpenAI
-
-print(f"PyTorch: {torch.__version__}")
-if torch.cuda.is_available():
-    print(f"GPU: {torch.cuda.get_device_name(0)}")
-    print(f"VRAM: {torch.cuda.get_device_properties(0).total_memory / 1e9:.1f} GB")
-
-# %% [markdown]
-# ## 2. Serve Fine-Tuned Model via vLLM
-#
-# vLLM serves the base model + LoRA adapter using the OpenAI-compatible
-# API. Launch in a separate terminal with:
-#
-# ```bash
-# vllm serve unsloth/Qwen3-8B \
-#     --enable-lora \
-#     --lora-modules qwen3_8b_qlora=./outputs/qwen3_8b_qlora/adapter \
-#     --port 8001 \
-#     --max-model-len 8192 \
-#     --gpu-memory-utilization 0.85 \
-#     --trust-remote-code
-# ```
-#
-# For the MoE model:
-# ```bash
-# vllm serve unsloth/Qwen3-30B-A3B \
-#     --enable-lora \
-#     --lora-modules qwen3_30b_a3b_qlora=./outputs/qwen3_30b_a3b_qlora/adapter \
-#     --port 8004 \
-#     --max-model-len 8192 \
-#     --gpu-memory-utilization 0.85 \
-#     --trust-remote-code
-# ```
-
-# %%
-# ══════════════════════════════════════════════════════════
-# MODEL PORT CONFIGURATION
-# ══════════════════════════════════════════════════════════
-VLLM_MODELS = {
-    "qwen3_8b_qlora":      {"port": 8001, "base": "unsloth/Qwen3-8B"},
-    "qwen3_14b_qlora":     {"port": 8002, "base": "unsloth/Qwen3-14B"},
-    "qwen3_32b_qlora":     {"port": 8003, "base": "unsloth/Qwen3-32B"},
-    "qwen3_30b_a3b_qlora": {"port": 8004, "base": "unsloth/Qwen3-30B-A3B"},
+# Model configs
+MODELS = {
+    "qwen3_8b": "unsloth/Qwen3-8B",
+    "qwen3_14b": "unsloth/Qwen3-14B",
+    "qwen3_32b": "unsloth/Qwen3-32B",
+    "qwen3_30b_a3b": "unsloth/Qwen3-30B-A3B",
 }
 
-# %% [markdown]
-# ## 3. vLLM Client Helpers
+# ── Test prompts (embedded for cluster portability) ──
+TEST_PROMPTS = [
+    # Coding (10)
+    {"id": "code-01", "category": "coding", "vendor": "anthropic", "prompt": "Build me a Python debugging assistant that helps find and fix bugs in my code", "model": "Claude Sonnet 4", "context": ""},
+    {"id": "code-02", "category": "coding", "vendor": "openai", "prompt": "I need a code reviewer that checks for security vulnerabilities and suggests fixes", "model": "GPT-5.2", "context": ""},
+    {"id": "code-03", "category": "coding", "vendor": "google", "prompt": "Create an AI pair programmer that helps me write TypeScript React components", "model": "Gemini 3 Pro", "context": ""},
+    {"id": "code-04", "category": "coding", "vendor": "anthropic", "prompt": "Design a CI/CD pipeline assistant that writes GitHub Actions workflows and troubleshoots deployment failures", "model": "Claude Sonnet 4", "context": "We use a monorepo with Next.js frontend and FastAPI backend"},
+    {"id": "code-05", "category": "coding", "vendor": "openai", "prompt": "Make a SQL query optimizer that rewrites slow queries and explains the optimization", "model": "GPT-5.2", "context": ""},
+    {"id": "code-06", "category": "coding", "vendor": "google", "prompt": "Build a documentation generator that reads code and creates API docs", "model": "Gemini 3 Flash", "context": ""},
+    {"id": "code-07", "category": "coding", "vendor": "anthropic", "prompt": "Create an AI that converts legacy Python 2 code to modern Python 3.12+", "model": "Claude Opus 4.6", "context": "The codebase is 50K lines with heavy use of print statements and old-style string formatting"},
+    {"id": "code-08", "category": "coding", "vendor": "openai", "prompt": "Design a terminal command assistant that helps with complex bash/powershell operations", "model": "GPT-4.1", "context": ""},
+    {"id": "code-09", "category": "coding", "vendor": "google", "prompt": "Build me a test writing assistant that generates unit tests for existing functions", "model": "Gemini 3 Pro", "context": "We use pytest with fixtures and mocks extensively"},
+    {"id": "code-10", "category": "coding", "vendor": "anthropic", "prompt": "Create an architecture advisor that reviews system design documents and suggests improvements", "model": "Claude Sonnet 4", "context": "Microservices on Kubernetes, event-driven with Kafka"},
+    # Business (10)
+    {"id": "biz-01", "category": "business", "vendor": "anthropic", "prompt": "Build a customer support chatbot for a SaaS product that handles billing questions and feature requests", "model": "Claude Sonnet 4", "context": "Product is a project management tool, 10K users, Stripe billing"},
+    {"id": "biz-02", "category": "business", "vendor": "openai", "prompt": "Create a sales email generator that writes personalized outreach based on prospect data", "model": "GPT-5.2", "context": ""},
+    {"id": "biz-03", "category": "business", "vendor": "google", "prompt": "Design a data analysis agent that generates insights from CSV files and creates summary reports", "model": "Gemini 3 Pro", "context": ""},
+    {"id": "biz-04", "category": "business", "vendor": "anthropic", "prompt": "Build a legal document reviewer that identifies risks and compliance issues in contracts", "model": "Claude Opus 4.6", "context": "Focus on EU GDPR and US data privacy regulations"},
+    {"id": "biz-05", "category": "business", "vendor": "openai", "prompt": "Create a meeting summarizer that extracts action items, decisions, and follow-ups", "model": "GPT-4.1", "context": ""},
+    {"id": "biz-06", "category": "business", "vendor": "google", "prompt": "Design an HR onboarding assistant that guides new employees through company processes", "model": "Gemini 3 Flash", "context": "For a 200-person tech startup with remote-first culture"},
+    {"id": "biz-07", "category": "business", "vendor": "anthropic", "prompt": "Build a competitive intelligence agent that monitors and analyzes competitor product launches", "model": "Claude Sonnet 4", "context": ""},
+    {"id": "biz-08", "category": "business", "vendor": "openai", "prompt": "Create a financial planning assistant that helps small businesses with budgeting and forecasting", "model": "GPT-5.2", "context": ""},
+    {"id": "biz-09", "category": "business", "vendor": "google", "prompt": "Design a recruitment screening assistant that evaluates resumes against job descriptions", "model": "Gemini 3 Pro", "context": "Must avoid bias and comply with equal opportunity regulations"},
+    {"id": "biz-10", "category": "business", "vendor": "anthropic", "prompt": "Build a project status reporter that creates weekly updates from Jira, GitHub, and Slack data", "model": "Claude Sonnet 4", "context": ""},
+    # Creative (10)
+    {"id": "creative-01", "category": "creative", "vendor": "anthropic", "prompt": "Build a blog content writer that matches my brand voice and optimizes for SEO", "model": "Claude Sonnet 4", "context": "Tech blog about AI and machine learning, casual but authoritative tone"},
+    {"id": "creative-02", "category": "creative", "vendor": "openai", "prompt": "Create an image prompt generator for product photography using DALL-E and Midjourney", "model": "GPT-5.2", "context": ""},
+    {"id": "creative-03", "category": "creative", "vendor": "google", "prompt": "Design an AI tutor that teaches programming through interactive exercises", "model": "Gemini 3 Pro", "context": "Target audience: complete beginners learning Python"},
+    {"id": "creative-04", "category": "creative", "vendor": "anthropic", "prompt": "Build a creative writing assistant that helps with novel plotting, character development, and dialogue", "model": "Claude Opus 4.6", "context": ""},
+    {"id": "creative-05", "category": "creative", "vendor": "openai", "prompt": "Create a social media content planner that generates posts for LinkedIn, Twitter, and Instagram", "model": "GPT-4.1", "context": ""},
+    {"id": "creative-06", "category": "creative", "vendor": "google", "prompt": "Design a video script writer for YouTube tech tutorials", "model": "Gemini 3 Pro", "context": "10-15 minute videos, educational but entertaining, similar to Fireship style"},
+    {"id": "creative-07", "category": "creative", "vendor": "anthropic", "prompt": "Build an email newsletter writer that creates engaging weekly digests from source material", "model": "Claude Sonnet 4", "context": ""},
+    {"id": "creative-08", "category": "creative", "vendor": "openai", "prompt": "Create a brand naming assistant that generates creative product names with trademark availability checks", "model": "GPT-5.2", "context": ""},
+    {"id": "creative-09", "category": "creative", "vendor": "google", "prompt": "Design a presentation builder that creates slide outlines and speaker notes from rough topics", "model": "Gemini 3 Flash", "context": ""},
+    {"id": "creative-10", "category": "creative", "vendor": "anthropic", "prompt": "Build a UX copywriter that generates microcopy for web apps — buttons, tooltips, error messages, onboarding flows", "model": "Claude Sonnet 4", "context": "Product is a developer tool, tone should be friendly but professional"},
+]
 
-# %%
-def get_vllm_client(port: int) -> OpenAI:
-    """Create OpenAI client pointing at local vLLM server."""
-    return OpenAI(base_url=f"http://localhost:{port}/v1", api_key="dummy")
+
+def log(msg: str):
+    """Print with immediate flush for Azure ML log visibility."""
+    print(msg, flush=True)
 
 
-def generate_with_vllm(client, model_name, messages, max_tokens=4096):
-    """Generate via vLLM OpenAI-compatible endpoint."""
-    t0 = time.time()
-    resp = client.chat.completions.create(
-        model=model_name,
-        messages=messages,
-        max_tokens=max_tokens,
-        temperature=0.7,
+def format_user_message(test: dict) -> str:
+    """Format the test prompt as a user message for the model."""
+    msg = f"User request: {test['prompt']}"
+    if test.get("context"):
+        msg += f"\nAdditional context: {test['context']}"
+    msg += f"\nTarget vendor: {test['vendor']}"
+    msg += f"\nTarget model: {test.get('model', 'Not specified')}"
+    return msg
+
+
+def generate_with_adapter(model_key: str, adapter_dir: str):
+    """Load a model + adapter and generate for all test prompts."""
+    from unsloth import FastLanguageModel
+
+    base_model_id = MODELS[model_key]
+    log(f"\n{'='*60}")
+    log(f"BENCHMARK: {model_key} ({base_model_id})")
+    log(f"Adapter: {adapter_dir}")
+    log(f"{'='*60}")
+
+    # Load model from adapter dir (adapter_config.json points to base model)
+    model, tokenizer = FastLanguageModel.from_pretrained(
+        model_name=adapter_dir,
+        max_seq_length=32768,  # High for inference — training was 8192 but generation needs room
+        dtype=None,
+        load_in_4bit=True,
+        fast_inference=False,
     )
-    latency = int((time.time() - t0) * 1000)
-    return resp.choices[0].message.content, latency
+    FastLanguageModel.for_inference(model)
+    log(f"Model loaded. Starting generation...")
 
-
-def test_vllm_connection(model_name: str, port: int) -> bool:
-    """Quick test that vLLM server is responding."""
-    try:
-        client = get_vllm_client(port)
-        result, ms = generate_with_vllm(
-            client, model_name,
-            [{"role": "user", "content": "Hello, are you working?"}],
-            max_tokens=50,
-        )
-        print(f"✅ {model_name} on port {port} responding ({ms}ms): {result[:80]}")
-        return True
-    except Exception as e:
-        print(f"❌ {model_name} on port {port} failed: {e}")
-        return False
-
-# %% [markdown]
-# ## 4. Load Research Framework
-
-# %%
-sys.path.insert(0, str(Path("..").resolve()))
-from research.test_suite import ALL_TEST_PROMPTS
-from research.llm_judge import LLMJudge, BenchmarkResult, aggregate_scores, format_summary_table
-from research.rag_methods import RAG_METHODS, run_rag_method
-
-judge = LLMJudge()
-print(f"Loaded {len(ALL_TEST_PROMPTS)} test prompts")
-print(f"Loaded {len(RAG_METHODS)} RAG methods")
-
-# %% [markdown]
-# ## 5. Benchmark Function
-
-# %%
-PROMPTS_TO_USE = ALL_TEST_PROMPTS[:10]  # Use 10 for quick test, all 30 for full
-RAG_METHOD = "L2_rerank_rag"
-
-
-def benchmark_one_model(model_name, port, prompts, rag_method="L2_rerank_rag"):
-    """Run full benchmark for a single vLLM-served model."""
-    client = get_vllm_client(port)
     results = []
+    for i, test in enumerate(TEST_PROMPTS):
+        log(f"  [{i+1}/{len(TEST_PROMPTS)}] {test['id']} ({test['vendor']})")
 
-    for i, test in enumerate(prompts):
-        print(f"  [{i+1}/{len(prompts)}] {test.id}: {test.user_prompt[:40]}...")
+        try:
+            user_msg = format_user_message(test)
+            messages = [{"role": "user", "content": user_msg}]
 
-        # Get RAG context
-        rag_result = run_rag_method(
-            rag_method, query=test.user_prompt,
-            vendor=test.target_vendor, top_k=3,
-        )
-        context = "\n---\n".join(d["content"][:1000] for d in rag_result.documents)
+            # Keep thinking enabled — model was fine-tuned with thinking mode
+            input_ids = tokenizer.apply_chat_template(
+                messages, tokenize=True, add_generation_prompt=True,
+                return_tensors="pt",
+            ).to("cuda")
 
-        # Build messages
-        sys_msg = (
-            "You are an expert system prompt engineer. Generate production-quality "
-            "system prompts matching the target vendor's conventions."
-        )
-        user_msg = f"{test.user_prompt}\nTarget vendor: {test.target_vendor}"
-        if context:
-            user_msg += f"\n\n<reference_examples>\n{context}\n</reference_examples>"
+            t0 = time.time()
+            with torch.no_grad():
+                output_ids = model.generate(
+                    input_ids=input_ids,
+                    max_new_tokens=MAX_NEW_TOKENS,
+                    temperature=TEMPERATURE,
+                    do_sample=True,
+                    top_p=0.9,
+                )
+            latency_ms = int((time.time() - t0) * 1000)
 
-        messages = [
-            {"role": "system", "content": sys_msg},
-            {"role": "user", "content": user_msg},
-        ]
+            # Decode only new tokens
+            new_tokens = output_ids[0][input_ids.shape[1]:]
+            output_text = tokenizer.decode(new_tokens, skip_special_tokens=True)
 
-        # Generate
-        output, latency = generate_with_vllm(client, model_name, messages)
+            # Strip <think>...</think> blocks if any leaked through
+            if "<think>" in output_text and "</think>" in output_text:
+                think_end = output_text.index("</think>") + len("</think>")
+                output_text = output_text[think_end:].strip()
 
-        # Judge
-        score = judge.score(
-            generated_prompt=output,
-            target_vendor=test.target_vendor,
-            target_model=test.target_model,
-            user_prompt=test.user_prompt,
-            context=test.context,
-        )
+            results.append({
+                "model": model_key,
+                "prompt_id": test["id"],
+                "category": test["category"],
+                "target_vendor": test["vendor"],
+                "target_model": test.get("model", ""),
+                "user_prompt": test["prompt"],
+                "generated_prompt": output_text,
+                "char_count": len(output_text),
+                "latency_ms": latency_ms,
+            })
+            log(f"    -> {len(output_text)} chars, {latency_ms}ms")
 
-        results.append(BenchmarkResult(
-            prompt_id=test.id, method=f"model_{model_name}",
-            target_vendor=test.target_vendor, category=test.category,
-            generated_prompt=output, score=score,
-            latency_ms=latency + rag_result.retrieval_ms,
-            cost_usd=0.0,
-            metadata={"rag_method": rag_method, "rag_ms": rag_result.retrieval_ms},
-        ))
-        time.sleep(0.5)
+        except Exception as e:
+            log(f"    !! ERROR: {e}")
+            results.append({
+                "model": model_key,
+                "prompt_id": test["id"],
+                "category": test["category"],
+                "target_vendor": test["vendor"],
+                "target_model": test.get("model", ""),
+                "user_prompt": test["prompt"],
+                "generated_prompt": f"[GENERATION FAILED: {e}]",
+                "char_count": 0,
+                "latency_ms": 0,
+            })
 
+    # Free GPU memory before loading next model
+    log(f"Freeing GPU memory for {model_key}...")
+    del model, tokenizer
+    torch.cuda.empty_cache()
     return results
 
-# %% [markdown]
-# ## 6. Round 1: Qwen3-8B (8B active) vs Qwen3-30B-A3B (3B active)
-#
-# **Before running**: Start vLLM servers for both models in separate terminals.
 
-# %%
-# Test connections first
-print("Testing vLLM connections...")
-assert test_vllm_connection("qwen3_8b_qlora", 8001), "Start vLLM for 8B first!"
-assert test_vllm_connection("qwen3_30b_a3b_qlora", 8004), "Start vLLM for 30B-A3B first!"
+def main():
+    log(f"PyTorch: {torch.__version__}")
+    log(f"CUDA: {torch.cuda.is_available()}")
+    if torch.cuda.is_available():
+        gpu_props = torch.cuda.get_device_properties(0)
+        log(f"GPU: {torch.cuda.get_device_name(0)}")
+        log(f"VRAM: {gpu_props.total_memory / 1e9:.1f} GB")
 
-# %%
-round1_results = {}
+    log(f"\nTest prompts: {len(TEST_PROMPTS)}")
+    log(f"Models: {list(MODELS.keys())}")
+    log(f"Adapter base: {ADAPTER_BASE}")
 
-print("=== ROUND 1: 8B Dense vs 30B-A3B MoE ===\n")
+    # List adapter dirs for debugging
+    if ADAPTER_BASE.exists():
+        for item in sorted(ADAPTER_BASE.iterdir()):
+            if item.is_dir():
+                files = list(item.iterdir())
+                log(f"  {item.name}/: {len(files)} items")
+                for f in files[:5]:
+                    log(f"    - {f.name}")
+    else:
+        log(f"  ⚠️  ADAPTER_BASE does not exist!")
 
-print("--- Dense: qwen3_8b_qlora ---")
-round1_results["dense"] = benchmark_one_model(
-    "qwen3_8b_qlora", 8001, PROMPTS_TO_USE, RAG_METHOD)
+    all_results = []
+    for model_key in MODELS:
+        # Search for adapter_config.json in various layouts
+        candidates = [
+            ADAPTER_BASE / model_key,  # Direct layout (symlinked)
+            ADAPTER_BASE / model_key / "model_output" / "adapter",
+            ADAPTER_BASE / model_key / "adapter",
+        ]
+        adapter_dir = None
+        for c in candidates:
+            if c.exists() and (c / "adapter_config.json").exists():
+                adapter_dir = c
+                break
 
-print("\n--- MoE: qwen3_30b_a3b_qlora ---")
-round1_results["moe"] = benchmark_one_model(
-    "qwen3_30b_a3b_qlora", 8004, PROMPTS_TO_USE, RAG_METHOD)
+        if not adapter_dir:
+            log(f"\n⚠️  Skipping {model_key}: No adapter_config.json found")
+            for c in candidates:
+                log(f"    Checked: {c} (exists={c.exists()})")
+            continue
 
-# Score comparison
-dense_avg = np.mean([r.score.total for r in round1_results["dense"]])
-moe_avg = np.mean([r.score.total for r in round1_results["moe"]])
-r1_winner = "Dense (8B)" if dense_avg > moe_avg else "MoE (30B-A3B)"
+        try:
+            results = generate_with_adapter(model_key, str(adapter_dir))
+            all_results.extend(results)
+        except Exception as e:
+            log(f"\n❌ FATAL ERROR for {model_key}: {e}")
+            import traceback
+            traceback.print_exc()
 
-print(f"\n🏆 Round 1 Winner: {r1_winner}")
-print(f"   Dense avg: {dense_avg:.1f}/50 | MoE avg: {moe_avg:.1f}/50")
+        # Save intermediate results after each model
+        output_path = OUTPUT_DIR / "benchmark_outputs.json"
+        with open(output_path, "w") as f:
+            json.dump(all_results, f, indent=2)
+        log(f"  Saved {len(all_results)} results so far")
 
-# %% [markdown]
-# ## 7. Round 2: Qwen3-14B (if MoE won Round 1)
+    # Final save
+    output_path = OUTPUT_DIR / "benchmark_outputs.json"
+    with open(output_path, "w") as f:
+        json.dump(all_results, f, indent=2)
+    log(f"\n✅ Saved {len(all_results)} results to {output_path}")
 
-# %%
-# Only run if MoE won Round 1
-if moe_avg >= dense_avg:
-    print("=== ROUND 2: 14B Dense vs 30B-A3B MoE ===\n")
-    assert test_vllm_connection("qwen3_14b_qlora", 8002), "Start vLLM for 14B first!"
+    # Summary
+    log(f"\n{'='*60}")
+    log("BENCHMARK SUMMARY")
+    log(f"{'='*60}")
+    for model_key in MODELS:
+        model_results = [r for r in all_results if r["model"] == model_key]
+        if model_results:
+            avg_chars = sum(r["char_count"] for r in model_results) / len(model_results)
+            avg_latency = sum(r["latency_ms"] for r in model_results) / len(model_results)
+            log(f"  {model_key}: {len(model_results)} outputs, "
+                f"avg {avg_chars:.0f} chars, avg {avg_latency:.0f}ms")
+        else:
+            log(f"  {model_key}: SKIPPED")
 
-    print("--- Dense: qwen3_14b_qlora ---")
-    round2_dense = benchmark_one_model(
-        "qwen3_14b_qlora", 8002, PROMPTS_TO_USE, RAG_METHOD)
 
-    dense_avg_r2 = np.mean([r.score.total for r in round2_dense])
-    r2_winner = "Dense (14B)" if dense_avg_r2 > moe_avg else "MoE (30B-A3B)"
-    print(f"\n🏆 Round 2 Winner: {r2_winner}")
-    print(f"   Dense 14B avg: {dense_avg_r2:.1f}/50 | MoE avg: {moe_avg:.1f}/50")
-else:
-    print("⏭️ Dense won Round 1 — skipping Round 2")
-
-# %% [markdown]
-# ## 8. Visualization
-
-# %%
-def plot_round_comparison(all_results: dict, title="Dense vs MoE"):
-    """Bar chart comparing model scores across dimensions."""
-    dims = ["structure", "completeness", "vendor_fidelity", "conciseness", "actionability"]
-
-    fig, ax = plt.subplots(figsize=(12, 6))
-    x = np.arange(len(dims))
-    width = 0.35
-
-    colors = {"dense": "#4A90D9", "moe": "#E8655A"}
-
-    for i, (arch, results) in enumerate(all_results.items()):
-        avgs = [np.mean([getattr(r.score, d) for r in results]) for d in dims]
-        bars = ax.bar(x + (i - 0.5) * width, avgs, width,
-                      label=arch.upper(), color=colors.get(arch, "#999"))
-        for bar, v in zip(bars, avgs):
-            ax.text(bar.get_x() + bar.get_width()/2, bar.get_height() + 0.1,
-                    f"{v:.1f}", ha="center", fontsize=9)
-
-    ax.set_ylabel("Score (1-10)")
-    ax.set_title(title)
-    ax.set_xticks(x)
-    ax.set_xticklabels([d.replace("_", "\n") for d in dims])
-    ax.legend()
-    ax.set_ylim(0, 10.5)
-    plt.tight_layout()
-    plt.savefig(f"./outputs/{title.lower().replace(' ', '_')}.png", dpi=150)
-    plt.show()
-
-plot_round_comparison(round1_results, "Round 1: 8B Dense vs 30B-A3B MoE")
-
-# %% [markdown]
-# ## 9. Export Results
-
-# %%
-from datetime import datetime
-
-all_results_flat = []
-for arch, results in round1_results.items():
-    all_results_flat.extend(results)
-
-ts = datetime.now().strftime("%Y%m%d_%H%M%S")
-output_path = f"./outputs/study_b_results_{ts}.json"
-with open(output_path, "w") as f:
-    json.dump([r.to_dict() for r in all_results_flat], f, indent=2, default=str)
-
-print(f"Results saved: {output_path}")
-print(f"\n{format_summary_table(aggregate_scores(all_results_flat))}")
+if __name__ == "__main__":
+    main()

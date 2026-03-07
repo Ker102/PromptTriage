@@ -1,0 +1,258 @@
+2026-03-06T12:13:33.358925Z  INFO telemetry: job_telemetry_init artifact_type=installed branch=602090a271c ci_number=20260223.1 ci_name=CommonRuntime-RuntimeTeam-Linux-Prod-Build build_time=2026-02-23 21:38:43.578931
+2026-03-06T12:13:33.359084Z  INFO load_config_from_env: lifecycler::config: Resolved grpc addresses lifecycler_address=/mnt/azureml/cr/j/04ca4757eab3485fb3bd6df437571153/.grpc/lifecycler:0 executor_address=/mnt/azureml/cr/j/04ca4757eab3485fb3bd6df437571153/.grpc/executor:0
+2026-03-06T12:13:33.359277Z  INFO load_config_from_env:load_capability_addresses_from_env{capability_endpoints_from_config={"CS_CAPABILITY": CapabilityEndpoint { name: "CS_CAPABILITY", address: "/mnt/azureml/cr/j/04ca4757eab3485fb3bd6df437571153/.grpc/cs-capability:0", type: Service }, "DATA_CAPABILITY": CapabilityEndpoint { name: "DATA_CAPABILITY", address: "/mnt/azureml/cr/j/04ca4757eab3485fb3bd6df437571153/.grpc/data-capability:0", type: Service }, "HOSTTOOLS_CAPABILITY": CapabilityEndpoint { name: "HOSTTOOLS_CAPABILITY", address: "/mnt/azureml/cr/j/04ca4757eab3485fb3bd6df437571153/.grpc/hosttools-capability:0", type: Service }, "METRICS_CAPABILITY": CapabilityEndpoint { name: "METRICS_CAPABILITY", address: "/mnt/azureml/cr/j/04ca4757eab3485fb3bd6df437571153/.grpc/metrics-capability:0", type: Service }, "SNAPSHOT_CAPABILITY": CapabilityEndpoint { name: "SNAPSHOT_CAPABILITY", address: "/mnt/azureml/cr/j/04ca4757eab3485fb3bd6df437571153/.grpc/snapshot-capability:0", type: Service }}}: lifecycler::config: close time.busy=127µs time.idle=12.2µs
+2026-03-06T12:13:33.359307Z  INFO load_config_from_env: lifecycler::config: close time.busy=327µs time.idle=14.8µs
+2026-03-06T12:13:33.359339Z  INFO run_lifecycler:run_service_and_step_through_lifecycle: lifecycler::lifecycle: distributed config is not specified, skip setting up distributed barrier
+2026-03-06T12:13:33.359365Z  INFO run_lifecycler:run_service_and_step_through_lifecycle: lifecycler::lifecycle: Trying to configure lifecycler to ignore termination signals
+2026-03-06T12:13:33.359387Z  INFO run_lifecycler:run_service_and_step_through_lifecycle: cr_core: Successfully configured current process to ignore termination signals
+2026-03-06T12:13:33.359470Z  INFO Lifecycler::run_service{lifecycler_abort_state_writer=Some(LifecyclerAbortStateWriter { lifecycler_wd: "/mnt/azureml/cr/j/04ca4757eab3485fb3bd6df437571153/cap/lifecycler/wd" })}: lifecycler::service: serving lifecycle service address=/mnt/azureml/cr/j/04ca4757eab3485fb3bd6df437571153/.grpc/lifecycler:0
+2026-03-06T12:13:33.359488Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:connect: grpc_utils::endpoint::connect: Connecting to gRPC service endpoint=Uds("/mnt/azureml/cr/j/04ca4757eab3485fb3bd6df437571153/.grpc/cs-capability:0") retry=FixedIntervalRetry { attempt_timeout_millis: 50, retry_delay_millis: 10, max_duration: 7200s }
+2026-03-06T12:13:33.359640Z  INFO Lifecycler::run_service{lifecycler_abort_state_writer=Some(LifecyclerAbortStateWriter { lifecycler_wd: "/mnt/azureml/cr/j/04ca4757eab3485fb3bd6df437571153/cap/lifecycler/wd" })}:serve_more: grpc_utils::endpoint::serve: serving gRPC service endpoint=Uds("/mnt/azureml/cr/j/04ca4757eab3485fb3bd6df437571153/.grpc/lifecycler:0") retry=ExponentialBackoffRetry { retry_delay_secs: 2, delay_factor: 1000, num_retries: 3 }
+2026-03-06T12:14:28.955216Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:connect: grpc_utils::endpoint::connect: Successfully connected to gRPC service endpoint=Uds("/mnt/azureml/cr/j/04ca4757eab3485fb3bd6df437571153/.grpc/cs-capability:0")
+2026-03-06T12:14:28.955269Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:connect: grpc_utils::endpoint::connect: close time.busy=214ms time.idle=55.4s
+2026-03-06T12:14:28.955374Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:connect: grpc_utils::endpoint::connect: Connecting to gRPC service endpoint=Uds("/mnt/azureml/cr/j/04ca4757eab3485fb3bd6df437571153/.grpc/cs-capability:0") retry=FixedIntervalRetry { attempt_timeout_millis: 50, retry_delay_millis: 10, max_duration: 7200s }
+2026-03-06T12:14:28.955551Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:connect: grpc_utils::endpoint::connect: Successfully connected to gRPC service endpoint=Uds("/mnt/azureml/cr/j/04ca4757eab3485fb3bd6df437571153/.grpc/cs-capability:0")
+2026-03-06T12:14:28.955579Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:connect: grpc_utils::endpoint::connect: close time.busy=139µs time.idle=70.3µs
+2026-03-06T12:14:28.955604Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:wait_for_service_healthy: lifecycler::health_monitor: Waiting for service to become healthy: CS_CAPABILITY service_name=CS_CAPABILITY timeout=30s
+2026-03-06T12:14:28.955635Z  WARN run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:wait_for_service_healthy: grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:14:28.956986Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:wait_for_service_healthy: lifecycler::health_client: Health status for service: CS_CAPABILITY service_name=CS_CAPABILITY health_status=1
+2026-03-06T12:14:28.957016Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:wait_for_service_healthy: lifecycler::health_monitor: Service has become healthy service_name=CS_CAPABILITY
+2026-03-06T12:14:28.957029Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:wait_for_service_healthy: lifecycler::health_monitor: close time.busy=155µs time.idle=1.27ms
+2026-03-06T12:14:28.957101Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:connect: grpc_utils::endpoint::connect: Connecting to gRPC service endpoint=Uds("/mnt/azureml/cr/j/04ca4757eab3485fb3bd6df437571153/.grpc/data-capability:0") retry=FixedIntervalRetry { attempt_timeout_millis: 50, retry_delay_millis: 10, max_duration: 7200s }
+2026-03-06T12:15:00.011051Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:connect: grpc_utils::endpoint::connect: Successfully connected to gRPC service endpoint=Uds("/mnt/azureml/cr/j/04ca4757eab3485fb3bd6df437571153/.grpc/data-capability:0")
+2026-03-06T12:15:00.011114Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:connect: grpc_utils::endpoint::connect: close time.busy=115ms time.idle=30.9s
+2026-03-06T12:15:00.011240Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:connect: grpc_utils::endpoint::connect: Connecting to gRPC service endpoint=Uds("/mnt/azureml/cr/j/04ca4757eab3485fb3bd6df437571153/.grpc/data-capability:0") retry=FixedIntervalRetry { attempt_timeout_millis: 50, retry_delay_millis: 10, max_duration: 7200s }
+2026-03-06T12:15:00.011437Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:connect: grpc_utils::endpoint::connect: Successfully connected to gRPC service endpoint=Uds("/mnt/azureml/cr/j/04ca4757eab3485fb3bd6df437571153/.grpc/data-capability:0")
+2026-03-06T12:15:00.011475Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:connect: grpc_utils::endpoint::connect: close time.busy=166µs time.idle=74.6µs
+2026-03-06T12:15:00.011503Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:wait_for_service_healthy: lifecycler::health_monitor: Waiting for service to become healthy: DATA_CAPABILITY service_name=DATA_CAPABILITY timeout=30s
+2026-03-06T12:15:00.011533Z  WARN run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:wait_for_service_healthy: grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:15:00.012660Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:wait_for_service_healthy: lifecycler::health_client: Health status for service: DATA_CAPABILITY service_name=DATA_CAPABILITY health_status=1
+2026-03-06T12:15:00.012700Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:wait_for_service_healthy: lifecycler::health_monitor: Service has become healthy service_name=DATA_CAPABILITY
+2026-03-06T12:15:00.012722Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:wait_for_service_healthy: lifecycler::health_monitor: close time.busy=184µs time.idle=1.04ms
+2026-03-06T12:15:00.012796Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:connect: grpc_utils::endpoint::connect: Connecting to gRPC service endpoint=Uds("/mnt/azureml/cr/j/04ca4757eab3485fb3bd6df437571153/.grpc/hosttools-capability:0") retry=FixedIntervalRetry { attempt_timeout_millis: 50, retry_delay_millis: 10, max_duration: 7200s }
+2026-03-06T12:15:00.012969Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:connect: grpc_utils::endpoint::connect: Successfully connected to gRPC service endpoint=Uds("/mnt/azureml/cr/j/04ca4757eab3485fb3bd6df437571153/.grpc/hosttools-capability:0")
+2026-03-06T12:15:00.013000Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:connect: grpc_utils::endpoint::connect: close time.busy=159µs time.idle=47.8µs
+2026-03-06T12:15:00.013061Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:connect: grpc_utils::endpoint::connect: Connecting to gRPC service endpoint=Uds("/mnt/azureml/cr/j/04ca4757eab3485fb3bd6df437571153/.grpc/hosttools-capability:0") retry=FixedIntervalRetry { attempt_timeout_millis: 50, retry_delay_millis: 10, max_duration: 7200s }
+2026-03-06T12:15:00.013236Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:connect: grpc_utils::endpoint::connect: Successfully connected to gRPC service endpoint=Uds("/mnt/azureml/cr/j/04ca4757eab3485fb3bd6df437571153/.grpc/hosttools-capability:0")
+2026-03-06T12:15:00.013264Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:connect: grpc_utils::endpoint::connect: close time.busy=129µs time.idle=75.6µs
+2026-03-06T12:15:00.013276Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:wait_for_service_healthy: lifecycler::health_monitor: Waiting for service to become healthy: HOSTTOOLS_CAPABILITY service_name=HOSTTOOLS_CAPABILITY timeout=30s
+2026-03-06T12:15:00.013297Z  WARN run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:wait_for_service_healthy: grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:15:00.013758Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:wait_for_service_healthy: lifecycler::health_client: Health status for service: HOSTTOOLS_CAPABILITY service_name=HOSTTOOLS_CAPABILITY health_status=1
+2026-03-06T12:15:00.013784Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:wait_for_service_healthy: lifecycler::health_monitor: Service has become healthy service_name=HOSTTOOLS_CAPABILITY
+2026-03-06T12:15:00.013803Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:wait_for_service_healthy: lifecycler::health_monitor: close time.busy=118µs time.idle=411µs
+2026-03-06T12:15:00.013873Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:connect: grpc_utils::endpoint::connect: Connecting to gRPC service endpoint=Uds("/mnt/azureml/cr/j/04ca4757eab3485fb3bd6df437571153/.grpc/metrics-capability:0") retry=FixedIntervalRetry { attempt_timeout_millis: 50, retry_delay_millis: 10, max_duration: 7200s }
+2026-03-06T12:15:00.014018Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:connect: grpc_utils::endpoint::connect: Successfully connected to gRPC service endpoint=Uds("/mnt/azureml/cr/j/04ca4757eab3485fb3bd6df437571153/.grpc/metrics-capability:0")
+2026-03-06T12:15:00.014045Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:connect: grpc_utils::endpoint::connect: close time.busy=133µs time.idle=41.1µs
+2026-03-06T12:15:00.014102Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:connect: grpc_utils::endpoint::connect: Connecting to gRPC service endpoint=Uds("/mnt/azureml/cr/j/04ca4757eab3485fb3bd6df437571153/.grpc/metrics-capability:0") retry=FixedIntervalRetry { attempt_timeout_millis: 50, retry_delay_millis: 10, max_duration: 7200s }
+2026-03-06T12:15:00.014290Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:connect: grpc_utils::endpoint::connect: Successfully connected to gRPC service endpoint=Uds("/mnt/azureml/cr/j/04ca4757eab3485fb3bd6df437571153/.grpc/metrics-capability:0")
+2026-03-06T12:15:00.014323Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:connect: grpc_utils::endpoint::connect: close time.busy=127µs time.idle=95.5µs
+2026-03-06T12:15:00.014338Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:wait_for_service_healthy: lifecycler::health_monitor: Waiting for service to become healthy: METRICS_CAPABILITY service_name=METRICS_CAPABILITY timeout=30s
+2026-03-06T12:15:00.014357Z  WARN run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:wait_for_service_healthy: grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:15:00.014710Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:wait_for_service_healthy: lifecycler::health_client: Health status for service: METRICS_CAPABILITY service_name=METRICS_CAPABILITY health_status=1
+2026-03-06T12:15:00.014734Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:wait_for_service_healthy: lifecycler::health_monitor: Service has become healthy service_name=METRICS_CAPABILITY
+2026-03-06T12:15:00.014744Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:wait_for_service_healthy: lifecycler::health_monitor: close time.busy=102µs time.idle=306µs
+2026-03-06T12:15:00.014804Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:connect: grpc_utils::endpoint::connect: Connecting to gRPC service endpoint=Uds("/mnt/azureml/cr/j/04ca4757eab3485fb3bd6df437571153/.grpc/snapshot-capability:0") retry=FixedIntervalRetry { attempt_timeout_millis: 50, retry_delay_millis: 10, max_duration: 7200s }
+2026-03-06T12:15:00.014943Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:connect: grpc_utils::endpoint::connect: Successfully connected to gRPC service endpoint=Uds("/mnt/azureml/cr/j/04ca4757eab3485fb3bd6df437571153/.grpc/snapshot-capability:0")
+2026-03-06T12:15:00.014971Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:connect: grpc_utils::endpoint::connect: close time.busy=125µs time.idle=43.1µs
+2026-03-06T12:15:00.015036Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:connect: grpc_utils::endpoint::connect: Connecting to gRPC service endpoint=Uds("/mnt/azureml/cr/j/04ca4757eab3485fb3bd6df437571153/.grpc/snapshot-capability:0") retry=FixedIntervalRetry { attempt_timeout_millis: 50, retry_delay_millis: 10, max_duration: 7200s }
+2026-03-06T12:15:00.015212Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:connect: grpc_utils::endpoint::connect: Successfully connected to gRPC service endpoint=Uds("/mnt/azureml/cr/j/04ca4757eab3485fb3bd6df437571153/.grpc/snapshot-capability:0")
+2026-03-06T12:15:00.015238Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:connect: grpc_utils::endpoint::connect: close time.busy=122µs time.idle=83.3µs
+2026-03-06T12:15:00.015253Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:wait_for_service_healthy: lifecycler::health_monitor: Waiting for service to become healthy: SNAPSHOT_CAPABILITY service_name=SNAPSHOT_CAPABILITY timeout=30s
+2026-03-06T12:15:00.015272Z  WARN run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:wait_for_service_healthy: grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:15:00.015693Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:wait_for_service_healthy: lifecycler::health_client: Health status for service: SNAPSHOT_CAPABILITY service_name=SNAPSHOT_CAPABILITY health_status=1
+2026-03-06T12:15:00.015719Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:wait_for_service_healthy: lifecycler::health_monitor: Service has become healthy service_name=SNAPSHOT_CAPABILITY
+2026-03-06T12:15:00.015729Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:wait_for_service_healthy: lifecycler::health_monitor: close time.busy=78.2µs time.idle=400µs
+2026-03-06T12:15:00.015741Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities: lifecycler::lifecycle: close time.busy=347ms time.idle=86.3s
+2026-03-06T12:15:00.015766Z  WARN run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:start_capabilities:start{name="CS_CAPABILITY"}: grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:15:00.015795Z  WARN run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:start_capabilities:start{name="DATA_CAPABILITY"}: grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:15:00.015818Z  WARN run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:start_capabilities:start{name="HOSTTOOLS_CAPABILITY"}: grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:15:00.015828Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:15:00.015843Z  WARN run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:start_capabilities:start{name="METRICS_CAPABILITY"}: grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:15:00.015864Z  WARN run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:start_capabilities:start{name="SNAPSHOT_CAPABILITY"}: grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:15:00.015880Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:15:00.015895Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:15:00.015919Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:15:00.015937Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:15:00.016316Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:start_capabilities:start{name="METRICS_CAPABILITY"}: lifecycler::capability_client: Received success code for start cap_name=METRICS_CAPABILITY
+2026-03-06T12:15:00.016348Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:start_capabilities:start{name="METRICS_CAPABILITY"}: lifecycler::capability_client: close time.busy=79.1µs time.idle=428µs
+2026-03-06T12:15:00.016510Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:start_capabilities:start{name="HOSTTOOLS_CAPABILITY"}: lifecycler::capability_client: Received success code for start cap_name=HOSTTOOLS_CAPABILITY
+2026-03-06T12:15:00.016537Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:start_capabilities:start{name="HOSTTOOLS_CAPABILITY"}: lifecycler::capability_client: close time.busy=80.2µs time.idle=640µs
+2026-03-06T12:15:00.044685Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:start_capabilities:start{name="CS_CAPABILITY"}: lifecycler::capability_client: Received success code for start cap_name=CS_CAPABILITY
+2026-03-06T12:15:00.044715Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:start_capabilities:start{name="CS_CAPABILITY"}: lifecycler::capability_client: close time.busy=88.6µs time.idle=28.9ms
+2026-03-06T12:15:00.332247Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:start_capabilities:start{name="SNAPSHOT_CAPABILITY"}: lifecycler::capability_client: Received success code for start cap_name=SNAPSHOT_CAPABILITY
+2026-03-06T12:15:00.332288Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:start_capabilities:start{name="SNAPSHOT_CAPABILITY"}: lifecycler::capability_client: close time.busy=122µs time.idle=316ms
+2026-03-06T12:15:03.243463Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:start_capabilities:start{name="DATA_CAPABILITY"}: lifecycler::capability_client: Received success code for start cap_name=DATA_CAPABILITY
+2026-03-06T12:15:03.243530Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:start_capabilities:start{name="DATA_CAPABILITY"}: lifecycler::capability_client: close time.busy=279µs time.idle=3.23s
+2026-03-06T12:15:03.243559Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:start_capabilities: lifecycler::lifecycle: close time.busy=732µs time.idle=3.23s
+2026-03-06T12:15:03.243581Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:exit_capabilities{cap_type=Operation job_result=JobResult { job_status: Succeeded, error: None }}: lifecycler::lifecycle: close time.busy=2.44µs time.idle=6.81µs
+2026-03-06T12:15:03.243600Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle: lifecycler::lifecycle: exited operation caps: true
+2026-03-06T12:15:03.243749Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_executor:connect:connect: grpc_utils::endpoint::connect: Connecting to gRPC service endpoint=Uds("/mnt/azureml/cr/j/04ca4757eab3485fb3bd6df437571153/.grpc/executor:0") retry=FixedIntervalRetry { attempt_timeout_millis: 50, retry_delay_millis: 10, max_duration: 7200s }
+2026-03-06T12:15:40.019568Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:15:40.019695Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:15:40.019724Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:15:40.019745Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:15:40.019760Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:16:20.022156Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:16:20.022225Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:16:20.022247Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:16:20.022260Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:16:20.022271Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:17:00.024702Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:17:00.024761Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:17:00.024782Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:17:00.024795Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:17:00.024806Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:17:40.027114Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:17:40.027182Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:17:40.027206Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:17:40.027224Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:17:40.027236Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:17:40.027771Z  INFO lifecycler::health_client: Health status for service: SNAPSHOT_CAPABILITY service_name=SNAPSHOT_CAPABILITY health_status=1
+2026-03-06T12:17:40.027880Z  INFO lifecycler::health_client: Health status for service: METRICS_CAPABILITY service_name=METRICS_CAPABILITY health_status=1
+2026-03-06T12:17:40.028005Z  INFO lifecycler::health_client: Health status for service: HOSTTOOLS_CAPABILITY service_name=HOSTTOOLS_CAPABILITY health_status=1
+2026-03-06T12:17:40.028421Z  INFO lifecycler::health_client: Health status for service: DATA_CAPABILITY service_name=DATA_CAPABILITY health_status=1
+2026-03-06T12:17:40.028532Z  INFO lifecycler::health_client: Health status for service: CS_CAPABILITY service_name=CS_CAPABILITY health_status=1
+2026-03-06T12:18:20.028833Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:18:20.028886Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:18:20.028906Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:18:20.028920Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:18:20.028934Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:19:00.031556Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:19:00.031625Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:19:00.031649Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:19:00.031668Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:19:00.031699Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:19:24.562444Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_executor:connect:connect: grpc_utils::endpoint::connect: Successfully connected to gRPC service endpoint=Uds("/mnt/azureml/cr/j/04ca4757eab3485fb3bd6df437571153/.grpc/executor:0")
+2026-03-06T12:19:24.562505Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_executor:connect:connect: grpc_utils::endpoint::connect: close time.busy=990ms time.idle=260s
+2026-03-06T12:19:24.562524Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_executor:connect: lifecycler::executor_client: close time.busy=1.02s time.idle=260s
+2026-03-06T12:19:24.562623Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_executor:connect:connect: grpc_utils::endpoint::connect: Connecting to gRPC service endpoint=Uds("/mnt/azureml/cr/j/04ca4757eab3485fb3bd6df437571153/.grpc/executor:0") retry=FixedIntervalRetry { attempt_timeout_millis: 50, retry_delay_millis: 10, max_duration: 7200s }
+2026-03-06T12:19:24.562778Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_executor:connect:connect: grpc_utils::endpoint::connect: Successfully connected to gRPC service endpoint=Uds("/mnt/azureml/cr/j/04ca4757eab3485fb3bd6df437571153/.grpc/executor:0")
+2026-03-06T12:19:24.562812Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_executor:connect:connect: grpc_utils::endpoint::connect: close time.busy=144µs time.idle=47.2µs
+2026-03-06T12:19:24.562829Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_executor:connect: lifecycler::executor_client: close time.busy=247µs time.idle=48.1µs
+2026-03-06T12:19:24.562903Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_executor:connect: grpc_utils::endpoint::connect: Connecting to gRPC service endpoint=Uds("/mnt/azureml/cr/j/04ca4757eab3485fb3bd6df437571153/.grpc/executor:0") retry=FixedIntervalRetry { attempt_timeout_millis: 50, retry_delay_millis: 10, max_duration: 7200s }
+2026-03-06T12:19:24.563077Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_executor:connect: grpc_utils::endpoint::connect: Successfully connected to gRPC service endpoint=Uds("/mnt/azureml/cr/j/04ca4757eab3485fb3bd6df437571153/.grpc/executor:0")
+2026-03-06T12:19:24.563110Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_executor:connect: grpc_utils::endpoint::connect: close time.busy=141µs time.idle=68.4µs
+2026-03-06T12:19:24.563128Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_executor:wait_for_service_healthy: lifecycler::health_monitor: Waiting for service to become healthy: Executor service_name=Executor timeout=30s
+2026-03-06T12:19:24.563155Z  WARN run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_executor:wait_for_service_healthy: grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:19:24.563605Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_executor:wait_for_service_healthy: lifecycler::health_client: Health status for service: Executor service_name=Executor health_status=1
+2026-03-06T12:19:24.563631Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_executor:wait_for_service_healthy: lifecycler::health_monitor: Service has become healthy service_name=Executor
+2026-03-06T12:19:24.563643Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_executor:wait_for_service_healthy: lifecycler::health_monitor: close time.busy=135µs time.idle=383µs
+2026-03-06T12:19:24.563653Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_executor: lifecycler::lifecycle: close time.busy=1.05s time.idle=260s
+2026-03-06T12:19:24.563666Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_lifecyclers{lifecycler_addresses=None}: lifecycler::lifecycle: close time.busy=591ns time.idle=3.76µs
+2026-03-06T12:19:24.563728Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:execute: lifecycler::lifecycle: entering phase rank=None phase=0 is_leader=true entered_phases=false
+2026-03-06T12:19:24.563759Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:execute:barrier_sync: lifecycler::lifecycle: close time.busy=481ns time.idle=1.58µs
+2026-03-06T12:19:24.563807Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:execute: lifecycler::lifecycle: Successfully got AzureML Context from environment, updating Run History with new run attempt
+2026-03-06T12:19:24.563827Z  WARN run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:execute: lifecycler::lifecycle: Skip updating run_attempt since cannot find AZUREML_CR_ENABLE_RUN_ATTEMPT_COUNT_BY_RUN_HISTORY from environment
+2026-03-06T12:19:24.563851Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:execute: lifecycler::lifecycle: starting phase execution rank=None phase=0
+2026-03-06T12:19:24.563869Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:execute: lifecycler::lifecycle: executing phase commands rank=None phase=0
+2026-03-06T12:19:24.563893Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:execute:executor_client::execute_commands{lifecycle_address="/mnt/azureml/cr/j/04ca4757eab3485fb3bd6df437571153/.grpc/lifecycler:0" scheduling=None debug_mode=Some(false)}: lifecycler::executor_client: Executing commands
+2026-03-06T12:19:24.563929Z  WARN run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:execute:executor_client::execute_commands{lifecycle_address="/mnt/azureml/cr/j/04ca4757eab3485fb3bd6df437571153/.grpc/lifecycler:0" scheduling=None debug_mode=Some(false)}:executor_client::start_execution{lifecycler_address="/mnt/azureml/cr/j/04ca4757eab3485fb3bd6df437571153/.grpc/lifecycler:0" debug_mode=Some(false) commands_f=Command(Command { executable: Shell { path: None, command: "export CURRENT_MODEL=qwen3_14b TRAIN_EPOCHS=3 TRAIN_LORA_RANK=32 TRAIN_LR=0.0002 TRAINING_DATA_DIR=$AZURE_ML_INPUT_training_data OUTPUT_BASE_DIR=$model_output && python study_b_cluster.py", success_return_code: Zero { additional_codes: [] } }, stderr: None, stdout: Some("user_logs/std_log.txt") }) path_mappings_f={}}: grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:19:24.563946Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:execute:executor_client::execute_commands{lifecycle_address="/mnt/azureml/cr/j/04ca4757eab3485fb3bd6df437571153/.grpc/lifecycler:0" scheduling=None debug_mode=Some(false)}:executor_client::start_execution{lifecycler_address="/mnt/azureml/cr/j/04ca4757eab3485fb3bd6df437571153/.grpc/lifecycler:0" debug_mode=Some(false) commands_f=Command(Command { executable: Shell { path: None, command: "export CURRENT_MODEL=qwen3_14b TRAIN_EPOCHS=3 TRAIN_LORA_RANK=32 TRAIN_LR=0.0002 TRAINING_DATA_DIR=$AZURE_ML_INPUT_training_data OUTPUT_BASE_DIR=$model_output && python study_b_cluster.py", success_return_code: Zero { additional_codes: [] } }, stderr: None, stdout: Some("user_logs/std_log.txt") }) path_mappings_f={}}: lifecycler::executor_client: Starting execution execution_id=7e4e7f0d-ff2d-4d23-b8ed-44536a7a16fe lifecycler_address=/mnt/azureml/cr/j/04ca4757eab3485fb3bd6df437571153/.grpc/lifecycler:0
+2026-03-06T12:19:24.569980Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:execute:executor_client::execute_commands{lifecycle_address="/mnt/azureml/cr/j/04ca4757eab3485fb3bd6df437571153/.grpc/lifecycler:0" scheduling=None debug_mode=Some(false)}:executor_client::start_execution{lifecycler_address="/mnt/azureml/cr/j/04ca4757eab3485fb3bd6df437571153/.grpc/lifecycler:0" debug_mode=Some(false) commands_f=Command(Command { executable: Shell { path: None, command: "export CURRENT_MODEL=qwen3_14b TRAIN_EPOCHS=3 TRAIN_LORA_RANK=32 TRAIN_LR=0.0002 TRAINING_DATA_DIR=$AZURE_ML_INPUT_training_data OUTPUT_BASE_DIR=$model_output && python study_b_cluster.py", success_return_code: Zero { additional_codes: [] } }, stderr: None, stdout: Some("user_logs/std_log.txt") }) path_mappings_f={}}: lifecycler::executor_client: close time.busy=82.6µs time.idle=5.98ms
+2026-03-06T12:19:24.569998Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:execute:executor_client::execute_commands{lifecycle_address="/mnt/azureml/cr/j/04ca4757eab3485fb3bd6df437571153/.grpc/lifecycler:0" scheduling=None debug_mode=Some(false)}: lifecycler::executor_client: Waiting for execution completion execution_id="7e4e7f0d-ff2d-4d23-b8ed-44536a7a16fe"
+2026-03-06T12:19:40.034139Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:19:40.034228Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:19:40.034253Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:19:40.034321Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:19:40.034347Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:19:40.034359Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:20:20.037419Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:20:20.037489Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:20:20.037516Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:20:20.037532Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:20:20.037545Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:20:20.037557Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:20:20.038089Z  INFO lifecycler::health_client: Health status for service: Executor service_name=Executor health_status=1
+2026-03-06T12:20:20.038158Z  INFO lifecycler::health_client: Health status for service: HOSTTOOLS_CAPABILITY service_name=HOSTTOOLS_CAPABILITY health_status=1
+2026-03-06T12:20:20.038189Z  INFO lifecycler::health_client: Health status for service: METRICS_CAPABILITY service_name=METRICS_CAPABILITY health_status=1
+2026-03-06T12:20:20.038209Z  INFO lifecycler::health_client: Health status for service: SNAPSHOT_CAPABILITY service_name=SNAPSHOT_CAPABILITY health_status=1
+2026-03-06T12:20:20.038811Z  INFO lifecycler::health_client: Health status for service: DATA_CAPABILITY service_name=DATA_CAPABILITY health_status=1
+2026-03-06T12:20:20.038888Z  INFO lifecycler::health_client: Health status for service: CS_CAPABILITY service_name=CS_CAPABILITY health_status=1
+2026-03-06T12:21:00.040454Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:21:00.040518Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:21:00.040544Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:21:00.040558Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:21:00.040579Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:21:00.040595Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:21:40.043093Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:21:40.043175Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:21:40.043199Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:21:40.043214Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:21:40.043226Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:21:40.043239Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:22:20.046369Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:22:20.046429Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:22:20.046460Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:22:20.046479Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:22:20.046490Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:22:20.046503Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:23:00.049607Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:23:00.049687Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:23:00.049713Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:23:00.049730Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:23:00.049742Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:23:00.049755Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:23:00.050214Z  INFO lifecycler::health_client: Health status for service: SNAPSHOT_CAPABILITY service_name=SNAPSHOT_CAPABILITY health_status=1
+2026-03-06T12:23:00.050342Z  INFO lifecycler::health_client: Health status for service: HOSTTOOLS_CAPABILITY service_name=HOSTTOOLS_CAPABILITY health_status=1
+2026-03-06T12:23:00.050432Z  INFO lifecycler::health_client: Health status for service: METRICS_CAPABILITY service_name=METRICS_CAPABILITY health_status=1
+2026-03-06T12:23:00.050499Z  INFO lifecycler::health_client: Health status for service: Executor service_name=Executor health_status=1
+2026-03-06T12:23:00.050874Z  INFO lifecycler::health_client: Health status for service: CS_CAPABILITY service_name=CS_CAPABILITY health_status=1
+2026-03-06T12:23:00.050925Z  INFO lifecycler::health_client: Health status for service: DATA_CAPABILITY service_name=DATA_CAPABILITY health_status=1
+2026-03-06T12:23:40.052073Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:23:40.052142Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:23:40.052165Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:23:40.052182Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:23:40.052195Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:23:40.052211Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:24:20.055656Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:24:20.055734Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:24:20.055761Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:24:20.055778Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:24:20.055795Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:24:20.055808Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:25:00.058426Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:25:00.058491Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:25:00.058514Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:25:00.058530Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:25:00.058541Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:25:00.058553Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:25:40.060858Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:25:40.060920Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:25:40.060952Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:25:40.060970Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:25:40.060988Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:25:40.061001Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:25:40.061445Z  INFO lifecycler::health_client: Health status for service: Executor service_name=Executor health_status=1
+2026-03-06T12:25:40.061581Z  INFO lifecycler::health_client: Health status for service: HOSTTOOLS_CAPABILITY service_name=HOSTTOOLS_CAPABILITY health_status=1
+2026-03-06T12:25:40.061630Z  INFO lifecycler::health_client: Health status for service: SNAPSHOT_CAPABILITY service_name=SNAPSHOT_CAPABILITY health_status=1
+2026-03-06T12:25:40.061713Z  INFO lifecycler::health_client: Health status for service: METRICS_CAPABILITY service_name=METRICS_CAPABILITY health_status=1
+2026-03-06T12:25:40.062118Z  INFO lifecycler::health_client: Health status for service: CS_CAPABILITY service_name=CS_CAPABILITY health_status=1
+2026-03-06T12:25:40.062199Z  INFO lifecycler::health_client: Health status for service: DATA_CAPABILITY service_name=DATA_CAPABILITY health_status=1
+2026-03-06T12:26:20.062756Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:26:20.062817Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:26:20.062841Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:26:20.062855Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:26:20.062867Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:26:20.062880Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:27:00.065576Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:27:00.065639Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:27:00.065664Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:27:00.065681Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:27:00.065695Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:27:00.065707Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:27:30.219914Z  INFO ExecutionCallbackServicer::complete_execution: grpc_utils::server: Got grpc request request_name="complete_execution" remote_addr=None
+2026-03-06T12:27:30.219984Z  INFO ExecutionCallbackServicer::complete_execution: lifecycler::service: close time.busy=78.0µs time.idle=12.9µs
+2026-03-06T12:27:30.220039Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:execute:executor_client::execute_commands{lifecycle_address="/mnt/azureml/cr/j/04ca4757eab3485fb3bd6df437571153/.grpc/lifecycler:0" scheduling=None debug_mode=Some(false)}:executor_client::wait_for_execution_completion{execution_id="7e4e7f0d-ff2d-4d23-b8ed-44536a7a16fe"}: lifecycler::executor_client: close time.busy=5.98µs time.idle=486s
+2026-03-06T12:27:30.220071Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:execute:executor_client::execute_commands{lifecycle_address="/mnt/azureml/cr/j/04ca4757eab3485fb3bd6df437571153/.grpc/lifecycler:0" scheduling=None debug_mode=Some(false)}: lifecycler::executor_client: Execution completed execution_id="7e4e7f0d-ff2d-4d23-b8ed-44536a7a16fe"
+2026-03-06T12:27:30.220129Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:execute:executor_client::execute_commands{lifecycle_address="/mnt/azureml/cr/j/04ca4757eab3485fb3bd6df437571153/.grpc/lifecycler:0" scheduling=None debug_mode=Some(false)}: lifecycler::executor_client: close time.busy=245µs time.idle=486s
+2026-03-06T12:27:30.220159Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:execute: lifecycler::lifecycle: phase execution completed. rank=None phase=0
+2026-03-06T12:27:30.220214Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:execute: lifecycler::lifecycle: close time.busy=525µs time.idle=486s
+2026-03-06T12:27:30.220263Z  WARN run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:end_service_capabilities:end{name="CS_CAPABILITY"}: grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:27:30.220313Z  WARN run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:end_service_capabilities:end{name="DATA_CAPABILITY"}: grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:27:30.220348Z  WARN run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:end_service_capabilities:end{name="HOSTTOOLS_CAPABILITY"}: grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:27:30.220398Z  WARN run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:end_service_capabilities:end{name="METRICS_CAPABILITY"}: grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:27:30.220431Z  WARN run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:end_service_capabilities:end{name="SNAPSHOT_CAPABILITY"}: grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:27:30.221012Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:end_service_capabilities:end{name="METRICS_CAPABILITY"}: lifecycler::capability_client: Received success code for end cap_name=METRICS_CAPABILITY
+2026-03-06T12:27:30.221045Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:end_service_capabilities:end{name="METRICS_CAPABILITY"}: lifecycler::capability_client: close time.busy=117µs time.idle=534µs
+2026-03-06T12:27:30.221066Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:end_service_capabilities:end{name="SNAPSHOT_CAPABILITY"}: lifecycler::capability_client: Received success code for end cap_name=SNAPSHOT_CAPABILITY
+2026-03-06T12:27:30.221089Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:end_service_capabilities:end{name="SNAPSHOT_CAPABILITY"}: lifecycler::capability_client: close time.busy=59.1µs time.idle=603µs

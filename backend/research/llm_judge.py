@@ -140,7 +140,7 @@ Respond with this exact JSON structure:
 class LLMJudge:
     """Evaluates generated system prompts using Gemini 3 Pro."""
 
-    def __init__(self, model_name: str = "gemini-2.5-pro-preview-05-06"):
+    def __init__(self, model_name: str = "gemini-3.1-pro-preview"):
         from google import genai
         api_key = os.getenv("GOOGLE_API_KEY")
         if not api_key:

@@ -3,7 +3,7 @@ Study B Cluster Training — Headless training optimized for Azure ML compute cl
 
 Reads config from environment variables (set by train_entrypoint.sh):
   CURRENT_MODEL, TRAINING_DATA_DIR, OUTPUT_BASE_DIR,
-  TRAIN_EPOCHS, TRAIN_LORA_RANK, TRAIN_LR
+  TRAIN_EPOCHS, TRAIN_LORA_RANK, TRAIN_LR, EARLY_STOPPING_PATIENCE
 """
 import os
 import json
@@ -28,6 +28,7 @@ LR = float(os.environ.get("TRAIN_LR", "0.0002"))
 MAX_SEQ_LEN = 8192
 BATCH_SIZE = 2
 GRAD_ACCUM = 4
+EARLY_STOPPING = int(os.environ.get("EARLY_STOPPING_PATIENCE", "0"))  # 0 = disabled
 
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
@@ -99,6 +100,12 @@ print(f"Formatted. Sample: {len(train_ds[0]['text'])} chars")
 # ── Train ──
 from trl import SFTTrainer, SFTConfig
 
+# Determine eval strategy: frequent steps for early stopping, epoch otherwise
+eval_strat = "steps" if EARLY_STOPPING > 0 else "epoch"
+eval_steps_val = 5 if EARLY_STOPPING > 0 else None
+save_strat = "steps" if EARLY_STOPPING > 0 else "epoch"
+save_steps_val = 5 if EARLY_STOPPING > 0 else None
+
 trainer = SFTTrainer(
     model=model,
     tokenizer=tokenizer,
@@ -116,8 +123,10 @@ trainer = SFTTrainer(
         weight_decay=0.01,
         optim="adamw_8bit",
         logging_steps=5,
-        eval_strategy="epoch",
-        save_strategy="epoch",
+        eval_strategy=eval_strat,
+        eval_steps=eval_steps_val,
+        save_strategy=save_strat,
+        save_steps=save_steps_val,
         save_total_limit=2,
         load_best_model_at_end=True,
         metric_for_best_model="eval_loss",
@@ -126,6 +135,14 @@ trainer = SFTTrainer(
         seed=3407,
     ),
 )
+
+# Add early stopping callback if enabled
+callbacks = []
+if EARLY_STOPPING > 0:
+    from transformers import EarlyStoppingCallback
+    callbacks.append(EarlyStoppingCallback(early_stopping_patience=EARLY_STOPPING))
+    trainer.add_callback(callbacks[0])
+    print(f"Early stopping enabled: patience={EARLY_STOPPING}, eval every 5 steps")
 
 print(f"\nStarting training ({EPOCHS} epochs)...")
 result = trainer.train()

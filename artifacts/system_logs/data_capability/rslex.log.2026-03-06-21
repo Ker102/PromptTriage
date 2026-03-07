@@ -1,0 +1,27 @@
+2026-03-06T21:04:21.159951Z  INFO copy:do_sequential_copy: rslex_core::file_io::stream_copier: close time.busy=51.6ms time.idle=3.04µs file_size=0
+2026-03-06T21:04:21.159980Z  INFO copy: rslex_core::file_io::stream_copier: [StreamCopier::copy()] copied file size=0 source_handler="Local" source_resource_id=/tmp/.tmpSdlhQC/whole_file_cache/benchmark_outputs.json destination=benchmark_outputs.json duration=0.051671478 sequential=true
+2026-03-06T21:04:21.160038Z  INFO copy: rslex_core::file_io::stream_copier: close time.busy=51.7ms time.idle=9.21µs
+2026-03-06T21:04:21.206329Z  INFO copy:do_sequential_copy: rslex_core::file_io::stream_copier: close time.busy=35.6ms time.idle=2.31µs file_size=723252
+2026-03-06T21:04:21.206352Z  INFO copy: rslex_core::file_io::stream_copier: [StreamCopier::copy()] copied file size=723252 source_handler="Local" source_resource_id=/tmp/.tmpSdlhQC/whole_file_cache/benchmark_outputs.json destination=benchmark_outputs.json duration=0.035610427 sequential=true
+2026-03-06T21:04:21.206384Z  INFO copy: rslex_core::file_io::stream_copier: close time.busy=35.7ms time.idle=2.31µs
+2026-03-06T21:04:21.228759Z  INFO copy:do_sequential_copy: rslex_core::file_io::stream_copier: close time.busy=20.2ms time.idle=3.75µs file_size=1193
+2026-03-06T21:04:21.228790Z  INFO copy: rslex_core::file_io::stream_copier: [StreamCopier::copy()] copied file size=1193 source_handler="AmlDatastore" source_resource_id=workspaceblobstore/azureml/study-b-qwen3_32b-20260306-120822/model_output/adapter/adapter_config.json destination=adapter_config.json duration=0.020245278 sequential=true
+2026-03-06T21:04:21.228828Z  INFO copy: rslex_core::file_io::stream_copier: close time.busy=20.3ms time.idle=7.64µs
+2026-03-06T21:04:53.517854Z  INFO copy:do_sequential_copy: rslex_core::file_io::stream_copier: close time.busy=30.4ms time.idle=4.05µs file_size=5430
+2026-03-06T21:04:53.517890Z  INFO copy: rslex_core::file_io::stream_copier: [StreamCopier::copy()] copied file size=5430 source_handler="AmlDatastore" source_resource_id=workspaceblobstore/azureml/study-b-qwen3_32b-20260306-120822/model_output/adapter/tokenizer_config.json destination=tokenizer_config.json duration=0.030452405 sequential=true
+2026-03-06T21:04:53.517931Z  INFO copy: rslex_core::file_io::stream_copier: close time.busy=30.6ms time.idle=11.1µs
+2026-03-06T21:04:53.526281Z  INFO copy:do_sequential_copy: rslex_core::file_io::stream_copier: close time.busy=5.98ms time.idle=1.93µs file_size=4673
+2026-03-06T21:04:53.526303Z  INFO copy: rslex_core::file_io::stream_copier: [StreamCopier::copy()] copied file size=4673 source_handler="AmlDatastore" source_resource_id=workspaceblobstore/azureml/study-b-qwen3_32b-20260306-120822/model_output/adapter/chat_template.jinja destination=chat_template.jinja duration=0.006004521 sequential=true
+2026-03-06T21:04:53.526333Z  INFO copy: rslex_core::file_io::stream_copier: close time.busy=6.06ms time.idle=2.12µs
+2026-03-06T21:04:53.588741Z  INFO copy:do_sequential_copy: rslex_core::file_io::stream_copier: close time.busy=61.9ms time.idle=1.73µs file_size=2776833
+2026-03-06T21:04:53.588759Z  INFO copy: rslex_core::file_io::stream_copier: [StreamCopier::copy()] copied file size=2776833 source_handler="AmlDatastore" source_resource_id=workspaceblobstore/azureml/study-b-qwen3_32b-20260306-120822/model_output/adapter/vocab.json destination=vocab.json duration=0.061945148 sequential=true
+2026-03-06T21:04:53.588784Z  INFO copy: rslex_core::file_io::stream_copier: close time.busy=62.0ms time.idle=1.68µs
+2026-03-06T21:04:53.722969Z  INFO copy:do_sequential_copy: rslex_core::file_io::stream_copier: close time.busy=73.9ms time.idle=4.69µs file_size=1671853
+2026-03-06T21:04:53.722999Z  INFO copy: rslex_core::file_io::stream_copier: [StreamCopier::copy()] copied file size=1671853 source_handler="AmlDatastore" source_resource_id=workspaceblobstore/azureml/study-b-qwen3_32b-20260306-120822/model_output/adapter/merges.txt destination=merges.txt duration=0.073917092 sequential=true
+2026-03-06T21:04:53.723033Z  INFO copy: rslex_core::file_io::stream_copier: close time.busy=74.0ms time.idle=12.1µs
+2026-03-06T21:04:53.926545Z  INFO copy:queue_chunked_copy: rslex_core::file_io::stream_copier: close time.busy=108ms time.idle=3.24µs file_size=11422654
+2026-03-06T21:04:53.926580Z  INFO copy: rslex_core::file_io::stream_copier: [StreamCopier::copy()] copied file size=11422654 source_handler="AmlDatastore" source_resource_id=workspaceblobstore/azureml/study-b-qwen3_32b-20260306-120822/model_output/adapter/tokenizer.json destination=tokenizer.json duration=0.108327655 sequential=false
+2026-03-06T21:04:53.926622Z  INFO copy: rslex_core::file_io::stream_copier: close time.busy=108ms time.idle=5.09µs
+2026-03-06T21:04:59.275288Z  INFO copy:queue_chunked_copy: rslex_core::file_io::stream_copier: close time.busy=2.49s time.idle=3.68µs file_size=536992880
+2026-03-06T21:04:59.275323Z  INFO copy: rslex_core::file_io::stream_copier: [StreamCopier::copy()] copied file size=536992880 source_handler="AmlDatastore" source_resource_id=workspaceblobstore/azureml/study-b-qwen3_32b-20260306-120822/model_output/adapter/adapter_model.safetensors destination=adapter_model.safetensors duration=2.48895959 sequential=false
+2026-03-06T21:04:59.275371Z  INFO copy: rslex_core::file_io::stream_copier: close time.busy=2.49s time.idle=5.52µs

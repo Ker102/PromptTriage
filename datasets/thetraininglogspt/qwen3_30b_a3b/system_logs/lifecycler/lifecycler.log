@@ -1,0 +1,1471 @@
+2026-03-06T12:44:57.516286Z  INFO telemetry: job_telemetry_init artifact_type=installed branch=602090a271c ci_number=20260223.1 ci_name=CommonRuntime-RuntimeTeam-Linux-Prod-Build build_time=2026-02-23 21:38:43.578931
+2026-03-06T12:44:57.516443Z  INFO load_config_from_env: lifecycler::config: Resolved grpc addresses lifecycler_address=/mnt/azureml/cr/j/938318238fba44478b2a5f9aba69e318/.grpc/lifecycler:0 executor_address=/mnt/azureml/cr/j/938318238fba44478b2a5f9aba69e318/.grpc/executor:0
+2026-03-06T12:44:57.516616Z  INFO load_config_from_env:load_capability_addresses_from_env{capability_endpoints_from_config={"CS_CAPABILITY": CapabilityEndpoint { name: "CS_CAPABILITY", address: "/mnt/azureml/cr/j/938318238fba44478b2a5f9aba69e318/.grpc/cs-capability:0", type: Service }, "DATA_CAPABILITY": CapabilityEndpoint { name: "DATA_CAPABILITY", address: "/mnt/azureml/cr/j/938318238fba44478b2a5f9aba69e318/.grpc/data-capability:0", type: Service }, "HOSTTOOLS_CAPABILITY": CapabilityEndpoint { name: "HOSTTOOLS_CAPABILITY", address: "/mnt/azureml/cr/j/938318238fba44478b2a5f9aba69e318/.grpc/hosttools-capability:0", type: Service }, "METRICS_CAPABILITY": CapabilityEndpoint { name: "METRICS_CAPABILITY", address: "/mnt/azureml/cr/j/938318238fba44478b2a5f9aba69e318/.grpc/metrics-capability:0", type: Service }, "SNAPSHOT_CAPABILITY": CapabilityEndpoint { name: "SNAPSHOT_CAPABILITY", address: "/mnt/azureml/cr/j/938318238fba44478b2a5f9aba69e318/.grpc/snapshot-capability:0", type: Service }}}: lifecycler::config: close time.busy=119µs time.idle=12.3µs
+2026-03-06T12:44:57.516652Z  INFO load_config_from_env: lifecycler::config: close time.busy=305µs time.idle=12.0µs
+2026-03-06T12:44:57.516688Z  INFO run_lifecycler:run_service_and_step_through_lifecycle: lifecycler::lifecycle: distributed config is not specified, skip setting up distributed barrier
+2026-03-06T12:44:57.516724Z  INFO run_lifecycler:run_service_and_step_through_lifecycle: lifecycler::lifecycle: Trying to configure lifecycler to ignore termination signals
+2026-03-06T12:44:57.516751Z  INFO run_lifecycler:run_service_and_step_through_lifecycle: cr_core: Successfully configured current process to ignore termination signals
+2026-03-06T12:44:57.516807Z  INFO Lifecycler::run_service{lifecycler_abort_state_writer=Some(LifecyclerAbortStateWriter { lifecycler_wd: "/mnt/azureml/cr/j/938318238fba44478b2a5f9aba69e318/cap/lifecycler/wd" })}: lifecycler::service: serving lifecycle service address=/mnt/azureml/cr/j/938318238fba44478b2a5f9aba69e318/.grpc/lifecycler:0
+2026-03-06T12:44:57.516873Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:connect: grpc_utils::endpoint::connect: Connecting to gRPC service endpoint=Uds("/mnt/azureml/cr/j/938318238fba44478b2a5f9aba69e318/.grpc/cs-capability:0") retry=FixedIntervalRetry { attempt_timeout_millis: 50, retry_delay_millis: 10, max_duration: 7200s }
+2026-03-06T12:44:57.516961Z  INFO Lifecycler::run_service{lifecycler_abort_state_writer=Some(LifecyclerAbortStateWriter { lifecycler_wd: "/mnt/azureml/cr/j/938318238fba44478b2a5f9aba69e318/cap/lifecycler/wd" })}:serve_more: grpc_utils::endpoint::serve: serving gRPC service endpoint=Uds("/mnt/azureml/cr/j/938318238fba44478b2a5f9aba69e318/.grpc/lifecycler:0") retry=ExponentialBackoffRetry { retry_delay_secs: 2, delay_factor: 1000, num_retries: 3 }
+2026-03-06T12:44:58.362612Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:connect: grpc_utils::endpoint::connect: Successfully connected to gRPC service endpoint=Uds("/mnt/azureml/cr/j/938318238fba44478b2a5f9aba69e318/.grpc/cs-capability:0")
+2026-03-06T12:44:58.362675Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:connect: grpc_utils::endpoint::connect: close time.busy=3.51ms time.idle=842ms
+2026-03-06T12:44:58.362794Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:connect: grpc_utils::endpoint::connect: Connecting to gRPC service endpoint=Uds("/mnt/azureml/cr/j/938318238fba44478b2a5f9aba69e318/.grpc/cs-capability:0") retry=FixedIntervalRetry { attempt_timeout_millis: 50, retry_delay_millis: 10, max_duration: 7200s }
+2026-03-06T12:44:58.363009Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:connect: grpc_utils::endpoint::connect: Successfully connected to gRPC service endpoint=Uds("/mnt/azureml/cr/j/938318238fba44478b2a5f9aba69e318/.grpc/cs-capability:0")
+2026-03-06T12:44:58.363038Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:connect: grpc_utils::endpoint::connect: close time.busy=140µs time.idle=108µs
+2026-03-06T12:44:58.363058Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:wait_for_service_healthy: lifecycler::health_monitor: Waiting for service to become healthy: CS_CAPABILITY service_name=CS_CAPABILITY timeout=30s
+2026-03-06T12:44:58.363084Z  WARN run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:wait_for_service_healthy: grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:44:58.364463Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:wait_for_service_healthy: lifecycler::health_client: Health status for service: CS_CAPABILITY service_name=CS_CAPABILITY health_status=1
+2026-03-06T12:44:58.364492Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:wait_for_service_healthy: lifecycler::health_monitor: Service has become healthy service_name=CS_CAPABILITY
+2026-03-06T12:44:58.364503Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:wait_for_service_healthy: lifecycler::health_monitor: close time.busy=144µs time.idle=1.30ms
+2026-03-06T12:44:58.364579Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:connect: grpc_utils::endpoint::connect: Connecting to gRPC service endpoint=Uds("/mnt/azureml/cr/j/938318238fba44478b2a5f9aba69e318/.grpc/data-capability:0") retry=FixedIntervalRetry { attempt_timeout_millis: 50, retry_delay_millis: 10, max_duration: 7200s }
+2026-03-06T12:44:59.542924Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:connect: grpc_utils::endpoint::connect: Successfully connected to gRPC service endpoint=Uds("/mnt/azureml/cr/j/938318238fba44478b2a5f9aba69e318/.grpc/data-capability:0")
+2026-03-06T12:44:59.542984Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:connect: grpc_utils::endpoint::connect: close time.busy=5.06ms time.idle=1.17s
+2026-03-06T12:44:59.543101Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:connect: grpc_utils::endpoint::connect: Connecting to gRPC service endpoint=Uds("/mnt/azureml/cr/j/938318238fba44478b2a5f9aba69e318/.grpc/data-capability:0") retry=FixedIntervalRetry { attempt_timeout_millis: 50, retry_delay_millis: 10, max_duration: 7200s }
+2026-03-06T12:44:59.543294Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:connect: grpc_utils::endpoint::connect: Successfully connected to gRPC service endpoint=Uds("/mnt/azureml/cr/j/938318238fba44478b2a5f9aba69e318/.grpc/data-capability:0")
+2026-03-06T12:44:59.543325Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:connect: grpc_utils::endpoint::connect: close time.busy=151µs time.idle=78.6µs
+2026-03-06T12:44:59.543347Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:wait_for_service_healthy: lifecycler::health_monitor: Waiting for service to become healthy: DATA_CAPABILITY service_name=DATA_CAPABILITY timeout=30s
+2026-03-06T12:44:59.543375Z  WARN run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:wait_for_service_healthy: grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:44:59.544631Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:wait_for_service_healthy: lifecycler::health_client: Health status for service: DATA_CAPABILITY service_name=DATA_CAPABILITY health_status=1
+2026-03-06T12:44:59.544661Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:wait_for_service_healthy: lifecycler::health_monitor: Service has become healthy service_name=DATA_CAPABILITY
+2026-03-06T12:44:59.544673Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:wait_for_service_healthy: lifecycler::health_monitor: close time.busy=140µs time.idle=1.19ms
+2026-03-06T12:44:59.544753Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:connect: grpc_utils::endpoint::connect: Connecting to gRPC service endpoint=Uds("/mnt/azureml/cr/j/938318238fba44478b2a5f9aba69e318/.grpc/hosttools-capability:0") retry=FixedIntervalRetry { attempt_timeout_millis: 50, retry_delay_millis: 10, max_duration: 7200s }
+2026-03-06T12:44:59.544925Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:connect: grpc_utils::endpoint::connect: Successfully connected to gRPC service endpoint=Uds("/mnt/azureml/cr/j/938318238fba44478b2a5f9aba69e318/.grpc/hosttools-capability:0")
+2026-03-06T12:44:59.544949Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:connect: grpc_utils::endpoint::connect: close time.busy=135µs time.idle=64.5µs
+2026-03-06T12:44:59.545014Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:connect: grpc_utils::endpoint::connect: Connecting to gRPC service endpoint=Uds("/mnt/azureml/cr/j/938318238fba44478b2a5f9aba69e318/.grpc/hosttools-capability:0") retry=FixedIntervalRetry { attempt_timeout_millis: 50, retry_delay_millis: 10, max_duration: 7200s }
+2026-03-06T12:44:59.545177Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:connect: grpc_utils::endpoint::connect: Successfully connected to gRPC service endpoint=Uds("/mnt/azureml/cr/j/938318238fba44478b2a5f9aba69e318/.grpc/hosttools-capability:0")
+2026-03-06T12:44:59.545207Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:connect: grpc_utils::endpoint::connect: close time.busy=126µs time.idle=68.2µs
+2026-03-06T12:44:59.545225Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:wait_for_service_healthy: lifecycler::health_monitor: Waiting for service to become healthy: HOSTTOOLS_CAPABILITY service_name=HOSTTOOLS_CAPABILITY timeout=30s
+2026-03-06T12:44:59.545248Z  WARN run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:wait_for_service_healthy: grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:44:59.545669Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:wait_for_service_healthy: lifecycler::health_client: Health status for service: HOSTTOOLS_CAPABILITY service_name=HOSTTOOLS_CAPABILITY health_status=1
+2026-03-06T12:44:59.545695Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:wait_for_service_healthy: lifecycler::health_monitor: Service has become healthy service_name=HOSTTOOLS_CAPABILITY
+2026-03-06T12:44:59.545715Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:wait_for_service_healthy: lifecycler::health_monitor: close time.busy=113µs time.idle=379µs
+2026-03-06T12:44:59.545779Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:connect: grpc_utils::endpoint::connect: Connecting to gRPC service endpoint=Uds("/mnt/azureml/cr/j/938318238fba44478b2a5f9aba69e318/.grpc/metrics-capability:0") retry=FixedIntervalRetry { attempt_timeout_millis: 50, retry_delay_millis: 10, max_duration: 7200s }
+2026-03-06T12:44:59.545917Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:connect: grpc_utils::endpoint::connect: Successfully connected to gRPC service endpoint=Uds("/mnt/azureml/cr/j/938318238fba44478b2a5f9aba69e318/.grpc/metrics-capability:0")
+2026-03-06T12:44:59.545946Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:connect: grpc_utils::endpoint::connect: close time.busy=128µs time.idle=41.0µs
+2026-03-06T12:44:59.546006Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:connect: grpc_utils::endpoint::connect: Connecting to gRPC service endpoint=Uds("/mnt/azureml/cr/j/938318238fba44478b2a5f9aba69e318/.grpc/metrics-capability:0") retry=FixedIntervalRetry { attempt_timeout_millis: 50, retry_delay_millis: 10, max_duration: 7200s }
+2026-03-06T12:44:59.546180Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:connect: grpc_utils::endpoint::connect: Successfully connected to gRPC service endpoint=Uds("/mnt/azureml/cr/j/938318238fba44478b2a5f9aba69e318/.grpc/metrics-capability:0")
+2026-03-06T12:44:59.546211Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:connect: grpc_utils::endpoint::connect: close time.busy=151µs time.idle=56.8µs
+2026-03-06T12:44:59.546228Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:wait_for_service_healthy: lifecycler::health_monitor: Waiting for service to become healthy: METRICS_CAPABILITY service_name=METRICS_CAPABILITY timeout=30s
+2026-03-06T12:44:59.546246Z  WARN run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:wait_for_service_healthy: grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:44:59.546605Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:wait_for_service_healthy: lifecycler::health_client: Health status for service: METRICS_CAPABILITY service_name=METRICS_CAPABILITY health_status=1
+2026-03-06T12:44:59.546632Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:wait_for_service_healthy: lifecycler::health_monitor: Service has become healthy service_name=METRICS_CAPABILITY
+2026-03-06T12:44:59.546643Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:wait_for_service_healthy: lifecycler::health_monitor: close time.busy=112µs time.idle=305µs
+2026-03-06T12:44:59.546701Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:connect: grpc_utils::endpoint::connect: Connecting to gRPC service endpoint=Uds("/mnt/azureml/cr/j/938318238fba44478b2a5f9aba69e318/.grpc/snapshot-capability:0") retry=FixedIntervalRetry { attempt_timeout_millis: 50, retry_delay_millis: 10, max_duration: 7200s }
+2026-03-06T12:44:59.546875Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:connect: grpc_utils::endpoint::connect: Successfully connected to gRPC service endpoint=Uds("/mnt/azureml/cr/j/938318238fba44478b2a5f9aba69e318/.grpc/snapshot-capability:0")
+2026-03-06T12:44:59.546902Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:connect: grpc_utils::endpoint::connect: close time.busy=130µs time.idle=72.9µs
+2026-03-06T12:44:59.546964Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:connect: grpc_utils::endpoint::connect: Connecting to gRPC service endpoint=Uds("/mnt/azureml/cr/j/938318238fba44478b2a5f9aba69e318/.grpc/snapshot-capability:0") retry=FixedIntervalRetry { attempt_timeout_millis: 50, retry_delay_millis: 10, max_duration: 7200s }
+2026-03-06T12:44:59.547109Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:connect: grpc_utils::endpoint::connect: Successfully connected to gRPC service endpoint=Uds("/mnt/azureml/cr/j/938318238fba44478b2a5f9aba69e318/.grpc/snapshot-capability:0")
+2026-03-06T12:44:59.547138Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:connect: grpc_utils::endpoint::connect: close time.busy=115µs time.idle=61.2µs
+2026-03-06T12:44:59.547152Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:wait_for_service_healthy: lifecycler::health_monitor: Waiting for service to become healthy: SNAPSHOT_CAPABILITY service_name=SNAPSHOT_CAPABILITY timeout=30s
+2026-03-06T12:44:59.547171Z  WARN run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:wait_for_service_healthy: grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:44:59.547519Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:wait_for_service_healthy: lifecycler::health_client: Health status for service: SNAPSHOT_CAPABILITY service_name=SNAPSHOT_CAPABILITY health_status=1
+2026-03-06T12:44:59.547545Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:wait_for_service_healthy: lifecycler::health_monitor: Service has become healthy service_name=SNAPSHOT_CAPABILITY
+2026-03-06T12:44:59.547556Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities:wait_for_service_healthy: lifecycler::health_monitor: close time.busy=120µs time.idle=286µs
+2026-03-06T12:44:59.547567Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_capabilities: lifecycler::lifecycle: close time.busy=11.6ms time.idle=2.02s
+2026-03-06T12:44:59.547582Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:44:59.547603Z  WARN run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:start_capabilities:start{name="CS_CAPABILITY"}: grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:44:59.547615Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:44:59.547628Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:44:59.547637Z  WARN run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:start_capabilities:start{name="DATA_CAPABILITY"}: grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:44:59.547639Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:44:59.547649Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:44:59.547660Z  WARN run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:start_capabilities:start{name="HOSTTOOLS_CAPABILITY"}: grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:44:59.547705Z  WARN run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:start_capabilities:start{name="METRICS_CAPABILITY"}: grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:44:59.547740Z  WARN run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:start_capabilities:start{name="SNAPSHOT_CAPABILITY"}: grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:44:59.548194Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:start_capabilities:start{name="HOSTTOOLS_CAPABILITY"}: lifecycler::capability_client: Received success code for start cap_name=HOSTTOOLS_CAPABILITY
+2026-03-06T12:44:59.548296Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:start_capabilities:start{name="HOSTTOOLS_CAPABILITY"}: lifecycler::capability_client: close time.busy=176µs time.idle=463µs
+2026-03-06T12:44:59.548714Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:start_capabilities:start{name="METRICS_CAPABILITY"}: lifecycler::capability_client: Received success code for start cap_name=METRICS_CAPABILITY
+2026-03-06T12:44:59.548785Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:start_capabilities:start{name="METRICS_CAPABILITY"}: lifecycler::capability_client: close time.busy=131µs time.idle=954µs
+2026-03-06T12:44:59.576779Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:start_capabilities:start{name="CS_CAPABILITY"}: lifecycler::capability_client: Received success code for start cap_name=CS_CAPABILITY
+2026-03-06T12:44:59.576813Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:start_capabilities:start{name="CS_CAPABILITY"}: lifecycler::capability_client: close time.busy=191µs time.idle=29.0ms
+2026-03-06T12:44:59.852861Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:start_capabilities:start{name="SNAPSHOT_CAPABILITY"}: lifecycler::capability_client: Received success code for start cap_name=SNAPSHOT_CAPABILITY
+2026-03-06T12:44:59.852907Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:start_capabilities:start{name="SNAPSHOT_CAPABILITY"}: lifecycler::capability_client: close time.busy=114µs time.idle=305ms
+2026-03-06T12:45:02.418216Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:start_capabilities:start{name="DATA_CAPABILITY"}: lifecycler::capability_client: Received success code for start cap_name=DATA_CAPABILITY
+2026-03-06T12:45:02.418282Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:start_capabilities:start{name="DATA_CAPABILITY"}: lifecycler::capability_client: close time.busy=211µs time.idle=2.87s
+2026-03-06T12:45:02.418311Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:start_capabilities: lifecycler::lifecycle: close time.busy=920µs time.idle=2.87s
+2026-03-06T12:45:02.418344Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:exit_capabilities{cap_type=Operation job_result=JobResult { job_status: Succeeded, error: None }}: lifecycler::lifecycle: close time.busy=12.7µs time.idle=7.34µs
+2026-03-06T12:45:02.418364Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle: lifecycler::lifecycle: exited operation caps: true
+2026-03-06T12:45:02.418478Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_executor:connect:connect: grpc_utils::endpoint::connect: Connecting to gRPC service endpoint=Uds("/mnt/azureml/cr/j/938318238fba44478b2a5f9aba69e318/.grpc/executor:0") retry=FixedIntervalRetry { attempt_timeout_millis: 50, retry_delay_millis: 10, max_duration: 7200s }
+2026-03-06T12:45:02.418766Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_executor:connect:connect: grpc_utils::endpoint::connect: Successfully connected to gRPC service endpoint=Uds("/mnt/azureml/cr/j/938318238fba44478b2a5f9aba69e318/.grpc/executor:0")
+2026-03-06T12:45:02.418796Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_executor:connect:connect: grpc_utils::endpoint::connect: close time.busy=187µs time.idle=133µs
+2026-03-06T12:45:02.418809Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_executor:connect: lifecycler::executor_client: close time.busy=281µs time.idle=131µs
+2026-03-06T12:45:02.418863Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_executor:connect:connect: grpc_utils::endpoint::connect: Connecting to gRPC service endpoint=Uds("/mnt/azureml/cr/j/938318238fba44478b2a5f9aba69e318/.grpc/executor:0") retry=FixedIntervalRetry { attempt_timeout_millis: 50, retry_delay_millis: 10, max_duration: 7200s }
+2026-03-06T12:45:02.419050Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_executor:connect:connect: grpc_utils::endpoint::connect: Successfully connected to gRPC service endpoint=Uds("/mnt/azureml/cr/j/938318238fba44478b2a5f9aba69e318/.grpc/executor:0")
+2026-03-06T12:45:02.419073Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_executor:connect:connect: grpc_utils::endpoint::connect: close time.busy=119µs time.idle=91.4µs
+2026-03-06T12:45:02.419084Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_executor:connect: lifecycler::executor_client: close time.busy=181µs time.idle=89.4µs
+2026-03-06T12:45:02.419137Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_executor:connect: grpc_utils::endpoint::connect: Connecting to gRPC service endpoint=Uds("/mnt/azureml/cr/j/938318238fba44478b2a5f9aba69e318/.grpc/executor:0") retry=FixedIntervalRetry { attempt_timeout_millis: 50, retry_delay_millis: 10, max_duration: 7200s }
+2026-03-06T12:45:02.419313Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_executor:connect: grpc_utils::endpoint::connect: Successfully connected to gRPC service endpoint=Uds("/mnt/azureml/cr/j/938318238fba44478b2a5f9aba69e318/.grpc/executor:0")
+2026-03-06T12:45:02.419338Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_executor:connect: grpc_utils::endpoint::connect: close time.busy=111µs time.idle=92.8µs
+2026-03-06T12:45:02.419352Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_executor:wait_for_service_healthy: lifecycler::health_monitor: Waiting for service to become healthy: Executor service_name=Executor timeout=30s
+2026-03-06T12:45:02.419369Z  WARN run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_executor:wait_for_service_healthy: grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:45:02.419805Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_executor:wait_for_service_healthy: lifecycler::health_client: Health status for service: Executor service_name=Executor health_status=1
+2026-03-06T12:45:02.419833Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_executor:wait_for_service_healthy: lifecycler::health_monitor: Service has become healthy service_name=Executor
+2026-03-06T12:45:02.419845Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_executor:wait_for_service_healthy: lifecycler::health_monitor: close time.busy=123µs time.idle=373µs
+2026-03-06T12:45:02.419853Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_executor: lifecycler::lifecycle: close time.busy=787µs time.idle=682µs
+2026-03-06T12:45:02.419863Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:connect_lifecyclers{lifecycler_addresses=None}: lifecycler::lifecycle: close time.busy=652ns time.idle=2.58µs
+2026-03-06T12:45:02.419904Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:execute: lifecycler::lifecycle: entering phase rank=None phase=0 is_leader=true entered_phases=false
+2026-03-06T12:45:02.419931Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:execute:barrier_sync: lifecycler::lifecycle: close time.busy=641ns time.idle=1.34µs
+2026-03-06T12:45:02.419979Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:execute: lifecycler::lifecycle: Successfully got AzureML Context from environment, updating Run History with new run attempt
+2026-03-06T12:45:02.419997Z  WARN run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:execute: lifecycler::lifecycle: Skip updating run_attempt since cannot find AZUREML_CR_ENABLE_RUN_ATTEMPT_COUNT_BY_RUN_HISTORY from environment
+2026-03-06T12:45:02.420016Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:execute: lifecycler::lifecycle: starting phase execution rank=None phase=0
+2026-03-06T12:45:02.420030Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:execute: lifecycler::lifecycle: executing phase commands rank=None phase=0
+2026-03-06T12:45:02.420047Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:execute:executor_client::execute_commands{lifecycle_address="/mnt/azureml/cr/j/938318238fba44478b2a5f9aba69e318/.grpc/lifecycler:0" scheduling=None debug_mode=Some(false)}: lifecycler::executor_client: Executing commands
+2026-03-06T12:45:02.420082Z  WARN run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:execute:executor_client::execute_commands{lifecycle_address="/mnt/azureml/cr/j/938318238fba44478b2a5f9aba69e318/.grpc/lifecycler:0" scheduling=None debug_mode=Some(false)}:executor_client::start_execution{lifecycler_address="/mnt/azureml/cr/j/938318238fba44478b2a5f9aba69e318/.grpc/lifecycler:0" debug_mode=Some(false) commands_f=Command(Command { executable: Shell { path: None, command: "export CURRENT_MODEL=qwen3_30b_a3b TRAIN_EPOCHS=3 TRAIN_LORA_RANK=32 TRAIN_LR=0.0002 TRAINING_DATA_DIR=$AZURE_ML_INPUT_training_data OUTPUT_BASE_DIR=$model_output && python study_b_cluster.py", success_return_code: Zero { additional_codes: [] } }, stderr: None, stdout: Some("user_logs/std_log.txt") }) path_mappings_f={}}: grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:45:02.420098Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:execute:executor_client::execute_commands{lifecycle_address="/mnt/azureml/cr/j/938318238fba44478b2a5f9aba69e318/.grpc/lifecycler:0" scheduling=None debug_mode=Some(false)}:executor_client::start_execution{lifecycler_address="/mnt/azureml/cr/j/938318238fba44478b2a5f9aba69e318/.grpc/lifecycler:0" debug_mode=Some(false) commands_f=Command(Command { executable: Shell { path: None, command: "export CURRENT_MODEL=qwen3_30b_a3b TRAIN_EPOCHS=3 TRAIN_LORA_RANK=32 TRAIN_LR=0.0002 TRAINING_DATA_DIR=$AZURE_ML_INPUT_training_data OUTPUT_BASE_DIR=$model_output && python study_b_cluster.py", success_return_code: Zero { additional_codes: [] } }, stderr: None, stdout: Some("user_logs/std_log.txt") }) path_mappings_f={}}: lifecycler::executor_client: Starting execution execution_id=56ceed1d-2369-4093-935a-16539e818c84 lifecycler_address=/mnt/azureml/cr/j/938318238fba44478b2a5f9aba69e318/.grpc/lifecycler:0
+2026-03-06T12:45:02.426138Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:execute:executor_client::execute_commands{lifecycle_address="/mnt/azureml/cr/j/938318238fba44478b2a5f9aba69e318/.grpc/lifecycler:0" scheduling=None debug_mode=Some(false)}:executor_client::start_execution{lifecycler_address="/mnt/azureml/cr/j/938318238fba44478b2a5f9aba69e318/.grpc/lifecycler:0" debug_mode=Some(false) commands_f=Command(Command { executable: Shell { path: None, command: "export CURRENT_MODEL=qwen3_30b_a3b TRAIN_EPOCHS=3 TRAIN_LORA_RANK=32 TRAIN_LR=0.0002 TRAINING_DATA_DIR=$AZURE_ML_INPUT_training_data OUTPUT_BASE_DIR=$model_output && python study_b_cluster.py", success_return_code: Zero { additional_codes: [] } }, stderr: None, stdout: Some("user_logs/std_log.txt") }) path_mappings_f={}}: lifecycler::executor_client: close time.busy=81.3µs time.idle=5.99ms
+2026-03-06T12:45:02.426154Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:execute:executor_client::execute_commands{lifecycle_address="/mnt/azureml/cr/j/938318238fba44478b2a5f9aba69e318/.grpc/lifecycler:0" scheduling=None debug_mode=Some(false)}: lifecycler::executor_client: Waiting for execution completion execution_id="56ceed1d-2369-4093-935a-16539e818c84"
+2026-03-06T12:45:39.550666Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:45:39.550733Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:45:39.550773Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:45:39.550793Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:45:39.550806Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:45:39.550822Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:46:19.553495Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:46:19.553563Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:46:19.553587Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:46:19.553601Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:46:19.553613Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:46:19.553627Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:46:59.556116Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:46:59.556208Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:46:59.556226Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:46:59.556241Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:46:59.556254Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:46:59.556267Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:47:39.557843Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:47:39.557908Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:47:39.557934Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:47:39.557953Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:47:39.557977Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:47:39.557997Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:47:39.558466Z  INFO lifecycler::health_client: Health status for service: Executor service_name=Executor health_status=1
+2026-03-06T12:47:39.558552Z  INFO lifecycler::health_client: Health status for service: HOSTTOOLS_CAPABILITY service_name=HOSTTOOLS_CAPABILITY health_status=1
+2026-03-06T12:47:39.558585Z  INFO lifecycler::health_client: Health status for service: METRICS_CAPABILITY service_name=METRICS_CAPABILITY health_status=1
+2026-03-06T12:47:39.558607Z  INFO lifecycler::health_client: Health status for service: SNAPSHOT_CAPABILITY service_name=SNAPSHOT_CAPABILITY health_status=1
+2026-03-06T12:47:39.559221Z  INFO lifecycler::health_client: Health status for service: DATA_CAPABILITY service_name=DATA_CAPABILITY health_status=1
+2026-03-06T12:47:39.559314Z  INFO lifecycler::health_client: Health status for service: CS_CAPABILITY service_name=CS_CAPABILITY health_status=1
+2026-03-06T12:48:19.560404Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:48:19.560485Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:48:19.560513Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:48:19.560530Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:48:19.560543Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:48:19.560557Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:48:59.563574Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:48:59.563644Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:48:59.563670Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:48:59.563702Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:48:59.563715Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:48:59.563730Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:49:39.566766Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:49:39.566828Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:49:39.566852Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:49:39.566869Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:49:39.566879Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:49:39.566889Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:50:19.569041Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:50:19.569101Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:50:19.569122Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:50:19.569135Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:50:19.569147Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:50:19.569158Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:50:19.569599Z  INFO lifecycler::health_client: Health status for service: Executor service_name=Executor health_status=1
+2026-03-06T12:50:19.569682Z  INFO lifecycler::health_client: Health status for service: SNAPSHOT_CAPABILITY service_name=SNAPSHOT_CAPABILITY health_status=1
+2026-03-06T12:50:19.569721Z  INFO lifecycler::health_client: Health status for service: METRICS_CAPABILITY service_name=METRICS_CAPABILITY health_status=1
+2026-03-06T12:50:19.569756Z  INFO lifecycler::health_client: Health status for service: HOSTTOOLS_CAPABILITY service_name=HOSTTOOLS_CAPABILITY health_status=1
+2026-03-06T12:50:19.570224Z  INFO lifecycler::health_client: Health status for service: CS_CAPABILITY service_name=CS_CAPABILITY health_status=1
+2026-03-06T12:50:19.570298Z  INFO lifecycler::health_client: Health status for service: DATA_CAPABILITY service_name=DATA_CAPABILITY health_status=1
+2026-03-06T12:50:59.571898Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:50:59.571969Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:50:59.571988Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:50:59.572002Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:50:59.572025Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:50:59.572043Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:51:39.573959Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:51:39.574026Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:51:39.574051Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:51:39.574067Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:51:39.574082Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:51:39.574095Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:52:19.576329Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:52:19.576400Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:52:19.576427Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:52:19.576443Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:52:19.576457Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:52:19.576470Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:52:59.579595Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:52:59.579650Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:52:59.579670Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:52:59.579694Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:52:59.579705Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:52:59.579716Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:52:59.580189Z  INFO lifecycler::health_client: Health status for service: METRICS_CAPABILITY service_name=METRICS_CAPABILITY health_status=1
+2026-03-06T12:52:59.580277Z  INFO lifecycler::health_client: Health status for service: SNAPSHOT_CAPABILITY service_name=SNAPSHOT_CAPABILITY health_status=1
+2026-03-06T12:52:59.580334Z  INFO lifecycler::health_client: Health status for service: HOSTTOOLS_CAPABILITY service_name=HOSTTOOLS_CAPABILITY health_status=1
+2026-03-06T12:52:59.580387Z  INFO lifecycler::health_client: Health status for service: Executor service_name=Executor health_status=1
+2026-03-06T12:52:59.580954Z  INFO lifecycler::health_client: Health status for service: DATA_CAPABILITY service_name=DATA_CAPABILITY health_status=1
+2026-03-06T12:52:59.581047Z  INFO lifecycler::health_client: Health status for service: CS_CAPABILITY service_name=CS_CAPABILITY health_status=1
+2026-03-06T12:53:39.582290Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:53:39.582348Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:53:39.582367Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:53:39.582379Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:53:39.582388Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:53:39.582398Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:54:19.585269Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:54:19.585331Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:54:19.585361Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:54:19.585377Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:54:19.585389Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:54:19.585403Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:54:59.588762Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:54:59.588828Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:54:59.588852Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:54:59.588864Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:54:59.588875Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:54:59.588885Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:55:39.591410Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:55:39.591481Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:55:39.591506Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:55:39.591529Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:55:39.591545Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:55:39.591560Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:55:39.592105Z  INFO lifecycler::health_client: Health status for service: METRICS_CAPABILITY service_name=METRICS_CAPABILITY health_status=1
+2026-03-06T12:55:39.592164Z  INFO lifecycler::health_client: Health status for service: SNAPSHOT_CAPABILITY service_name=SNAPSHOT_CAPABILITY health_status=1
+2026-03-06T12:55:39.592190Z  INFO lifecycler::health_client: Health status for service: Executor service_name=Executor health_status=1
+2026-03-06T12:55:39.592273Z  INFO lifecycler::health_client: Health status for service: HOSTTOOLS_CAPABILITY service_name=HOSTTOOLS_CAPABILITY health_status=1
+2026-03-06T12:55:39.592738Z  INFO lifecycler::health_client: Health status for service: DATA_CAPABILITY service_name=DATA_CAPABILITY health_status=1
+2026-03-06T12:55:39.592814Z  INFO lifecycler::health_client: Health status for service: CS_CAPABILITY service_name=CS_CAPABILITY health_status=1
+2026-03-06T12:56:19.594051Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:56:19.594117Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:56:19.594141Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:56:19.594156Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:56:19.594169Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:56:19.594181Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:56:59.597564Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:56:59.597632Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:56:59.597655Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:56:59.597678Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:56:59.597691Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:56:59.597706Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:57:39.600271Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:57:39.600324Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:57:39.600343Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:57:39.600356Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:57:39.600366Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:57:39.600375Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:58:19.603257Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:58:19.603314Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:58:19.603334Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:58:19.603346Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:58:19.603356Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:58:19.603366Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:58:19.604105Z  INFO lifecycler::health_client: Health status for service: SNAPSHOT_CAPABILITY service_name=SNAPSHOT_CAPABILITY health_status=1
+2026-03-06T12:58:19.604203Z  INFO lifecycler::health_client: Health status for service: HOSTTOOLS_CAPABILITY service_name=HOSTTOOLS_CAPABILITY health_status=1
+2026-03-06T12:58:19.604257Z  INFO lifecycler::health_client: Health status for service: METRICS_CAPABILITY service_name=METRICS_CAPABILITY health_status=1
+2026-03-06T12:58:19.604285Z  INFO lifecycler::health_client: Health status for service: Executor service_name=Executor health_status=1
+2026-03-06T12:58:19.604770Z  INFO lifecycler::health_client: Health status for service: DATA_CAPABILITY service_name=DATA_CAPABILITY health_status=1
+2026-03-06T12:58:19.604841Z  INFO lifecycler::health_client: Health status for service: CS_CAPABILITY service_name=CS_CAPABILITY health_status=1
+2026-03-06T12:58:59.606762Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:58:59.606826Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:58:59.606850Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:58:59.606865Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:58:59.606878Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:58:59.606891Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:59:39.608872Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:59:39.608937Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:59:39.608961Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:59:39.608977Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:59:39.608991Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T12:59:39.609003Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:00:19.611092Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:00:19.611155Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:00:19.611179Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:00:19.611193Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:00:19.611216Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:00:19.611233Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:00:59.613603Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:00:59.613671Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:00:59.613696Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:00:59.613712Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:00:59.613738Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:00:59.613754Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:00:59.614264Z  INFO lifecycler::health_client: Health status for service: Executor service_name=Executor health_status=1
+2026-03-06T13:00:59.614335Z  INFO lifecycler::health_client: Health status for service: METRICS_CAPABILITY service_name=METRICS_CAPABILITY health_status=1
+2026-03-06T13:00:59.614372Z  INFO lifecycler::health_client: Health status for service: SNAPSHOT_CAPABILITY service_name=SNAPSHOT_CAPABILITY health_status=1
+2026-03-06T13:00:59.614411Z  INFO lifecycler::health_client: Health status for service: HOSTTOOLS_CAPABILITY service_name=HOSTTOOLS_CAPABILITY health_status=1
+2026-03-06T13:00:59.614927Z  INFO lifecycler::health_client: Health status for service: DATA_CAPABILITY service_name=DATA_CAPABILITY health_status=1
+2026-03-06T13:00:59.615003Z  INFO lifecycler::health_client: Health status for service: CS_CAPABILITY service_name=CS_CAPABILITY health_status=1
+2026-03-06T13:01:39.616807Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:01:39.616876Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:01:39.616901Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:01:39.616918Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:01:39.616934Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:01:39.616948Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:02:19.618938Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:02:19.619001Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:02:19.619021Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:02:19.619032Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:02:19.619044Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:02:19.619054Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:02:59.621193Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:02:59.621259Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:02:59.621283Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:02:59.621300Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:02:59.621313Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:02:59.621330Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:03:39.624178Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:03:39.624241Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:03:39.624265Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:03:39.624280Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:03:39.624292Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:03:39.624305Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:03:39.625040Z  INFO lifecycler::health_client: Health status for service: SNAPSHOT_CAPABILITY service_name=SNAPSHOT_CAPABILITY health_status=1
+2026-03-06T13:03:39.625143Z  INFO lifecycler::health_client: Health status for service: METRICS_CAPABILITY service_name=METRICS_CAPABILITY health_status=1
+2026-03-06T13:03:39.625220Z  INFO lifecycler::health_client: Health status for service: Executor service_name=Executor health_status=1
+2026-03-06T13:03:39.625290Z  INFO lifecycler::health_client: Health status for service: HOSTTOOLS_CAPABILITY service_name=HOSTTOOLS_CAPABILITY health_status=1
+2026-03-06T13:03:39.625914Z  INFO lifecycler::health_client: Health status for service: DATA_CAPABILITY service_name=DATA_CAPABILITY health_status=1
+2026-03-06T13:03:39.625991Z  INFO lifecycler::health_client: Health status for service: CS_CAPABILITY service_name=CS_CAPABILITY health_status=1
+2026-03-06T13:04:19.627159Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:04:19.627219Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:04:19.627241Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:04:19.627256Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:04:19.627269Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:04:19.627281Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:04:59.630367Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:04:59.630431Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:04:59.630458Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:04:59.630475Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:04:59.630489Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:04:59.630502Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:05:39.633013Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:05:39.633082Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:05:39.633121Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:05:39.633141Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:05:39.633155Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:05:39.633175Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:06:19.636019Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:06:19.636081Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:06:19.636106Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:06:19.636120Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:06:19.636137Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:06:19.636150Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:06:19.636651Z  INFO lifecycler::health_client: Health status for service: METRICS_CAPABILITY service_name=METRICS_CAPABILITY health_status=1
+2026-03-06T13:06:19.636777Z  INFO lifecycler::health_client: Health status for service: HOSTTOOLS_CAPABILITY service_name=HOSTTOOLS_CAPABILITY health_status=1
+2026-03-06T13:06:19.636859Z  INFO lifecycler::health_client: Health status for service: SNAPSHOT_CAPABILITY service_name=SNAPSHOT_CAPABILITY health_status=1
+2026-03-06T13:06:19.636917Z  INFO lifecycler::health_client: Health status for service: Executor service_name=Executor health_status=1
+2026-03-06T13:06:19.637470Z  INFO lifecycler::health_client: Health status for service: DATA_CAPABILITY service_name=DATA_CAPABILITY health_status=1
+2026-03-06T13:06:19.637522Z  INFO lifecycler::health_client: Health status for service: CS_CAPABILITY service_name=CS_CAPABILITY health_status=1
+2026-03-06T13:06:59.637884Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:06:59.637941Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:06:59.637961Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:06:59.637972Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:06:59.637983Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:06:59.637994Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:07:39.640336Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:07:39.640400Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:07:39.640425Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:07:39.640440Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:07:39.640454Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:07:39.640467Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:08:19.643715Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:08:19.643777Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:08:19.643801Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:08:19.643816Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:08:19.643830Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:08:19.643844Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:08:59.647606Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:08:59.647694Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:08:59.647718Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:08:59.647732Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:08:59.647743Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:08:59.647756Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:08:59.648473Z  INFO lifecycler::health_client: Health status for service: METRICS_CAPABILITY service_name=METRICS_CAPABILITY health_status=1
+2026-03-06T13:08:59.648548Z  INFO lifecycler::health_client: Health status for service: SNAPSHOT_CAPABILITY service_name=SNAPSHOT_CAPABILITY health_status=1
+2026-03-06T13:08:59.648576Z  INFO lifecycler::health_client: Health status for service: Executor service_name=Executor health_status=1
+2026-03-06T13:08:59.648620Z  INFO lifecycler::health_client: Health status for service: HOSTTOOLS_CAPABILITY service_name=HOSTTOOLS_CAPABILITY health_status=1
+2026-03-06T13:08:59.649223Z  INFO lifecycler::health_client: Health status for service: CS_CAPABILITY service_name=CS_CAPABILITY health_status=1
+2026-03-06T13:08:59.649280Z  INFO lifecycler::health_client: Health status for service: DATA_CAPABILITY service_name=DATA_CAPABILITY health_status=1
+2026-03-06T13:09:39.650112Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:09:39.650177Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:09:39.650204Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:09:39.650218Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:09:39.650231Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:09:39.650255Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:10:19.653442Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:10:19.653507Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:10:19.653532Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:10:19.653547Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:10:19.653562Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:10:19.653574Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:10:59.656153Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:10:59.656222Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:10:59.656244Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:10:59.656260Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:10:59.656274Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:10:59.656289Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:11:39.659288Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:11:39.659350Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:11:39.659378Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:11:39.659393Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:11:39.659408Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:11:39.659423Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:11:39.659951Z  INFO lifecycler::health_client: Health status for service: SNAPSHOT_CAPABILITY service_name=SNAPSHOT_CAPABILITY health_status=1
+2026-03-06T13:11:39.660011Z  INFO lifecycler::health_client: Health status for service: Executor service_name=Executor health_status=1
+2026-03-06T13:11:39.660057Z  INFO lifecycler::health_client: Health status for service: METRICS_CAPABILITY service_name=METRICS_CAPABILITY health_status=1
+2026-03-06T13:11:39.660099Z  INFO lifecycler::health_client: Health status for service: HOSTTOOLS_CAPABILITY service_name=HOSTTOOLS_CAPABILITY health_status=1
+2026-03-06T13:11:39.660643Z  INFO lifecycler::health_client: Health status for service: CS_CAPABILITY service_name=CS_CAPABILITY health_status=1
+2026-03-06T13:11:39.660722Z  INFO lifecycler::health_client: Health status for service: DATA_CAPABILITY service_name=DATA_CAPABILITY health_status=1
+2026-03-06T13:12:19.661948Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:12:19.662011Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:12:19.662034Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:12:19.662050Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:12:19.662063Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:12:19.662077Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:12:59.664090Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:12:59.664145Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:12:59.664166Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:12:59.664180Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:12:59.664190Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:12:59.664201Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:13:39.666720Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:13:39.666782Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:13:39.666806Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:13:39.666826Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:13:39.666839Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:13:39.666856Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:14:19.668952Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:14:19.669014Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:14:19.669037Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:14:19.669060Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:14:19.669073Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:14:19.669089Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:14:19.669610Z  INFO lifecycler::health_client: Health status for service: HOSTTOOLS_CAPABILITY service_name=HOSTTOOLS_CAPABILITY health_status=1
+2026-03-06T13:14:19.669667Z  INFO lifecycler::health_client: Health status for service: METRICS_CAPABILITY service_name=METRICS_CAPABILITY health_status=1
+2026-03-06T13:14:19.669699Z  INFO lifecycler::health_client: Health status for service: SNAPSHOT_CAPABILITY service_name=SNAPSHOT_CAPABILITY health_status=1
+2026-03-06T13:14:19.669727Z  INFO lifecycler::health_client: Health status for service: Executor service_name=Executor health_status=1
+2026-03-06T13:14:19.670378Z  INFO lifecycler::health_client: Health status for service: DATA_CAPABILITY service_name=DATA_CAPABILITY health_status=1
+2026-03-06T13:14:19.670424Z  INFO lifecycler::health_client: Health status for service: CS_CAPABILITY service_name=CS_CAPABILITY health_status=1
+2026-03-06T13:14:59.670961Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:14:59.671016Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:14:59.671036Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:14:59.671048Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:14:59.671059Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:14:59.671069Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:15:39.673626Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:15:39.673689Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:15:39.673711Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:15:39.673725Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:15:39.673736Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:15:39.673747Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:16:19.676264Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:16:19.676326Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:16:19.676350Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:16:19.676365Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:16:19.676378Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:16:19.676390Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:16:59.678228Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:16:59.678293Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:16:59.678319Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:16:59.678335Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:16:59.678349Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:16:59.678365Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:16:59.679143Z  INFO lifecycler::health_client: Health status for service: METRICS_CAPABILITY service_name=METRICS_CAPABILITY health_status=1
+2026-03-06T13:16:59.679325Z  INFO lifecycler::health_client: Health status for service: Executor service_name=Executor health_status=1
+2026-03-06T13:16:59.679386Z  INFO lifecycler::health_client: Health status for service: HOSTTOOLS_CAPABILITY service_name=HOSTTOOLS_CAPABILITY health_status=1
+2026-03-06T13:16:59.679425Z  INFO lifecycler::health_client: Health status for service: SNAPSHOT_CAPABILITY service_name=SNAPSHOT_CAPABILITY health_status=1
+2026-03-06T13:16:59.680064Z  INFO lifecycler::health_client: Health status for service: CS_CAPABILITY service_name=CS_CAPABILITY health_status=1
+2026-03-06T13:16:59.680143Z  INFO lifecycler::health_client: Health status for service: DATA_CAPABILITY service_name=DATA_CAPABILITY health_status=1
+2026-03-06T13:17:39.680995Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:17:39.681058Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:17:39.681081Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:17:39.681093Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:17:39.681104Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:17:39.681115Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:18:19.683482Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:18:19.683538Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:18:19.683560Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:18:19.683573Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:18:19.683584Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:18:19.683595Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:18:59.686135Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:18:59.686201Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:18:59.686227Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:18:59.686242Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:18:59.686255Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:18:59.686268Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:19:39.688384Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:19:39.688449Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:19:39.688472Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:19:39.688486Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:19:39.688497Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:19:39.688510Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:19:39.688921Z  INFO lifecycler::health_client: Health status for service: METRICS_CAPABILITY service_name=METRICS_CAPABILITY health_status=1
+2026-03-06T13:19:39.689044Z  INFO lifecycler::health_client: Health status for service: HOSTTOOLS_CAPABILITY service_name=HOSTTOOLS_CAPABILITY health_status=1
+2026-03-06T13:19:39.689096Z  INFO lifecycler::health_client: Health status for service: Executor service_name=Executor health_status=1
+2026-03-06T13:19:39.689130Z  INFO lifecycler::health_client: Health status for service: SNAPSHOT_CAPABILITY service_name=SNAPSHOT_CAPABILITY health_status=1
+2026-03-06T13:19:39.689778Z  INFO lifecycler::health_client: Health status for service: DATA_CAPABILITY service_name=DATA_CAPABILITY health_status=1
+2026-03-06T13:19:39.689855Z  INFO lifecycler::health_client: Health status for service: CS_CAPABILITY service_name=CS_CAPABILITY health_status=1
+2026-03-06T13:20:19.691398Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:20:19.691466Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:20:19.691490Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:20:19.691505Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:20:19.691520Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:20:19.691533Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:20:59.694479Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:20:59.694542Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:20:59.694568Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:20:59.694582Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:20:59.694595Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:20:59.694610Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:21:39.697694Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:21:39.697758Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:21:39.697784Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:21:39.697799Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:21:39.697812Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:21:39.697828Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:22:19.699895Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:22:19.699951Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:22:19.699972Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:22:19.699985Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:22:19.699997Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:22:19.700007Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:22:19.700725Z  INFO lifecycler::health_client: Health status for service: SNAPSHOT_CAPABILITY service_name=SNAPSHOT_CAPABILITY health_status=1
+2026-03-06T13:22:19.700964Z  INFO lifecycler::health_client: Health status for service: METRICS_CAPABILITY service_name=METRICS_CAPABILITY health_status=1
+2026-03-06T13:22:19.701012Z  INFO lifecycler::health_client: Health status for service: Executor service_name=Executor health_status=1
+2026-03-06T13:22:19.701185Z  INFO lifecycler::health_client: Health status for service: HOSTTOOLS_CAPABILITY service_name=HOSTTOOLS_CAPABILITY health_status=1
+2026-03-06T13:22:19.701761Z  INFO lifecycler::health_client: Health status for service: CS_CAPABILITY service_name=CS_CAPABILITY health_status=1
+2026-03-06T13:22:19.701820Z  INFO lifecycler::health_client: Health status for service: DATA_CAPABILITY service_name=DATA_CAPABILITY health_status=1
+2026-03-06T13:22:59.703333Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:22:59.703398Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:22:59.703422Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:22:59.703438Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:22:59.703452Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:22:59.703471Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:23:39.706719Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:23:39.706785Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:23:39.706810Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:23:39.706828Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:23:39.706842Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:23:39.706856Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:24:19.708988Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:24:19.709050Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:24:19.709074Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:24:19.709090Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:24:19.709105Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:24:19.709118Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:24:59.712785Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:24:59.712849Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:24:59.712872Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:24:59.712888Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:24:59.712898Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:24:59.712909Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:24:59.713415Z  INFO lifecycler::health_client: Health status for service: METRICS_CAPABILITY service_name=METRICS_CAPABILITY health_status=1
+2026-03-06T13:24:59.713497Z  INFO lifecycler::health_client: Health status for service: SNAPSHOT_CAPABILITY service_name=SNAPSHOT_CAPABILITY health_status=1
+2026-03-06T13:24:59.713527Z  INFO lifecycler::health_client: Health status for service: Executor service_name=Executor health_status=1
+2026-03-06T13:24:59.713581Z  INFO lifecycler::health_client: Health status for service: HOSTTOOLS_CAPABILITY service_name=HOSTTOOLS_CAPABILITY health_status=1
+2026-03-06T13:24:59.714039Z  INFO lifecycler::health_client: Health status for service: DATA_CAPABILITY service_name=DATA_CAPABILITY health_status=1
+2026-03-06T13:24:59.714118Z  INFO lifecycler::health_client: Health status for service: CS_CAPABILITY service_name=CS_CAPABILITY health_status=1
+2026-03-06T13:25:39.714959Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:25:39.715026Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:25:39.715050Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:25:39.715065Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:25:39.715078Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:25:39.715091Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:26:19.717029Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:26:19.717088Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:26:19.717108Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:26:19.717121Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:26:19.717132Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:26:19.717145Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:26:59.720650Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:26:59.720714Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:26:59.720740Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:26:59.720756Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:26:59.720768Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:26:59.720781Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:27:39.723166Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:27:39.723233Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:27:39.723260Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:27:39.723275Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:27:39.723288Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:27:39.723301Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:27:39.724657Z  INFO lifecycler::health_client: Health status for service: SNAPSHOT_CAPABILITY service_name=SNAPSHOT_CAPABILITY health_status=1
+2026-03-06T13:27:39.724731Z  INFO lifecycler::health_client: Health status for service: HOSTTOOLS_CAPABILITY service_name=HOSTTOOLS_CAPABILITY health_status=1
+2026-03-06T13:27:39.724812Z  INFO lifecycler::health_client: Health status for service: METRICS_CAPABILITY service_name=METRICS_CAPABILITY health_status=1
+2026-03-06T13:27:39.724844Z  INFO lifecycler::health_client: Health status for service: Executor service_name=Executor health_status=1
+2026-03-06T13:27:39.725501Z  INFO lifecycler::health_client: Health status for service: CS_CAPABILITY service_name=CS_CAPABILITY health_status=1
+2026-03-06T13:27:39.725583Z  INFO lifecycler::health_client: Health status for service: DATA_CAPABILITY service_name=DATA_CAPABILITY health_status=1
+2026-03-06T13:28:19.727162Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:28:19.727222Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:28:19.727243Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:28:19.727254Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:28:19.727264Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:28:19.727273Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:28:59.730460Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:28:59.730522Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:28:59.730548Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:28:59.730563Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:28:59.730578Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:28:59.730592Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:29:39.733102Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:29:39.733171Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:29:39.733198Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:29:39.733214Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:29:39.733228Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:29:39.733241Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:30:19.736847Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:30:19.736911Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:30:19.736936Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:30:19.736950Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:30:19.736963Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:30:19.736975Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:30:19.737671Z  INFO lifecycler::health_client: Health status for service: Executor service_name=Executor health_status=1
+2026-03-06T13:30:19.737766Z  INFO lifecycler::health_client: Health status for service: METRICS_CAPABILITY service_name=METRICS_CAPABILITY health_status=1
+2026-03-06T13:30:19.737834Z  INFO lifecycler::health_client: Health status for service: SNAPSHOT_CAPABILITY service_name=SNAPSHOT_CAPABILITY health_status=1
+2026-03-06T13:30:19.737924Z  INFO lifecycler::health_client: Health status for service: HOSTTOOLS_CAPABILITY service_name=HOSTTOOLS_CAPABILITY health_status=1
+2026-03-06T13:30:19.738260Z  INFO lifecycler::health_client: Health status for service: CS_CAPABILITY service_name=CS_CAPABILITY health_status=1
+2026-03-06T13:30:19.738333Z  INFO lifecycler::health_client: Health status for service: DATA_CAPABILITY service_name=DATA_CAPABILITY health_status=1
+2026-03-06T13:30:59.739981Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:30:59.740041Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:30:59.740067Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:30:59.740088Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:30:59.740103Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:30:59.740118Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:31:39.742565Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:31:39.742631Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:31:39.742657Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:31:39.742674Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:31:39.742688Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:31:39.742700Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:32:19.745581Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:32:19.745646Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:32:19.745673Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:32:19.745688Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:32:19.745702Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:32:19.745716Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:32:59.748475Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:32:59.748539Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:32:59.748565Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:32:59.748582Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:32:59.748594Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:32:59.748608Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:32:59.749093Z  INFO lifecycler::health_client: Health status for service: SNAPSHOT_CAPABILITY service_name=SNAPSHOT_CAPABILITY health_status=1
+2026-03-06T13:32:59.749220Z  INFO lifecycler::health_client: Health status for service: HOSTTOOLS_CAPABILITY service_name=HOSTTOOLS_CAPABILITY health_status=1
+2026-03-06T13:32:59.749277Z  INFO lifecycler::health_client: Health status for service: METRICS_CAPABILITY service_name=METRICS_CAPABILITY health_status=1
+2026-03-06T13:32:59.749339Z  INFO lifecycler::health_client: Health status for service: Executor service_name=Executor health_status=1
+2026-03-06T13:32:59.749919Z  INFO lifecycler::health_client: Health status for service: DATA_CAPABILITY service_name=DATA_CAPABILITY health_status=1
+2026-03-06T13:32:59.749991Z  INFO lifecycler::health_client: Health status for service: CS_CAPABILITY service_name=CS_CAPABILITY health_status=1
+2026-03-06T13:33:39.751731Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:33:39.751796Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:33:39.751820Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:33:39.751833Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:33:39.751848Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:33:39.751861Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:34:19.754028Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:34:19.754091Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:34:19.754115Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:34:19.754128Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:34:19.754140Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:34:19.754151Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:34:59.757835Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:34:59.757897Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:34:59.757922Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:34:59.757935Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:34:59.757946Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:34:59.757958Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:35:39.760023Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:35:39.760083Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:35:39.760104Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:35:39.760115Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:35:39.760125Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:35:39.760136Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:35:39.760844Z  INFO lifecycler::health_client: Health status for service: SNAPSHOT_CAPABILITY service_name=SNAPSHOT_CAPABILITY health_status=1
+2026-03-06T13:35:39.760931Z  INFO lifecycler::health_client: Health status for service: Executor service_name=Executor health_status=1
+2026-03-06T13:35:39.760985Z  INFO lifecycler::health_client: Health status for service: HOSTTOOLS_CAPABILITY service_name=HOSTTOOLS_CAPABILITY health_status=1
+2026-03-06T13:35:39.761067Z  INFO lifecycler::health_client: Health status for service: METRICS_CAPABILITY service_name=METRICS_CAPABILITY health_status=1
+2026-03-06T13:35:39.761629Z  INFO lifecycler::health_client: Health status for service: DATA_CAPABILITY service_name=DATA_CAPABILITY health_status=1
+2026-03-06T13:35:39.761715Z  INFO lifecycler::health_client: Health status for service: CS_CAPABILITY service_name=CS_CAPABILITY health_status=1
+2026-03-06T13:36:19.763510Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:36:19.763575Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:36:19.763604Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:36:19.763620Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:36:19.763634Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:36:19.763650Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:36:59.766309Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:36:59.766372Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:36:59.766396Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:36:59.766411Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:36:59.766426Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:36:59.766441Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:37:39.769516Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:37:39.769584Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:37:39.769608Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:37:39.769622Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:37:39.769634Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:37:39.769648Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:38:19.772335Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:38:19.772405Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:38:19.772429Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:38:19.772446Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:38:19.772462Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:38:19.772477Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:38:19.773212Z  INFO lifecycler::health_client: Health status for service: METRICS_CAPABILITY service_name=METRICS_CAPABILITY health_status=1
+2026-03-06T13:38:19.773295Z  INFO lifecycler::health_client: Health status for service: SNAPSHOT_CAPABILITY service_name=SNAPSHOT_CAPABILITY health_status=1
+2026-03-06T13:38:19.773323Z  INFO lifecycler::health_client: Health status for service: Executor service_name=Executor health_status=1
+2026-03-06T13:38:19.773359Z  INFO lifecycler::health_client: Health status for service: HOSTTOOLS_CAPABILITY service_name=HOSTTOOLS_CAPABILITY health_status=1
+2026-03-06T13:38:19.774008Z  INFO lifecycler::health_client: Health status for service: DATA_CAPABILITY service_name=DATA_CAPABILITY health_status=1
+2026-03-06T13:38:19.774103Z  INFO lifecycler::health_client: Health status for service: CS_CAPABILITY service_name=CS_CAPABILITY health_status=1
+2026-03-06T13:38:59.775389Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:38:59.775451Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:38:59.775474Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:38:59.775488Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:38:59.775499Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:38:59.775511Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:39:39.778293Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:39:39.778353Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:39:39.778376Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:39:39.778389Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:39:39.778402Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:39:39.778414Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:40:19.781079Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:40:19.781143Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:40:19.781169Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:40:19.781187Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:40:19.781202Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:40:19.781216Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:40:59.784775Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:40:59.784852Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:40:59.784881Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:40:59.784894Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:40:59.784908Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:40:59.784922Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:40:59.785582Z  INFO lifecycler::health_client: Health status for service: METRICS_CAPABILITY service_name=METRICS_CAPABILITY health_status=1
+2026-03-06T13:40:59.785733Z  INFO lifecycler::health_client: Health status for service: SNAPSHOT_CAPABILITY service_name=SNAPSHOT_CAPABILITY health_status=1
+2026-03-06T13:40:59.785774Z  INFO lifecycler::health_client: Health status for service: Executor service_name=Executor health_status=1
+2026-03-06T13:40:59.785879Z  INFO lifecycler::health_client: Health status for service: HOSTTOOLS_CAPABILITY service_name=HOSTTOOLS_CAPABILITY health_status=1
+2026-03-06T13:40:59.786437Z  INFO lifecycler::health_client: Health status for service: DATA_CAPABILITY service_name=DATA_CAPABILITY health_status=1
+2026-03-06T13:40:59.786634Z  INFO lifecycler::health_client: Health status for service: CS_CAPABILITY service_name=CS_CAPABILITY health_status=1
+2026-03-06T13:41:39.787100Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:41:39.787179Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:41:39.787212Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:41:39.787231Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:41:39.787245Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:41:39.787259Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:42:19.790919Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:42:19.790989Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:42:19.791014Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:42:19.791030Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:42:19.791044Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:42:19.791057Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:42:59.793209Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:42:59.793270Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:42:59.793294Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:42:59.793309Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:42:59.793324Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:42:59.793337Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:43:39.795880Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:43:39.795941Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:43:39.795965Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:43:39.795980Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:43:39.795992Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:43:39.796005Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:43:39.796493Z  INFO lifecycler::health_client: Health status for service: SNAPSHOT_CAPABILITY service_name=SNAPSHOT_CAPABILITY health_status=1
+2026-03-06T13:43:39.796615Z  INFO lifecycler::health_client: Health status for service: HOSTTOOLS_CAPABILITY service_name=HOSTTOOLS_CAPABILITY health_status=1
+2026-03-06T13:43:39.796657Z  INFO lifecycler::health_client: Health status for service: Executor service_name=Executor health_status=1
+2026-03-06T13:43:39.796713Z  INFO lifecycler::health_client: Health status for service: METRICS_CAPABILITY service_name=METRICS_CAPABILITY health_status=1
+2026-03-06T13:43:39.797129Z  INFO lifecycler::health_client: Health status for service: CS_CAPABILITY service_name=CS_CAPABILITY health_status=1
+2026-03-06T13:43:39.797203Z  INFO lifecycler::health_client: Health status for service: DATA_CAPABILITY service_name=DATA_CAPABILITY health_status=1
+2026-03-06T13:44:19.798591Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:44:19.798652Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:44:19.798679Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:44:19.798695Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:44:19.798712Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:44:19.798730Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:44:59.801525Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:44:59.801584Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:44:59.801609Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:44:59.801623Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:44:59.801635Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:44:59.801648Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:45:39.804785Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:45:39.804853Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:45:39.804879Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:45:39.804896Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:45:39.804910Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:45:39.804926Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:46:19.807810Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:46:19.807878Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:46:19.807905Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:46:19.807923Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:46:19.807938Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:46:19.807957Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:46:19.808441Z  INFO lifecycler::health_client: Health status for service: METRICS_CAPABILITY service_name=METRICS_CAPABILITY health_status=1
+2026-03-06T13:46:19.808572Z  INFO lifecycler::health_client: Health status for service: SNAPSHOT_CAPABILITY service_name=SNAPSHOT_CAPABILITY health_status=1
+2026-03-06T13:46:19.808663Z  INFO lifecycler::health_client: Health status for service: HOSTTOOLS_CAPABILITY service_name=HOSTTOOLS_CAPABILITY health_status=1
+2026-03-06T13:46:19.808712Z  INFO lifecycler::health_client: Health status for service: Executor service_name=Executor health_status=1
+2026-03-06T13:46:19.809296Z  INFO lifecycler::health_client: Health status for service: DATA_CAPABILITY service_name=DATA_CAPABILITY health_status=1
+2026-03-06T13:46:19.809363Z  INFO lifecycler::health_client: Health status for service: CS_CAPABILITY service_name=CS_CAPABILITY health_status=1
+2026-03-06T13:46:59.810152Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:46:59.810215Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:46:59.810241Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:46:59.810259Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:46:59.810273Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:46:59.810287Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:47:39.812804Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:47:39.812873Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:47:39.812899Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:47:39.812914Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:47:39.812928Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:47:39.812940Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:48:19.815723Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:48:19.815785Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:48:19.815809Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:48:19.815823Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:48:19.815835Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:48:19.815846Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:48:59.818778Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:48:59.818844Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:48:59.818872Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:48:59.818889Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:48:59.818905Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:48:59.818924Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:48:59.819493Z  INFO lifecycler::health_client: Health status for service: SNAPSHOT_CAPABILITY service_name=SNAPSHOT_CAPABILITY health_status=1
+2026-03-06T13:48:59.819581Z  INFO lifecycler::health_client: Health status for service: Executor service_name=Executor health_status=1
+2026-03-06T13:48:59.819632Z  INFO lifecycler::health_client: Health status for service: HOSTTOOLS_CAPABILITY service_name=HOSTTOOLS_CAPABILITY health_status=1
+2026-03-06T13:48:59.819667Z  INFO lifecycler::health_client: Health status for service: METRICS_CAPABILITY service_name=METRICS_CAPABILITY health_status=1
+2026-03-06T13:48:59.820277Z  INFO lifecycler::health_client: Health status for service: DATA_CAPABILITY service_name=DATA_CAPABILITY health_status=1
+2026-03-06T13:48:59.820384Z  INFO lifecycler::health_client: Health status for service: CS_CAPABILITY service_name=CS_CAPABILITY health_status=1
+2026-03-06T13:49:39.821165Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:49:39.821228Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:49:39.821251Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:49:39.821266Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:49:39.821280Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:49:39.821292Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:50:19.824777Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:50:19.824842Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:50:19.824869Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:50:19.824886Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:50:19.824903Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:50:19.824922Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:50:59.827304Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:50:59.827364Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:50:59.827388Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:50:59.827405Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:50:59.827418Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:50:59.827431Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:51:39.829807Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:51:39.829870Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:51:39.829897Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:51:39.829914Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:51:39.829928Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:51:39.829940Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:51:39.830698Z  INFO lifecycler::health_client: Health status for service: METRICS_CAPABILITY service_name=METRICS_CAPABILITY health_status=1
+2026-03-06T13:51:39.830756Z  INFO lifecycler::health_client: Health status for service: SNAPSHOT_CAPABILITY service_name=SNAPSHOT_CAPABILITY health_status=1
+2026-03-06T13:51:39.830782Z  INFO lifecycler::health_client: Health status for service: Executor service_name=Executor health_status=1
+2026-03-06T13:51:39.830829Z  INFO lifecycler::health_client: Health status for service: HOSTTOOLS_CAPABILITY service_name=HOSTTOOLS_CAPABILITY health_status=1
+2026-03-06T13:51:39.831342Z  INFO lifecycler::health_client: Health status for service: DATA_CAPABILITY service_name=DATA_CAPABILITY health_status=1
+2026-03-06T13:51:39.831442Z  INFO lifecycler::health_client: Health status for service: CS_CAPABILITY service_name=CS_CAPABILITY health_status=1
+2026-03-06T13:52:19.832587Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:52:19.832658Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:52:19.832687Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:52:19.832704Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:52:19.832717Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:52:19.832732Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:52:59.835266Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:52:59.835333Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:52:59.835359Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:52:59.835377Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:52:59.835391Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:52:59.835405Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:53:39.837872Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:53:39.837939Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:53:39.837964Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:53:39.837981Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:53:39.837996Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:53:39.838010Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:54:19.840453Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:54:19.840517Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:54:19.840541Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:54:19.840559Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:54:19.840573Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:54:19.840589Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:54:19.841039Z  INFO lifecycler::health_client: Health status for service: Executor service_name=Executor health_status=1
+2026-03-06T13:54:19.841136Z  INFO lifecycler::health_client: Health status for service: HOSTTOOLS_CAPABILITY service_name=HOSTTOOLS_CAPABILITY health_status=1
+2026-03-06T13:54:19.841173Z  INFO lifecycler::health_client: Health status for service: METRICS_CAPABILITY service_name=METRICS_CAPABILITY health_status=1
+2026-03-06T13:54:19.841201Z  INFO lifecycler::health_client: Health status for service: SNAPSHOT_CAPABILITY service_name=SNAPSHOT_CAPABILITY health_status=1
+2026-03-06T13:54:19.841747Z  INFO lifecycler::health_client: Health status for service: CS_CAPABILITY service_name=CS_CAPABILITY health_status=1
+2026-03-06T13:54:19.841820Z  INFO lifecycler::health_client: Health status for service: DATA_CAPABILITY service_name=DATA_CAPABILITY health_status=1
+2026-03-06T13:54:59.843876Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:54:59.843945Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:54:59.843971Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:54:59.843987Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:54:59.844001Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:54:59.844014Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:55:39.846624Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:55:39.846685Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:55:39.846708Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:55:39.846722Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:55:39.846734Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:55:39.846744Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:56:19.849596Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:56:19.849663Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:56:19.849690Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:56:19.849707Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:56:19.849720Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:56:19.849734Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:56:59.852071Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:56:59.852127Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:56:59.852146Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:56:59.852160Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:56:59.852172Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:56:59.852187Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:56:59.852828Z  INFO lifecycler::health_client: Health status for service: SNAPSHOT_CAPABILITY service_name=SNAPSHOT_CAPABILITY health_status=1
+2026-03-06T13:56:59.852955Z  INFO lifecycler::health_client: Health status for service: Executor service_name=Executor health_status=1
+2026-03-06T13:56:59.853001Z  INFO lifecycler::health_client: Health status for service: METRICS_CAPABILITY service_name=METRICS_CAPABILITY health_status=1
+2026-03-06T13:56:59.853121Z  INFO lifecycler::health_client: Health status for service: HOSTTOOLS_CAPABILITY service_name=HOSTTOOLS_CAPABILITY health_status=1
+2026-03-06T13:56:59.853682Z  INFO lifecycler::health_client: Health status for service: DATA_CAPABILITY service_name=DATA_CAPABILITY health_status=1
+2026-03-06T13:56:59.853733Z  INFO lifecycler::health_client: Health status for service: CS_CAPABILITY service_name=CS_CAPABILITY health_status=1
+2026-03-06T13:57:39.855258Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:57:39.855306Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:57:39.855323Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:57:39.855335Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:57:39.855344Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:57:39.855352Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:58:19.858114Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:58:19.858175Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:58:19.858194Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:58:19.858205Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:58:19.858215Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:58:19.858224Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:58:59.861643Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:58:59.861705Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:58:59.861729Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:58:59.861746Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:58:59.861762Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:58:59.861781Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:59:39.863961Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:59:39.864024Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:59:39.864049Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:59:39.864065Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:59:39.864079Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:59:39.864092Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T13:59:39.864658Z  INFO lifecycler::health_client: Health status for service: SNAPSHOT_CAPABILITY service_name=SNAPSHOT_CAPABILITY health_status=1
+2026-03-06T13:59:39.864765Z  INFO lifecycler::health_client: Health status for service: HOSTTOOLS_CAPABILITY service_name=HOSTTOOLS_CAPABILITY health_status=1
+2026-03-06T13:59:39.864850Z  INFO lifecycler::health_client: Health status for service: METRICS_CAPABILITY service_name=METRICS_CAPABILITY health_status=1
+2026-03-06T13:59:39.864884Z  INFO lifecycler::health_client: Health status for service: Executor service_name=Executor health_status=1
+2026-03-06T13:59:39.865421Z  INFO lifecycler::health_client: Health status for service: DATA_CAPABILITY service_name=DATA_CAPABILITY health_status=1
+2026-03-06T13:59:39.865557Z  INFO lifecycler::health_client: Health status for service: CS_CAPABILITY service_name=CS_CAPABILITY health_status=1
+2026-03-06T14:00:19.866522Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:00:19.866583Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:00:19.866606Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:00:19.866621Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:00:19.866634Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:00:19.866645Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:00:59.869566Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:00:59.869630Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:00:59.869656Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:00:59.869672Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:00:59.869688Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:00:59.869703Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:01:39.872838Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:01:39.872903Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:01:39.872929Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:01:39.872946Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:01:39.872961Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:01:39.872976Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:02:19.875114Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:02:19.875175Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:02:19.875201Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:02:19.875218Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:02:19.875233Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:02:19.875247Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:02:19.875824Z  INFO lifecycler::health_client: Health status for service: METRICS_CAPABILITY service_name=METRICS_CAPABILITY health_status=1
+2026-03-06T14:02:19.875908Z  INFO lifecycler::health_client: Health status for service: Executor service_name=Executor health_status=1
+2026-03-06T14:02:19.875948Z  INFO lifecycler::health_client: Health status for service: HOSTTOOLS_CAPABILITY service_name=HOSTTOOLS_CAPABILITY health_status=1
+2026-03-06T14:02:19.876010Z  INFO lifecycler::health_client: Health status for service: SNAPSHOT_CAPABILITY service_name=SNAPSHOT_CAPABILITY health_status=1
+2026-03-06T14:02:19.876450Z  INFO lifecycler::health_client: Health status for service: CS_CAPABILITY service_name=CS_CAPABILITY health_status=1
+2026-03-06T14:02:19.876536Z  INFO lifecycler::health_client: Health status for service: DATA_CAPABILITY service_name=DATA_CAPABILITY health_status=1
+2026-03-06T14:02:59.877229Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:02:59.877293Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:02:59.877319Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:02:59.877334Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:02:59.877349Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:02:59.877363Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:03:39.880695Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:03:39.880764Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:03:39.880791Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:03:39.880809Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:03:39.880821Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:03:39.880833Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:04:19.883342Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:04:19.883406Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:04:19.883429Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:04:19.883442Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:04:19.883455Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:04:19.883468Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:04:59.886256Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:04:59.886320Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:04:59.886344Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:04:59.886360Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:04:59.886377Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:04:59.886392Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:04:59.886882Z  INFO lifecycler::health_client: Health status for service: HOSTTOOLS_CAPABILITY service_name=HOSTTOOLS_CAPABILITY health_status=1
+2026-03-06T14:04:59.887014Z  INFO lifecycler::health_client: Health status for service: METRICS_CAPABILITY service_name=METRICS_CAPABILITY health_status=1
+2026-03-06T14:04:59.887062Z  INFO lifecycler::health_client: Health status for service: SNAPSHOT_CAPABILITY service_name=SNAPSHOT_CAPABILITY health_status=1
+2026-03-06T14:04:59.887084Z  INFO lifecycler::health_client: Health status for service: Executor service_name=Executor health_status=1
+2026-03-06T14:04:59.887580Z  INFO lifecycler::health_client: Health status for service: DATA_CAPABILITY service_name=DATA_CAPABILITY health_status=1
+2026-03-06T14:04:59.887840Z  INFO lifecycler::health_client: Health status for service: CS_CAPABILITY service_name=CS_CAPABILITY health_status=1
+2026-03-06T14:05:39.888931Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:05:39.888999Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:05:39.889024Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:05:39.889039Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:05:39.889053Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:05:39.889065Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:06:19.891809Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:06:19.891878Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:06:19.891904Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:06:19.891920Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:06:19.891936Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:06:19.891950Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:06:59.894657Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:06:59.894720Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:06:59.894744Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:06:59.894759Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:06:59.894773Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:06:59.894786Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:07:39.897586Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:07:39.897648Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:07:39.897676Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:07:39.897695Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:07:39.897711Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:07:39.897729Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:07:39.898411Z  INFO lifecycler::health_client: Health status for service: METRICS_CAPABILITY service_name=METRICS_CAPABILITY health_status=1
+2026-03-06T14:07:39.898811Z  INFO lifecycler::health_client: Health status for service: Executor service_name=Executor health_status=1
+2026-03-06T14:07:39.898872Z  INFO lifecycler::health_client: Health status for service: SNAPSHOT_CAPABILITY service_name=SNAPSHOT_CAPABILITY health_status=1
+2026-03-06T14:07:39.898972Z  INFO lifecycler::health_client: Health status for service: HOSTTOOLS_CAPABILITY service_name=HOSTTOOLS_CAPABILITY health_status=1
+2026-03-06T14:07:39.899438Z  INFO lifecycler::health_client: Health status for service: DATA_CAPABILITY service_name=DATA_CAPABILITY health_status=1
+2026-03-06T14:07:39.899663Z  INFO lifecycler::health_client: Health status for service: CS_CAPABILITY service_name=CS_CAPABILITY health_status=1
+2026-03-06T14:08:19.900890Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:08:19.900961Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:08:19.900992Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:08:19.901006Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:08:19.901018Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:08:19.901030Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:08:59.903077Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:08:59.903140Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:08:59.903163Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:08:59.903181Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:08:59.903196Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:08:59.903218Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:09:39.905058Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:09:39.905113Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:09:39.905135Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:09:39.905150Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:09:39.905164Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:09:39.905182Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:10:19.908828Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:10:19.908902Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:10:19.908928Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:10:19.908945Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:10:19.908960Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:10:19.908975Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:10:19.909488Z  INFO lifecycler::health_client: Health status for service: METRICS_CAPABILITY service_name=METRICS_CAPABILITY health_status=1
+2026-03-06T14:10:19.909578Z  INFO lifecycler::health_client: Health status for service: HOSTTOOLS_CAPABILITY service_name=HOSTTOOLS_CAPABILITY health_status=1
+2026-03-06T14:10:19.909646Z  INFO lifecycler::health_client: Health status for service: SNAPSHOT_CAPABILITY service_name=SNAPSHOT_CAPABILITY health_status=1
+2026-03-06T14:10:19.909678Z  INFO lifecycler::health_client: Health status for service: Executor service_name=Executor health_status=1
+2026-03-06T14:10:19.910188Z  INFO lifecycler::health_client: Health status for service: CS_CAPABILITY service_name=CS_CAPABILITY health_status=1
+2026-03-06T14:10:19.910316Z  INFO lifecycler::health_client: Health status for service: DATA_CAPABILITY service_name=DATA_CAPABILITY health_status=1
+2026-03-06T14:10:59.911652Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:10:59.911731Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:10:59.911756Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:10:59.911772Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:10:59.911786Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:10:59.911798Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:11:39.914616Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:11:39.914686Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:11:39.914712Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:11:39.914728Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:11:39.914742Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:11:39.914758Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:12:19.917223Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:12:19.917287Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:12:19.917310Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:12:19.917324Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:12:19.917336Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:12:19.917347Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:12:59.920457Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:12:59.920523Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:12:59.920545Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:12:59.920559Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:12:59.920573Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:12:59.920585Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:12:59.921136Z  INFO lifecycler::health_client: Health status for service: METRICS_CAPABILITY service_name=METRICS_CAPABILITY health_status=1
+2026-03-06T14:12:59.921211Z  INFO lifecycler::health_client: Health status for service: SNAPSHOT_CAPABILITY service_name=SNAPSHOT_CAPABILITY health_status=1
+2026-03-06T14:12:59.921237Z  INFO lifecycler::health_client: Health status for service: Executor service_name=Executor health_status=1
+2026-03-06T14:12:59.921283Z  INFO lifecycler::health_client: Health status for service: HOSTTOOLS_CAPABILITY service_name=HOSTTOOLS_CAPABILITY health_status=1
+2026-03-06T14:12:59.921775Z  INFO lifecycler::health_client: Health status for service: CS_CAPABILITY service_name=CS_CAPABILITY health_status=1
+2026-03-06T14:12:59.921862Z  INFO lifecycler::health_client: Health status for service: DATA_CAPABILITY service_name=DATA_CAPABILITY health_status=1
+2026-03-06T14:13:39.923607Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:13:39.923669Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:13:39.923706Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:13:39.923721Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:13:39.923738Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:13:39.923751Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:14:19.926972Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:14:19.927040Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:14:19.927066Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:14:19.927083Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:14:19.927096Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:14:19.927108Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:14:59.928982Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:14:59.929044Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:14:59.929066Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:14:59.929081Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:14:59.929094Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:14:59.929105Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:15:39.931537Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:15:39.931599Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:15:39.931623Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:15:39.931636Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:15:39.931647Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:15:39.931657Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:15:39.932302Z  INFO lifecycler::health_client: Health status for service: SNAPSHOT_CAPABILITY service_name=SNAPSHOT_CAPABILITY health_status=1
+2026-03-06T14:15:39.932634Z  INFO lifecycler::health_client: Health status for service: METRICS_CAPABILITY service_name=METRICS_CAPABILITY health_status=1
+2026-03-06T14:15:39.932718Z  INFO lifecycler::health_client: Health status for service: Executor service_name=Executor health_status=1
+2026-03-06T14:15:39.932769Z  INFO lifecycler::health_client: Health status for service: HOSTTOOLS_CAPABILITY service_name=HOSTTOOLS_CAPABILITY health_status=1
+2026-03-06T14:15:39.933264Z  INFO lifecycler::health_client: Health status for service: CS_CAPABILITY service_name=CS_CAPABILITY health_status=1
+2026-03-06T14:15:39.933351Z  INFO lifecycler::health_client: Health status for service: DATA_CAPABILITY service_name=DATA_CAPABILITY health_status=1
+2026-03-06T14:16:19.934328Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:16:19.934394Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:16:19.934416Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:16:19.934429Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:16:19.934442Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:16:19.934455Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:16:59.936854Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:16:59.936914Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:16:59.936935Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:16:59.936947Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:16:59.936958Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:16:59.936969Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:17:39.939528Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:17:39.939596Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:17:39.939624Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:17:39.939640Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:17:39.939655Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:17:39.939668Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:18:19.942435Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:18:19.942499Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:18:19.942525Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:18:19.942542Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:18:19.942557Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:18:19.942572Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:18:19.943141Z  INFO lifecycler::health_client: Health status for service: Executor service_name=Executor health_status=1
+2026-03-06T14:18:19.943286Z  INFO lifecycler::health_client: Health status for service: HOSTTOOLS_CAPABILITY service_name=HOSTTOOLS_CAPABILITY health_status=1
+2026-03-06T14:18:19.943380Z  INFO lifecycler::health_client: Health status for service: METRICS_CAPABILITY service_name=METRICS_CAPABILITY health_status=1
+2026-03-06T14:18:19.943445Z  INFO lifecycler::health_client: Health status for service: SNAPSHOT_CAPABILITY service_name=SNAPSHOT_CAPABILITY health_status=1
+2026-03-06T14:18:19.943942Z  INFO lifecycler::health_client: Health status for service: DATA_CAPABILITY service_name=DATA_CAPABILITY health_status=1
+2026-03-06T14:18:19.944001Z  INFO lifecycler::health_client: Health status for service: CS_CAPABILITY service_name=CS_CAPABILITY health_status=1
+2026-03-06T14:18:59.944935Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:18:59.945000Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:18:59.945023Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:18:59.945039Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:18:59.945051Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:18:59.945064Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:19:39.947185Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:19:39.947246Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:19:39.947269Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:19:39.947283Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:19:39.947296Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:19:39.947307Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:20:19.950100Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:20:19.950164Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:20:19.950188Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:20:19.950204Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:20:19.950217Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:20:19.950229Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:20:59.952964Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:20:59.953032Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:20:59.953059Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:20:59.953080Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:20:59.953098Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:20:59.953115Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:20:59.953838Z  INFO lifecycler::health_client: Health status for service: METRICS_CAPABILITY service_name=METRICS_CAPABILITY health_status=1
+2026-03-06T14:20:59.953906Z  INFO lifecycler::health_client: Health status for service: Executor service_name=Executor health_status=1
+2026-03-06T14:20:59.953939Z  INFO lifecycler::health_client: Health status for service: SNAPSHOT_CAPABILITY service_name=SNAPSHOT_CAPABILITY health_status=1
+2026-03-06T14:20:59.953976Z  INFO lifecycler::health_client: Health status for service: HOSTTOOLS_CAPABILITY service_name=HOSTTOOLS_CAPABILITY health_status=1
+2026-03-06T14:20:59.954540Z  INFO lifecycler::health_client: Health status for service: CS_CAPABILITY service_name=CS_CAPABILITY health_status=1
+2026-03-06T14:20:59.954619Z  INFO lifecycler::health_client: Health status for service: DATA_CAPABILITY service_name=DATA_CAPABILITY health_status=1
+2026-03-06T14:21:39.955470Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:21:39.955534Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:21:39.955557Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:21:39.955572Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:21:39.955587Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:21:39.955600Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:22:19.957872Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:22:19.957938Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:22:19.957962Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:22:19.957979Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:22:19.957991Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:22:19.958005Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:22:59.961770Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:22:59.961835Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:22:59.961854Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:22:59.961867Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:22:59.961880Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:22:59.961891Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:23:39.964438Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:23:39.964508Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:23:39.964534Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:23:39.964550Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:23:39.964564Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:23:39.964578Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:23:39.965047Z  INFO lifecycler::health_client: Health status for service: Executor service_name=Executor health_status=1
+2026-03-06T14:23:39.965153Z  INFO lifecycler::health_client: Health status for service: METRICS_CAPABILITY service_name=METRICS_CAPABILITY health_status=1
+2026-03-06T14:23:39.965225Z  INFO lifecycler::health_client: Health status for service: SNAPSHOT_CAPABILITY service_name=SNAPSHOT_CAPABILITY health_status=1
+2026-03-06T14:23:39.965301Z  INFO lifecycler::health_client: Health status for service: HOSTTOOLS_CAPABILITY service_name=HOSTTOOLS_CAPABILITY health_status=1
+2026-03-06T14:23:39.965888Z  INFO lifecycler::health_client: Health status for service: CS_CAPABILITY service_name=CS_CAPABILITY health_status=1
+2026-03-06T14:23:39.965999Z  INFO lifecycler::health_client: Health status for service: DATA_CAPABILITY service_name=DATA_CAPABILITY health_status=1
+2026-03-06T14:24:19.967133Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:24:19.967202Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:24:19.967227Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:24:19.967242Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:24:19.967256Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:24:19.967268Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:24:59.969358Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:24:59.969426Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:24:59.969451Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:24:59.969467Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:24:59.969480Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:24:59.969493Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:25:39.971972Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:25:39.972043Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:25:39.972069Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:25:39.972086Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:25:39.972100Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:25:39.972116Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:26:19.974783Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:26:19.974850Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:26:19.974876Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:26:19.974891Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:26:19.974905Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:26:19.974918Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:26:19.975433Z  INFO lifecycler::health_client: Health status for service: SNAPSHOT_CAPABILITY service_name=SNAPSHOT_CAPABILITY health_status=1
+2026-03-06T14:26:19.975537Z  INFO lifecycler::health_client: Health status for service: HOSTTOOLS_CAPABILITY service_name=HOSTTOOLS_CAPABILITY health_status=1
+2026-03-06T14:26:19.975643Z  INFO lifecycler::health_client: Health status for service: Executor service_name=Executor health_status=1
+2026-03-06T14:26:19.975732Z  INFO lifecycler::health_client: Health status for service: METRICS_CAPABILITY service_name=METRICS_CAPABILITY health_status=1
+2026-03-06T14:26:19.976270Z  INFO lifecycler::health_client: Health status for service: CS_CAPABILITY service_name=CS_CAPABILITY health_status=1
+2026-03-06T14:26:19.976400Z  INFO lifecycler::health_client: Health status for service: DATA_CAPABILITY service_name=DATA_CAPABILITY health_status=1
+2026-03-06T14:26:59.977850Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:26:59.977914Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:26:59.977941Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:26:59.977957Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:26:59.977970Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:26:59.977987Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:27:39.980197Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:27:39.980267Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:27:39.980292Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:27:39.980308Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:27:39.980322Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:27:39.980334Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:28:19.982759Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:28:19.982825Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:28:19.982852Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:28:19.982867Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:28:19.982882Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:28:19.982895Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:28:59.985702Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:28:59.985767Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:28:59.985790Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:28:59.985805Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:28:59.985819Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:28:59.985832Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:28:59.986348Z  INFO lifecycler::health_client: Health status for service: SNAPSHOT_CAPABILITY service_name=SNAPSHOT_CAPABILITY health_status=1
+2026-03-06T14:28:59.986438Z  INFO lifecycler::health_client: Health status for service: Executor service_name=Executor health_status=1
+2026-03-06T14:28:59.986502Z  INFO lifecycler::health_client: Health status for service: HOSTTOOLS_CAPABILITY service_name=HOSTTOOLS_CAPABILITY health_status=1
+2026-03-06T14:28:59.986563Z  INFO lifecycler::health_client: Health status for service: METRICS_CAPABILITY service_name=METRICS_CAPABILITY health_status=1
+2026-03-06T14:28:59.986916Z  INFO lifecycler::health_client: Health status for service: DATA_CAPABILITY service_name=DATA_CAPABILITY health_status=1
+2026-03-06T14:28:59.987012Z  INFO lifecycler::health_client: Health status for service: CS_CAPABILITY service_name=CS_CAPABILITY health_status=1
+2026-03-06T14:29:39.988310Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:29:39.988376Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:29:39.988399Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:29:39.988413Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:29:39.988426Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:29:39.988438Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:30:19.989976Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:30:19.990041Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:30:19.990064Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:30:19.990081Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:30:19.990096Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:30:19.990108Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:30:59.992612Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:30:59.992673Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:30:59.992694Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:30:59.992709Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:30:59.992724Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:30:59.992737Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:31:39.995252Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:31:39.995321Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:31:39.995347Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:31:39.995365Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:31:39.995381Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:31:39.995396Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:31:39.995995Z  INFO lifecycler::health_client: Health status for service: METRICS_CAPABILITY service_name=METRICS_CAPABILITY health_status=1
+2026-03-06T14:31:39.996069Z  INFO lifecycler::health_client: Health status for service: SNAPSHOT_CAPABILITY service_name=SNAPSHOT_CAPABILITY health_status=1
+2026-03-06T14:31:39.996110Z  INFO lifecycler::health_client: Health status for service: Executor service_name=Executor health_status=1
+2026-03-06T14:31:39.996155Z  INFO lifecycler::health_client: Health status for service: HOSTTOOLS_CAPABILITY service_name=HOSTTOOLS_CAPABILITY health_status=1
+2026-03-06T14:31:39.996665Z  INFO lifecycler::health_client: Health status for service: DATA_CAPABILITY service_name=DATA_CAPABILITY health_status=1
+2026-03-06T14:31:39.996758Z  INFO lifecycler::health_client: Health status for service: CS_CAPABILITY service_name=CS_CAPABILITY health_status=1
+2026-03-06T14:32:19.998616Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:32:19.998681Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:32:19.998705Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:32:19.998722Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:32:19.998737Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:32:19.998751Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:33:00.001158Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:33:00.001228Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:33:00.001255Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:33:00.001272Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:33:00.001286Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:33:00.001299Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:33:40.002970Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:33:40.003036Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:33:40.003060Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:33:40.003075Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:33:40.003089Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:33:40.003101Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:34:20.005242Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:34:20.005305Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:34:20.005345Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:34:20.005359Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:34:20.005371Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:34:20.005382Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:34:20.006078Z  INFO lifecycler::health_client: Health status for service: METRICS_CAPABILITY service_name=METRICS_CAPABILITY health_status=1
+2026-03-06T14:34:20.006148Z  INFO lifecycler::health_client: Health status for service: Executor service_name=Executor health_status=1
+2026-03-06T14:34:20.006226Z  INFO lifecycler::health_client: Health status for service: SNAPSHOT_CAPABILITY service_name=SNAPSHOT_CAPABILITY health_status=1
+2026-03-06T14:34:20.006304Z  INFO lifecycler::health_client: Health status for service: HOSTTOOLS_CAPABILITY service_name=HOSTTOOLS_CAPABILITY health_status=1
+2026-03-06T14:34:20.006905Z  INFO lifecycler::health_client: Health status for service: CS_CAPABILITY service_name=CS_CAPABILITY health_status=1
+2026-03-06T14:34:20.006993Z  INFO lifecycler::health_client: Health status for service: DATA_CAPABILITY service_name=DATA_CAPABILITY health_status=1
+2026-03-06T14:35:00.008273Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:35:00.008340Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:35:00.008366Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:35:00.008380Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:35:00.008391Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:35:00.008402Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:35:40.010474Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:35:40.010543Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:35:40.010584Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:35:40.010601Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:35:40.010616Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:35:40.010632Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:36:20.012890Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:36:20.012953Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:36:20.012979Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:36:20.012995Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:36:20.013009Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:36:20.013023Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:37:00.015614Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:37:00.015673Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:37:00.015711Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:37:00.015728Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:37:00.015741Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:37:00.015753Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:37:00.016324Z  INFO lifecycler::health_client: Health status for service: METRICS_CAPABILITY service_name=METRICS_CAPABILITY health_status=1
+2026-03-06T14:37:00.016403Z  INFO lifecycler::health_client: Health status for service: SNAPSHOT_CAPABILITY service_name=SNAPSHOT_CAPABILITY health_status=1
+2026-03-06T14:37:00.016438Z  INFO lifecycler::health_client: Health status for service: Executor service_name=Executor health_status=1
+2026-03-06T14:37:00.016503Z  INFO lifecycler::health_client: Health status for service: HOSTTOOLS_CAPABILITY service_name=HOSTTOOLS_CAPABILITY health_status=1
+2026-03-06T14:37:00.017061Z  INFO lifecycler::health_client: Health status for service: DATA_CAPABILITY service_name=DATA_CAPABILITY health_status=1
+2026-03-06T14:37:00.017164Z  INFO lifecycler::health_client: Health status for service: CS_CAPABILITY service_name=CS_CAPABILITY health_status=1
+2026-03-06T14:37:40.018063Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:37:40.018127Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:37:40.018150Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:37:40.018164Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:37:40.018178Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:37:40.018190Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:38:20.021794Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:38:20.021857Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:38:20.021881Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:38:20.021896Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:38:20.021908Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:38:20.021920Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:39:00.024139Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:39:00.024196Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:39:00.024216Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:39:00.024228Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:39:00.024239Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:39:00.024250Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:39:40.027501Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:39:40.027566Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:39:40.027590Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:39:40.027606Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:39:40.027622Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:39:40.027635Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:39:40.028180Z  INFO lifecycler::health_client: Health status for service: METRICS_CAPABILITY service_name=METRICS_CAPABILITY health_status=1
+2026-03-06T14:39:40.028310Z  INFO lifecycler::health_client: Health status for service: HOSTTOOLS_CAPABILITY service_name=HOSTTOOLS_CAPABILITY health_status=1
+2026-03-06T14:39:40.028388Z  INFO lifecycler::health_client: Health status for service: SNAPSHOT_CAPABILITY service_name=SNAPSHOT_CAPABILITY health_status=1
+2026-03-06T14:39:40.028445Z  INFO lifecycler::health_client: Health status for service: Executor service_name=Executor health_status=1
+2026-03-06T14:39:40.028949Z  INFO lifecycler::health_client: Health status for service: DATA_CAPABILITY service_name=DATA_CAPABILITY health_status=1
+2026-03-06T14:39:40.029030Z  INFO lifecycler::health_client: Health status for service: CS_CAPABILITY service_name=CS_CAPABILITY health_status=1
+2026-03-06T14:40:20.030723Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:40:20.030786Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:40:20.030811Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:40:20.030825Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:40:20.030838Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:40:20.030851Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:41:00.033023Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:41:00.033091Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:41:00.033118Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:41:00.033134Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:41:00.033148Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:41:00.033161Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:41:40.035752Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:41:40.035814Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:41:40.035838Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:41:40.035851Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:41:40.035861Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:41:40.035872Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:42:20.039370Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:42:20.039436Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:42:20.039462Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:42:20.039479Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:42:20.039495Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:42:20.039515Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:42:20.040068Z  INFO lifecycler::health_client: Health status for service: HOSTTOOLS_CAPABILITY service_name=HOSTTOOLS_CAPABILITY health_status=1
+2026-03-06T14:42:20.040158Z  INFO lifecycler::health_client: Health status for service: SNAPSHOT_CAPABILITY service_name=SNAPSHOT_CAPABILITY health_status=1
+2026-03-06T14:42:20.040206Z  INFO lifecycler::health_client: Health status for service: Executor service_name=Executor health_status=1
+2026-03-06T14:42:20.040255Z  INFO lifecycler::health_client: Health status for service: METRICS_CAPABILITY service_name=METRICS_CAPABILITY health_status=1
+2026-03-06T14:42:20.040711Z  INFO lifecycler::health_client: Health status for service: CS_CAPABILITY service_name=CS_CAPABILITY health_status=1
+2026-03-06T14:42:20.040946Z  INFO lifecycler::health_client: Health status for service: DATA_CAPABILITY service_name=DATA_CAPABILITY health_status=1
+2026-03-06T14:43:00.042076Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:43:00.042140Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:43:00.042163Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:43:00.042177Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:43:00.042191Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:43:00.042203Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:43:40.044309Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:43:40.044374Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:43:40.044398Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:43:40.044413Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:43:40.044427Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:43:40.044440Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:44:20.047018Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:44:20.047084Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:44:20.047109Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:44:20.047126Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:44:20.047142Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:44:20.047156Z  WARN grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:44:42.498188Z  INFO ExecutionCallbackServicer::complete_execution: grpc_utils::server: Got grpc request request_name="complete_execution" remote_addr=None
+2026-03-06T14:44:42.498251Z  INFO ExecutionCallbackServicer::complete_execution: lifecycler::service: close time.busy=75.0µs time.idle=22.5µs
+2026-03-06T14:44:42.498317Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:execute:executor_client::execute_commands{lifecycle_address="/mnt/azureml/cr/j/938318238fba44478b2a5f9aba69e318/.grpc/lifecycler:0" scheduling=None debug_mode=Some(false)}:executor_client::wait_for_execution_completion{execution_id="56ceed1d-2369-4093-935a-16539e818c84"}: lifecycler::executor_client: close time.busy=5.99µs time.idle=7180s
+2026-03-06T14:44:42.498367Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:execute:executor_client::execute_commands{lifecycle_address="/mnt/azureml/cr/j/938318238fba44478b2a5f9aba69e318/.grpc/lifecycler:0" scheduling=None debug_mode=Some(false)}: lifecycler::executor_client: Execution completed execution_id="56ceed1d-2369-4093-935a-16539e818c84"
+2026-03-06T14:44:42.498425Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:execute:executor_client::execute_commands{lifecycle_address="/mnt/azureml/cr/j/938318238fba44478b2a5f9aba69e318/.grpc/lifecycler:0" scheduling=None debug_mode=Some(false)}: lifecycler::executor_client: close time.busy=258µs time.idle=7180s
+2026-03-06T14:44:42.498450Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:execute: lifecycler::lifecycle: phase execution completed. rank=None phase=0
+2026-03-06T14:44:42.498516Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:execute: lifecycler::lifecycle: close time.busy=518µs time.idle=7180s
+2026-03-06T14:44:42.498550Z  WARN run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:end_service_capabilities:end{name="CS_CAPABILITY"}: grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:44:42.498586Z  WARN run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:end_service_capabilities:end{name="DATA_CAPABILITY"}: grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:44:42.498615Z  WARN run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:end_service_capabilities:end{name="HOSTTOOLS_CAPABILITY"}: grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:44:42.498651Z  WARN run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:end_service_capabilities:end{name="METRICS_CAPABILITY"}: grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:44:42.498682Z  WARN run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:end_service_capabilities:end{name="SNAPSHOT_CAPABILITY"}: grpc_utils::span: failed to inject span context to grpc request
+2026-03-06T14:44:42.499258Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:end_service_capabilities:end{name="METRICS_CAPABILITY"}: lifecycler::capability_client: Received success code for end cap_name=METRICS_CAPABILITY
+2026-03-06T14:44:42.499302Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:end_service_capabilities:end{name="METRICS_CAPABILITY"}: lifecycler::capability_client: close time.busy=114µs time.idle=541µs
+2026-03-06T14:44:42.499330Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:end_service_capabilities:end{name="SNAPSHOT_CAPABILITY"}: lifecycler::capability_client: Received success code for end cap_name=SNAPSHOT_CAPABILITY
+2026-03-06T14:44:42.499361Z  INFO run_lifecycler:run_service_and_step_through_lifecycle:step_through_lifecycle:end_service_capabilities:end{name="SNAPSHOT_CAPABILITY"}: lifecycler::capability_client: close time.busy=93.7µs time.idle=587µs

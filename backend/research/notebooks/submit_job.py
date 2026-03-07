@@ -1,5 +1,5 @@
 """
-Submit Study B Training Jobs to Azure ML Compute Cluster.
+Submit Study B Training / Benchmark Jobs to Azure ML Compute Cluster.
 
 Uses the Azure ML Python SDK (azure-ai-ml) instead of the CLI extension.
 Auto-creates the compute cluster if it doesn't exist (min 0, max 1 nodes).
@@ -16,6 +16,9 @@ Usage:
 
     # Custom settings:
     python submit_job.py --model qwen3_14b --epochs 5 --lora-rank 64
+
+    # Submit benchmark job (generates outputs from all adapters):
+    python submit_job.py --benchmark
 
     # Check job status:
     python submit_job.py --status
@@ -108,7 +111,7 @@ def ensure_cluster(client: MLClient):
         print(f"✅ Cluster '{CLUSTER_NAME}' created")
 
 
-def submit_training_job(client: MLClient, model_key: str, epochs: int, lora_rank: int, lr: float):
+def submit_training_job(client: MLClient, model_key: str, epochs: int, lora_rank: int, lr: float, early_stopping: int = 0):
     """Submit a single training job to the compute cluster."""
     from datetime import datetime
 
@@ -134,6 +137,7 @@ def submit_training_job(client: MLClient, model_key: str, epochs: int, lora_rank
             f"TRAIN_EPOCHS={epochs} "
             f"TRAIN_LORA_RANK={lora_rank} "
             f"TRAIN_LR={lr} "
+            f"EARLY_STOPPING_PATIENCE={early_stopping} "
             f"TRAINING_DATA_DIR=${{{{inputs.training_data}}}} "
             f"OUTPUT_BASE_DIR=${{{{outputs.model_output}}}} && "
             f"python study_b_cluster.py"
@@ -158,6 +162,80 @@ def submit_training_job(client: MLClient, model_key: str, epochs: int, lora_rank
     return created_job
 
 
+# ── Known completed training jobs (adapter outputs) ──
+TRAINING_JOB_IDS = {
+    "qwen3_8b": "study-b-qwen3_8b-20260306-112218",
+    "qwen3_14b": "study-b-qwen3_14b-20260306-120736",
+    "qwen3_32b": "study-b-qwen3_32b-20260306-120822",
+    "qwen3_30b_a3b": "study-b-qwen3_30b_a3b-20260306-121107",
+}
+
+
+def submit_benchmark_job(client: MLClient):
+    """Submit benchmark job that generates outputs from all fine-tuned adapters."""
+    from datetime import datetime
+
+    job_name = f"study-b-benchmark-{datetime.now().strftime('%Y%m%d-%H%M%S')}"
+
+    env = Environment(
+        name="unsloth-training",
+        image="mcr.microsoft.com/azureml/curated/acft-hf-nlp-gpu:latest",
+        conda_file=CONDA_FILE,
+    )
+
+    # Build inputs — point to the adapter subfolder in each job's blob output
+    # Azure ML stores job outputs at: azureml/<job_name>/model_output/
+    # The adapter is in the "adapter" subfolder within model_output
+    inputs = {}
+    for model_key, job_id in TRAINING_JOB_IDS.items():
+        adapter_uri = (
+            f"azureml://datastores/workspaceblobstore/paths/"
+            f"azureml/{job_id}/model_output/adapter"
+        )
+        inputs[model_key] = Input(type="uri_folder", path=adapter_uri)
+
+    # Symlink each input to a consistent layout for the benchmark script
+    # ADAPTER_BASE/<model_key>/adapter_config.json etc.
+    setup_cmds = []
+    for model_key in TRAINING_JOB_IDS:
+        setup_cmds.append(
+            f"mkdir -p /mnt/adapters/{model_key} && "
+            f"ln -sf ${{{{inputs.{model_key}}}}}/* /mnt/adapters/{model_key}/"
+        )
+
+    setup_cmd = " && ".join(setup_cmds)
+
+    job = command(
+        display_name="Study B: Benchmark (all models)",
+        experiment_name="prompttriage-study-b",
+        description="Generate system prompts from all 4 fine-tuned QLoRA adapters for benchmarking",
+        compute=CLUSTER_NAME,
+        environment=env,
+        code=NOTEBOOKS_DIR,
+        command=(
+            f"{setup_cmd} && "
+            f"export ADAPTER_BASE=/mnt/adapters "
+            f"OUTPUT_DIR=${{{{outputs.benchmark_output}}}} && "
+            f"python study_b_benchmark.py"
+        ),
+        inputs=inputs,
+        outputs={
+            "benchmark_output": Output(type="uri_folder"),
+        },
+        tags={
+            "study": "B",
+            "phase": "benchmark",
+            "framework": "unsloth",
+        },
+    )
+    job.name = job_name
+
+    created_job = client.jobs.create_or_update(job)
+    print(f"✅ Benchmark job submitted: {job_name}")
+    print(f"   Studio URL: {created_job.studio_url}")
+    return created_job
+
+
 def check_status(client: MLClient):
     """List recent Study B jobs."""
     print("\n📊 Recent Study B jobs:")
@@ -166,8 +244,10 @@ def check_status(client: MLClient):
 
     jobs = client.jobs.list(max_results=20)
     for job in jobs:
-        # Filter to our experiment
-        if getattr(job, 'experiment_name', '') != 'prompttriage-study-b':
+        # Filter to our Study B jobs by experiment name or job name prefix
+        exp = getattr(job, 'experiment_name', '')
+        is_study_b = exp == 'prompttriage-study-b' or (job.name and job.name.startswith('study-b-'))
+        if not is_study_b:
             continue
         model_tag = job.tags.get("model", "?") if job.tags else "?"
         print(f"{job.name:<45} {job.status:<15} {model_tag:<15}")
@@ -181,12 +261,18 @@ def stream_logs(client: MLClient, job_name: str):
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Submit Study B training jobs to Azure ML")
+    parser = argparse.ArgumentParser(description="Submit Study B training/benchmark jobs to Azure ML")
     parser.add_argument("--model", default="qwen3_8b",
                         help="Model to train: qwen3_8b, qwen3_14b, qwen3_32b, qwen3_30b_a3b, or 'all'")
     parser.add_argument("--epochs", type=int, default=3)
     parser.add_argument("--lora-rank", type=int, default=32)
     parser.add_argument("--lr", type=float, default=0.0002)
+    parser.add_argument("--benchmark", action="store_true",
+                        help="Submit benchmark job instead of training")
+    parser.add_argument("--retrain-moe", action="store_true",
+                        help="Retrain only qwen3_30b_a3b with early stopping (patience=2)")
+    parser.add_argument("--early-stopping", type=int, default=0,
+                        help="Early stopping patience (0=disabled)")
     parser.add_argument("--status", action="store_true", help="Check job status instead of submitting")
     parser.add_argument("--logs", type=str, help="Stream logs for a specific job name")
     parser.add_argument("--subscription", type=str, help="Azure subscription ID")
@@ -207,6 +293,23 @@ def main():
     # Ensure cluster exists
     ensure_cluster(client)
 
+    # Benchmark mode
+    if args.benchmark:
+        submit_benchmark_job(client)
+        return
+
+    # Retrain MoE mode
+    if args.retrain_moe:
+        print("\n🔄 Retraining qwen3_30b_a3b with early stopping...")
+        submit_training_job(
+            client, "qwen3_30b_a3b",
+            epochs=args.epochs,
+            lora_rank=args.lora_rank,
+            lr=args.lr,
+            early_stopping=2,  # patience=2: stop after 2 evals without improvement
+        )
+        return
+
     # Submit job(s)
     models = MODELS if args.model == "all" else [args.model]
     if args.model != "all" and args.model not in MODELS:
@@ -215,7 +318,7 @@ def main():
         sys.exit(1)
 
     for model_key in models:
-        submit_training_job(client, model_key, args.epochs, args.lora_rank, args.lr)
+        submit_training_job(client, model_key, args.epochs, args.lora_rank, args.lr, args.early_stopping)
 
     print(f"\n{'═' * 60}")
     print(f"  {len(models)} job(s) submitted!")
