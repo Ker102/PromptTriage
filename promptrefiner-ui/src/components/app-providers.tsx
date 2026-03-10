@@ -1,6 +1,7 @@
 "use client";
 
 import { ThemeProvider } from "@/components/theme-provider";
+import { PostHogProvider } from "@/components/posthog-provider";
 
 interface AppProvidersProps {
   children: React.ReactNode;
@@ -8,6 +9,8 @@ interface AppProvidersProps {
 
 export function AppProviders({ children }: AppProvidersProps) {
   return (
-    <ThemeProvider>{children}</ThemeProvider>
+    <PostHogProvider>
+      <ThemeProvider>{children}</ThemeProvider>
+    </PostHogProvider>
   );
 }
