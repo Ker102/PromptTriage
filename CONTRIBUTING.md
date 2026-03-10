@@ -1,6 +1,12 @@
 # Contributing to PromptTriage
 
-Thank you for your interest in contributing to PromptTriage! We welcome contributions from the community and are grateful for your support.
+> **🎉 We love contributions — and we love issues even more!**
+>
+> If you spot a bug, have a suggestion, or run into something confusing, please **don't hesitate to [open an issue](https://github.com/Ker102/PromptTriage/issues/new)**. No issue is too small — a typo, a broken link, or a rough edge in the UI all count. Your feedback makes PromptTriage better for everyone.
+>
+> And if you'd like to go a step further and submit a fix or a feature — amazing! We welcome pull requests from first-timers and seasoned contributors alike. This project grows because of people like you. 💪
+
+Thank you for your interest in contributing to PromptTriage! We genuinely welcome contributions of all kinds — code, documentation, bug reports, feature ideas, and design suggestions.
 
 ## 📋 Table of Contents
 
