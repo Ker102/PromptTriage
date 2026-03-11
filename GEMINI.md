@@ -18,7 +18,7 @@
 
 ## Recent Changes
 
-### 2026-03-07 - Phase 15: Study B Benchmark — Dense Model Comparison
+### 2026-03-11 - Phase 15: Study B Benchmark — Complete 4-Model Comparison (Dense + MoE)
 
 **Commit Ready**: Yes
 
@@ -26,28 +26,38 @@
 - **30 test prompts** (10 coding, 10 business, 10 creative) × 3 vendors (Anthropic/OpenAI/Google)
 - **Generation**: Azure ML A100 80GB, QLoRA adapters loaded via Unsloth, thinking mode enabled, max_new_tokens=16384
 - **Judging**: Gemini 3.1 Pro LLM-as-judge, 5 dimensions (structure, completeness, vendor fidelity, conciseness, actionability), each 1–10
+- **MoE Retrained**: `qwen3_30b_a3b` retrained with early stopping (patience=2, eval every 5 steps) to prevent overfitting
 
-#### Results (90 total judgments)
+#### Results (120 total judgments — 30 per model)
 
 | Model | Total /50 | Structure | Completeness | Vendor Fidelity | Conciseness | Actionability | Avg Words | Avg Latency |
 |-------|-----------|-----------|-------------|-----------------|-------------|---------------|-----------|-------------|
-| **🏆 qwen3_14b** | **26.8** | **5.0** | **5.8** | **4.0** | **5.5** | **6.4** | 720 | 71s |
-| qwen3_32b | 21.3 | 3.8 | 5.0 | 3.2 | 4.1 | 5.2 | 980 | 170s |
-| qwen3_8b | 18.8 | 3.7 | 3.9 | 2.8 | 4.4 | 4.0 | 2,232 | 231s |
+| **🏆 qwen3_14b** | **26.4** | **5.0** | **6.1** | **3.9** | **5.0** | **6.4** | 720 | 71s |
+| qwen3_32b | 21.2 | 3.8 | 5.0 | 3.1 | 4.0 | 5.3 | 980 | 170s |
+| qwen3_30b_a3b (MoE) | 19.2 | 3.6 | 4.6 | 2.8 | 4.0 | 4.2 | 1,055 | 4,556s |
+| qwen3_8b | 16.6 | 3.0 | 4.1 | 2.4 | 3.6 | 3.5 | 2,232 | 231s |
 
 #### Key Findings
 - **14B wins all 5 dimensions** despite higher eval_loss (1.5598 vs 32B's 1.4838)
-- **Eval loss ≠ downstream quality**: 32B memorized patterns but generalizes worse
+- **Eval loss ≠ downstream quality**: 32B and MoE memorized patterns but generalize worse
+- **MoE (30B/3B active) finished 4th**: Early stopping prevented overfitting but did not recover downstream quality; MoE architecture too large for small dataset (155 examples)
+- **MoE inference extremely slow**: ~76 min/prompt via Unsloth naive inference (no vLLM), total benchmark took 38 hours (~$139 A100 cost)
 - **8B runaway generation**: Some outputs hit 86K chars / 16K token limit
-- **Vendor fidelity universally low** (2.8–4.0/10): 155 training pairs insufficient for vendor-specific conventions
+- **Vendor fidelity universally low** (2.4–3.9/10): 155 training pairs insufficient for vendor-specific conventions
 
-#### MoE Status
+#### MoE Retrain Details
 - Original training: Severely overfit (eval_loss 3.54), benchmark crashed (disk space)
-- **Retrain submitted** (`study-b-qwen3_30b_a3b-20260307-164316`) with early stopping (patience=2, eval every 5 steps)
-- Results pending — will add to comparison when complete
+- Retrained with early stopping (`study-b-qwen3_30b_a3b-20260307-164316`, patience=2, eval every 5 steps)
+- Benchmarked in dedicated job (`study-b-benchmark-moe-20260309-180002`) — ran 38 hours on A100
 
 #### Production Recommendation: **qwen3_14b**
-- Highest quality (26.8/50), fastest (71s), most concise (720 words avg)
+- Highest quality (26.4/50), fastest (71s), most concise (720 words avg)
+- Clear winner across all dimensions and categories
+
+#### Optimization Notes for Future Benchmarking
+- Use **vLLM** for inference (10-20× speedup via PagedAttention)
+- Use **10 stratified prompts** instead of 30 (3× fewer, same coverage)
+- Keep thinking mode + max_new_tokens=16384 for quality
 
 #### New Files
 - `notebooks/study_b_benchmark.py`: A100 benchmark script (Unsloth + 30 embedded test prompts)
