@@ -10,13 +10,27 @@
 
 ## Project Context
 - **Framework**: Next.js 15.1.6 (Frontend) + FastAPI (Backend)
-- **AI Model**: Gemini 3 Pro Preview (generation), Gemini 1.5 Flash (fine-tuning)
+- **AI Model**: Gemini 3.1 Pro Preview (thinking), Gemini 3 Flash Preview (fast), Gemini 1.5 Flash (fine-tuning)
 - **RAG**: Pinecone (Vector Store) with Gemini Embeddings (gemini-embedding-001, 768d)
 - **Key Dependencies**: @google/generative-ai, @supabase/ssr, @supabase/supabase-js, Firecrawl, LangChain
 
 ---
 
 ## Recent Changes
+
+### 2026-03-12 - Gemini 3.1 Pro Upgrade + Study B Phase 2 Complete
+
+**Commit Ready**: Yes
+
+#### Gemini Model Upgrade
+- **`gemini.ts`**: Thinking mode upgraded from `gemini-3-pro-preview` → `gemini-3.1-pro-preview`
+- Better thinking, improved token efficiency, better agentic workflow support
+
+#### Study B Phase 2: Proprietary Model Benchmarks
+- Benchmarked Gemini 3.1 Pro (45.7/50), Claude Sonnet 4.5 (44.2), Qwen3-235B-A22B (42.6)
+- Our qwen3_14b (26.4) leads fine-tuned models but ~18pts behind proprietary
+- Cost: ~$3.60 for generation + judging
+- See `RESEARCH_PROGRESS.md` for full 7-model leaderboard
 
 ### 2026-03-11 - Phase 15: Study B Benchmark — Complete 4-Model Comparison (Dense + MoE)
 
@@ -430,8 +444,29 @@ backend/ (FastAPI)
 
 ## Notes for Future Sessions
 - All analyzed prompts are from 2025 (Claude Code 2.0, Cursor 2025-09-03, etc.)
-- Gemini 3 Pro Preview is the recommended generation model
+- Gemini 3.1 Pro Preview is the recommended generation model (Thinking mode)
 - UI switch for System Prompt Generator mode needs frontend work
+
+### Future Tasks — RAG & Training
+
+#### 🔴 Image Mode RAG Ingestion (High Priority)
+- **Status**: Image mode currently has NO dedicated Pinecone namespace (falls through to empty default)
+- **Datasets available** (parent folder):
+  - `image-generation-prompts/` — 800 prompts (parquet, 581KB)
+  - `new_photorealistic_prompts/` — additional dataset (345KB parquet)
+- **Action**: Filter, embed with `gemini-embedding-001`, ingest into `image-prompts` namespace
+- **Pattern**: Same as `ingest_video_prompts.py` / `ingest_system_prompts_reference.py`
+
+#### 🟡 Text Mode Status
+- Text mode has NO RAG corpus — relies on metaprompt + Gemini's native ability
+- This is acceptable for now; Gemini already writes strong text prompts
+- Future: Consider curating high-quality text prompt examples if quality gaps appear
+
+#### 🟢 Model Improvement Strategies (from Study B Gap Analysis)
+1. **Increase Training Data**: 10x more examples (~1,500+) using proprietary outputs
+2. **RAG Augmentation (Study A)**: Inject vendor-specific context at inference time
+3. **Output Length Calibration**: Train for 1,200-1,600 word outputs (currently 720)
+4. **Nuclear Option**: Distillation — use proprietary model outputs as training data
 
 ---
 
