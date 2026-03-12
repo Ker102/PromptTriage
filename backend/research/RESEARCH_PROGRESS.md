@@ -58,34 +58,63 @@ Compare 4 Qwen3 QLoRA fine-tuned models (3 dense + 1 MoE) for system prompt gene
 
 ---
 
-## Study B Phase 2: vs. Proprietary Models (Planned)
+## Study B Phase 2: vs. Proprietary Models ✅ (Completed 2026-03-12)
 
 ### Objective
-Compare our fine-tuned qwen3_14b against leading proprietary models at the *same task* (system prompt generation) using the exact same 30 test prompts and the same LLM-as-judge rubric from Phase 1.
+Compare our fine-tuned qwen3_14b against leading proprietary and open-source models at the *same task* using identical 30 test prompts and LLM-as-judge rubric.
 
-### Models to Benchmark
+### Full 7-Model Leaderboard (210 judgments via Gemini 3.1 Pro LLM-as-Judge)
 
-| Model | Provider | Cost/call | Notes |
-|-------|----------|-----------|-------|
-| qwen3_14b (ours) | Local/Azure | ~$0.002 | Fine-tuned, 4-bit QLoRA |
-| GPT-4o | OpenAI | ~$0.01 | Current flagship |
-| Claude Sonnet 4 | Anthropic | ~$0.01 | Best code model |
-| Gemini 3.1 Pro | Google | ~$0.005 | Same family as judge |
-| GPT-4o-mini | OpenAI | ~$0.001 | Cost-competitive baseline |
+| Rank | Model | Total /50 | Struct | Compl | Vendor | Conc | Action | Avg Words | Latency | Type |
+|------|-------|-----------|--------|-------|--------|------|--------|-----------|---------|------|
+| 🥇 1 | **Gemini 3.1 Pro** | **45.7** | 9.5 | 9.6 | 7.9 | 8.7 | 10.0 | 1,280 | 35s | Proprietary |
+| 🥈 2 | **Claude Sonnet 4.5** | **44.2** | 9.2 | 9.0 | 7.5 | 8.6 | 9.9 | 1,578 | 62s | Proprietary |
+| 🥉 3 | **Qwen3-235B-A22B** | **42.6** | 9.3 | 8.8 | 7.5 | 7.5 | 9.6 | 1,054 | 42s | Open-source MoE |
+| 4 | qwen3_14b (ours) | 26.4 | 5.0 | 6.1 | 3.9 | 5.0 | 6.4 | 720 | 71s | Fine-tuned 14B |
+| 5 | qwen3_32b | 21.2 | 3.8 | 5.0 | 3.1 | 4.0 | 5.3 | 980 | 170s | Fine-tuned 32B |
+| 6 | qwen3_30b_a3b (MoE) | 19.2 | 3.6 | 4.6 | 2.8 | 4.0 | 4.2 | 1,055 | 4,556s | Fine-tuned MoE |
+| 7 | qwen3_8b | 16.6 | 3.0 | 4.1 | 2.4 | 3.6 | 3.5 | 2,232 | 231s | Fine-tuned 8B |
 
-### Methodology
-1. Send same 30 test prompts to each proprietary model via API
-2. Each generates system prompts for the same user requests
-3. Run same Gemini LLM-as-judge (5 dimensions, 0.1 temp)
-4. Head-to-head score comparison with qwen3_14b's 26.4/50
+### Key Research Findings
 
-### Key Questions
-- Does our fine-tuned 14B model outperform proprietary models on any dimension?
-- How does vendor fidelity compare (proprietary models should "know" their own conventions)?
-- What's the cost-per-quality-point for each approach?
+1. **18-point gap to proprietary**: Our fine-tuned 14B scores 26.4 vs proprietary range 42-46. The gap is real but explainable — proprietary models have 10-20× more parameters and far more training data.
 
-### Estimated Cost: ~$15 (API calls) + ~$5 (judging) = **~$20**
-### Status: Not started
+2. **14B still beats all other fine-tuned models**: Confirms Phase 1 finding — the 14B sweet spot holds. Our best fine-tuned model (26.4) scores 5+ points above the 32B fine-tuned model (21.2).
+
+3. **Vendor fidelity is the weakest dimension across ALL models**: Even proprietary models only score 7.5-7.9/10 on vendor fidelity. Our 14B scores 3.9. This is the highest-impact dimension to improve.
+
+4. **Output length correlates with quality**: Proprietary models average 1,000-1,600 words. Our 14B averages only 720 words. The completeness gap (6.1 vs 9.0+) is partly a length issue.
+
+5. **Actionability nearly maxed by proprietary**: Gemini scores 10.0/10 on actionability. Our 14B scores 6.4. Structured output quality needs work.
+
+6. **Open-source 235B MoE is competitive**: Qwen3-235B-A22B (42.6) is only 2-3 points behind proprietary flagships, showing that scale matters more than vendor-specific training for this task.
+
+### Gap Analysis: How to Close the 18-Point Gap
+
+| Dimension | Our 14B | Proprietary Avg | Gap | Strategy |
+|-----------|---------|-----------------|-----|----------|
+| Structure | 5.0 | 9.3 | -4.3 | More training data with well-structured examples |
+| Completeness | 6.1 | 9.1 | -3.0 | Train on longer outputs, increase min output length |
+| Vendor Fidelity | 3.9 | 7.6 | -3.7 | RAG with vendor-specific corpus (Study A) |
+| Conciseness | 5.0 | 8.3 | -3.3 | Better training examples, length calibration |
+| Actionability | 6.4 | 9.8 | -3.4 | Include more production-grade examples |
+
+**Top 3 strategies to close the gap:**
+1. **10× training data** (~1,500+ examples vs current 155) with curated, production-grade system prompts
+2. **RAG augmentation** (Study A) to inject vendor-specific conventions at inference time
+3. **Output length calibration** — train model to produce 1,000-1,500 word outputs instead of 720
+
+### Cost Breakdown
+
+| Item | Cost |
+|------|------|
+| Gemini 3.1 Pro generation (30 prompts) | ~$0.30 |
+| Claude Sonnet 4.5 generation (30 prompts) | ~$1.20 |
+| Qwen3-235B-A22B generation (30 prompts) | ~$0.10 |
+| Gemini judge (90 API calls) | ~$2.00 |
+| **Total Study B Phase 2** | **~$3.60** |
+
+### Status: ✅ Complete
 
 ---
 
@@ -226,12 +255,14 @@ Each format × 3 vendors (Anthropic, OpenAI, Google) × 10 tasks. Score downstre
 
 ## Study Priority & Sequencing
 
-| Order | Study | Est. Cost | Time | Career/Product Value |
-|-------|-------|-----------|------|---------------------|
-| 1 | **B Phase 2** (vs Proprietary) | ~$20 | 2-3 hrs | 🟢 Best headline: "14B beats GPT-4o" |
-| 2 | **D** (Prompt Delta) | ~$50-100 | 2-3 days | 🟢 Publishable finding, proves thesis |
-| 3 | **A** (RAG Pipeline) | ~$10 | 1 day | 🟡 Directly improves product |
-| 4 | **C** (Cascade Effect) | ~$25 | 1-2 days | 🟢 Real-world ROI proof |
-| 5 | **E** (Format Wars) | ~$15 | 1 day | 🟡 Novel, publishable |
+| Order | Study | Est. Cost | Time | Status |
+|-------|-------|-----------|------|--------|
+| ~~1~~ | ~~**B Phase 2** (vs Proprietary)~~ | ~~$3.60~~ | ~~2 hrs~~ | ✅ **Done** |
+| 2 | **D** (Prompt Delta) | ~$50-100 | 2-3 days | 🔜 Next |
+| 3 | **A** (RAG Pipeline) | ~$10 | 1 day | Planned |
+| 4 | **C** (Cascade Effect) | ~$25 | 1-2 days | Planned |
+| 5 | **E** (Format Wars) | ~$15 | 1 day | Planned |
 
-**Total remaining research budget: ~$120-170**
+**Completed research cost so far: ~$192 (Study B: $188 + Phase 2: $3.60)**
+**Remaining research budget: ~$100-150**
+
