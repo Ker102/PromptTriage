@@ -5,7 +5,7 @@ Quantifies how much difference a prompt makes on standard AI benchmarks.
 Tests 4 prompt conditions × 2 models × 3 benchmarks.
 
 Models: Gemini 3.1 Pro, Claude Sonnet 4.6 (Vertex AI)
-Benchmarks: HumanEval (coding), GSM8K (math), MMLU (knowledge)
+Benchmarks: HumanEval-Hard (coding 100-130), MATH (competition math), MMLU-Hard (knowledge)
 Conditions: bare, simple, prompttriage (with RAG), expert_cot
 
 Usage:
@@ -203,33 +203,39 @@ SIMPLE_SYSTEM_PROMPT = "You are a helpful assistant."
 
 EXPERT_COT_PROMPTS = {
     "humaneval": (
-        "You are an expert Python programmer. When given a function signature and "
-        "docstring, complete ONLY the function body. Think step by step:\n"
-        "1. Understand the expected inputs, outputs, and edge cases from the docstring\n"
-        "2. Plan your approach before writing code\n"
-        "3. Write clean, correct Python code\n"
-        "4. Handle edge cases (empty inputs, zero, negative numbers)\n\n"
-        "Return ONLY the function body code, no explanation. Do not repeat the "
-        "function signature or docstring. Do not wrap in markdown code blocks."
+        "You are an expert Python programmer solving challenging algorithmic problems. "
+        "When given a function signature and docstring, complete ONLY the function body.\n\n"
+        "Think step by step:\n"
+        "1. Carefully analyze the expected inputs, outputs, and ALL edge cases\n"
+        "2. Consider algorithmic complexity — choose the right data structures\n"
+        "3. Plan your approach before writing code\n"
+        "4. Handle edge cases thoroughly (empty inputs, zero, negative, large inputs)\n"
+        "5. Write clean, correct Python code\n\n"
+        "CRITICAL: Return ONLY the function body code. No explanation, no signature, "
+        "no docstring, no markdown code blocks. Just the raw Python code that goes "
+        "inside the function."
     ),
-    "gsm8k": (
-        "You are an expert math tutor. Solve grade school math word problems step by step.\n\n"
+    "math": (
+        "You are an expert mathematician solving competition-level math problems.\n\n"
         "For each problem:\n"
-        "1. Identify the key quantities and relationships\n"
-        "2. Set up the calculation step by step\n"
-        "3. Perform each arithmetic operation carefully\n"
-        "4. Double-check your work\n"
-        "5. State your final answer clearly\n\n"
-        "IMPORTANT: End your response with the final numerical answer on its own line "
-        "in this exact format: #### [number]"
+        "1. Carefully read and understand what is being asked\n"
+        "2. Identify the mathematical domain (algebra, geometry, number theory, etc.)\n"
+        "3. Break the problem into sub-steps\n"
+        "4. Show your work clearly with equations\n"
+        "5. Double-check your computation at each step\n"
+        "6. Simplify your final answer completely\n\n"
+        "IMPORTANT: Put your final answer inside \\boxed{} notation on the last line. "
+        "Example: \\boxed{42}"
     ),
     "mmlu": (
-        "You are a knowledgeable expert. Answer multiple choice questions accurately.\n\n"
+        "You are a domain expert answering challenging academic questions across "
+        "abstract algebra, formal logic, electrical engineering, and clinical medicine.\n\n"
         "For each question:\n"
         "1. Read the question and all options carefully\n"
-        "2. Eliminate clearly wrong answers\n"
-        "3. Reason through the remaining options\n"
-        "4. Select the best answer\n\n"
+        "2. Apply domain-specific knowledge and reasoning\n"
+        "3. Eliminate clearly wrong answers\n"
+        "4. Reason through remaining options using first principles\n"
+        "5. Select the best answer\n\n"
         "IMPORTANT: State your final answer as a single letter (A, B, C, or D) on "
         "the last line of your response."
     ),
@@ -253,22 +259,28 @@ def get_system_prompt(condition: str, benchmark: str) -> Optional[str]:
 
 PT_USE_CASES = {
     "humaneval": (
-        "A Python code completion assistant that receives function signatures with "
-        "docstrings and must complete the function body. It handles algorithmic "
-        "problems, string manipulation, list processing, and mathematical computations. "
-        "Must produce correct, efficient Python code that passes unit tests."
+        "An advanced Python code completion assistant that solves challenging algorithmic "
+        "problems. It receives function signatures with detailed docstrings and must "
+        "complete the function body with correct, efficient code. Problems include "
+        "complex string manipulation, recursive algorithms, dynamic programming, graph "
+        "traversal, mathematical computations, and data structure operations. "
+        "Must handle edge cases and produce code that passes rigorous unit tests. "
+        "Output must be ONLY the raw function body code — no explanations, no markdown."
     ),
-    "gsm8k": (
-        "A math problem-solving assistant that solves grade school math word problems. "
-        "It must break down multi-step arithmetic problems, show clear reasoning, "
-        "and arrive at exact numerical answers. Problems involve addition, subtraction, "
-        "multiplication, division, fractions, and percentages in real-world contexts."
+    "math": (
+        "A competition-level mathematics solver that handles problems across algebra, "
+        "number theory, counting and probability, geometry, intermediate algebra, "
+        "and precalculus. Must show clear step-by-step mathematical reasoning, "
+        "use proper notation, and arrive at exact answers. Problems require creative "
+        "problem-solving approaches, not just formula application. "
+        "Final answers must be in \\boxed{} notation."
     ),
     "mmlu": (
-        "A knowledge assessment assistant that answers multiple-choice questions across "
-        "academic subjects including computer science, mathematics, history, and science. "
-        "Must demonstrate broad knowledge, careful reasoning, and ability to distinguish "
-        "between similar answer options."
+        "A domain expert assistant answering challenging multiple-choice questions "
+        "across specialized academic subjects including abstract algebra, formal logic, "
+        "electrical engineering, and clinical medicine. Must demonstrate deep domain "
+        "expertise, careful reasoning under ambiguity, and ability to distinguish "
+        "between subtly different answer options. Requires graduate-level knowledge."
     ),
 }
 
@@ -319,8 +331,10 @@ def load_benchmark_data(benchmark: str, data_dir: Path) -> list[dict]:
 
     if benchmark == "humaneval":
         ds = load_dataset("openai/openai_humaneval", split="test")
+        all_items = list(ds)
+        # Use problems 100-130 (much harder: complex algorithms, edge cases)
         subset = []
-        for item in list(ds)[:30]:
+        for item in all_items[100:130]:
             subset.append({
                 "task_id": item["task_id"],
                 "prompt": item["prompt"],
@@ -329,25 +343,31 @@ def load_benchmark_data(benchmark: str, data_dir: Path) -> list[dict]:
                 "entry_point": item["entry_point"],
             })
 
-    elif benchmark == "gsm8k":
-        ds = load_dataset("openai/gsm8k", "main", split="test")
+    elif benchmark == "math":
+        # MATH: Competition-level math (models score ~60-80%)
+        ds = load_dataset("lighteval/MATH", "all", split="test", trust_remote_code=True)
         subset = []
-        for item in list(ds)[:50]:
-            # Extract the final numerical answer after ####
-            answer_text = item["answer"]
-            match = re.search(r"####\s*(.+)", answer_text)
-            final_answer = match.group(1).strip().replace(",", "") if match else ""
+        count = 0
+        for item in ds:
+            if count >= 50:
+                break
+            # Extract answer from \boxed{}
+            answer = item.get("answer", "")
             subset.append({
-                "question": item["question"],
-                "full_answer": answer_text,
-                "answer": final_answer,
+                "problem": item["problem"],
+                "solution": item.get("solution", ""),
+                "answer": answer,
+                "level": item.get("level", ""),
+                "type": item.get("type", ""),
             })
+            count += 1
 
     elif benchmark == "mmlu":
-        # Load 5 subjects, 10 each = 50
+        # Use HARDER subjects where models actually struggle
         subjects = [
-            "computer_science", "elementary_mathematics",
-            "us_history", "conceptual_physics", "world_religions"
+            "abstract_algebra", "formal_logic",
+            "electrical_engineering", "college_chemistry",
+            "clinical_knowledge"
         ]
         subset = []
         for subject in subjects:
@@ -373,51 +393,140 @@ def load_benchmark_data(benchmark: str, data_dir: Path) -> list[dict]:
 
 
 # ═══════════════════════════════════════════════════════════════════
-# SECTION 5: SCORING FUNCTIONS
+# SECTION 5: OUTPUT EXTRACTION + SCORING
 # ═══════════════════════════════════════════════════════════════════
 
+def extract_code_body(raw_output: str, problem_prompt: str = "") -> str:
+    """Extract just the function body from model output.
+    
+    Handles: markdown code blocks, explanations, repeated signatures.
+    CRITICAL: Preserves indentation — the body must stay properly indented
+    as it will be concatenated directly after the function signature.
+    """
+    text = raw_output
+
+    # Step 1: If wrapped in markdown code blocks, extract the code
+    code_blocks = re.findall(r"```(?:python)?\s*\n(.*?)```", text, re.DOTALL)
+    if code_blocks:
+        text = max(code_blocks, key=len)  # Don't strip — preserve indentation
+
+    # Step 2: If the model repeated the full function (def + body), extract just body
+    lines = text.split("\n")
+    body_start = 0
+    in_docstring = False
+    for i, line in enumerate(lines):
+        stripped = line.strip()
+        # Skip def line
+        if re.match(r"^\s*def\s+\w+\(", line):
+            body_start = i + 1
+            continue
+        # Skip docstrings that come right after def
+        if i == body_start and (stripped.startswith('"""') or stripped.startswith("'''")):
+            in_docstring = True
+            if stripped.count('"""') >= 2 or stripped.count("'''") >= 2:
+                # Single-line docstring
+                in_docstring = False
+                body_start = i + 1
+            continue
+        if in_docstring:
+            if '"""' in stripped or "'''" in stripped:
+                in_docstring = False
+                body_start = i + 1
+            continue
+
+    # Only use body_start if we actually found a def
+    if body_start > 0:
+        text = "\n".join(lines[body_start:])
+    else:
+        text = "\n".join(lines)
+
+    # Step 3: Ensure indentation — if no leading whitespace, add 4 spaces
+    result_lines = text.split("\n")
+    if result_lines and result_lines[0] and not result_lines[0][0].isspace():
+        # The code has no indentation — add 4 spaces to each non-empty line  
+        result_lines = [("    " + line if line.strip() else line) for line in result_lines]
+
+    return "\n".join(result_lines)
+
+
 def score_humaneval(problem: dict, model_output: str) -> bool:
-    """Score HumanEval: execute function + test assertions in sandbox."""
-    # Combine the prompt (signature) + model output (body) + test code
-    full_code = problem["prompt"] + model_output + "\n\n" + problem["test"]
-    # Also add the check function call
+    """Score HumanEval: extract code, execute function + test assertions."""
+    # Extract the code body (strip markdown, handle repeated signatures)
+    code_body = extract_code_body(model_output, problem["prompt"])
+
+    # Combine: prompt (signature) + extracted body + test code
+    full_code = problem["prompt"] + code_body + "\n\n" + problem["test"]
     full_code += f"\ncheck({problem['entry_point']})"
 
-    # Run in subprocess with timeout for safety
-    with tempfile.NamedTemporaryFile(mode="w", suffix=".py", delete=False) as f:
-        f.write(full_code)
-        f.flush()
-        try:
-            result = subprocess.run(
-                [sys.executable, f.name],
-                capture_output=True, timeout=10, text=True,
-            )
-            return result.returncode == 0
-        except subprocess.TimeoutExpired:
-            return False
-        except Exception:
-            return False
-        finally:
-            os.unlink(f.name)
+    tmp_path = Path(tempfile.gettempdir()) / f"study_d_eval_{os.getpid()}.py"
+    try:
+        tmp_path.write_text(full_code, encoding="utf-8")
+        result = subprocess.run(
+            [sys.executable, str(tmp_path)],
+            capture_output=True, timeout=15, text=True,
+        )
+        return result.returncode == 0
+    except subprocess.TimeoutExpired:
+        return False
+    except Exception:
+        return False
+    finally:
+        for _ in range(3):
+            try:
+                tmp_path.unlink(missing_ok=True)
+                break
+            except OSError:
+                time.sleep(0.1)
 
 
-def score_gsm8k(problem: dict, model_output: str) -> bool:
-    """Score GSM8K: extract final number, compare to ground truth."""
-    expected = problem["answer"].strip()
+def extract_boxed_answer(text: str) -> str:
+    """Extract answer from \\boxed{...} notation used in MATH benchmark."""
+    # Find the last \boxed{...} in the text
+    matches = re.findall(r"\\boxed\{([^{}]*)\}", text)
+    if matches:
+        return matches[-1].strip()
+    # Try nested braces
+    matches = re.findall(r"\\boxed\{(.+?)\}", text)
+    if matches:
+        return matches[-1].strip()
+    return ""
 
-    # Try to find #### pattern first
-    match = re.search(r"####\s*(.+?)(?:\s|$)", model_output)
-    if match:
-        predicted = match.group(1).strip().replace(",", "")
-    else:
-        # Fall back: find the last number in the response
+
+def normalize_math_answer(answer: str) -> str:
+    """Normalize a math answer for comparison."""
+    a = answer.strip()
+    # Remove surrounding $ signs
+    a = a.strip("$")
+    # Remove \text{} wrapping
+    a = re.sub(r"\\text\{(.+?)\}", r"\1", a)
+    # Remove spaces
+    a = a.replace(" ", "")
+    # Normalize fractions: \frac{a}{b} -> a/b
+    a = re.sub(r"\\frac\{(.+?)\}\{(.+?)\}", r"\1/\2", a)
+    return a
+
+
+def score_math(problem: dict, model_output: str) -> bool:
+    """Score MATH: extract \\boxed{} answer, compare to ground truth."""
+    expected = normalize_math_answer(problem["answer"])
+    predicted_raw = extract_boxed_answer(model_output)
+
+    if not predicted_raw:
+        # Fallback: try to find the last number or expression
         numbers = re.findall(r"-?\d+(?:\.\d+)?", model_output)
-        predicted = numbers[-1] if numbers else ""
+        predicted_raw = numbers[-1] if numbers else ""
 
+    predicted = normalize_math_answer(predicted_raw)
+
+    # Exact string match after normalization
+    if predicted == expected:
+        return True
+
+    # Try numeric comparison
     try:
         return abs(float(predicted) - float(expected)) < 0.01
     except (ValueError, TypeError):
-        return predicted == expected
+        return False
 
 
 def score_mmlu(problem: dict, model_output: str) -> bool:
@@ -425,8 +534,6 @@ def score_mmlu(problem: dict, model_output: str) -> bool:
     expected_idx = problem["answer"]  # 0-3
     expected_letter = "ABCD"[expected_idx]
 
-    # Try to find the answer letter
-    # Look for patterns like "A", "(A)", "Answer: A", or just the last capital letter
     output_clean = model_output.strip()
 
     # Check last line first
@@ -451,7 +558,7 @@ def score_mmlu(problem: dict, model_output: str) -> bool:
 
 SCORERS = {
     "humaneval": score_humaneval,
-    "gsm8k": score_gsm8k,
+    "math": score_math,
     "mmlu": score_mmlu,
 }
 
@@ -465,12 +572,14 @@ def format_benchmark_question(benchmark: str, problem: dict) -> str:
     if benchmark == "humaneval":
         return (
             f"Complete the following Python function. Return ONLY the function body "
-            f"code (no signature, no docstring, no markdown):\n\n{problem['prompt']}"
+            f"code (no signature, no docstring, no markdown code blocks). "
+            f"Output raw Python code only, nothing else.\n\n{problem['prompt']}"
         )
-    elif benchmark == "gsm8k":
+    elif benchmark == "math":
         return (
-            f"Solve this math problem step by step. End with your final "
-            f"numerical answer in the format: #### [number]\n\n{problem['question']}"
+            f"Solve this math problem. Show your work step by step. "
+            f"Put your final answer in \\boxed{{}} notation.\n\n"
+            f"{problem['problem']}"
         )
     elif benchmark == "mmlu":
         choices = problem["choices"]
@@ -488,7 +597,7 @@ def format_benchmark_question(benchmark: str, problem: dict) -> str:
 # ═══════════════════════════════════════════════════════════════════
 
 CONDITIONS = ["bare", "simple", "prompttriage", "expert_cot"]
-BENCHMARKS = ["humaneval", "gsm8k", "mmlu"]
+BENCHMARKS = ["humaneval", "math", "mmlu"]
 
 
 def run_benchmark_slice(
