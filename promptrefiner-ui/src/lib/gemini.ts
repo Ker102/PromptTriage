@@ -1,9 +1,9 @@
 import { GoogleGenerativeAI, GenerativeModel } from "@google/generative-ai";
 
-// Gemini 3 model variants
+// Gemini 3.1 model variants
 export const GEMINI_MODELS = {
-  fast: "gemini-3-flash-preview",      // Fast Mode: quick, single-pass
-  thinking: "gemini-3-pro-preview",   // Thinking Mode: deep, iterative
+  fast: "gemini-3-flash-preview",          // Fast Mode: quick, single-pass
+  thinking: "gemini-3.1-pro-preview",      // Thinking Mode: deep, iterative (upgraded from 3.0)
 } as const;
 
 let cachedClient: GoogleGenerativeAI | null = null;
