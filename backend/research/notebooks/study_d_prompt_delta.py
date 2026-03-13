@@ -199,7 +199,7 @@ def generate_prompttriage_prompts() -> dict[str, str]:
     # Initialize Pinecone for RAG
     from pinecone import Pinecone
     pc = Pinecone(api_key=os.getenv("PINECONE_API_KEY"))
-    index = pc.Index("systemprompts")
+    index = pc.Index(os.getenv("PINECONE_INDEX_NAME", "prompttriage-prompts"))
 
     # Initialize embedding model
     from google import genai
@@ -214,14 +214,15 @@ def generate_prompttriage_prompts() -> dict[str, str]:
 
         # RAG: Get similar prompts from Pinecone
         embed_response = embed_client.models.embed_content(
-            model="gemini-embedding-exp-03-07",
+            model="gemini-embedding-001",
             contents=use_case,
+            config={"task_type": "RETRIEVAL_QUERY", "output_dimensionality": 768},
         )
         query_vector = embed_response.embeddings[0].values
 
         similar = index.query(
             vector=query_vector, top_k=3, include_metadata=True,
-            namespace="system-prompt-generation",
+            namespace="system-prompts",
         )
         print(f"  [RAG] Found {len(similar.matches)} similar prompts "
               f"(top: {similar.matches[0].score:.3f})")
