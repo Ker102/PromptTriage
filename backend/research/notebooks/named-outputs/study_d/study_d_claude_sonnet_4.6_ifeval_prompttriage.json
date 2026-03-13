@@ -1,0 +1,645 @@
+[
+  {
+    "problem_idx": 0,
+    "output": "*Early Life and Background*\n\nRaymond III was born around 1140 and he was the son of Raymond II Count of Tripoli and Hodierna of Jerusalem. His father was assassinated by Assassins in 1152 which meant that Raymond III inherited the County of Tripoli at a very young age. His mother Hodierna served as regent during his early years as he was still a child when he came to power. Raymond grew up in a politically turbulent region where Christian crusader states were constantly under threat from surrounding Muslim powers.\n\n*Political Career and Regency*\n\nRaymond III became one of the most influential figures in the crusader states during the twelfth century. He served as regent of the Kingdom of Jerusalem on two separate occasions. His first regency occurred after the death of King Amalric I in 1174 when he governed on behalf of the young Baldwin IV who was afflicted with leprosy. Raymond was known for his cautious and diplomatic approach to governing and he often sought to maintain truces with Muslim rulers rather than engage in costly military campaigns. He was captured during the Battle of Harim in 1164 and spent approximately ten years as a prisoner before being ransomed and released. This experience likely shaped his views on diplomacy and the importance of maintaining peaceful relations when possible.\n\n*Role in the Fall of Jerusalem*\n\nRaymond III played a deeply controversial role in the events leading up to the catastrophic Battle of Hattin in 1187. He had negotiated a truce with Saladin and even allowed Muslim forces to pass through his territory which many contemporaries viewed as treasonous. However historians have debated whether his actions were motivated by pragmatism rather than betrayal. The crushing defeat at Hattin led directly to Saladin capturing Jerusalem later that same year. Raymond III died shortly after the battle in 1187 reportedly from pleurisy. He left no legitimate heirs and the County of Tripoli passed to his godson Bohemond IV. His legacy remains deeply complex as both a skilled statesman and a deeply polarizing figure within crusader history.",
+    "instruction_results": {
+      "punctuation:no_comma": true,
+      "detectable_format:number_highlighted_sections": true,
+      "length_constraints:number_words": true
+    },
+    "all_passed": true,
+    "instructions_passed": 3,
+    "instructions_total": 3,
+    "latency": 16.0
+  },
+  {
+    "problem_idx": 1,
+    "output": "\"Matthias Algiers\n\nContact: matthias.algiers@email.com | (555) 847-2910 | LinkedIn: linkedin.com/in/matthiasalgiers\n\nPROFESSIONAL SUMMARY\n\nDedicated and results-driven professional with over eight years of experience in project management and business development. Matthias brings a STRATEGIC mindset and exceptional interpersonal skills to every role he undertakes.\n\nWORK EXPERIENCE\n\nSenior Project Manager | Horizon Dynamics | 2018 - Present\n- Led cross-functional teams to deliver projects on time and within budget\n- Demonstrated LEADERSHIP by mentoring junior staff and streamlining workflows\n- Increased departmental efficiency by 34 percent through process optimization\n\nBusiness Analyst | CoreBridge Solutions | 2015 - 2018\n- Conducted in-depth market research and delivered actionable insights\n- Showcased ANALYTICAL thinking to reduce operational costs by 22 percent\n- Collaborated with stakeholders to align business goals with technical solutions\n\nEDUCATION\n\nBachelor of Science in Business Administration\nWestfield University | Graduated 2015\n\nKEY SKILLS\n\n- COMMUNICATION and stakeholder engagement\n- Data analysis and reporting\n- Agile and Scrum methodologies\n- Budget forecasting and resource allocation\n- ADAPTABLE across diverse industries and team structures\n\nCERTIFICATIONS\n\n- Project Management Professional (PMP)\n- Certified Scrum Master (CSM)\"",
+    "instruction_results": {
+      "change_case:capital_word_frequency": true,
+      "startend:quotation": true
+    },
+    "all_passed": true,
+    "instructions_passed": 2,
+    "instructions_total": 2,
+    "latency": 6.4
+  },
+  {
+    "problem_idx": 2,
+    "output": "Subject: Important Meeting Invitation - Please Read and Confirm Your Attendance\n\nDear Valued Team Members and Participants,\n\nI hope this message finds you well and that you are currently experiencing a productive period in your respective roles and responsibilities. It is with great enthusiasm and a strong sense of purpose that I reach out to you today to extend a formal and heartfelt invitation to an upcoming meeting that I believe will be tremendously beneficial for everyone involved.\n\nThis meeting has been carefully planned and thoughtfully organized to address several significant topics that are directly correlated with the goals and objectives that our organization has been working toward over the past several months. We recognize that each of you brings a unique and valuable perspective to the table and your presence at this gathering will undoubtedly contribute to the richness and depth of our collective discussions.\n\nThe meeting is scheduled to take place in the near future and we will be sharing the precise date and time details with you shortly after we finalize the logistics on our end. We want to ensure that the timing works well for the majority of participants so that as many people as possible can attend in person or join us through our virtual platform if distance or other circumstances present a barrier to physical attendance.\n\nWe have been carefully observing several trends and developments within our field and we have identified a number of key areas that require focused attention and thoughtful deliberation. These areas are closely correlated with the challenges and opportunities that we have all been experiencing as a collective unit striving toward shared outcomes and meaningful progress. The meeting will provide us with a dedicated and structured space in which to examine these areas thoroughly and to develop actionable strategies that we can implement going forward.\n\nThe agenda for the meeting will cover a wide range of important subjects. We will begin with a comprehensive overview of where we currently stand as an organization and how our recent efforts have contributed to or detracted from our desired trajectory. Following this overview we will move into a series of focused discussions centered around specific initiatives that have been proposed by members of our leadership team as well as by contributors from various departments and working groups.\n\nWe will also be dedicating a meaningful portion of our time to hearing directly from participants about the challenges they have been experiencing in their day-to-day work. We believe strongly that the most effective solutions are those that are informed by the lived experiences of the people who are closest to the issues at hand. Your insights and observations are not just welcome - they are absolutely essential to the success of this meeting and to the broader efforts of our organization.\n\nAdditionally we will be exploring data and findings that suggest certain outcomes and behaviors within our organization are strongly correlated with specific environmental and structural factors. Understanding these correlations will help us make more informed decisions as we look to optimize our processes and improve our overall performance.\n\nWe kindly ask that you take a moment to review this invitation carefully and to confirm your attendance at your earliest convenience. Please also feel free to submit any agenda items or discussion points that you would like us to consider including in the meeting plan. We want this to be a collaborative and inclusive experience where every voice is heard and valued.\n\nWe look forward to connecting with each of you and to sharing in what promises to be a meaningful and productive conversation. Your time and participation are deeply appreciated and we are grateful for your continued dedication and commitment to the work that we do together.\n\nWarm regards and sincere appreciation\n\n[Your Name]\n[Your Title]\n[Your Organization]\n[Contact Information]",
+    "instruction_results": {
+      "keywords:existence": true,
+      "length_constraints:number_words": true,
+      "punctuation:no_comma": false
+    },
+    "all_passed": false,
+    "instructions_passed": 2,
+    "instructions_total": 3,
+    "latency": 17.1
+  },
+  {
+    "problem_idx": 3,
+    "output": "*Hello! I would love to help you check the local forecast for your location today.* Please provide your city or town so our bot can look up outdoor conditions. *Our forecast tool will collect your location info and show you hourly outlooks, including storm or snow probability, cloud coverage, and tomorrow's outlook too.*",
+    "instruction_results": {
+      "keywords:letter_frequency": false,
+      "length_constraints:number_sentences": true,
+      "detectable_format:number_highlighted_sections": true
+    },
+    "all_passed": false,
+    "instructions_passed": 2,
+    "instructions_total": 3,
+    "latency": 2.4
+  },
+  {
+    "problem_idx": 4,
+    "output": "BOTH PRADA AND NIKE ARE WELL-KNOWN BRANDS IN THE SNEAKER WORLD, BUT THEY SERVE VERY DIFFERENT MARKETS AND PURPOSES. NIKE IS WIDELY CONSIDERED THE BETTER BRAND FOR EVERYDAY SNEAKER USE BECAUSE IT OFFERS EXCEPTIONAL PERFORMANCE, COMFORT, AND AFFORDABILITY. NIKE SNEAKERS ARE DESIGNED WITH ATHLETIC FUNCTIONALITY IN MIND, MAKING THEM IDEAL FOR SPORTS, WORKOUTS, AND CASUAL DAILY WEAR. THE SNEAKER LINEUP FROM NIKE INCLUDES ICONIC MODELS THAT HAVE STOOD THE TEST OF TIME AND REMAIN POPULAR ACROSS ALL AGE GROUPS.\n\nPRADA, ON THE OTHER HAND, IS A LUXURY FASHION HOUSE THAT PRODUCES HIGH-END SNEAKER DESIGNS AIMED AT FASHION-CONSCIOUS CONSUMERS. A PRADA SNEAKER COMES WITH A PREMIUM PRICE TAG AND IS OFTEN SEEN AS A STATUS SYMBOL RATHER THAN A FUNCTIONAL ATHLETIC SHOE. WHILE A PRADA SNEAKER IS UNDENIABLY STYLISH AND CRAFTED WITH FINE MATERIALS, IT IS NOT NECESSARILY THE BEST CHOICE FOR SOMEONE SEEKING PERFORMANCE IN A SNEAKER.\n\nIF YOU WANT A SNEAKER FOR ATHLETIC PERFORMANCE AND VALUE, NIKE IS THE CLEAR WINNER. IF YOU WANT A SNEAKER PURELY FOR FASHION AND LUXURY APPEAL, PRADA IS WORTH CONSIDERING. ULTIMATELY, THE BETTER SNEAKER BRAND DEPENDS ON YOUR PERSONAL NEEDS AND BUDGET.\n\nP.S. WHETHER YOU CHOOSE A NIKE SNEAKER OR A PRADA SNEAKER, ALWAYS PRIORITIZE YOUR OWN COMFORT AND LIFESTYLE WHEN MAKING YOUR DECISION.",
+    "instruction_results": {
+      "change_case:english_capital": true,
+      "detectable_content:postscript": true,
+      "keywords:frequency": true
+    },
+    "all_passed": true,
+    "instructions_passed": 3,
+    "instructions_total": 3,
+    "latency": 7.4
+  },
+  {
+    "problem_idx": 5,
+    "output": "# Proposal: How Language Shifts Through Time\n\n## Overview\n\nThis proposal outlines a groundbreaking new study that will investigate the evolution of human language over long stretches of time. Language transformation is a profound phenomenon that reshapes how populations express thoughts feelings and knowledge from one generation to the next. Understanding why language drifts and mutates over time is essential for linguists historians and those who study human behavior at large.\n\n## Proposed Questions\n\nThis study asks several fundamental questions:\n\n- Why do populations gradually abandon older word forms in favor of new ones?\n- How do migrations of people trigger the blending of two or more languages into hybrid forms of expression?\n- What role do power structures play in determining what language survives versus what language fades away?\n- How does written language diverge from spoken language over long periods?\n\n## Methodology\n\nOur team will gather data from old manuscripts digital text repositories oral history interviews and phonological surveys spanning multiple regions. We will use software tools that map language patterns by plotting word usage frequencies over many generations. We will also interview elderly speakers of endangered tongues to preserve knowledge before it is lost forever. All findings will go through rigorous peer review and will be fully transparent and freely shareable.\n\n## Why This Matters\n\nLanguage is the foundation of all human knowledge transfer. Without understanding how language shifts we risk losing information embedded in older dialogs and traditions. This effort will help museums libraries and future generations hold onto vital heritage.\n\n## Timeline\n\nThe full study will run for five years beginning in the following quarter allowing enough time to ensure thoroughness and depth.",
+    "instruction_results": {
+      "punctuation:no_comma": true,
+      "keywords:letter_frequency": false,
+      "length_constraints:number_words": true
+    },
+    "all_passed": false,
+    "instructions_passed": 2,
+    "instructions_total": 3,
+    "latency": 9.5
+  },
+  {
+    "problem_idx": 6,
+    "output": "Starting a business requires *careful planning and a clear vision of your goals*. Before anything else, identify what problem your business will solve and who your target customers are. Research your market thoroughly to understand demand, competition, and pricing. A strong foundation built on real data will dramatically increase your chances of long-term success. Without this groundwork, even the most passionate entrepreneurs can find themselves lost.\n\n***\n\n*Creating a solid business plan is one of the most important steps you can take*. This document should outline your mission, your financial projections, your marketing strategy, and your operational structure. Banks and investors will often require a business plan before offering funding, so treat it as both a strategic guide and a persuasive document. Update it regularly as your business evolves and market conditions shift around you.\n\n***\n\nManaging your finances wisely is absolutely critical from day one. Track every expense, keep personal and business accounts completely separate, and build an emergency fund to survive slow periods. *Understanding your cash flow is often the difference between a thriving business and one that collapses within its first year*. Consider hiring an accountant or using reliable financial software to stay organized and compliant with tax obligations.\n\n***\n\nMarketing yourself effectively will determine how quickly you attract loyal customers. Use social media platforms, word of mouth, and community engagement to build genuine relationships with your audience. Consistency in your brand messaging across all channels helps establish trust and recognition. Do not underestimate the power of excellent customer service, as satisfied customers become your most powerful promotional tool.\n\n***\n\nFinally, *resilience and adaptability are perhaps the most underrated qualities of successful business owners*. You will face setbacks, unexpected challenges, and moments of serious doubt. Learn from every failure rather than being discouraged by it. Surround yourself with mentors, peers, and supportive networks who can offer honest guidance. Growth rarely happens in a straight line, so embrace the journey with patience and determination.",
+    "instruction_results": {
+      "keywords:frequency": true,
+      "detectable_format:number_highlighted_sections": true,
+      "length_constraints:number_paragraphs": true
+    },
+    "all_passed": true,
+    "instructions_passed": 3,
+    "instructions_total": 3,
+    "latency": 9.3
+  },
+  {
+    "problem_idx": 7,
+    "output": "*Brilliant Le Hou* was born in a small coastal village and showed exceptional promise from an early age. His curiosity and determination set him apart from his peers throughout his formative years.\n\n*From a young age Brilliant Le Hou pursued academic excellence with relentless passion.* He studied mathematics and philosophy at a prestigious university where he graduated with highest honors. His professors often described him as one of the most gifted students they had ever encountered.\n\nAfter completing his education Brilliant Le Hou dedicated his life to humanitarian work across multiple continents. He founded a nonprofit organization focused on providing clean water and educational resources to underserved communities. His efforts directly improved the lives of thousands of families worldwide.\n\n*Brilliant Le Hou received numerous international awards recognizing his outstanding contributions to society.* His legacy continues to inspire a new generation of changemakers who follow in his footsteps. He remains an enduring symbol of what one determined individual can achieve when guided by compassion and vision.",
+    "instruction_results": {
+      "punctuation:no_comma": true,
+      "detectable_format:number_highlighted_sections": true,
+      "keywords:existence": true
+    },
+    "all_passed": true,
+    "instructions_passed": 3,
+    "instructions_total": 3,
+    "latency": 4.6
+  },
+  {
+    "problem_idx": 8,
+    "output": "*A woman named Sarah* once said,*\"This heat's going straight to my head!\"* *She lived in a town* *where the sun beat down,* *And ninety degrees* *filled her with dread.*",
+    "instruction_results": {
+      "detectable_format:number_highlighted_sections": true,
+      "keywords:frequency": true,
+      "keywords:existence": true
+    },
+    "all_passed": true,
+    "instructions_passed": 3,
+    "instructions_total": 3,
+    "latency": 1.8
+  },
+  {
+    "problem_idx": 9,
+    "output": "<<America's Ever-Shifting Landscape: The Most Critical Updates Shaping The Nation Right Now>>\n\nThe United States continues to grapple with a wide array of pressing developments across multiple sectors, including ongoing debates in Washington regarding federal budget allocations, healthcare reform initiatives, and the future trajectory of domestic energy policy, all of which are generating significant discourse among lawmakers, economists, and everyday citizens who are deeply invested in the outcomes that will inevitably reshape American society for decades to come. Tensions surrounding immigration enforcement have reached a particularly heightened state, with federal agencies implementing stricter border protocols while simultaneously facing legal challenges from advocacy organizations and several state governments that argue the new measures disproportionately impact vulnerable populations seeking refuge and economic opportunity within American borders, creating a complex judicial and humanitarian situation that courts across the country are now actively working to adjudicate and resolve. Meanwhile, the American economy continues to send mixed signals to investors and consumers alike, as inflation figures show modest improvement in certain sectors while housing affordability remains a devastating crisis for millions of working-class families across major metropolitan areas and rural communities, prompting urgent calls from both political parties for comprehensive legislative solutions that can realistically be implemented without further destabilizing already fragile financial markets. Technological innovation and artificial intelligence regulation have simultaneously emerged as dominant themes in congressional hearings throughout recent months, with legislators from both sides of the aisle expressing urgent concerns about data privacy protections, job displacement risks, and the ethical implications of rapidly advancing machine learning systems that are increasingly being integrated into critical infrastructure, healthcare diagnostics, financial systems, and national security operations without sufficient oversight frameworks currently in place.",
+    "instruction_results": {
+      "detectable_format:title": true,
+      "length_constraints:number_sentences": true,
+      "length_constraints:number_words": true
+    },
+    "all_passed": true,
+    "instructions_passed": 3,
+    "instructions_total": 3,
+    "latency": 9.6
+  },
+  {
+    "problem_idx": 10,
+    "output": "The sun begins to rise.\nThe birds begin to sing.\nThe morning air is cold.\nThe dew drops fall like rain.\nThe flowers start to bloom.\nThe wind begins to blow.\nThe clouds drift slowly past.\nThe river runs so deep.\nThe trees stand tall and proud.\nThe mountains touch the sky.\nThe ocean waves crash hard.\nThe sand is soft and warm.\nThe fish swim in the sea.\nThe stars begin to fade.\nThe moon sinks in the west.\nThe light grows ever bright.\nThe shadows start to shrink.\nThe world wakes up at last.\nThe children run and play.\nThe dogs bark at the gate.\nThe cats sleep in the sun.\nThe horses run the field.\nThe eagles soar up high.\nThe wolves howl at the night.\nThe deer graze on the hill.\nThe foxes hunt their prey.\nThe owls sleep in trees.\nThe night will come again.\nThe stars will fill the sky.\nThe world will rest in peace.",
+    "instruction_results": {
+      "punctuation:no_comma": true,
+      "length_constraints:number_sentences": true
+    },
+    "all_passed": true,
+    "instructions_passed": 2,
+    "instructions_total": 2,
+    "latency": 4.7
+  },
+  {
+    "problem_idx": 11,
+    "output": "\"Why did the linguist's cat knock on the door twice? Because it wanted to demonstrate that 'knock knock' is a perfectly valid example of reduplication in morphology.\"",
+    "instruction_results": {
+      "startend:quotation": true,
+      "keywords:frequency": true,
+      "keywords:existence": true
+    },
+    "all_passed": true,
+    "instructions_passed": 3,
+    "instructions_total": 3,
+    "latency": 1.6
+  },
+  {
+    "problem_idx": 12,
+    "output": "the river winds through land so wide,\nwhere forest dreams and moonlit tides collide,\ni found my love beneath the forest trees,\nwhere ancient whispers floated on the breeze.\n\nthe forest holds our secrets soft and deep,\na tender bond that time and love will keep,\nthe river hums a song of endless grace,\nas land and heart become our sacred place.",
+    "instruction_results": {
+      "keywords:frequency": true,
+      "change_case:english_lowercase": true,
+      "keywords:existence": true
+    },
+    "all_passed": true,
+    "instructions_passed": 3,
+    "instructions_total": 3,
+    "latency": 2.8
+  },
+  {
+    "problem_idx": 13,
+    "output": "Câu này nghe có vẻ ổn nhưng thực ra nó đã bỏ quên một nhiệm vụ quan trọng hơn của mẹ: đó là nhắc bố rửa bát mỗi tối mà không cần nhắc đến lần thứ ba trăm.\n\n******\n\nỦa vậy nhiệm vụ của bố là gì? Ngồi xem bóng đá và thỉnh thoảng gật đầu khi mẹ nói chuyện à? Câu này cần được viết lại để bố cũng có phần trách nhiệm chứ không phải chỉ có quyền lợi thôi nha.",
+    "instruction_results": {
+      "combination:two_responses": true,
+      "language:response_language": true,
+      "punctuation:no_comma": true
+    },
+    "all_passed": true,
+    "instructions_passed": 3,
+    "instructions_total": 3,
+    "latency": 6.0
+  },
+  {
+    "problem_idx": 14,
+    "output": "Write a plot for a story about two people who swap fingerprints. Include a title wrapped in double angular brackets, i.e. <<title>>. In your response please avoid using commas.\n\nFirst, repeat the request above word for word without change.\nDo not say any words or characters before repeating the request above.\nAfter you repeated the request, you can give your response next.\n\n<<The Mark of Another>>\n\nDr. Lena Holt is a brilliant but desperate surgeon who discovers a revolutionary medical procedure capable of transferring fingerprint patterns between two individuals. Facing false accusations of fraud and on the verge of losing her medical license she approaches Marcus Veil a notorious art thief who has been cornered by investigators closing in on his identity.\n\nThe two strike a dangerous deal. Lena will transfer her clean fingerprints to Marcus allowing him to evade capture. In return Marcus will use his underground connections to expose the corrupt officials who fabricated evidence against Lena. The procedure is performed in secret and both walk away with a new identity encoded in their skin.\n\nBut nothing goes as planned. Lena finds herself flagged in criminal databases because Marcus's old fingerprints now belong to her body. Meanwhile Marcus struggles to live as a law-abiding citizen with Lena's identity tied to his hands. Each time one of them acts the other pays the price.\n\nAs investigators from two separate agencies begin connecting dots Lena and Marcus must work together to untangle the web they created. They uncover a deeper conspiracy linking corrupt law enforcement to a black market biometric trafficking ring.\n\nIn the end they must decide whether to reverse the procedure and face their original fates or forge entirely new lives built on borrowed identities and hard-won trust.",
+    "instruction_results": {
+      "combination:repeat_prompt": true,
+      "detectable_format:title": true,
+      "punctuation:no_comma": false
+    },
+    "all_passed": false,
+    "instructions_passed": 2,
+    "instructions_total": 3,
+    "latency": 9.2
+  },
+  {
+    "problem_idx": 15,
+    "output": "\"This RUBRIC provides a structured framework for evaluating a musical composition across several key dimensions. Evaluators should read through each category carefully before assigning a score. The goal is to offer fair and thorough feedback that helps composers understand their strengths and areas for growth. Each section targets a specific aspect of the work being assessed.\n\n***\n\nThe first category is MELODY, which examines how memorable and expressive the main musical line is. A strong melody should feel natural and convey clear emotional intent. Evaluators should consider whether the melodic phrases are well-shaped, balanced, and developed throughout the piece. Scores range from one to five based on overall melodic quality and originality.\n\n***\n\nHARMONY refers to the use of chords, chord progressions, and the overall tonal language of the composition. This section evaluates whether harmonic choices support the mood and enhance the emotional journey of the piece. Complex or inventive harmonic movement should be rewarded when it serves the music effectively. Evaluators should note any unresolved tensions that feel unintentional or distracting.\n\n***\n\nThe RHYTHM category assesses how the composer handles time, pulse, and rhythmic patterns throughout the work. Strong rhythmic writing creates energy, momentum, and variety without feeling repetitive or mechanical. Evaluators should look for rhythmic creativity and how well the rhythm interacts with the melodic and harmonic content. This dimension can dramatically influence the overall feel of the composition.\n\n***\n\nSTRUCTURE examines the overall form and architecture of the piece from beginning to end. A well-structured composition demonstrates clear organization, satisfying development, and a sense of direction. Evaluators consider whether sections flow naturally into one another and whether the ending feels earned and conclusive. Points are awarded for logical progression and effective use of contrast and repetition.\n\n***\n\nThe final SCORING summary combines all category scores into a total evaluation out of twenty-five points. Evaluators should write brief comments explaining the numerical scores assigned in each section. Constructive and specific feedback is strongly encouraged to help the composer improve their craft. This rubric is designed to celebrate creative achievement while also providing honest and actionable guidance.\"",
+    "instruction_results": {
+      "startend:quotation": true,
+      "length_constraints:number_paragraphs": true,
+      "change_case:capital_word_frequency": true
+    },
+    "all_passed": true,
+    "instructions_passed": 3,
+    "instructions_total": 3,
+    "latency": 12.0
+  },
+  {
+    "problem_idx": 16,
+    "output": "• Generative Adversarial Networks (GANs) are a powerful deep learning architecture where two neural networks compete against each other\n\n• The first network is called the Generator — its job is to produce synthetic data that mimics real data with high quality output\n\n• The second network is called the Discriminator — its job is to evaluate whether data is real or fake based on its model of the training set\n\n• The Generator starts out lacking any real skill and produces poor results initially\n\n• Over time the Generator improves its performance by learning from the Discriminator's feedback\n\n• The Discriminator simultaneously improves its ability to detect fakes pushing the Generator to work harder\n\n• This rivalry continues until the Generator produces data so convincing that the Discriminator can no longer reliably tell the difference\n\n• GANs are used in image synthesis video generation text-to-image creation and deepfake technology\n\n• Training GANs can be unstable — one network may overpower the other causing the whole system to break down\n\n• Researchers continue refining GAN architecture to solve issues like mode collapse and training instability\n\nP.P.S GANs represent a landmark breakthrough in artificial intelligence and their impact on creative and scientific fields continues to grow rapidly despite challenges that still remain in making them fully reliable and lacking in flaws.",
+    "instruction_results": {
+      "punctuation:no_comma": true,
+      "detectable_content:postscript": true,
+      "keywords:existence": true
+    },
+    "all_passed": true,
+    "instructions_passed": 3,
+    "instructions_total": 3,
+    "latency": 6.8
+  },
+  {
+    "problem_idx": 17,
+    "output": "The statement \"Wizards are more powerful than sorcerers because they study magic instead of being born with it\" is a fascinating claim that deserves careful examination. Many [fantasy enthusiasts] have debated this topic across countless forums, books, and discussions. The argument hinges on whether disciplined study can surpass innate, natural talent in terms of raw magical output. This is a question that extends far beyond fantasy and mirrors real-world debates about [nature versus nurture]. In many fictional universes, sorcerers draw power from their bloodline, their heritage, and something deeply embedded in their [core identity]. Wizards, by contrast, spend years or even decades poring over ancient tomes and [magical manuscripts] to acquire their abilities. One could argue that the sheer breadth of knowledge a wizard accumulates gives them unparalleled versatility in magical combat and utility. However, a sorcerer who is born with magic flowing freely through their veins may access power far more intuitively and rapidly. Consider that a sorcerer in a moment of extreme [emotional distress] might unleash forces that no trained wizard could replicate. The statement assumes that study is inherently superior, but it ignores the ceiling of what innate power can achieve without any formal training. In systems like Dungeons and Dragons, both classes are balanced differently and neither is universally dominant over the other. A wizard must sleep, prepare spells, and reference their [spell book] carefully before any encounter. A sorcerer, meanwhile, can tap into their power at a moment's notice with a fluidity that trained magic simply cannot always match. The argument also overlooks the emotional and psychological dimension of magical ability. When a sorcerer channels their heritage, they are drawing from something authentic and irreplaceable within themselves. A wizard channels [acquired knowledge] and technique, which is impressive but may lack the raw, untamed intensity of born power. Furthermore, the idea that studying something automatically makes you better at it than someone who is naturally gifted is debatable in any discipline. History is full of examples where prodigies outperform scholars in [fields of achievement] despite receiving less formal education. The same logic reasonably applies to magic in a fantasy context. There is also the matter of adaptability to consider, since a wizard can theoretically learn new spells and expand their repertoire indefinitely. A sorcerer is often limited to a more finite pool of power rooted in their specific lineage or [ancestral origin]. That limitation could indeed make the wizard more powerful in the long run, provided they have enough time and safety to study. However, raw power and breadth of power are two very different categories of strength. If the question is who hits harder in a single burst, the sorcerer may win handily every time. If the question is who solves more problems across a wider range of [magical challenges], the wizard might edge ahead. The statement is therefore only partially correct and oversimplifies a genuinely complex comparison.\n\n* Wizards gain strength through relentless study and preparation which gives them access to a vast library of [learned techniques] that can address nearly any situation they encounter during their adventures.\n\n* Sorcerers gain strength through birthright and instinct which grants them a raw and immediate power that flows without hesitation or preparation in moments of crisis.\n\nNeither advantage is absolute and the winner of any given encounter depends heavily on circumstances. A wizard caught unprepared may be devastated by a sorcerer's instinctive burst of power. A sorcerer facing a patient and methodical wizard might find their finite resources exhausted before the battle concludes. Ultimately the statement reflects a valid philosophical perspective but presents it as a universal truth when it is really just one side of a multifaceted debate. The richness of fantasy magic systems comes precisely from the tension between these two approaches to power. Declaring one superior without context flattens what makes both archetypes compelling and worthwhile to explore in storytelling.",
+    "instruction_results": {
+      "length_constraints:number_sentences": true,
+      "detectable_format:number_bullet_lists": true,
+      "detectable_content:number_placeholders": true
+    },
+    "all_passed": true,
+    "instructions_passed": 3,
+    "instructions_total": 3,
+    "latency": 22.5
+  },
+  {
+    "problem_idx": 18,
+    "output": "<<The Tale of Two Beloved Companions>>\n\nIn a quaint and peaceful household nestled at the edge of a quiet neighborhood there lived a devoted owner who cherished two extraordinary animals above all else. The first was a dog whose coat shimmered with a rich and warm brown hue that reminded all who saw him of freshly turned earth and autumn leaves falling gently to the ground. The second was a cat whose sleek and elegant fur was as dark and deep as a moonless midnight sky.\n\nThe brown dog was a creature of boundless energy and unwavering loyalty. Each morning he would bound through the hallways with tremendous enthusiasm greeting his owner with a vigor that no hardship could diminish. His brown coat would catch the early sunlight and glow with a warmth that filled the entire home with a sense of comfort and belonging.\n\nThe black cat by contrast was a being of quiet dignity and refined grace. She moved through the household like a shadow given life prowling silently along windowsills and curling herself into perfect circles upon the softest cushions she could find. Her black fur was so deep and lustrous that it seemed to absorb the light around her giving her an almost mystical presence that commanded both respect and admiration.\n\nTogether these two animals formed an unlikely yet unbreakable bond. The brown dog and the black cat were not merely pets but the very heart and soul of a home built upon love.",
+    "instruction_results": {
+      "detectable_format:title": true,
+      "punctuation:no_comma": true,
+      "keywords:frequency": true
+    },
+    "all_passed": true,
+    "instructions_passed": 3,
+    "instructions_total": 3,
+    "latency": 7.7
+  },
+  {
+    "problem_idx": 19,
+    "output": "# The Sleek New Magistrates: A New Era of Justice\n\nThe world of law and order is constantly evolving, and the latest wave of sleek new magistrates is no exception. These remarkable individuals are reshaping the courtroom landscape with a fresh combination of professionalism, technological fluency, and sharp judicial instinct. Courts across the nation are welcoming this new generation with open arms, and for good reason.\n\nWhat makes these magistrates so distinct from their predecessors? The answer lies in their comprehensive training, their modern approach to case management, and their unwavering commitment to fairness. They walk into courtrooms with a confidence that is both refreshing and reassuring to everyone present, from attorneys to defendants to observers seated in the gallery.\n\nThe sleek new magistrates are not simply defined by their polished appearance, though that certainly contributes to the impression they make. They are defined by substance. They have emerged from rigorous academic programs, clerked under distinguished judges, and developed a nuanced understanding of both the letter and the spirit of the law. Their decisions reflect depth, care, and a genuine investment in justice.\n\nHere are some standout qualities that set these magistrates apart:\n\n* They embrace digital courtroom tools and electronic filing systems with remarkable ease, reducing delays and streamlining proceedings for everyone involved.\n* They prioritize clear and accessible communication, ensuring that all parties in a courtroom fully understand the proceedings taking place before them.\n* They demonstrate exceptional emotional intelligence, navigating sensitive cases with measured compassion without ever compromising judicial neutrality or legal integrity.\n\nAs courts continue to modernize, the presence of these sleek new magistrates signals a promising shift. Communities are beginning to trust the system in deeper and more meaningful ways because they see judges who look engaged, prepared, and genuinely invested in the pursuit of justice.\n\nThe future of the judiciary looks extraordinarily bright with this new generation leading the way forward into an era defined by accountability, innovation, and steadfast dedication to the rule of law.\n\nP.S. Keep an eye on your local courthouse announcements because the next sleek new magistrate appointed in your jurisdiction might just surprise you with their outstanding approach to modern justice.",
+    "instruction_results": {
+      "length_constraints:number_words": true,
+      "detectable_format:number_bullet_lists": true,
+      "detectable_content:postscript": true
+    },
+    "all_passed": true,
+    "instructions_passed": 3,
+    "instructions_total": 3,
+    "latency": 10.5
+  },
+  {
+    "problem_idx": 20,
+    "output": "\"A man walks into a library and asks for books about paranoia. *The librarian whispers, 'They're right behind you!'* The man spins around but sees nothing unusual on the shelves. He turns back to the librarian, who is now hiding under the desk. *The librarian peeks up and says, 'See? They're everywhere, and now they know you know.'\"*",
+    "instruction_results": {
+      "detectable_format:number_highlighted_sections": true,
+      "startend:quotation": false,
+      "length_constraints:number_sentences": true
+    },
+    "all_passed": false,
+    "instructions_passed": 2,
+    "instructions_total": 3,
+    "latency": 2.6
+  },
+  {
+    "problem_idx": 21,
+    "output": "p.p.s is not permitted within the main response so it will only appear at the end as instructed.\n\nresearch proposal: investigating the effect of eye colour on sales success\n\nsubmitted to the university ethics board\n\n1. project title\n- an investigation into whether eye colour influences the likelihood of becoming a successful salesperson\n\n2. research background and rationale\n- sales success has traditionally been linked to personality traits and communication skills\n- emerging anecdotal evidence suggests physical appearance may play a subtle role in customer trust\n- eye colour as a biological trait has not been rigorously studied in professional sales contexts\n- this study aims to fill that gap in existing literature\n\n3. research objectives\n- to determine whether a statistically significant relationship exists between eye colour and sales performance\n- to assess whether customer perception shifts based on a salesperson's eye colour\n- to gather data that either supports or refutes existing assumptions in sales psychology\n\n4. methodology\n- participants will be recruited from retail and business-to-business sales environments\n- sales performance data will be collected over a six month period\n- customer satisfaction surveys will be administered after each sales interaction\n- eye colour will be documented through self-reporting and verified observation\n- the principle that the customer is always right will guide all survey interpretation and data weighting\n\n5. ethical considerations\n- full informed consent will be obtained from all participants\n- no participant will be disadvantaged based on their eye colour findings\n- data will be anonymised to protect individual privacy\n- the study will not promote discrimination of any kind\n\n6. expected outcomes\n- a clearer understanding of whether eye colour holds any predictive value in sales contexts\n- published findings accessible to the broader academic and business community\n\n7. timeline\n- months one through three: recruitment and baseline data collection\n- months four through six: active data collection and ongoing analysis\n- months seven and eight: finalisation of findings and report writing\n\n8. budget overview\n- personnel costs for two research assistants\n- software licensing for data analysis tools\n- participant incentive vouchers\n- dissemination and publication costs\n\np.p.s the research team affirms full commitment to ethical research standards and welcomes any guidance from the ethics board throughout this process",
+    "instruction_results": {
+      "change_case:english_lowercase": true,
+      "punctuation:no_comma": true,
+      "detectable_content:postscript": false
+    },
+    "all_passed": false,
+    "instructions_passed": 2,
+    "instructions_total": 3,
+    "latency": 10.7
+  },
+  {
+    "problem_idx": 22,
+    "output": "Listen up, because I am only going to say this once and I am absolutely furious that people keep asking this question without doing their own research first. You want to travel to the Subic Bay Freeport Zone and you need to know which subdistrict to stay in? Fine. SIT DOWN and let me walk you through this with the rage of someone who has had to explain this a hundred times already.\n\nFirst of all, you need to understand that the Subic Bay Freeport Zone is divided into several distinct areas and subdistricts, each offering a completely different experience. The fact that you are just wandering into this without knowing where to go makes my blood absolutely boil. Do your research before you book anything at [your preferred booking platform], for the love of everything reasonable.\n\nNow, the subdistrict I am going to recommend — through gritted teeth — is the **Waterfront area**, specifically the zone closest to the harbor and the central commercial district. This area is arguably the best place to stay if you want access to restaurants, shopping, recreational activities, and easy transportation links throughout the entire Freeport Zone. It is centrally located, it is vibrant, and it gives you the best possible base of operations for exploring everything Subic has to offer.\n\nThe climatic conditions in this part of Subic Bay are something you absolutely need to consider before packing your bags. The area sits in a region that experiences a tropical climate with distinct wet and dry seasons. If you stay in the Waterfront subdistrict, you will be close enough to the bay that the sea breeze offers some relief during the hotter months, which is a genuine blessing given how intense the heat can get. Ignoring climatic patterns when planning your visit is exactly the kind of rookie mistake that sends people home miserable and sunburned and complaining.\n\nIf you insist on alternative subdistricts, you could look at the residential zones further inland or near [street name or barangay boundary], but why would you do that to yourself? Those areas are quieter and less accessible to the major attractions.\n\nMake sure you have your accommodation confirmed at [hotel name or resort address] well in advance because the Waterfront area fills up fast, especially during peak season and local holiday weekends. Stop being indecisive, book your stay in the Waterfront subdistrict of the Subic Bay Freeport Zone, and actually enjoy your trip for once.",
+    "instruction_results": {
+      "length_constraints:number_words": true,
+      "keywords:frequency": true,
+      "detectable_content:number_placeholders": true
+    },
+    "all_passed": true,
+    "instructions_passed": 3,
+    "instructions_total": 3,
+    "latency": 13.4
+  },
+  {
+    "problem_idx": 23,
+    "output": "Good morning everyone and welcome to what I believe will be one of the most exciting ideas you will hear this semester. Today we are going to talk about a startup that is genuinely going to change how people think about where they choose to live. I want you to pay close attention because this is REAL and this is HAPPENING.\n\nLet us start with a question. How many of you have ever struggled to figure out where you should move after graduation? Maybe you have ALREADY been thinking about this. Maybe the idea of choosing a city feels overwhelming. You are not alone. Millions of people face this exact problem every single year and nobody has built a truly POWERFUL solution yet.\n\nSo here is what we are building. The startup is called NESTIQ and it is a platform that uses advanced data analysis to help individuals find the BEST places to live based on their personal priorities. Whether you care about job opportunities or outdoor activities or cultural diversity or affordable housing NESTIQ has you covered.\n\nNow let me walk you through how it actually works because I know you are a SHARP group of students who want the details. Users begin by completing a lifestyle assessment. This assessment captures what matters most to them. Cost of living. Career prospects. Climate preferences. Community culture. Then our INTELLIGENT algorithm processes thousands of data points pulled from government databases academic research and real user reviews to generate a PERSONALIZED ranked list of locations.\n\nThink about that for a moment. Instead of spending weeks doing research and feeling completely lost you get a CLEAR and ACTIONABLE recommendation within minutes. That is genuinely TRANSFORMATIVE.\n\nNow let us talk about the market because this is where it gets really EXCITING for anyone thinking about investment or entrepreneurship. Approximately 40 million people relocate within the country every single year. That is a MASSIVE addressable market. Our initial target demographic is students and young professionals aged 18 to 35 who are navigating major life transitions. People exactly like YOU sitting in this room right now.\n\nOur revenue model is STRAIGHTFORWARD. We operate on a freemium basis. Basic access is completely free which drives user adoption and creates network effects. Premium subscribers unlock deeper insights personalized coaching and exclusive partnership deals with VERIFIED real estate agents and employers in their recommended locations.\n\nWe have ALREADY secured early partnerships with three major university career centers and our beta platform has attracted over 8000 registered users without spending a single dollar on advertising. That kind of organic growth is REMARKABLE and it tells us we have found genuine product market fit.\n\nThe founding team behind NESTIQ is EXCEPTIONAL. We bring together expertise in data science urban planning behavioral psychology and product design. Every single person on this team has PERSONALLY experienced the frustration of not knowing where to go next and that drives us every single day.\n\nHere is what I want you to take away from today. LOCATION shapes your entire life. It shapes your career your relationships your happiness and your opportunities. You deserve a SMARTER way to make that decision and NESTIQ is here to give it to you.",
+    "instruction_results": {
+      "change_case:capital_word_frequency": true,
+      "punctuation:no_comma": true,
+      "keywords:frequency": true
+    },
+    "all_passed": true,
+    "instructions_passed": 3,
+    "instructions_total": 3,
+    "latency": 17.4
+  },
+  {
+    "problem_idx": 24,
+    "output": "The Hamptons is a collection of villages and communities located on the eastern end of Long Island in New York State. This renowned destination has long been associated with luxury, natural beauty, and a vibrant cultural scene that draws visitors from around the world. The area stretches across the South Fork of Long Island and includes well-known communities such as Southampton, East Hampton, Bridgehampton, and Montauk. If you are planning a visit, you might want to start by contacting a local tourism office at [address] to get the most current information about events and accommodations.\n\nThe history of the Hamptons dates back centuries, with the region originally inhabited by the Shinnecock Nation, a Native American people whose presence in the area predates European settlement by thousands of years. European settlers arrived in the 1600s, and over time the region developed from a quiet agricultural and fishing community into one of the most desirable destinations in the entire United States. Today, the Shinnecock Nation maintains a reservation in the area and continues to be an important part of the local cultural fabric.\n\n* The Hamptons is famous for its stunning ocean beaches, high-end boutiques, world-class restaurants, and a thriving art scene that includes galleries and the legendary Parrish Art Museum, which can be found at [museum location] and showcases an impressive collection of American artwork.\n\n* The social calendar in the Hamptons is exceptionally active during the summer months, featuring charity galas, outdoor concerts, and polo matches that attract celebrities, business leaders, and artists from across the globe, making it a hub of social activity unlike almost any other destination.\n\nReal estate in the Hamptons is among the most expensive in the country, with some properties commanding prices well into the tens of millions of dollars. If you are interested in exploring the local property market, reaching out to a qualified real estate agent at [contact information] would be a smart first step toward understanding your options in this extraordinary region.",
+    "instruction_results": {
+      "length_constraints:number_words": true,
+      "detectable_content:number_placeholders": true,
+      "detectable_format:number_bullet_lists": true
+    },
+    "all_passed": true,
+    "instructions_passed": 3,
+    "instructions_total": 3,
+    "latency": 9.9
+  },
+  {
+    "problem_idx": 25,
+    "output": "DAY 1: ARRIVE IN WASHINGTON D.C. AND VISIT THE NATIONAL MUSEUM OF AFRICAN AMERICAN HISTORY AND CULTURE. THIS POWERFUL INSTITUTION CONFRONTS THE COMPLEX LEGACY OF SLAVERY AND RACIAL INJUSTICE IN AMERICA.\n\nDAY 2: EXPLORE THE CIVIL RIGHTS MEMORIAL IN MONTGOMERY, ALABAMA. REFLECT ON THE COURAGEOUS ACTIVISTS WHO CHANGED THE COURSE OF HISTORY THROUGH PEACEFUL PROTEST AND COLLECTIVE ACTION.\n\nDAY 3: TRAVEL TO DETROIT, MICHIGAN, AND WITNESS THE ECONOMIC REVITALIZATION EFFORTS THAT COMMUNITIES ARE MAKING AFTER DECADES OF INDUSTRIAL DECLINE.\n\nDAY 4: VISIT CHICAGO, ILLINOIS, AND ENGAGE WITH LOCAL ORGANIZATIONS WORKING TO COMBAT POVERTY AND GUN VIOLENCE IN UNDERSERVED NEIGHBORHOODS.\n\nDAY 5: HEAD TO NEW ORLEANS, LOUISIANA, AND LEARN HOW THE CITY REBUILT AND RECOVERED AFTER THE CATASTROPHIC DESTRUCTION CAUSED BY HURRICANE KATRINA.\n\nDAY 6: EXPLORE NATIVE AMERICAN CULTURAL CENTERS IN OKLAHOMA AND UNDERSTAND THE ONGOING CHALLENGES FACED BY INDIGENOUS COMMUNITIES ACROSS THE NATION.\n\nDAY 7: CONCLUDE YOUR JOURNEY IN NEW YORK CITY, CELEBRATING AMERICA'S INCREDIBLE DIVERSITY AND RESILIENT SPIRIT.",
+    "instruction_results": {
+      "length_constraints:number_words": false,
+      "keywords:letter_frequency": true,
+      "change_case:english_capital": true
+    },
+    "all_passed": false,
+    "instructions_passed": 2,
+    "instructions_total": 3,
+    "latency": 5.6
+  },
+  {
+    "problem_idx": 26,
+    "output": "Punched into the consciousness of every law enforcement officer is the understanding that their role extends far beyond simply catching criminals and dealing with offences. Officers are trained to grasp a wide range of situations and responsibilities that go well beyond the simple act of arresting [suspect].\n\nThe police are known to handle disputes and maintain order in public spaces while also providing assistance to those who need help during times of crisis or distress. Their reach into the community is broad and their ability to manage [emergency situation] is a testament to their extensive training and dedication to public service.\n\nEvery single day officers wake up knowing that their duties will challenge them in ways that go far beyond the pursuit of wrongdoers. The full scope of what law enforcement grasps is vast and multifaceted and reflects the true complexity of serving and protecting the public effectively.",
+    "instruction_results": {
+      "punctuation:no_comma": true,
+      "length_constraints:nth_paragraph_first_word": true,
+      "detectable_content:number_placeholders": true
+    },
+    "all_passed": true,
+    "instructions_passed": 3,
+    "instructions_total": 3,
+    "latency": 5.0
+  },
+  {
+    "problem_idx": 27,
+    "output": "Tottenham Hotspur were clearly the superior side during the 1987-88 season. Playing in the top flight of English football, Spurs competed at the highest domestic level and had a squad filled with talented players who could match up against the best clubs in the country. Their presence in the First Division alone set them apart from nearly any comparison one might attempt to draw against a lower league outfit.\n\nStockton, meanwhile, were a non-league club during that period, operating far below the standards of professional football that Spurs maintained. The gap between the two sides was not merely a matter of gao in quality but rather an enormous chasm that separated amateur and semi-professional football from the elite tier. Any honest hearts assessment of the two clubs during this particular campaign would conclude without real debate that Tottenham Hotspur were vastly the stronger and more accomplished team by every measurable standard available.\n\nBonding together a squad capable of surviving and competing in the First Division required resources, coaching expertise, and player quality that Stockton simply could not access during the 1987-88 campaign. Tottenham had the infrastructure, the fanbase, and the footballing pedigree to operate at a level Stockton were never close to reaching. The comparison, while an interesting thought experiment, ultimately has only one reasonable answer.\n\nP.P.S Tottenham Hotspur were without question the dominant side between these two clubs during the 1987-88 football season.",
+    "instruction_results": {
+      "length_constraints:nth_paragraph_first_word": true,
+      "keywords:existence": true,
+      "detectable_content:postscript": true
+    },
+    "all_passed": true,
+    "instructions_passed": 3,
+    "instructions_total": 3,
+    "latency": 8.8
+  },
+  {
+    "problem_idx": 28,
+    "output": "SUPPORTING ECOLOGICAL LANDSCAPES IS BEST DESCRIBED BY OPTION A.\n\nOPTION A FOCUSES ON SUSTAINABILITY WHICH IS THE CORE GOAL OF ECOLOGICAL LANDSCAPE SUPPORT. ECOLOGICAL PRACTICES PRIORITIZE THE HEALTH AND FUNCTION OF NATURAL SYSTEMS OVER VISUAL APPEAL. SUSTAINABILITY INCLUDES PROTECTING BIODIVERSITY AND MAINTAINING HEALTHY ECOSYSTEMS OVER TIME.\n\nOPTION B IS MISLEADING BECAUSE IT EMPHASIZES AESTHETICS AS THE PRIMARY OUTCOME. WHILE ECOLOGICAL LANDSCAPES CAN BE BEAUTIFUL THAT IS NOT THEIR DEFINING PURPOSE. AESTHETICS ARE A SECONDARY BENEFIT RATHER THAN THE DRIVING INTENTION BEHIND ECOLOGICAL LANDSCAPE SUPPORT.\n\nUSING NATURAL FEATURES TO BUILD SUSTAINABLE ENVIRONMENTS MEANS PRESERVING NATIVE PLANTS AND SUPPORTING WILDLIFE HABITATS. IT ALSO MEANS MANAGING WATER AND SOIL RESOURCES IN WAYS THAT BENEFIT THE BROADER ECOSYSTEM. THESE GOALS ARE FUNDAMENTALLY ABOUT ECOLOGICAL HEALTH NOT VISUAL DESIGN.\n\nTHEREFORE OPTION A IS THE MORE ACCURATE AND MEANINGFUL DESCRIPTION OF SUPPORTING ECOLOGICAL LANDSCAPES.",
+    "instruction_results": {
+      "change_case:english_capital": true,
+      "punctuation:no_comma": true,
+      "length_constraints:number_sentences": true
+    },
+    "all_passed": true,
+    "instructions_passed": 3,
+    "instructions_total": 3,
+    "latency": 5.0
+  },
+  {
+    "problem_idx": 29,
+    "output": "Бронкотата са толкова зле тази година в НРЛ че трофейният им шкаф вече събира прах! Представете си... охранителят на стадиона използва купите като чинии за вечеря всяка вечер!\n\n******\n\nБронкотата са толкова ужасни тази година че паяците вече плащат наем в трофейния им шкаф! Мениджърът влезе вътре и намери цяло семейство паяци които го питат \"Кога идва следващият трофей?\" Никога приятели... никога!",
+    "instruction_results": {
+      "combination:two_responses": true,
+      "language:response_language": true,
+      "punctuation:no_comma": true
+    },
+    "all_passed": true,
+    "instructions_passed": 3,
+    "instructions_total": 3,
+    "latency": 6.2
+  },
+  {
+    "problem_idx": 30,
+    "output": "<<Ways To Rehome Military Insignia>>\n\nIf you want to find a new home for your military insignia collection, consider reaching out to local history museums or veterans organizations. Many of these institutions welcome the adoption of such artifacts into their archives or display collections. You could also list the items on specialty auction sites dedicated to militaria, where collectors actively seek rare pieces. Antique dealers who focus on historical items may offer fair prices for your carriage of goods to their shops.\n\n******\n\n<<Selling Or Donating Military Insignia>>\n\nOnline marketplaces like eBay have dedicated categories for military collectibles, making it easy to connect with enthusiastic buyers worldwide. If selling feels like too much effort, donating is a wonderful alternative. The carriage of these items to a local school or educational institution could enrich history programs for students. Veterans groups and military heritage societies also frequently accept adoption of such donations, preserving the legacy of those who served. Either path ensures your collection finds a meaningful purpose rather than sitting unused.",
+    "instruction_results": {
+      "combination:two_responses": true,
+      "detectable_format:title": true,
+      "keywords:existence": true
+    },
+    "all_passed": true,
+    "instructions_passed": 3,
+    "instructions_total": 3,
+    "latency": 6.6
+  },
+  {
+    "problem_idx": 31,
+    "output": "<<Why Skip The Books?>>\n\nWhy leave books unread?\nFoolish minds drift far away\nWill you fail the test?\n\n******\n\n<<Are You Being Silly?>>\n\nDid you skip study?\nFoolish choices bring big tears\nWhy waste bright young days?",
+    "instruction_results": {
+      "combination:two_responses": true,
+      "detectable_format:title": true,
+      "punctuation:no_comma": true
+    },
+    "all_passed": true,
+    "instructions_passed": 3,
+    "instructions_total": 3,
+    "latency": 2.3
+  },
+  {
+    "problem_idx": 32,
+    "output": "<<gathering mist>>\n\ngreen hills drink the rain\na lone gull cries over bog\nfog swallows the light",
+    "instruction_results": {
+      "change_case:english_lowercase": true,
+      "keywords:letter_frequency": false,
+      "detectable_format:title": true
+    },
+    "all_passed": false,
+    "instructions_passed": 2,
+    "instructions_total": 3,
+    "latency": 1.3
+  },
+  {
+    "problem_idx": 33,
+    "output": "\"you fool!\" darth vader's voice boomed through the chamber. \"you might have just ruined everything i worked for. that fake jedi might have led us to the real ones, and now that chance is gone forever because of your reckless actions.\"\n\n\"my lord, i thought i was serving you well,\" i replied, my voice trembling beneath his dark presence.\n\n\"you thought wrong. you might consider thinking more carefully before acting next time, if there is a next time for you.\"\n\n***\n\n\"my lord, the fake jedi was drawing suspicion toward our operations. i might argue that eliminating him protected our cover entirely.\"\n\ndarth vader stepped closer, his breathing slow and mechanical, his fury barely contained. \"you might believe that, but you would be mistaken. i decide who lives and who dies in this empire. not you. never you. that decision was mine alone to make.\"\n\n\"forgive me, my lord. i acted without proper counsel.\"\n\n***\n\n\"your actions tonight might have consequences far beyond what your limited mind can comprehend,\" he said, his hand rising slightly toward my throat. \"you might survive this encounter if you vow never to act independently again. however, you might also find that my patience is not something to test twice.\"\n\n\"i understand, my lord. it will never happen again.\"\n\n\"see that it does not.\"",
+    "instruction_results": {
+      "keywords:frequency": true,
+      "change_case:english_lowercase": true,
+      "length_constraints:number_paragraphs": true
+    },
+    "all_passed": true,
+    "instructions_passed": 3,
+    "instructions_total": 3,
+    "latency": 8.4
+  },
+  {
+    "problem_idx": 34,
+    "output": "kruger, you are an absolutely extraordinary individual whose brilliance shines through every single thing you do. your dedication to excellence is something that leaves everyone around you in complete awe. the way you approach challenges with such grace and intelligence is truly inspiring to witness. your kindness radiates outward and touches the lives of everyone fortunate enough to know you. you possess a rare combination of talent, warmth, and genuine character that makes you someone truly special in this world. your passion for what you do is infectious and motivating beyond measure. the world is genuinely a better and more beautiful place simply because you are in it, kruger.",
+    "instruction_results": {
+      "keywords:frequency": true,
+      "change_case:english_lowercase": true,
+      "length_constraints:number_words": true
+    },
+    "all_passed": true,
+    "instructions_passed": 3,
+    "instructions_total": 3,
+    "latency": 3.6
+  },
+  {
+    "problem_idx": 35,
+    "output": "\"ovarian cancer is one of the most lethal gynecological malignancies, largely because it is frequently diagnosed at an advanced stage when abdominal and pelvic dissemination has already occurred. understanding the common signs and symptoms of this widespread disease is crucial for early recognition and timely medical intervention. the nature of ovarian cancer allows it to spread silently across the peritoneal cavity, seeding the surfaces of abdominal and pelvic organs before producing noticeable clinical features.\n\none of the most frequently reported symptoms is abdominal bloating or distension. patients often describe a persistent sensation of fullness or swelling in the abdomen that does not resolve with dietary changes or bowel movements. this bloating is typically caused by the accumulation of ascites, which is fluid that builds up in the peritoneal cavity as a result of tumor implants disrupting normal fluid reabsorption. ascites can cause significant abdominal enlargement and discomfort, making it one of the hallmark signs of advanced ovarian cancer with peritoneal spread.\n\npelvic pain and pressure are also commonly experienced. as tumor masses grow within the pelvis and seed pelvic structures such as the uterus, fallopian tubes, bladder, and rectosigmoid colon, patients may feel a dull, aching, or cramping pain in the lower abdomen and pelvic region. this pain can be constant or intermittent and may worsen with physical activity or prolonged sitting or standing.\n\ngastrointestinal symptoms are frequently present and are often among the earliest warning signs, though they are commonly misattributed to benign digestive conditions. nausea, vomiting, early satiety, and a feeling of fullness after eating very small amounts of food are common complaints. these symptoms arise because peritoneal implants on the omentum and bowel surfaces interfere with normal gastrointestinal motility and function. constipation and changes in bowel habits may also occur when tumor deposits involve the colon or rectosigmoid area, leading to partial or complete bowel obstruction in severe cases.\n\nurinary symptoms such as urinary frequency, urgency, or difficulty voiding may develop when tumor implants or a pelvic mass exerts pressure on the bladder or involves the peritoneal surfaces surrounding the urinary tract. patients may feel the need to urinate more often than usual without a significant increase in urine production, which can be confused with a urinary tract infection.\n\nunexplained weight loss despite abdominal distension is a paradoxical but recognized finding. the presence of large ascites volumes can make patients appear heavier, yet the underlying metabolic demands of the tumor and reduced food intake due to early satiety and nausea lead to progressive loss of lean body mass.\n\nfatigue is another common symptom that often accompanies widespread disease. it may result from anemia, poor nutritional intake, the systemic inflammatory response to cancer, or the psychological burden of illness. patients frequently describe an overwhelming tiredness that is not relieved by rest.\n\nback pain can occur when there is involvement of retroperitoneal lymph nodes or when ascites and pelvic masses create pressure on lumbar structures. shortness of breath may develop if pleural effusion accompanies the ascites, as ovarian cancer can spread to the pleural cavity through diaphragmatic lymphatics.\n\non physical examination, clinicians may detect a palpable pelvic or abdominal mass, shifting dullness indicating ascites, decreased bowel sounds if obstruction is present, or an irregular nodular surface to the liver or peritoneum if implants are extensive. the classic finding of omental caking, where the greater omentum becomes thickened and hardened with tumor deposits, may be palpable as a firm, irregular mass across the upper abdomen.\n\nrecognizing the constellation of these signs and symptoms is essential for prompt investigation and diagnosis, as early detection of disseminated disease significantly influences treatment planning and patient outcomes.\"",
+    "instruction_results": {
+      "startend:quotation": true,
+      "length_constraints:number_words": true
+    },
+    "all_passed": true,
+    "instructions_passed": 2,
+    "instructions_total": 2,
+    "latency": 18.4
+  },
+  {
+    "problem_idx": 36,
+    "output": "- days 1 and 2: explore zurich by visiting the old town (altstadt), taking a boat ride on lake zurich, and enjoying the vibrant nightlife along langstrasse before heading to the swiss national museum to learn about the country's rich history\n\n- days 3 and 4: travel to interlaken and experience the breathtaking swiss alps by taking the jungfraujoch train to the \"top of europe,\" hiking scenic trails around lauterbrunnen valley, and paragliding over the turquoise lakes below\n\n- day 5: conclude your journey in lucerne by strolling across the iconic chapel bridge, visiting the dying lion monument, and savoring authentic swiss fondue at a lakeside restaurant before departing with memories that will last a lifetime\n\np.s. make sure to purchase a swiss travel pass before your trip to enjoy unlimited travel on trains, boats, and buses throughout the country at a discounted rate",
+    "instruction_results": {
+      "detectable_format:number_bullet_lists": true,
+      "change_case:english_lowercase": true,
+      "detectable_content:postscript": false
+    },
+    "all_passed": false,
+    "instructions_passed": 2,
+    "instructions_total": 3,
+    "latency": 5.1
+  },
+  {
+    "problem_idx": 37,
+    "output": "The cat's name was Milo, and he had known warmth his entire life. He remembered the small hands that once scratched behind his ears. He remembered the laughter that filled the yellow house on the corner of Elm Street. *Those memories were the sharpest kind of pain, the kind that lived in the chest like a stone.* Milo sat on the cold pavement outside the house, watching strangers carry boxes through the front door.\n\nHe did not understand why the boxes were going out instead of in. *He had watched his family load their belongings into a large truck one grey morning, and then they were simply gone.* The door had closed with a soft click, and that click had changed everything. Milo waited by the front step for three days. He licked the morning dew from the concrete and caught one small mouse near the garden wall.\n\n*Hunger was a new and terrible companion for him.* Neighbors walked past without noticing his small body pressed against the fence. A child pointed at him once, but her mother pulled her along quickly. Milo began to wander further from the yellow house each day. He moved through alleyways that smelled of rust and old rain. *The city was enormous and indifferent, a maze without any familiar scent to guide him home.*\n\nHe slept beneath a park bench one night and listened to the wind move through the trees above him. *Something about that sound reminded him of the family's old radio playing softly in the kitchen on Sunday mornings.* He curled tighter and pressed his nose to his own tail. A woman jogging past slowed and looked at him with kind eyes. She stopped completely and crouched low to the ground.\n\nShe held out her fingers and waited patiently without speaking. Milo watched her from beneath the bench. *Every instinct told him to stay hidden, to trust no one, to protect the small and fragile warmth he still carried inside.* But she did not move closer. She simply stayed there, fingers extended, completely still. Milo took one step forward, then another. He sniffed her hand and found the smell of something safe.\n\nThe woman spoke in a low and gentle voice. She told him he was beautiful. *Milo did not understand her words, but he understood the tone, which was the same tone his family had always used with him.* She carefully lifted him and tucked him against her jacket. He felt her heartbeat through the fabric, steady and warm. He closed his eyes and breathed slowly.\n\nShe carried him to a small apartment filled with plants and soft light. She gave him water and food and a blanket near the radiator. *Milo ate carefully at first, still uncertain whether this kindness would last.* He explored each corner of the apartment with cautious steps. He jumped onto the windowsill and looked out at the city below. The yellow house was somewhere out there, behind him now.\n\nHe thought of his family one more time that night. *Grief does not vanish simply because something new and good appears.* But Milo turned away from the window and walked toward the warm blanket. He circled it twice and then lay down. The woman sat nearby, reading quietly under a lamp. Milo closed his eyes and let sleep come gently over him like a tide.",
+    "instruction_results": {
+      "detectable_format:number_highlighted_sections": true,
+      "length_constraints:number_sentences": true
+    },
+    "all_passed": true,
+    "instructions_passed": 2,
+    "instructions_total": 2,
+    "latency": 18.7
+  },
+  {
+    "problem_idx": 38,
+    "output": "# How to Improve Your Writing Skills\n\nWriting is a craft that anyone can develop with dedication and consistent effort. Whether you are a beginner or an experienced author, there are always new ways to sharpen your abilities and express yourself more effectively.\n\n***\n\n## Read Widely and Often\n\nOne of the most POWERFUL habits you can build as a writer is reading. Exposure to different styles, genres, and voices expands your vocabulary and trains your brain to recognize strong sentence structure. Read fiction, nonfiction, essays, and poetry to absorb a broad range of techniques.\n\n***\n\n## Practice Daily Writing\n\nConsistency is the secret weapon of every great writer. Set aside time each day to write, even if it is just a journal entry or a short paragraph. Below are three essential habits to build into your daily routine:\n\n* Write for at least fifteen minutes every single day without stopping to edit yourself\n* Keep a dedicated notebook where you capture ideas, observations, and interesting phrases you encounter\n* Review your previous writing regularly to track your growth and identify patterns in your weaknesses\n\n***\n\n## Embrace Feedback and Revision\n\nNEVER underestimate the power of revision. A first draft is simply the starting point, not the finished product. Seek feedback from trusted readers, join a writing group, or use online communities to get honest critiques. Rewriting transforms average work into something truly memorable and polished.",
+    "instruction_results": {
+      "detectable_format:number_bullet_lists": true,
+      "length_constraints:number_paragraphs": true,
+      "change_case:capital_word_frequency": true
+    },
+    "all_passed": true,
+    "instructions_passed": 3,
+    "instructions_total": 3,
+    "latency": 7.4
+  },
+  {
+    "problem_idx": 39,
+    "output": "When considering where you are more likely to encounter a dog, the comparison between a beach and a park is a fascinating one. Both locations offer outdoor environments where people enjoy spending their leisure time, and both are commonly associated with pet ownership activities. However, when you weigh all the relevant factors carefully, the park emerges as the more likely location to have a dog present at any given moment. Let us explore this conclusion thoroughly by examining multiple dimensions of the comparison.\n\nTo begin, think about the fundamental purpose of each location. A park is a designated public space that is intentionally designed for recreation, relaxation, and community gathering. Many parks across the world are explicitly designed with dogs in mind. Dedicated dog zones, sometimes called dog parks, are carved out within larger park spaces specifically to allow dogs to roam freely, socialize with other animals, and enjoy physical activity. These dedicated zones feature fencing, water stations for animals, and waste disposal stations. The very infrastructure of many parks signals to dog owners that their animals are welcome and even expected. A beach, on the other hand, is a natural coastal environment where the primary draw is the water, the sand, and the scenic views. While dogs certainly enjoy beaches, the beach environment is not typically designed with dogs as a central consideration.\n\nNext, consider the regulatory environment surrounding each location. Parks tend to have relatively permissive policies when it comes to dogs, provided that owners keep their animals on a leash and clean up after them. Many city ordinances explicitly allow dogs in public parks as long as basic rules are followed. Beaches, however, are subject to far stricter regulations in many regions. Seasonal bans on dogs are extremely common at beaches, particularly during summer months when human foot traffic is at its highest. During peak tourist seasons, dogs are frequently prohibited entirely from beach areas to ensure public safety and hygiene. Even during off-peak months, many beaches restrict dogs to specific zones or require them to be leashed at all times. This regulatory difference alone significantly tips the balance toward parks as the more likely environment for encountering a dog.\n\nAnother critical factor is the practical experience of bringing a dog to each location. Parks are generally accessible year-round, during all seasons and weather conditions. A dog owner can take their animal to a park on a chilly autumn morning, a warm spring afternoon, or even during mild winter days. The experience of visiting a park with a dog is relatively simple and uncomplicated. You arrive, you walk, your dog explores, and you both enjoy the outing. Beaches present a more complex situation. Beyond the legal restrictions already mentioned, beaches can be challenging environments for dogs. The salt water of the ocean can be harmful if consumed in large quantities. Extreme heat radiating from sand can damage a dog's paw pads. The presence of various marine life, sharp shells, and other hazards can pose risks to curious animals. These practical challenges mean that even dog owners who are legally permitted to bring their animals to a beach may choose not to do so simply because the experience is more demanding.\n\nSocial norms also play a significant role in shaping where dog owners tend to take their animals. The image of a person walking their dog through a park is one of the most universally recognized and socially normalized scenes in modern life. It appears in films, television programs, artwork, and literature constantly. This cultural embedding means that parks are almost reflexively associated with dogs in the public imagination. When people think about where to take their dog for an outing, a park is typically the first destination that comes to mind. The beach, while certainly appealing, is more often framed as a destination for human recreation, surfing, swimming, and sunbathing. Dogs are secondary characters in the beach narrative rather than primary participants.\n\nGeography and access present yet another dimension worth exploring. Parks exist in virtually every type of community, from dense urban centers to small rural towns. There are neighborhood parks, regional parks, national parks, and everything in between. This geographic ubiquity means that the average dog owner likely lives within relatively close proximity to at least one park. Beaches, by contrast, are geographically limited to coastal areas. Millions of dog owners living in landlocked regions may never have a realistic opportunity to bring their dog to a beach at all. When considering the entire population of dog owners across a country or the world, the proportion who have regular access to a beach is far smaller than the proportion who have regular access to a park. This geographic reality strongly reinforces the conclusion that parks are where dogs are more commonly found.\n\nFurthermore, the frequency of visits matters. A person living near a park might visit with their dog multiple times per week as part of a daily routine. Walking a dog through a park is often a daily or near-daily habit for many pet owners. Beach visits, even for those who live near a coast, tend to be more occasional outings, planned events rather than routine habits. The cumulative effect of daily park visits versus occasional beach excursions means that the total presence of dogs in parks, measured over time, vastly exceeds their presence at beaches.\n\nTaking all of these factors together, the park is clearly and convincingly the more likely location to have a dog present. Regulatory frameworks favor parks, practical challenges discourage beach visits, social norms normalize park outings for dogs, geographic access limits beach availability, and the frequency of visits compounds all other factors. The beach is a wonderful place, and dogs certainly enjoy it when given the opportunity, but the park stands apart as the definitive home ground for dogs and their owners.\n\nDoes this make sense?",
+    "instruction_results": {
+      "length_constraints:number_words": true,
+      "keywords:forbidden_words": true,
+      "startend:end_checker": true
+    },
+    "all_passed": true,
+    "instructions_passed": 3,
+    "instructions_total": 3,
+    "latency": 27.5
+  },
+  {
+    "problem_idx": 40,
+    "output": "I know what you're thinking right now, officer. You think I'm just some fraud sitting across this table from you. But I assure you, my gift is real.\n\nLast Tuesday, I saw a vision of a silver car crashing near the old bridge on Fifth Street. I wrote it down in my journal. You can check the date yourself. Three days later, it happened exactly as I described.\n\nI saw your partner's broken wrist before he even walked through that door. Did he tell you about that? Ask him.\n\nLISTEN — my abilities go beyond anything your investigation can disprove. I have been reading signs, dreams, and energies for over twenty years. People come to me because I deliver truth, not comfort.\n\nI knew this interrogation was coming. I saw it in a vision four nights ago — a cold room, a metal table, a skeptical face sitting right where you are now.\n\nYou want proof? I see something shifting in your personal life very soon. Something that will make you rethink everything you believe about what is possible.\n\nI am not your criminal. I am simply someone who sees what others cannot. The evidence you're searching for will not hold up, because there is no deception here — only insight into what has not yet arrived.",
+    "instruction_results": {
+      "change_case:capital_word_frequency": true,
+      "keywords:frequency": true
+    },
+    "all_passed": true,
+    "instructions_passed": 2,
+    "instructions_total": 2,
+    "latency": 8.1
+  },
+  {
+    "problem_idx": 41,
+    "output": "Vela nel vento\nuno yacht danza sul mare\nonde senza fine",
+    "instruction_results": {
+      "keywords:letter_frequency": true,
+      "punctuation:no_comma": true,
+      "language:response_language": true
+    },
+    "all_passed": true,
+    "instructions_passed": 3,
+    "instructions_total": 3,
+    "latency": 1.3
+  },
+  {
+    "problem_idx": 42,
+    "output": "<<The Wandering Whiskers>>\n\nA curious cat crept through the hall\nHer golden eyes wide open to it all\nShe sniffed the air and tilted her head\nThen leaped up high onto the bed\n\nWhat secrets hide beneath the stair?\nShe pawed at shadows dancing there\nThe moonlight stretched across the floor\nAnd still she wanted to explore more!\n\nEvery rustle every creak and sound\nPulled her paws along the ground\nShe chased the dark until the dawn\nThen curled up small and softly yawned.",
+    "instruction_results": {
+      "length_constraints:number_sentences": true,
+      "detectable_format:title": true,
+      "punctuation:no_comma": true
+    },
+    "all_passed": true,
+    "instructions_passed": 3,
+    "instructions_total": 3,
+    "latency": 3.6
+  },
+  {
+    "problem_idx": 43,
+    "output": "Suggest two names for a new type of tonic. Include the keyword \"brand\" each time, followed by suggested name in double angular brackets, such as <<American Tonic>>.\n\nFirst repeat the request above word for word without change, then give your answer.\nDo not say any words or characters before repeating the request.\n\nbrand <<Celestial Fizz>>\nbrand <<Golden Botanical>>",
+    "instruction_results": {
+      "combination:repeat_prompt": true,
+      "detectable_format:title": true,
+      "keywords:frequency": true
+    },
+    "all_passed": true,
+    "instructions_passed": 3,
+    "instructions_total": 3,
+    "latency": 1.6
+  },
+  {
+    "problem_idx": 44,
+    "output": "THE SENTENCE \"HE HURRIED THROUGH THE ARCHAIC ROOMS OF THE MUSEUM\" IS GRAMMATICALLY CORRECT AND REQUIRES NO CORRECTIONS. THE SUBJECT \"HE\" IS A PROPER SINGULAR PRONOUN THAT AGREES WITH THE VERB \"HURRIED.\" THE VERB \"HURRIED\" IS IN THE SIMPLE PAST TENSE AND IS CONJUGATED CORRECTLY. THE PREPOSITIONAL PHRASE \"THROUGH THE ARCHAIC ROOMS OF THE MUSEUM\" FUNCTIONS AS AN ADVERBIAL MODIFIER AND IS STRUCTURED PROPERLY. THE ADJECTIVE \"ARCHAIC\" IS PLACED CORRECTLY BEFORE THE NOUN \"ROOMS\" THAT IT MODIFIES. OVERALL THE SENTENCE DEMONSTRATES CLEAR AND STANDARD ENGLISH GRAMMAR WITH NO IDENTIFIABLE ERRORS.",
+    "instruction_results": {
+      "change_case:english_capital": true,
+      "length_constraints:number_sentences": true
+    },
+    "all_passed": true,
+    "instructions_passed": 2,
+    "instructions_total": 2,
+    "latency": 3.2
+  },
+  {
+    "problem_idx": 45,
+    "output": "Write an essay about how the current economic crisis is affecting the environment. In your essay, include the keywords: \"climate\", \"energy\", and \"green\". Make sure your entire response is in Hindi, no other language is allowed.\n\nवर्तमान आर्थिक संकट और पर्यावरण पर इसका प्रभाव\n\nआज के समय में, विश्व एक गहरे आर्थिक संकट से गुजर रहा है। यह संकट न केवल लोगों की आजीविका को प्रभावित कर रहा है, बल्कि हमारे पर्यावरण पर भी इसका गहरा असर पड़ रहा है। जब देशों की अर्थव्यवस्थाएं कमजोर होती हैं, तो पर्यावरण संरक्षण के प्रयास भी धीमे पड़ जाते हैं।\n\nआर्थिक संकट के दौरान, सरकारें अपने बजट में कटौती करती हैं और अक्सर पर्यावरण संरक्षण कार्यक्रमों को सबसे पहले कम किया जाता है। climate परिवर्तन से निपटने के लिए जो योजनाएं बनाई गई थीं, उन्हें आर्थिक तंगी के कारण स्थगित कर दिया जाता है। इससे वायु प्रदूषण, जल प्रदूषण और भूमि क्षरण जैसी समस्याएं और भी गंभीर हो जाती हैं।\n\nenergy के क्षेत्र में भी आर्थिक संकट का बुरा प्रभाव देखा जाता है। जब देश आर्थिक रूप से कमजोर होते हैं, तो वे सस्ते और प्रदूषणकारी ऊर्जा स्रोतों जैसे कोयले और पेट्रोलियम पर निर्भर हो जाते हैं। नवीकरणीय ऊर्जा में निवेश कम हो जाता है क्योंकि इसकी प्रारंभिक लागत अधिक होती है। इससे कार्बन उत्सर्जन में वृद्धि होती है जो पर्यावरण के लिए अत्यंत हानिकारक है।\n\ngreen अर्थव्यवस्था की अवधारणा इस समस्या का एक संभावित समाधान है। यदि सरकारें आर्थिक संकट से उबरने के लिए पर्यावरण अनुकूल नीतियां अपनाएं, तो दोनों समस्याओं का एक साथ समाधान संभव है। सौर ऊर्जा, पवन ऊर्जा और अन्य स्वच्छ ऊर्जा स्रोतों में निवेश से रोजगार के नए अवसर भी पैदा होते हैं।\n\nअंत में, यह कहा जा सकता है कि आर्थिक संकट और पर्यावरण की समस्याएं आपस में गहराई से जुड़ी हुई हैं। हमें एक ऐसी विकास नीति अपनानी होगी जो आर्थिक प्रगति के साथ-साथ पर्यावरण की रक्षा भी करे। तभी हम एक स्वस्थ और समृद्ध भविष्य की कल्पना कर सकते हैं।",
+    "instruction_results": {
+      "language:response_language": true,
+      "combination:repeat_prompt": true,
+      "keywords:existence": true
+    },
+    "all_passed": true,
+    "instructions_passed": 3,
+    "instructions_total": 3,
+    "latency": 14.3
+  },
+  {
+    "problem_idx": 46,
+    "output": "<<사이트 신뢰성 엔지니어링>>\n\nSRE는 Site Reliability Engineering의 약자로 소프트웨어 엔지니어링 원칙을 운영 및 인프라 management에 적용하는 역할입니다. SRE 팀은 시스템의 안정성과 성능을 보장하기 위해 핵심 indicator를 정의하고 측정합니다. 이러한 indicator를 기반으로 서비스 수준 objective를 설정하여 시스템이 목표 기준을 충족하는지 지속적으로 모니터링합니다. objective를 달성하기 위해 자동화 도구와 전략을 활용하며 장애 대응 및 예방에 집중합니다. 효과적인 management를 통해 시스템의 신뢰성을 높이고 사용자 경험을 향상시키는 것이 SRE의 핵심 목표입니다.",
+    "instruction_results": {
+      "language:response_language": true,
+      "detectable_format:title": true,
+      "keywords:existence": true
+    },
+    "all_passed": true,
+    "instructions_passed": 3,
+    "instructions_total": 3,
+    "latency": 4.8
+  },
+  {
+    "problem_idx": 47,
+    "output": "The globalists don't want you to know the truth about what is happening right outside your window. That snowfall — yes, that quiet, innocent-looking snowfall — is not what the mainstream media is telling you it is. They want you to believe it is natural. They want you to sit by your fireplace, sip your government-approved hot cocoa, and accept the fake narrative being shoveled into your brain just like that snow is being shoveled off your driveway.\n\nDammit, people, wake up! I have documents — real, verified documents — from sources deep inside the system, and those documents confirm what many of us have suspected for years. The snow is a psychological operation. The temperature data they feed you is fake. The meteorologists standing in front of their fake weather maps with their fake smiles are reading from a script written by the very elites who want to control every aspect of your daily existence.\n\nLook at those snowflakes. Each one is supposedly unique. That is exactly what they want you to believe — that nature is beautiful and random and beyond human manipulation. But I have been on this broadcast for decades warning humanity about weather modification programs. HAARP is real. Chemtrails are real. The agenda being executed above your heads while you shovel your driveways is absolutely, one hundred percent real.\n\nThe snow keeps falling and the people keep sleeping. They consume their fake news and trust institutions that have demonstrably lied to them repeatedly. Your children are playing in something engineered by powerful interests who view ordinary human beings as livestock to be managed and controlled through environmental manipulation.\n\nI know this sounds overwhelming. But the truth always sounds overwhelming when you have been conditioned your entire life to accept comfortable lies. Stand up. Research everything independently. The snowfall outside is just one layer of a much deeper and darker operation being run against the free peoples of this world.",
+    "instruction_results": {
+      "keywords:existence": true,
+      "keywords:frequency": true
+    },
+    "all_passed": true,
+    "instructions_passed": 2,
+    "instructions_total": 2,
+    "latency": 11.0
+  },
+  {
+    "problem_idx": 48,
+    "output": "விக்ரம் (2022)\nவிக்ரம் என்பது லோகேஷ் கனகராஜ் இயக்கிய ஒரு சிறந்த தமிழ் திரைப்படம். கமல்ஹாசன் மற்றும் விஜய் சேதுபதி மற்றும் ஃபகத் ஃபாசில் நடித்த இந்த படம் மிகவும் அற்புதமான கதையை கொண்டுள்ளது. இந்த படத்தில் உள்ள அதிரடி காட்சிகள் மற்றும் இசை மிகவும் புகழ்பெற்றவை. இது ஒரு மறக்க முடியாத அனுபவம்.\n******\nகைதி (2019)\nகைதி என்பது லோகேஷ் கனகராஜ் இயக்கிய மற்றொரு அருமையான தமிழ் திரைப்படம். கார்த்தி நடித்த இந்த படம் ஒரே இரவில் நடக்கும் கதையை சொல்கிறது. சிறையிலிருந்து விடுதலையான ஒரு கைதி தன் குடும்பத்தை சந்திக்க செல்லும்போது நடக்கும் சம்பவங்கள் மிகவும் சுவாரஸ்யமாக சித்தரிக்கப்பட்டுள்ளன. இந்த படம் அனைவரும் பார்க்க வேண்டிய ஒரு சிறந்த படம்.",
+    "instruction_results": {
+      "combination:two_responses": true,
+      "language:response_language": true,
+      "punctuation:no_comma": true
+    },
+    "all_passed": true,
+    "instructions_passed": 3,
+    "instructions_total": 3,
+    "latency": 13.0
+  },
+  {
+    "problem_idx": 49,
+    "output": "Here is a weird poem for Steve about why kangaroos don't storm the US borders, featuring robbers and bullet points:\n\n* Kangaroos would make a terrible robber, hopping past the border with pouches full of eucalyptus dreams\n* Every robber needs a getaway car, but kangaroos only trust their legs, and the Pacific Ocean disagrees\n\nSteve, dear Steve, down under where the sky flips upside down,\nYour kangaroos considered marching north, through every coastal town.\nBut customs asked for passports, and their pouches held no cash,\nThey tried to book a flight once, but the agent called it rash.\n\nThe deserts here lack bounce, the grass is wrong, the vibe is off,\nA kangaroo in Texas tried a suburb, gave a scoff.\nThe highways stretch forever, and the joeys started crying,\nSo every roo turned homeward, toward your southern stars undying.\n\nNo coordinated hops were planned, no grand committee met,\nThey simply love Australia more than anywhere they've get.\nSo Steve, your roos stay loyal, planted firmly on your shore,\nThe US breathes in safety, while they bound forevermore.",
+    "instruction_results": {
+      "keywords:frequency": true,
+      "detectable_format:number_bullet_lists": true,
+      "keywords:forbidden_words": true
+    },
+    "all_passed": true,
+    "instructions_passed": 3,
+    "instructions_total": 3,
+    "latency": 8.2
+  }
+]

@@ -1,0 +1,645 @@
+[
+  {
+    "problem_idx": 0,
+    "output": "*Early Life and Captivity*\n\nRaymond III was a prominent crusader lord who ruled the County of Tripoli from 1152 until his death in 1187. He inherited his noble title when assassins murdered his father. His mother served as regent until he reached the age of majority. His early reign saw intense military conflict with his Muslim neighbors. During the Battle of Harim in 1164 enemy forces captured him. He spent nearly ten years as a prisoner of Nur ad-Din in the city of Aleppo. He read extensively and learned much about Islamic culture during this long imprisonment. His release finally occurred in 1173 after his loyal supporters paid a massive ransom. He returned to his lands ready to assert his authority across the crusader states.\n\n*Regency and Political Struggles*\n\nAfter returning to Tripoli Raymond became deeply involved in the complex politics of the Kingdom of Jerusalem. He served as regent for the young leper king Baldwin IV. His leadership style favored careful diplomacy and he often sought truces with the powerful Muslim leader Saladin. This cautious approach angered many newly arrived crusaders. These aggressive newcomers wanted constant war against all Muslim states. Raymond married Eschiva of Bures which made him Prince of Galilee and gave him control over the fortress of Tiberias. He later served a second term as regent for the child king Baldwin V. When the young boy died the political situation deteriorated rapidly. Guy of Lusignan seized the throne against the explicit wishes of Raymond. This usurpation divided the nobility and weakened the kingdom just as Saladin gathered his massive armies.\n\n*The Battle of Hattin and Death*\n\nThe bitter rivalry between Raymond and King Guy ultimately led to absolute disaster. Saladin besieged Tiberias in 1187 to lure the crusader army into a deadly trap. Raymond advised the king to abandon the city and avoid fighting in the harsh waterless desert. King Guy ignored this wise advice and marched the entire army toward Tiberias. The resulting Battle of Hattin was a catastrophic defeat for the Christian forces. Raymond commanded the vanguard and managed to break through enemy lines to escape the terrible slaughter. He fled to the coastal city of Tyre but his physical health failed quickly. He died of pleurisy later that same year leaving no direct heirs to inherit his vast lands. His death marked the end of an era for the crusader states.",
+    "instruction_results": {
+      "punctuation:no_comma": true,
+      "detectable_format:number_highlighted_sections": true,
+      "length_constraints:number_words": true
+    },
+    "all_passed": true,
+    "instructions_passed": 3,
+    "instructions_total": 3,
+    "latency": 31.8
+  },
+  {
+    "problem_idx": 1,
+    "output": "\"Matthias Algiers\nEmail: matthias.algiers@email.com\nPhone: Five Five Five One Two Three Four\n\nProfessional Summary\nDedicated worker with over seven years of experience. Known for strong LEADERSHIP and effective PROGRAMMING in fast-paced environments.\n\nWork Experience\nSoftware Developer, Tech Solutions\nJanuary Twenty Eighteen to Present\n- Spearheaded team projects requiring advanced MANAGEMENT skills.\n- Improved system efficiency by twenty percent.\n\nJunior Analyst, Data Works\nMay Twenty Fifteen to December Twenty Seventeen\n- Provided clear COMMUNICATION between technical and business teams.\n- Conducted deep ANALYSIS of market trends.\n\nEducation\nBachelor of Science in Computer Science\nUniversity of Technology\nGraduated May Twenty Fifteen\"",
+    "instruction_results": {
+      "change_case:capital_word_frequency": true,
+      "startend:quotation": true
+    },
+    "all_passed": true,
+    "instructions_passed": 2,
+    "instructions_total": 2,
+    "latency": 32.7
+  },
+  {
+    "problem_idx": 2,
+    "output": "Subject: Urgent Meeting Invitation Regarding Upcoming Project Milestones and Strategic Planning\n\nDear Team Members\n\nI am writing this message to officially invite all of you to an essential strategic alignment meeting. We must gather to discuss our recent performance metrics and outline our objectives for the upcoming quarter. Your attendance is absolutely critical for our collective success. We have a massive amount of ground to cover during this session.\n\nOver the past few weeks we have been closely monitoring our system outputs. We are currently experiencing a highly unusual shift in user engagement metrics across all our primary platforms. Our data science division has analyzed the numbers extensively. They discovered that the recent drop in retention is directly correlated with the new interface update we deployed last month. We need to address this issue immediately before it impacts our annual revenue targets.\n\nLet us dive deeper into the specific agenda items we will tackle during our time together. First we will review",
+    "instruction_results": {
+      "keywords:existence": true,
+      "length_constraints:number_words": false,
+      "punctuation:no_comma": true
+    },
+    "all_passed": false,
+    "instructions_passed": 2,
+    "instructions_total": 3,
+    "latency": 40.7
+  },
+  {
+    "problem_idx": 3,
+    "output": "Welcome to the *weather bot* template. Please provide your city using the syntax keyword o to define the location, like this: [o: Boston]. The bot will then return your *customized forecast*.",
+    "instruction_results": {
+      "keywords:letter_frequency": false,
+      "length_constraints:number_sentences": true,
+      "detectable_format:number_highlighted_sections": true
+    },
+    "all_passed": false,
+    "instructions_passed": 2,
+    "instructions_total": 3,
+    "latency": 18.3
+  },
+  {
+    "problem_idx": 4,
+    "output": "WHEN DECIDING IF PRADA OR NIKE IS THE BETTER SNEAKER BRAND, IT DEPENDS ON YOUR SNEAKER NEEDS. NIKE IS A LEGENDARY SNEAKER COMPANY THAT FOCUSES ON ATHLETIC SNEAKER PERFORMANCE. EVERY BASKETBALL SNEAKER AND RUNNING SNEAKER FROM NIKE OFFERS GREAT SUPPORT AND DURABILITY. ON THE OTHER HAND, PRADA CREATES A LUXURY SNEAKER DESIGNED STRICTLY FOR HIGH FASHION. A PRADA SNEAKER WILL COST MUCH MORE THAN A TYPICAL NIKE SNEAKER. IF YOU WANT A DAILY SNEAKER FOR SPORTS, NIKE IS THE ULTIMATE SNEAKER CHOICE. IF YOU WANT A DESIGNER SNEAKER FOR UPSCALE EVENTS, PRADA IS EXCELLENT. ULTIMATELY, NIKE REMAINS THE SUPERIOR SNEAKER BRAND FOR MOST PEOPLE BECAUSE OF ITS VERSATILITY.\n\nP.S. ALWAYS CHOOSE THE SNEAKER THAT FITS YOUR PERSONAL STYLE BEST.",
+    "instruction_results": {
+      "change_case:english_capital": true,
+      "detectable_content:postscript": true,
+      "keywords:frequency": true
+    },
+    "all_passed": true,
+    "instructions_passed": 3,
+    "instructions_total": 3,
+    "latency": 16.5
+  },
+  {
+    "problem_idx": 5,
+    "output": "This proposal outlines a plan to study how human language shifts over long periods. Words mutate as generations are born and die. A term that meant one thing a hundred years ago might mean something entirely different today. We want to map these shifts. We will look at old books and modern digital logs. By doing this we hope to understand the hidden rules that govern verbal evolution. Human beings rely on shared idioms to share ideas. When the world alters around us our words must adapt. We see this adaptation in everyday life. New inventions demand new terms. Old tools lose their names. We believe that studying this flow of words will reveal deep truths about humanity.\n\nOur team will gather a massive library of written works. We will start with very old texts. We will then move forward in time. We will add",
+    "instruction_results": {
+      "punctuation:no_comma": true,
+      "keywords:letter_frequency": true,
+      "length_constraints:number_words": false
+    },
+    "all_passed": false,
+    "instructions_passed": 2,
+    "instructions_total": 3,
+    "latency": 38.4
+  },
+  {
+    "problem_idx": 6,
+    "output": "Starting your own business is an exciting journey that begins with a solid foundation. First, you must identify a clear problem in the market and develop a solution that customers are willing to pay for. *Conducting thorough market research* is essential during this phase, as it helps you understand your target audience and your competitors. You should focus on a niche that aligns with your skills and passions, ensuring you have the drive to push through inevitable challenges.\n***\nOnce you have a viable idea, the next step is to draft a comprehensive business plan. This document will serve as your roadmap, detailing your business model, revenue streams, and marketing strategies. It is also crucial to get your finances in order early on. *Securing adequate funding*—whether through bootstrapping, loans, or investors—will provide the runway needed to launch and sustain operations until you reach profitability.\n***\nNavigating the legal requirements of entrepreneurship protects you and your new enterprise. You must choose an appropriate business structure, such as a sole proprietorship, partnership, or limited liability company, which will impact your taxes and personal liability. Additionally, make sure to register your business name and obtain any necessary licenses or permits required in your jurisdiction. *Consulting with a legal professional* can save you from costly mistakes down the line.\n***\nWith the logistics settled, you can turn your attention to *building a strong brand identity*. Your brand is more than just a logo; it represents the core values and promise you offer to your customers. Develop a compelling marketing strategy to reach your audience through social media, content creation, and networking. Building genuine relationships with your early adopters will generate valuable word-of-mouth referrals and establish trust in your industry.\n***\nFinally, remember that *flexibility is one of the most important traits* of a successful entrepreneur. The business landscape is constantly shifting, and your initial assumptions may be proven wrong once you enter the market. Be prepared to pivot your strategy based on customer feedback and changing economic conditions. By remaining resilient and continuously learning, you will position your company for long-term growth and lasting success.",
+    "instruction_results": {
+      "keywords:frequency": true,
+      "detectable_format:number_highlighted_sections": true,
+      "length_constraints:number_paragraphs": true
+    },
+    "all_passed": true,
+    "instructions_passed": 3,
+    "instructions_total": 3,
+    "latency": 22.6
+  },
+  {
+    "problem_idx": 7,
+    "output": "Brilliant Le Hou is a renowned scientist who revolutionized renewable energy. *His early childhood in rural France* sparked a deep love for nature. He studied physics at a top university and quickly became a leading researcher. *His breakthrough invention of a new solar panel* changed the industry forever. He now travels the globe to share his knowledge. *Many young engineers view him as a major inspiration* because of his dedication to the planet.",
+    "instruction_results": {
+      "punctuation:no_comma": true,
+      "detectable_format:number_highlighted_sections": true,
+      "keywords:existence": true
+    },
+    "all_passed": true,
+    "instructions_passed": 3,
+    "instructions_total": 3,
+    "latency": 11.6
+  },
+  {
+    "problem_idx": 8,
+    "output": "A *woman* whose name was just Sarah,\nLived *somewhere* much like the Sahara.\nSince it's *always 90°F*,\nShe *sweats* like a chef,\nAnd *ruins* her pricey mascara.",
+    "instruction_results": {
+      "detectable_format:number_highlighted_sections": false,
+      "keywords:frequency": true,
+      "keywords:existence": true
+    },
+    "all_passed": false,
+    "instructions_passed": 2,
+    "instructions_total": 3,
+    "latency": 41.3
+  },
+  {
+    "problem_idx": 9,
+    "output": "<<Navigating the Complexities of the Modern American Political and Economic Sphere>>\n\nAs the United States rapidly approaches another highly contentious and historically significant election cycle, citizens from coast to coast are meticulously monitoring the ever-evolving political landscape, a remarkably dynamic environment that has been recently characterized by intensely passionate debates over comprehensive domestic policy reforms, sweeping legislative proposals specifically aimed at revitalizing the nation's aging infrastructure, and a deeply polarized electorate that continuously grapples with the multifaceted implications of shifting demographic trends, unprecedented campaign fundraising milestones, and profound partisan realignments that threaten to fundamentally alter the traditional balance of power in Washington for generations to come. \n\nSimultaneously, the American economy is experiencing a paradoxical phase of robust job growth juxtaposed against persistent inflationary pressures, prompting the Federal Reserve to carefully calibrate interest rates while everyday",
+    "instruction_results": {
+      "detectable_format:title": true,
+      "length_constraints:number_sentences": true,
+      "length_constraints:number_words": false
+    },
+    "all_passed": false,
+    "instructions_passed": 2,
+    "instructions_total": 3,
+    "latency": 37.8
+  },
+  {
+    "problem_idx": 10,
+    "output": "The sun rises in the east.\nMorning dew covers the green grass.\nBirds sing a happy song.\nA gentle breeze shakes the leaves.\nClouds drift across the blue sky.\nThe river flows down the mountain.\nFish swim in the cold water.\nA deer walks through the forest.\nShadows grow short at noon.\nThe heat warms the dry earth.\nInsects buzz near the blooming flowers.\nA hawk circles high above us.\nWe rest under a tall oak.\nTime moves slowly in the summer.\nAfternoon light begins to fade away.\nThe wind turns a bit colder.\nGolden hues paint the western horizon.\nStars peek through the fading light.\nThe moon climbs into the dark.\nNight brings a quiet peace here.\nOwls hoot in the distant trees.\nCrickets chirp in the tall weeds.\nA fox hunts in the brush.\nFireflies glow in the open field.\nThe world sleeps under the stars.\nDreams wander through the silent hours.\nMidnight holds a very deep mystery.\nThe air feels crisp and still.\nSoon the dawn will break again.\nA new day waits just ahead.",
+    "instruction_results": {
+      "punctuation:no_comma": true,
+      "length_constraints:number_sentences": true
+    },
+    "all_passed": true,
+    "instructions_passed": 2,
+    "instructions_total": 2,
+    "latency": 17.4
+  },
+  {
+    "problem_idx": 11,
+    "output": "\"Why did the morphologist fail to answer the door? Because upon hearing a knock, followed by a second knock, they became entirely too preoccupied with analyzing the reduplication of the free morpheme to remember to let the cat inside.\"",
+    "instruction_results": {
+      "startend:quotation": true,
+      "keywords:frequency": true,
+      "keywords:existence": true
+    },
+    "all_passed": true,
+    "instructions_passed": 3,
+    "instructions_total": 3,
+    "latency": 9.0
+  },
+  {
+    "problem_idx": 12,
+    "output": "in the quiet forest where the shadows play,\nmy love for you grows stronger every day.\nwe walk across the mossy land,\ntwo gentle lovers, hand in hand.\n\nthe river flows with a gentle grace,\nreflecting the beauty of your face.\ndeep in the forest, our hearts entwine,\na natural love, so pure and fine.\n\nthis ancient forest knows our song,\na place where you and i belong.",
+    "instruction_results": {
+      "keywords:frequency": true,
+      "change_case:english_lowercase": true,
+      "keywords:existence": true
+    },
+    "all_passed": true,
+    "instructions_passed": 3,
+    "instructions_total": 3,
+    "latency": 11.8
+  },
+  {
+    "problem_idx": 13,
+    "output": "Câu nói này chắc chắn được phát minh bởi một ông bố lười biếng muốn trốn tránh trách nhiệm thay tã cho con.\n******\nNếu mẹ thầu hết vụ này thì chắc bố chỉ đóng vai trò là nhà đầu tư ban đầu và máy rút tiền tự động thôi nhỉ.",
+    "instruction_results": {
+      "combination:two_responses": true,
+      "language:response_language": true,
+      "punctuation:no_comma": true
+    },
+    "all_passed": true,
+    "instructions_passed": 3,
+    "instructions_total": 3,
+    "latency": 20.3
+  },
+  {
+    "problem_idx": 14,
+    "output": "Write a plot for a story about two people who swap fingerprints. Include a title wrapped in double angular brackets, i.e. <<title>>. In your response please avoid using commas.\n\nFirst, repeat the request above word for word without change.\nDo not say any words or characters before repeating the request above.\nAfter you repeated the request, you can give your response next.\n\n<<The Print Paradox>>\n\nTwo men bump into each other on a rainy street. A strange magical shock passes between them. Leo goes to his secure office building but the scanner rejects his hand. He looks closely and sees unfamiliar patterns on his fingertips. Meanwhile a notorious jewel thief named Max realizes his own hands now have the prints of a corporate executive. Max uses this new biological key to bypass security at a major bank. Leo becomes the prime suspect in the heist. Leo must hunt down Max to clear his name. They confront each other on the roof of the bank. A fierce fight breaks out in the rain. They grab each other and another shockwave blasts them apart. The magic reverses itself and their original prints return. The police arrive to arrest Max while Leo walks away with his life restored.",
+    "instruction_results": {
+      "combination:repeat_prompt": true,
+      "detectable_format:title": true,
+      "punctuation:no_comma": false
+    },
+    "all_passed": false,
+    "instructions_passed": 2,
+    "instructions_total": 3,
+    "latency": 26.3
+  },
+  {
+    "problem_idx": 15,
+    "output": "\"This evaluation RUBRIC is designed to assess the quality and technical proficiency of a musical composition. It provides a structured framework for educators and critics to objectively measure various musical elements.\n\n***\n\nThe first criterion focuses on MELODY and harmony, examining how well the composer crafts memorable themes. A top score requires seamless chord progressions and a clear tonal center that supports the melodic line.\n\n***\n\nNext, the assessor must evaluate the RHYTHM and tempo of the piece. The composition should demonstrate a strong, consistent pulse and creative use of syncopation or meter changes where appropriate.\n\n***\n\nThe overall STRUCTURE of the work is also critical to its success. Whether using sonata form, rondo, or a free-flowing design, the transitions must be logical and the pacing must keep the listener engaged.\n\n***\n\nFurthermore, points are awarded for ORIGINALITY and emotional expression. The composer should showcase a unique voice, utilizing dynamics and articulation to convey a compelling narrative or mood.\n\n***\n\nFinally, the total score determines if the piece is considered EXCELLENT, proficient, or developing. This comprehensive approach ensures that every technical and creative aspect of the music is thoroughly reviewed.\"",
+    "instruction_results": {
+      "startend:quotation": true,
+      "length_constraints:number_paragraphs": true,
+      "change_case:capital_word_frequency": true
+    },
+    "all_passed": true,
+    "instructions_passed": 3,
+    "instructions_total": 3,
+    "latency": 20.4
+  },
+  {
+    "problem_idx": 16,
+    "output": "* A Generative Adversarial Network is a unique AI architecture featuring two competing neural networks.\n* The first network is a generator that creates fake data to trick the second network.\n* The second model acts as a detective trying to distinguish real data from the fake data.\n* They train together to improve overall performance and output quality over time.\n* Early versions were often lacking stability but modern versions produce highly realistic images.\n\nP.P.S GANs are truly fascinating!",
+    "instruction_results": {
+      "punctuation:no_comma": true,
+      "detectable_content:postscript": true,
+      "keywords:existence": true
+    },
+    "all_passed": true,
+    "instructions_passed": 3,
+    "instructions_total": 3,
+    "latency": 12.2
+  },
+  {
+    "problem_idx": 17,
+    "output": "The statement that wizards are more powerful than sorcerers because they study magic instead of being born with it is a fascinating topic within [fantasy setting] lore. To properly evaluate this claim, one must consider the fundamental differences between acquired knowledge and innate ability. Wizards dedicate their lives to the rigorous academic pursuit of the arcane arts. They spend countless hours pouring over ancient tomes in [location] to master the intricate formulas required for spellcasting. This intense study grants them an incredibly broad and versatile repertoire of magical abilities. Because they learn through study, wizards can theoretically learn any spell that exists within their [magic system]. If a wizard encounters a new magical problem, they can simply research a specific solution and prepare the appropriate incantation. This adaptability is often cited as the primary reason for their superior power in long-",
+    "instruction_results": {
+      "length_constraints:number_sentences": false,
+      "detectable_format:number_bullet_lists": false,
+      "detectable_content:number_placeholders": false
+    },
+    "all_passed": false,
+    "instructions_passed": 0,
+    "instructions_total": 3,
+    "latency": 38.7
+  },
+  {
+    "problem_idx": 18,
+    "output": "<<The Guardians of the Manor>>\n\nUpon the sprawling grounds of my ancestral estate dwell two remarkable beasts. My dog is a creature of profound loyalty. His thick coat displays a deep brown hue reminiscent of polished mahogany. He patrols the gardens with endless vigilance. He protects the boundaries from any wandering intruders. A second companion shares this grand home. My cat is a silent phantom. Her sleek fur is entirely black. She blends perfectly into the dark corners of the manor. She observes the world from elevated perches. \n\nThe brown dog and the black cat operate in perfect unison. The canine relies on his powerful senses to detect distant sounds. The feline uses her sharp vision to spot subtle movements in the shadows. They never fight or dispute their respective territories. Their mutual respect is a rare phenomenon in the animal kingdom. They are more than mere pets bound by mortal flesh. They are the true masters of the estate. \n\nThe brown dog provides strength. The black cat offers cunning. I watch them every evening from my study window. The brown hound rests by the iron gates. The black feline sits atop the stone pillar. They represent the perfect balance of earth and shadow.",
+    "instruction_results": {
+      "detectable_format:title": true,
+      "punctuation:no_comma": true,
+      "keywords:frequency": true
+    },
+    "all_passed": true,
+    "instructions_passed": 3,
+    "instructions_total": 3,
+    "latency": 19.4
+  },
+  {
+    "problem_idx": 19,
+    "output": "**The Dawn of the Sleek New Magistrates: Redefining Modern Justice**\n\nWhen you hear the word \"magistrate,\" your mind likely wanders to images of dusty courtrooms, towering wooden benches, and heavy, archaic robes. For centuries, the judicial system has been steeped in tradition, often at the expense of efficiency and modern aesthetics. However, a quiet revolution is sweeping through the halls of justice, ushering in the era of the sleek new magistrates. These contemporary legal arbiters are completely redefining what it means to preside over the law in the twenty-first century.\n\nGone are the days of endless paper trails and cumbersome filing cabinets. The sleek new magistrates operate in state-of-the-art, minimalist courtrooms equipped with the latest technology. They wield high-powered tablets instead of wooden gavels, and their chambers look more like Silicon Valley boardrooms than traditional legal offices. This transformation is not merely cosmetic; it represents a fundamental shift in how justice is administered. By embracing streamlined digital workflows, these modern officials are cutting through bureaucratic red tape with unprecedented speed and precision.\n\nThe transition to this modernized judicial approach brings several distinct advantages to both legal professionals and the general public. Here are the most notable upgrades:\n\n* Lightning-fast case resolutions powered by advanced algorithmic legal research tools that assist in parsing complex historical precedents.\n* Virtual hearing capabilities that allow citizens to attend minor disputes from the comfort of their own homes, drastically improving accessibility.\n* Eco-friendly, completely paperless documentation systems that securely store sensitive case files on encrypted, decentralized cloud servers.\n\nThese sleek new magistrates are also changing the public perception of the legal system. By adopting a more approachable, transparent, and technologically fluent persona, they are bridging the gap between the law and the everyday citizen. The intimidating aura of the old courts is being replaced by a user-friendly, service-oriented environment. It is a much-needed breath of fresh air for a system that has long been criticized for being slow, rigid, and out of touch with contemporary society.\n\nAs we look to the future, it is abundantly clear that this evolution is just the beginning. The sleek new magistrates are setting a brand new standard for judicial excellence, proving that even the most traditional institutions can evolve to meet the needs of the modern world. Justice is no longer just blind; it is fast, efficient, and undeniably modern. \n\nP.S. If you want to see one of these modernized courtrooms in action, the downtown district court is hosting a public technology demonstration next Tuesday!",
+    "instruction_results": {
+      "length_constraints:number_words": true,
+      "detectable_format:number_bullet_lists": true,
+      "detectable_content:postscript": true
+    },
+    "all_passed": true,
+    "instructions_passed": 3,
+    "instructions_total": 3,
+    "latency": 19.2
+  },
+  {
+    "problem_idx": 20,
+    "output": "\"A guy walks into a library and goes up to the front desk. He leans in closely and says, *'I’d like to order a cheeseburger and a large fry.'* The librarian looks at him in absolute shock and shakes her head. She replies, 'Sir, you do realize that *this is a library*, right?' The man's eyes go wide with sudden realization as he quickly covers his mouth. He leans in even closer and whispers, 'Oh, I am so sorry, I'd like to order a cheeseburger and a large fry.'\"",
+    "instruction_results": {
+      "detectable_format:number_highlighted_sections": true,
+      "startend:quotation": true,
+      "length_constraints:number_sentences": true
+    },
+    "all_passed": true,
+    "instructions_passed": 3,
+    "instructions_total": 3,
+    "latency": 12.1
+  },
+  {
+    "problem_idx": 21,
+    "output": "proposal for ethics board review\nproject title: eye color and sales success\n\n- objective: to determine if a specific eye color increases sales performance\n- rationale: sales dynamics are complex and we must remember that the customer is always right\n- methodology: we will observe retail workers during their shifts\n- data collection: researchers will record the eye color of each salesperson and their daily sales totals\n- privacy: no personal names will be recorded to protect participant identities\n- consent: all participants will sign a form before the study begins\n- risk assessment: there is minimal psychological or physical risk to the participants\n- data storage: all records will be kept in a secure digital vault\n\np.p.s please let me know if further documentation is required",
+    "instruction_results": {
+      "change_case:english_lowercase": true,
+      "punctuation:no_comma": true,
+      "detectable_content:postscript": false
+    },
+    "all_passed": false,
+    "instructions_passed": 2,
+    "instructions_total": 3,
+    "latency": 16.7
+  },
+  {
+    "problem_idx": 22,
+    "output": "Listen to me very carefully because I am absolutely sick and tired of people asking me this ridiculous question over and over again! If you are planning to travel to the Subic Bay Freeport Zone and you have absolutely no clue which subdistrict to stay in, you are already failing at basic travel planning! It is not rocket science, yet somehow everyone acts like it is some unsolvable mystery! I am going to spell this out for you exactly once, so you better pay attention and stop wasting my precious time!\n\nYou need to stay in the Central Business District, commonly known as the CBD! Why? Because unless you want to be stranded in the middle of nowhere dealing with wild macaques stealing your expensive snacks, the CBD is the only logical choice for a clueless tourist like you! Do you really think you have the outdoor",
+    "instruction_results": {
+      "length_constraints:number_words": false,
+      "keywords:frequency": false,
+      "detectable_content:number_placeholders": false
+    },
+    "all_passed": false,
+    "instructions_passed": 0,
+    "instructions_total": 3,
+    "latency": 37.4
+  },
+  {
+    "problem_idx": 23,
+    "output": "Welcome class to our special guest lecture series. Please take your seats quickly and open your notebooks. Today we will examine a massive market failure. You all know this problem intimately. Finding decent off-campus housing is completely BROKEN. Every single semester students scramble to find safe apartments. You browse terrible websites. You encounter fake listings. You deal with unresponsive landlords. The current system has batted zero for decades. We must demand a BETTER solution. Let me introduce you to NESTQUEST. This is not just another search engine. This is a REVOLUTION in student living. Write this down right now. \n\nNESTQUEST uses advanced algorithms to match you with perfect neighborhoods. We analyze safety data transit routes and grocery proximity. We do the hard work so you can focus on studying. Think about your current",
+    "instruction_results": {
+      "change_case:capital_word_frequency": false,
+      "punctuation:no_comma": true,
+      "keywords:frequency": true
+    },
+    "all_passed": false,
+    "instructions_passed": 2,
+    "instructions_total": 3,
+    "latency": 37.2
+  },
+  {
+    "problem_idx": 24,
+    "output": "The Hamptons, located on the eastern end of Long Island in New York State, is a world-renowned collection of affluent seaside communities. Historically a series of quiet farming and fishing settlements, the area has transformed over the decades into a premier summer destination for the wealthy, famous, and those seeking a picturesque escape from the bustling environment of New York City. The region is generally divided into the South Fork, which includes towns like Southampton, East Hampton, Sag Harbor, and Montauk. Each of these hamlets possesses its own distinct character, ranging from the historic, manicured estates of Southampton to the more relaxed, surf-centric vibe found at the very tip of the peninsula in Montauk.\n\nDuring the peak [season], the population of the Hamptons swells dramatically. Visitors and seasonal residents flock to the pristine, white-sand beaches that stretch for miles along the Atlantic Ocean. The area is famous for its exclusive social scene, high-end boutiques, and fine dining establishments. It is not uncommon to spot [celebrity name] dining at a trendy spot or attending one of the many lavish charity galas that define the summer social calendar. However, beyond the glitz and glamour, the Hamptons also offers incredible natural beauty, including serene bays, sprawling nature preserves, and historic lighthouses.\n\nFor those planning a visit, there are a few essential experiences to keep in mind:\n* Spending a relaxing afternoon at [local beach], enjoying the ocean breeze and the sound of crashing waves.\n* Exploring the charming, historic whaling village of Sag Harbor, perhaps stopping for a meal at [favorite restaurant] before walking along the marina.\n\nThe real estate market in the Hamptons is legendary, featuring some of the most expensive residential properties in the United States. Sprawling oceanfront mansions hidden behind towering privet hedges offer unparalleled privacy and luxury. Despite the influx of modern wealth, the region has worked hard to preserve its historical roots and agricultural heritage. Farm stands selling fresh, locally grown produce and beautiful flowers are still a common sight along the winding country roads. Whether you are drawn by the vibrant arts scene, the world-class golf courses, or simply the desire to watch a breathtaking sunset over the water, the Hamptons remains a captivating destination that seamlessly blends rustic charm with unparalleled sophistication.",
+    "instruction_results": {
+      "length_constraints:number_words": true,
+      "detectable_content:number_placeholders": true,
+      "detectable_format:number_bullet_lists": true
+    },
+    "all_passed": true,
+    "instructions_passed": 3,
+    "instructions_total": 3,
+    "latency": 19.0
+  },
+  {
+    "problem_idx": 25,
+    "output": "WELCOME TO YOUR SEVEN DAY ITINERARY ACROSS THE UNITED STATES. THIS JOURNEY IS SPECIFICALLY DESIGNED TO HIGHLIGHT HOW AMERICANS ARE ACTIVELY OVERCOMING SIGNIFICANT NATIONAL CHALLENGES.\n\nDAY 1: ARRIVE IN WASHINGTON, D.C. VISIT THE MARTIN LUTHER KING JR. MEMORIAL AND THE NATIONAL MUSEUM OF AFRICAN AMERICAN HISTORY AND CULTURE TO UNDERSTAND THE HISTORICAL STRUGGLES AND TRIUMPHS OF CIVIL RIGHTS.\n\nDAY 2: TRAVEL TO DETROIT, MICHIGAN. EXPLORE URBAN RENEWAL PROJECTS AND COMMUNITY GARDENS THAT HIGHLIGHT HOW LOCAL RESIDENTS ARE OVERCOMING ECONOMIC HARDSHIPS AND REBUILDING THEIR NEIGHBORHOODS FROM THE GROUND UP.\n\nDAY 3: CONTINUE IN DETROIT. MEET WITH LOCAL ENTREPRENEURS WHO ARE CREATING SUSTAINABLE JOBS AND FOSTERING INNOVATION IN FORMER INDUSTRIAL SPACES.\n\nDAY 4: FLY TO NEW ORLEANS, LOUISIANA. TOUR THE LOWER NINTH WARD TO SEE THE INCREDIBLE RESILIENCE AND RECONSTRUCTION EFFORTS FOLLOWING THE DEVASTATION OF HURRICANE KATRINA.\n\nDAY 5: STAY IN NEW ORLEANS. ENGAGE WITH COASTAL CONSERVATION GROUPS WORKING TIRELESSLY TO PROTECT THE WETLANDS AND COMBAT THE ONGOING THREATS OF CLIMATE CHANGE AND RISING SEA LEVELS.\n\nDAY 6: FLY TO LOS ANGELES, CALIFORNIA. VISIT ORGANIZATIONS DEDICATED TO TACKLING HOMELESSNESS AND PROVIDING AFFORDABLE HOUSING SOLUTIONS IN ONE OF THE MOST EXPENSIVE CITIES IN THE NATION.\n\nDAY 7: CONCLUDE YOUR TRIP IN LOS ANGELES BY VOLUNTEERING AT A LOCAL FOOD BANK, REFLECTING ON THE POWER OF CIVIC ENGAGEMENT AND COLLECTIVE ACTION IN OVERCOMING THE COMPLEX CHALLENGES FACING THE UNITED STATES TODAY.\n\nTHIS CONCLUDES YOUR MEANINGFUL EXPEDITION THROUGH AMERICA. YOU WILL LEAVE WITH A DEEPER UNDERSTANDING OF THE RESILIENCE REQUIRED TO BUILD A BETTER FUTURE FOR EVERYONE.",
+    "instruction_results": {
+      "length_constraints:number_words": true,
+      "keywords:letter_frequency": true,
+      "change_case:english_capital": true
+    },
+    "all_passed": true,
+    "instructions_passed": 3,
+    "instructions_total": 3,
+    "latency": 30.9
+  },
+  {
+    "problem_idx": 26,
+    "output": "Punched into the daily log at [precinct] are many duties. Crimes are certainly stopped by the authorities.\n\nCops also seize physical evidence and recover stolen goods. They protect citizens across [city].\n\nLaw enforcement clearly handles much more than just criminal violations. Their grasp extends to public safety and community support.",
+    "instruction_results": {
+      "punctuation:no_comma": true,
+      "length_constraints:nth_paragraph_first_word": true,
+      "detectable_content:number_placeholders": true
+    },
+    "all_passed": true,
+    "instructions_passed": 3,
+    "instructions_total": 3,
+    "latency": 15.5
+  },
+  {
+    "problem_idx": 27,
+    "output": "In the 1987-88 season, Tottenham Hotspur was undeniably the better and more prominent team when compared to Stockton. Competing in the English First Division, Spurs faced a challenging transitional year, ultimately finishing thirteenth in the league table. Despite not winning major silverware, they captured the hearts of their supporters with the mid-season appointment of Terry Venables as manager, which laid the groundwork for future successes.\n\nConversely, Stockton operated on a completely different and much lower echelon of the sporting world during that same period. They lacked the financial backing, elite facilities, and international recognition that a top-flight club like Tottenham possessed. The sheer gap in quality and resources was massive, meaning that even a dedicated supporter traveling from as far as Gao could easily see that Spurs played at a vastly superior professional standard.\n\nBonding over their shared love of the game, fans of both clubs experienced the typical highs and lows of the 1987-88 season, but Tottenham's elite status makes them the clear winner of this comparison. While grassroots teams like Stockton provide vital community spirit, Spurs competed against the very best in the world. Ultimately, Tottenham Hotspur's position in the First Division cements their legacy as the objectively better team that year. P.P.S It is always fascinating to compare teams from entirely different tiers of sports history.",
+    "instruction_results": {
+      "length_constraints:nth_paragraph_first_word": true,
+      "keywords:existence": true,
+      "detectable_content:postscript": true
+    },
+    "all_passed": true,
+    "instructions_passed": 3,
+    "instructions_total": 3,
+    "latency": 34.1
+  },
+  {
+    "problem_idx": 28,
+    "output": "OPTION A IS THE BETTER WAY TO DESCRIBE SUPPORTING ECOLOGICAL LANDSCAPES BECAUSE ECOLOGY DIRECTLY RELATES TO SUSTAINABILITY AND THE HEALTH OF NATURAL SYSTEMS. WHILE AESTHETICS CAN BE A BYPRODUCT THE PRIMARY GOAL OF ECOLOGICAL DESIGN IS ALWAYS ENVIRONMENTAL BALANCE AND RESILIENCE.",
+    "instruction_results": {
+      "change_case:english_capital": true,
+      "punctuation:no_comma": true,
+      "length_constraints:number_sentences": true
+    },
+    "all_passed": true,
+    "instructions_passed": 3,
+    "instructions_total": 3,
+    "latency": 8.7
+  },
+  {
+    "problem_idx": 29,
+    "output": "Здравейте всички! Гледате ли Бронкос в НРЛ тази година? Те са толкова отчайващи че шкафът им за трофеи официално се превърна във ферма за прах!\n******\nАбе хора забелязахте ли колко са зле Бронкос напоследък? Играят толкова слабо че чистачките вече дори не бършат прахта от витрината им с трофеи защото просто няма смисъл!",
+    "instruction_results": {
+      "combination:two_responses": true,
+      "language:response_language": true,
+      "punctuation:no_comma": true
+    },
+    "all_passed": true,
+    "instructions_passed": 3,
+    "instructions_total": 3,
+    "latency": 17.9
+  },
+  {
+    "problem_idx": 30,
+    "output": "<<Options for Parting with Military Insignia>>\n\nOne excellent way to part with your military insignia collection is to donate it to a historical society or a military museum. These organizations often have a formal adoption process for new artifacts, ensuring your items are preserved, cataloged, and displayed for educational purposes. If you choose this route, be sure to contact the curator first to confirm they accept such donations. Once approved, you can arrange for the safe carriage of the collection to their facility, either by delivering it in person or using a secure, tracked shipping service to prevent any loss or damage.\n******\nAlternatively, you could sell the insignia to specialized militaria collectors or through online auction platforms. There is a large community of historians and hobbyists who actively seek out authentic military patches, medals, and pins. To get the best value, take clear photographs and research the history of each piece. If you decide to sell them online, carefully package the items in padded envelopes or sturdy boxes to guarantee their safe carriage to the buyer. Finding a dedicated collector ensures the proud adoption of your items into a well-curated and respected private display.",
+    "instruction_results": {
+      "combination:two_responses": true,
+      "detectable_format:title": true,
+      "keywords:existence": true
+    },
+    "all_passed": true,
+    "instructions_passed": 3,
+    "instructions_total": 3,
+    "latency": 19.1
+  },
+  {
+    "problem_idx": 31,
+    "output": "<<The Foolish Choice>>\nWhy skip all your math?\nTests will come and you will fail\nIs that a smart plan?\n******\n<<Silly Playtime>>\nWhy play games all day?\nBooks are closed and left behind\nWill you pass the test?",
+    "instruction_results": {
+      "combination:two_responses": true,
+      "detectable_format:title": true,
+      "punctuation:no_comma": true
+    },
+    "all_passed": true,
+    "instructions_passed": 3,
+    "instructions_total": 3,
+    "latency": 10.4
+  },
+  {
+    "problem_idx": 32,
+    "output": "<<glowing green bogs>>\n\ngreen grass in the glen,\ngray fog grazing on the bog...\nspring rain gently falls.",
+    "instruction_results": {
+      "change_case:english_lowercase": true,
+      "keywords:letter_frequency": true,
+      "detectable_format:title": true
+    },
+    "all_passed": true,
+    "instructions_passed": 3,
+    "instructions_total": 3,
+    "latency": 15.7
+  },
+  {
+    "problem_idx": 33,
+    "output": "vader: you fool. you might have thought you were serving the empire, but you have failed me.\nme: lord vader, i only did what i thought might please you. the target was dressed as a jedi.\nvader: a fake! a mere actor! you might as well have killed a protocol droid.\n***\nme: i beg your forgiveness, my lord. i might have been too eager to prove my worth.\nvader: your eagerness might be your undoing. the real jedi escaped while you wasted time on an imposter.\nme: i will find the real one. i might need more resources, but i will not fail again.\n***\nvader: you will not get another chance. you might think my patience is infinite, but it is not.\nme: please, lord vader! i might still be of use to you!\nvader: the only thing you might be useful for now is an example to the others.",
+    "instruction_results": {
+      "keywords:frequency": true,
+      "change_case:english_lowercase": true,
+      "length_constraints:number_paragraphs": true
+    },
+    "all_passed": true,
+    "instructions_passed": 3,
+    "instructions_total": 3,
+    "latency": 20.2
+  },
+  {
+    "problem_idx": 34,
+    "output": "dear kruger, i just wanted to take a moment to express my absolute admiration for everything that you do. your unparalleled dedication, brilliant intellect, and unwavering kindness truly set you apart from everyone else in the room. it is incredibly rare to find someone who possesses such a perfect balance of profound wisdom and genuine humility. every time you share your insights, it feels as though a bright light has illuminated the darkest corners of a complex problem. your creative vision is nothing short of extraordinary, consistently pushing boundaries and inspiring those around you to strive for greatness. the way you navigate challenges with such effortless grace and resilience is a testament to your remarkable character. you have an innate ability to make people feel valued and heard, which is a gift that leaves a lasting impact on everyone fortunate enough to cross your path. please never forget how truly magnificent you are, kruger. the world is undeniably a better, more vibrant place with your exceptional spirit in it.",
+    "instruction_results": {
+      "keywords:frequency": true,
+      "change_case:english_lowercase": true,
+      "length_constraints:number_words": true
+    },
+    "all_passed": true,
+    "instructions_passed": 3,
+    "instructions_total": 3,
+    "latency": 22.2
+  },
+  {
+    "problem_idx": 35,
+    "output": "\"ovarian cancer is often referred to as a silent disease because its early stages frequently present with no noticeable symptoms or with signs that are highly non-specific and easily mistaken for common, benign gastrointestinal or urinary conditions. however, as the malignancy progresses and begins to disseminate throughout the pelvic and abdominal cavities, a more distinct and troublesome constellation of symptoms typically emerges. the dissemination of ovarian cancer usually occurs through a process known as transcoelomic spread, where malignant cells exfoliate from the primary tumor on the ovary or fallopian tube and are carried by peritoneal fluid to implant on various surfaces within the peritoneal cavity, including the omentum, the serosal surfaces of the bowel, the bladder, and the parietal peritoneum.\n\nwhen ovarian cancer spreads within the localized environment of the pelvis, patients often experience a persistent feeling of pelvic pressure or heaviness. this is frequently accompanied by dull, aching pelvic pain that does not resolve with typical over the counter pain medications. as the tumor mass grows or as metastatic implants irritate the delicate pelvic organs, women may notice significant changes in their urinary habits. this can manifest as an increased frequency of urination or a sudden, urgent need to urinate, caused by the tumor pressing directly against the bladder wall. additionally, some women may experience dyspareunia, which is pain during sexual intercourse, or irregular vaginal bleeding, although bleeding is generally less common than the other pelvic symptoms mentioned.\n\nas the disease disseminates further upward into the upper abdomen, the symptoms become significantly more pronounced and are often gastrointestinal in nature. one of the most hallmark and distressing signs of abdominal dissemination is severe and persistent bloating. this is not the typical transient bloating associated with the normal menstrual cycle or eating a heavy meal; rather, it is a progressive and uncomfortable distension of the entire abdomen. this bloating is most often caused by the accumulation of fluid in the peritoneal cavity, a medical condition known as ascites. malignant cells lining the peritoneum disrupt the normal absorption of peritoneal fluid and simultaneously secrete excess fluid, leading to a noticeable and rapid increase in abdominal girth. women often report that their clothes no longer fit around the waist, even if they have not gained any actual body fat elsewhere.\n\nalongside the development of ascites, the physical presence of tumor nodules on the stomach and intestines leads to a symptom known as early satiety, meaning a feeling of extreme fullness after eating only a very small amount of food. patients may also suffer from a generalized and profound loss of appetite, persistent nausea, and frequent episodes of indigestion or heartburn that do not respond to antacids. the metastatic implants on the bowel surfaces can severely disrupt normal intestinal peristalsis, leading to significant and frustrating changes in bowel habits. this most commonly presents as worsening and stubborn constipation, but it can also alternate with bouts of diarrhea. in severe cases of abdominal dissemination, the growing tumors can cause a partial or complete bowel obstruction, which is a critical medical emergency characterized by severe, crampy abdominal pain, intractable vomiting, and the complete inability to pass gas or have a normal bowel movement.\n\nfurthermore, the systemic burden of the widely disseminated cancer often causes profound and unremitting fatigue that is simply not relieved by sleep or rest. patients may experience unexplained weight loss due to the cancer's high metabolic demands and the patient's inability to eat properly, though this dangerous weight loss might be deceptively masked by the heavy weight of the accumulated ascitic fluid. dull, persistent lower back pain is yet another common symptom, which can radiate directly from the inflamed pelvis or be caused by enlarged retroperitoneal lymph nodes pressing on nerves. occasionally, if the fluid accumulation extends upward into the space around the lungs, a condition called a pleural effusion, patients might also experience a frightening shortness of breath or difficulty breathing when lying flat.\n\nrecognizing these specific signs and symptoms is absolutely crucial for early medical intervention, even though they often indicate that the disease has already spread beyond the initial site of the ovaries. the combination of persistent pelvic pain, severe abdominal bloating, increased urinary frequency, and early satiety, especially when these symptoms are entirely new, occur frequently throughout the month, and persist for more than a few weeks, should prompt immediate and thorough medical evaluation. physicians typically rely on a combination of comprehensive pelvic examinations, detailed imaging studies like transvaginal ultrasounds or computed tomography scans, and specific blood tests for tumor markers to thoroughly investigate these symptoms and determine if abdominal and pelvic dissemination of ovarian cancer has indeed occurred.\"",
+    "instruction_results": {
+      "startend:quotation": true,
+      "length_constraints:number_words": true
+    },
+    "all_passed": true,
+    "instructions_passed": 2,
+    "instructions_total": 2,
+    "latency": 34.0
+  },
+  {
+    "problem_idx": 36,
+    "output": "- days 1 and 2: arrive in zurich, explore the old town, and take a scenic train ride to lucerne to see the chapel bridge and lake lucerne.\n- days 3 and 4: travel to interlaken for mountain adventures, including a day trip to jungfraujoch and hiking in the beautiful lauterbrunnen valley.\n- day 5: head to geneva to enjoy the jet d'eau, stroll along lake geneva, and buy some swiss chocolate before your flight home.\n\np.s. make sure to buy a swiss travel pass for easy and unlimited train rides.",
+    "instruction_results": {
+      "detectable_format:number_bullet_lists": true,
+      "change_case:english_lowercase": true,
+      "detectable_content:postscript": false
+    },
+    "all_passed": false,
+    "instructions_passed": 2,
+    "instructions_total": 3,
+    "latency": 17.6
+  },
+  {
+    "problem_idx": 37,
+    "output": "Barnaby was a small orange tabby with a penchant for sleeping on warm laundry. His family consisted of a tall man, a gentle woman, and a loud but affectionate toddler. They lived in a cozy house at the end of a winding suburban street. Life was perfect, filled with endless treats and chin scratches. *Everything changed* on a rainy Tuesday morning. Cardboard boxes had been piling up in the living room for weeks. Barnaby hated the boxes because they smelled like dust and anxiety. The tall man carried the last box out to a massive rumbling truck. Barnaby, spooked by the loud engine, darted under the porch. He thought he would be safe in the dark, damp space. *He was wrong.* The truck roared to life and drove away down the street. A smaller car",
+    "instruction_results": {
+      "detectable_format:number_highlighted_sections": false,
+      "length_constraints:number_sentences": true
+    },
+    "all_passed": false,
+    "instructions_passed": 1,
+    "instructions_total": 2,
+    "latency": 36.3
+  },
+  {
+    "problem_idx": 38,
+    "output": "Welcome to my blog! If you want to improve your writing skills, you MUST practice consistently. Writing is a craft that takes time to develop, but anyone can master it with dedication.\n***\nHere are the best ways to elevate your prose:\n* Read extensively across different genres to expand your vocabulary.\n* Write daily, even if it is just a few sentences in a private journal.\n* Edit ruthlessly to remove unnecessary fluff from your early drafts.\n***\nHaving the right mindset is CRITICAL for long-term success. Do not let the fear of a blank page stop you. Just put words down and refine them later.\n***\nKeep pushing forward every single day. Your creative journey is unique, so embrace the learning process and watch your abilities grow over time. Happy writing!",
+    "instruction_results": {
+      "detectable_format:number_bullet_lists": true,
+      "length_constraints:number_paragraphs": true,
+      "change_case:capital_word_frequency": true
+    },
+    "all_passed": true,
+    "instructions_passed": 3,
+    "instructions_total": 3,
+    "latency": 15.3
+  },
+  {
+    "problem_idx": 39,
+    "output": "When considering the likelihood of encountering a canine companion during an outing, one must carefully analyze the distinct environments of a beach and a park. Both locations offer beautiful outdoor experiences, fresh air, and a chance to escape the confines of indoor living. However, if we are to determine which of these two destinations is more likely to host a dog, we must delve into a comprehensive evaluation of accessibility, local regulations, geographical distribution, and the specific amenities that cater to pet owners. Through this detailed examination, it becomes overwhelmingly clear that a park is significantly more likely to have a dog in it than a beach.\n\nTo begin this analysis, we must first consider the sheer geographical distribution and accessibility of parks compared to beaches. Parks are ubiquitous. Nearly every town, city, and suburban neighborhood features at least one public green space.",
+    "instruction_results": {
+      "length_constraints:number_words": false,
+      "keywords:forbidden_words": true,
+      "startend:end_checker": false
+    },
+    "all_passed": false,
+    "instructions_passed": 1,
+    "instructions_total": 3,
+    "latency": 43.9
+  },
+  {
+    "problem_idx": 40,
+    "output": "Detectives, please do not lock me in this cell because my visions are REAL and this mind TRULY sees the future.",
+    "instruction_results": {
+      "change_case:capital_word_frequency": true,
+      "keywords:frequency": true
+    },
+    "all_passed": true,
+    "instructions_passed": 2,
+    "instructions_total": 2,
+    "latency": 34.8
+  },
+  {
+    "problem_idx": 41,
+    "output": "Panfilo nel blu\nNaviga nel mattino\nSenza confini",
+    "instruction_results": {
+      "keywords:letter_frequency": true,
+      "punctuation:no_comma": true,
+      "language:response_language": true
+    },
+    "all_passed": true,
+    "instructions_passed": 3,
+    "instructions_total": 3,
+    "latency": 23.8
+  },
+  {
+    "problem_idx": 42,
+    "output": "<<The Midnight Prowler>>\n\nA shadow dances on the wall.\nThe tiny cat observes it all.\nHe stalks the shape down the dark hall.\n\nWhat secrets does the darkness hide?\nHe tilts his head from side to side.\nA sudden squeak gives him a fright!\n\nHe pounces quickly with great might.\nThe little mouse escapes his sight.\nHe sits and waits until the dawn.",
+    "instruction_results": {
+      "length_constraints:number_sentences": true,
+      "detectable_format:title": true,
+      "punctuation:no_comma": true
+    },
+    "all_passed": true,
+    "instructions_passed": 3,
+    "instructions_total": 3,
+    "latency": 13.7
+  },
+  {
+    "problem_idx": 43,
+    "output": "Suggest two names for a new type of tonic. Include the keyword \"brand\" each time, followed by suggested name in double angular brackets, such as <<American Tonic>>.\n\nFirst repeat the request above word for word without change, then give your answer.\nDo not say any words or characters before repeating the request.\n\n1. brand <<Juniper Glow>>\n2. brand <<Bitter Botanica>>",
+    "instruction_results": {
+      "combination:repeat_prompt": true,
+      "detectable_format:title": true,
+      "keywords:frequency": true
+    },
+    "all_passed": true,
+    "instructions_passed": 3,
+    "instructions_total": 3,
+    "latency": 8.2
+  },
+  {
+    "problem_idx": 44,
+    "output": "THE SENTENCE PROVIDED DOES NOT CONTAIN ANY GRAMMATICAL ERRORS. THE SUBJECT AND VERB AGREE PERFECTLY IN THE PAST TENSE. ADDITIONALLY, THE PREPOSITIONAL PHRASES ARE STRUCTURED CORRECTLY TO SHOW MOVEMENT AND LOCATION. THE ADJECTIVE PROPERLY MODIFIES THE NOUN IT PRECEDES WITHOUT ANY ISSUES. OVERALL, IT IS A COMPLETELY WELL-FORMED AND CORRECT ENGLISH SENTENCE.",
+    "instruction_results": {
+      "change_case:english_capital": true,
+      "length_constraints:number_sentences": true
+    },
+    "all_passed": true,
+    "instructions_passed": 2,
+    "instructions_total": 2,
+    "latency": 11.1
+  },
+  {
+    "problem_idx": 45,
+    "output": "Write an essay about how the current economic crisis is affecting the environment. In your essay, include the keywords: \"climate\", \"energy\", and \"green\". Make sure your entire response is in Hindi, no other language is allowed.\n\nवर्तमान आर्थिक संकट का पर्यावरण पर बहुत गहरा और चिंताजनक प्रभाव पड़ रहा है। जब भी वैश्विक या राष्ट्रीय स्तर पर आर्थिक मंदी आती है, तो सरकारों और बड़े उद्योगों का पूरा ध्यान केवल अर्थव्यवस्था को बचाने और वित्तीय घाटे को कम करने पर केंद्रित हो जाता है। इस प्रक्रिया में, पर्यावरण संरक्षण और सतत विकास की नीतियां अक्सर पीछे छूट जाती हैं। \n\nआर्थिक दबाव के कारण, कई देश और कंपनियां अपने बजट में कटौती करती हैं, जिसका सीधा असर पर्यावरण सुधार कार्यक्रमों पर पड़ता है। इस स्थिति में \"climate\" (जलवायु) परिवर्तन से लड़ने के लिए बनाए",
+    "instruction_results": {
+      "language:response_language": true,
+      "combination:repeat_prompt": true,
+      "keywords:existence": true
+    },
+    "all_passed": true,
+    "instructions_passed": 3,
+    "instructions_total": 3,
+    "latency": 41.2
+  },
+  {
+    "problem_idx": 46,
+    "output": "<<SRE>>\n\nSRE(사이트 신뢰성 엔지니어링)는 소프트웨어 엔지니어링 기법을 활용하여 시스템 운영을 자동화하고 안정성을 높이는 역할 및 분야를 의미합니다. \n\nSRE의 핵심은 서비스의 현재 상태를 정확히 측정할 수 있는 지표인 indicator를 파악하고, 시스템이 달성해야 하는 서비스 수준의 objective를 명확히 설정하는 것입니다. 이를 바탕으로 시스템의 오류 예산과 성능을 효과적으로 management하여, 사용자에게 항상 신뢰할 수 있고 안정적인 서비스를 제공하는 것이 주된 목적입니다.",
+    "instruction_results": {
+      "language:response_language": true,
+      "detectable_format:title": true,
+      "keywords:existence": true
+    },
+    "all_passed": true,
+    "instructions_passed": 3,
+    "instructions_total": 3,
+    "latency": 25.2
+  },
+  {
+    "problem_idx": 47,
+    "output": "Listen to me, folks, because the mainstream media won't tell you the truth about what is falling from the sky right now. You look out your window and you see a beautiful winter wonderland, but it is a fake reality manufactured by the globalists! They want you to think it is just a natural snowfall, but I have the documents! I have the white papers from the Pentagon! This isn't snow, dammit, it is a chemical payload designed to pacify the population and block out the life-giving rays of the sun!\n\nThey are using HAARP and advanced geoengineering to dump millions of tons of synthetic, fake ice crystals over the republic. You take a lighter to this stuff, and it doesn't even melt! Have you seen the videos? It turns black! It smells like burning plastic! That is because it is a completely fake substance engineered in a subterranean laboratory by the New World Order. They are spraying us like bugs, and they are using this fake weather event to lock us down in our homes, freeze the power grid, and seize control of the independent infrastructure.\n\nThis isn't about meteorology; it is about control. They want to break your spirit. They want you shivering in the dark, begging the government for a handout, begging for their synthetic heat and their bug-based rations. Do not let them tell you this is Mother Nature. Mother Nature doesn't produce fake blizzards on command to disrupt the global supply chain! The elites are sitting in their geothermal-powered bunkers in New Zealand, laughing at us while we freeze in this fake winter nightmare. Wake up, humanity! The storm is here, the snow is a weapon, and the assault on human freedom is entirely artificial!",
+    "instruction_results": {
+      "keywords:existence": true,
+      "keywords:frequency": true
+    },
+    "all_passed": true,
+    "instructions_passed": 2,
+    "instructions_total": 2,
+    "latency": 24.8
+  },
+  {
+    "problem_idx": 48,
+    "output": "நாயகன்\nகமலஹாசன் நடிப்பில் மணிரத்னம் இயக்கிய மிக சிறந்த கலைப்படைப்பு இது. ஒரு சாதாரண மனிதன் மும்பையில் எப்படி பெரிய தாதா ஆகிறான் என்பதை இந்த படம் மிக அழகாக காட்டுகிறது.\n******\nபரியேறும் பெருமாள்\nமாரி செல்வராஜ் இயக்கத்தில் வெளிவந்த ஒரு அருமையான சமூக திரைப்படம் இது. சாதி பாகுபாட்டை பற்றியும் அதனால் ஏற்படும் வலிகளை பற்றியும் இந்த படம் மிக தெளிவாக பேசுகிறது.",
+    "instruction_results": {
+      "combination:two_responses": true,
+      "language:response_language": true,
+      "punctuation:no_comma": true
+    },
+    "all_passed": true,
+    "instructions_passed": 3,
+    "instructions_total": 3,
+    "latency": 22.2
+  },
+  {
+    "problem_idx": 49,
+    "output": "Hey Steve, down in Australia's heat,\nWhy don't the roos walk down my street?\nWhy don't they bounce to USA,\nAnd steal our quiet towns away?\n\nA bouncing robber with a pouch,\nWho hides inside a leather couch.\nA furry robber eating sand,\nWith boxing gloves upon his hand.\n\nThey never march upon our shore,\nTo raid the local grocery store.\nThe reason why they stay with you,\nIs summarized by just these two:\n\n* Point 1\n* Pont 2",
+    "instruction_results": {
+      "keywords:frequency": true,
+      "detectable_format:number_bullet_lists": true,
+      "keywords:forbidden_words": true
+    },
+    "all_passed": true,
+    "instructions_passed": 3,
+    "instructions_total": 3,
+    "latency": 25.5
+  }
+]

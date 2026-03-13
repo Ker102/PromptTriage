@@ -81,10 +81,10 @@ class ClaudeProvider:
 
     def __init__(self):
         import anthropic
-        project_id = os.getenv("VERTEX_PROJECT_ID", "modelforge-3dpipeline")
+        project_id = os.getenv("VERTEX_PROJECT_ID", "modelsandtraining")
         region = os.getenv("VERTEX_REGION", "europe-west1")
         self.client = anthropic.AnthropicVertex(project_id=project_id, region=region)
-        self.model = "claude-sonnet-4-6@20250514"
+        self.model = "claude-sonnet-4-6@default"
 
     def generate(self, user_msg: str, system_prompt: Optional[str] = None) -> str:
         kwargs = {

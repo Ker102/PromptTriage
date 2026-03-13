@@ -1,0 +1,102 @@
+[
+  {
+    "id": "q01",
+    "task": "Write a compelling product description for a smart water bottle that tracks hydration. Target audience: fitness enthusiasts. Keep it under 150 words.",
+    "type": "marketing"
+  },
+  {
+    "id": "q02",
+    "task": "Summarize the key arguments for and against universal basic income in exactly 3 paragraphs. Be balanced and cite specific economic reasoning.",
+    "type": "analysis"
+  },
+  {
+    "id": "q03",
+    "task": "Write a professional email declining a job offer while maintaining a positive relationship with the company. The tone should be gracious but firm.",
+    "type": "professional"
+  },
+  {
+    "id": "q04",
+    "task": "Explain quantum entanglement to a curious 12-year-old. Use analogies they would understand. Keep it engaging and accurate.",
+    "type": "education"
+  },
+  {
+    "id": "q05",
+    "task": "Write a short horror story (200-300 words) set in a library after closing time. Build suspense gradually.",
+    "type": "creative"
+  },
+  {
+    "id": "q06",
+    "task": "Create a structured troubleshooting guide for when a website loads slowly. Include 5 steps, each with a clear action and expected outcome.",
+    "type": "technical"
+  },
+  {
+    "id": "q07",
+    "task": "Write a persuasive argument for why companies should adopt a 4-day work week. Use data-driven reasoning and address counterarguments.",
+    "type": "persuasive"
+  },
+  {
+    "id": "q08",
+    "task": "Rewrite this sentence to be more formal and suitable for an academic paper: 'Social media is basically ruining how kids talk to each other and it's getting worse every year.'",
+    "type": "rewriting"
+  },
+  {
+    "id": "q09",
+    "task": "Create a meal plan for Monday through Friday for someone who is vegetarian, has a nut allergy, and wants to spend less than $50 total. Include breakfast, lunch, and dinner.",
+    "type": "planning"
+  },
+  {
+    "id": "q10",
+    "task": "Write a thoughtful book review of a fictional mystery novel called 'The Last Cipher' by Elena Vasquez. The review should analyze plot, character development, and pacing.",
+    "type": "creative"
+  },
+  {
+    "id": "q11",
+    "task": "Draft a bug report for a mobile app where the login button becomes unresponsive after rotating the screen. Include steps to reproduce, expected vs actual behavior, and severity.",
+    "type": "technical"
+  },
+  {
+    "id": "q12",
+    "task": "Write a haiku sequence (3 haikus) about the transition from autumn to winter. Each haiku should connect to the next thematically.",
+    "type": "creative"
+  },
+  {
+    "id": "q13",
+    "task": "Explain the pros and cons of microservices vs monolithic architecture to a startup CTO who needs to make a decision this week. Be specific and actionable.",
+    "type": "technical"
+  },
+  {
+    "id": "q14",
+    "task": "Write a diplomatic response to a customer complaint about receiving a damaged product. Acknowledge the issue, offer a solution, and turn the situation positive.",
+    "type": "professional"
+  },
+  {
+    "id": "q15",
+    "task": "Create an elevator pitch (60 seconds, ~150 words) for a startup that uses AI to match rescue dogs with compatible adopters based on lifestyle analysis.",
+    "type": "marketing"
+  },
+  {
+    "id": "q16",
+    "task": "Write a compare-and-contrast analysis of remote work vs hybrid work models. Structure it with clear headers and conclude with a recommendation.",
+    "type": "analysis"
+  },
+  {
+    "id": "q17",
+    "task": "Compose a sincere apology letter from a restaurant manager to a patron who had a terrible dining experience on their anniversary.",
+    "type": "professional"
+  },
+  {
+    "id": "q18",
+    "task": "Explain the concept of compound interest to someone with no financial background. Use a concrete example with actual numbers.",
+    "type": "education"
+  },
+  {
+    "id": "q19",
+    "task": "Write a brief policy proposal (250-350 words) for reducing food waste in school cafeterias. Include 3 specific actionable measures.",
+    "type": "analysis"
+  },
+  {
+    "id": "q20",
+    "task": "Create a witty and informative social media thread (5 posts) explaining why sleep is important for productivity. Each post should be under 280 characters.",
+    "type": "creative"
+  }
+]
