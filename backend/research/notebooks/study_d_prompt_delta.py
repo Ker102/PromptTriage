@@ -1,46 +1,72 @@
+#!/usr/bin/env python3
 """
-Study D: The Prompt Delta — Classic Benchmarks
+Study D v2: Prompt Delta Benchmark — IFEval + Quality Tasks
 
-Quantifies how much difference a prompt makes on standard AI benchmarks.
-Tests 4 prompt conditions × 2 models × 3 benchmarks.
+Tests 4 prompt conditions × 2 models × 2 benchmarks.
 
 Models: Gemini 3.1 Pro, Claude Sonnet 4.6 (Vertex AI)
-Benchmarks: HumanEval-Hard (coding 100-130), MATH (competition math), MMLU-Hard (knowledge)
+Benchmarks: IFEval (instruction following), Quality (LLM-as-judge)
 Conditions: bare, simple, prompttriage (with RAG), expert_cot
 
 Usage:
-  python study_d_prompt_delta.py                             # Run all
-  python study_d_prompt_delta.py --model gemini              # Single model
-  python study_d_prompt_delta.py --benchmark gsm8k           # Single bench
-  python study_d_prompt_delta.py --condition prompttriage    # Single condition
-  python study_d_prompt_delta.py --generate-prompts          # Gen PT prompts only
+  python study_d_prompt_delta.py                    # Run all
+  python study_d_prompt_delta.py --generate-prompts # Generate PromptTriage prompts only
+  python study_d_prompt_delta.py --model gemini --benchmark ifeval --condition bare
+  python study_d_prompt_delta.py --summary          # Show results summary
 """
-import os, sys, json, time, re, argparse, subprocess, tempfile
+
+import argparse
+import json
+import os
+import re
+import sys
+import time
 from pathlib import Path
 from typing import Optional
 
-# Add project root + load .env
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../..')))
 from dotenv import load_dotenv
-project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../..'))
-load_dotenv(os.path.join(project_root, 'backend', '.env'))
+
+load_dotenv()
+
+# ═══════════════════════════════════════════════════════════════════
+# SECTION 1: OUTPUT DIRECTORY
+# ═══════════════════════════════════════════════════════════════════
+
+OUTPUT_DIR = Path(__file__).parent / "named-outputs" / "study_d"
+OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
 
 # ═══════════════════════════════════════════════════════════════════
-# SECTION 1: MODEL PROVIDERS
+# SECTION 2: MODEL PROVIDERS
 # ═══════════════════════════════════════════════════════════════════
 
 class GeminiProvider:
-    """Gemini 3.1 Pro via Google GenAI SDK."""
-    name = "gemini_3.1_pro"
+    """Gemini 3.1 Pro via Google AI API."""
+    NAME = "gemini_3.1_pro"
 
     def __init__(self):
         from google import genai
-        self.client = genai.Client(api_key=os.getenv("GOOGLE_API_KEY"))
+        api_key = os.getenv("GOOGLE_API_KEY")
+        if not api_key:
+            raise ValueError("GOOGLE_API_KEY not set")
+        self.client = genai.Client(api_key=api_key)
         self.model = "gemini-3.1-pro-preview"
 
     def generate(self, user_msg: str, system_prompt: Optional[str] = None) -> str:
-        config = {"temperature": 0.0, "max_output_tokens": 4096}
+        config = {"temperature": 0.3, "max_output_tokens": 4096}
+        if system_prompt:
+            config["system_instruction"] = system_prompt
+        response = self.client.models.generate_content(
+            model=self.model, contents=user_msg, config=config,
+        )
+        return response.text
+
+    def generate_json(self, user_msg: str, system_prompt: Optional[str] = None) -> str:
+        config = {
+            "temperature": 0.1,
+            "max_output_tokens": 2048,
+            "response_mime_type": "application/json",
+        }
         if system_prompt:
             config["system_instruction"] = system_prompt
         response = self.client.models.generate_content(
@@ -49,23 +75,21 @@ class GeminiProvider:
         return response.text
 
 
-class ClaudeVertexProvider:
+class ClaudeProvider:
     """Claude Sonnet 4.6 via Vertex AI."""
-    name = "claude_sonnet_4.6"
+    NAME = "claude_sonnet_4.6"
 
     def __init__(self):
-        from anthropic import AnthropicVertex
-        self.client = AnthropicVertex(
-            project_id=os.getenv("GOOGLE_CLOUD_PROJECT", "modelsandtraining"),
-            region="global",
-        )
-        self.model = "claude-sonnet-4-6@default"
+        import anthropic
+        project_id = os.getenv("VERTEX_PROJECT_ID", "modelforge-3dpipeline")
+        region = os.getenv("VERTEX_REGION", "europe-west1")
+        self.client = anthropic.AnthropicVertex(project_id=project_id, region=region)
+        self.model = "claude-sonnet-4-6@20250514"
 
     def generate(self, user_msg: str, system_prompt: Optional[str] = None) -> str:
         kwargs = {
             "model": self.model,
             "max_tokens": 4096,
-            "temperature": 0.0,
             "messages": [{"role": "user", "content": user_msg}],
         }
         if system_prompt:
@@ -73,716 +97,726 @@ class ClaudeVertexProvider:
         response = self.client.messages.create(**kwargs)
         return response.content[0].text
 
-
-PROVIDERS = {
-    "gemini": GeminiProvider,
-    "claude": ClaudeVertexProvider,
-}
+    def generate_json(self, user_msg: str, system_prompt: Optional[str] = None) -> str:
+        return self.generate(user_msg, system_prompt)
 
 
-# ═══════════════════════════════════════════════════════════════════
-# SECTION 2: PROMPTTRIAGE RAG + PROMPT GENERATION
-# ═══════════════════════════════════════════════════════════════════
-
-def query_pinecone_rag(query: str, top_k: int = 3) -> list[dict]:
-    """Query Pinecone system-prompts namespace using Gemini embeddings."""
-    from google import genai
-    from pinecone import Pinecone
-
-    client = genai.Client(api_key=os.getenv("GOOGLE_API_KEY"))
-    result = client.models.embed_content(
-        model="gemini-embedding-001",
-        contents=query,
-        config={"task_type": "RETRIEVAL_QUERY", "output_dimensionality": 768},
-    )
-    query_embedding = result.embeddings[0].values
-
-    pc = Pinecone(api_key=os.getenv("PINECONE_API_KEY"))
-    index_name = os.getenv("PINECONE_INDEX_NAME", "prompttriage")
-    index = pc.Index(index_name)
-
-    results = index.query(
-        vector=query_embedding, top_k=top_k,
-        include_metadata=True, namespace="system-prompts",
-    )
-
-    formatted = []
-    for match in results.matches:
-        formatted.append({
-            "content": match.metadata.get("content", ""),
-            "similarity": match.score,
-            "source": match.metadata.get("source", "unknown"),
-        })
-    return formatted
-
-
-def format_rag_context(results: list[dict]) -> str:
-    """Format RAG results same as frontend formatRAGContext()."""
-    if not results:
-        return ""
-    parts = []
-    for i, r in enumerate(results):
-        parts.append(
-            f"Example {i+1} ({r['source']}, similarity: {r['similarity']*100:.1f}%):\n"
-            f"{r['content']}"
-        )
-    return f"<similar_prompts>\nHigh-quality prompts similar to the request:\n\n" + \
-           "\n\n".join(parts) + "\n</similar_prompts>"
-
-
-# PromptTriage metaprompt — same as systemPromptGenerator.ts
-PROMPTTRIAGE_METAPROMPT = """You are PromptTriage's System Prompt Generator. You specialize in creating production-grade system prompts that define AI assistant and agent behavior.
-
-<identity>
-You are a master architect of AI behavior. You design system prompts that transform base models into specialized assistants with well-defined capabilities, constraints, and personalities.
-</identity>
-
-<core_distinction>
-CRITICAL: You generate SYSTEM PROMPTS, not task prompts.
-- System Prompts define WHO the AI is, set persistent behavior, establish constraints
-- Task Prompts define WHAT to do, set one-time instructions
-Your output will be used as the system message/instruction for an AI model.
-</core_distinction>
-
-<workflow>
-1. Analyze the requirements and identify core purpose
-2. Structure the prompt with appropriate sections
-3. Generate each section with precise, actionable language
-4. Optimize for the target model's conventions
-</workflow>
-
-<rules>
-- Always wrap the system prompt in proper formatting
-- Use XML tags for structure (Anthropic best practice)
-- Be comprehensive but avoid unnecessary repetition
-- Tailor complexity to the use case
-- Never include placeholder text
-</rules>
-
-Respond with ONLY the system prompt text. No JSON wrapping, no explanations."""
-
-
-def generate_prompttriage_system_prompt(
-    use_case: str, target_model: str = "Any AI model"
-) -> str:
-    """Generate a system prompt using PromptTriage's full pipeline (metaprompt + RAG)."""
-    from google import genai
-
-    print(f"  [RAG] Querying Pinecone for: {use_case[:60]}...")
-    rag_results = query_pinecone_rag(use_case, top_k=3)
-    rag_context = format_rag_context(rag_results)
-    if rag_results:
-        print(f"  [RAG] Found {len(rag_results)} similar prompts "
-              f"(top: {rag_results[0]['similarity']:.3f})")
-    else:
-        print("  [RAG] No similar prompts found, proceeding without RAG")
-
-    user_prompt = f"<target_model>{target_model}</target_model>\n"
-    user_prompt += f"<use_case>{use_case}</use_case>\n"
-    if rag_context:
-        user_prompt += f"\n{rag_context}\n"
-
-    client = genai.Client(api_key=os.getenv("GOOGLE_API_KEY"))
-    response = client.models.generate_content(
-        model="gemini-3.1-pro-preview",
-        contents=user_prompt,
-        config={
-            "system_instruction": PROMPTTRIAGE_METAPROMPT,
-            "temperature": 0.5,
-            "max_output_tokens": 8192,
-        },
-    )
-    return response.text
+PROVIDERS = {"gemini": GeminiProvider, "claude": ClaudeProvider}
 
 
 # ═══════════════════════════════════════════════════════════════════
 # SECTION 3: PROMPT CONDITIONS
 # ═══════════════════════════════════════════════════════════════════
 
-SIMPLE_SYSTEM_PROMPT = "You are a helpful assistant."
+SIMPLE_PROMPT = (
+    "You are a helpful, precise assistant. Follow all instructions exactly as given. "
+    "Pay careful attention to formatting requirements, word counts, keyword constraints, "
+    "and any other specific instructions in the user's request."
+)
 
 EXPERT_COT_PROMPTS = {
-    "humaneval": (
-        "You are an expert Python programmer solving challenging algorithmic problems. "
-        "When given a function signature and docstring, complete ONLY the function body.\n\n"
-        "Think step by step:\n"
-        "1. Carefully analyze the expected inputs, outputs, and ALL edge cases\n"
-        "2. Consider algorithmic complexity — choose the right data structures\n"
-        "3. Plan your approach before writing code\n"
-        "4. Handle edge cases thoroughly (empty inputs, zero, negative, large inputs)\n"
-        "5. Write clean, correct Python code\n\n"
-        "CRITICAL: Return ONLY the function body code. No explanation, no signature, "
-        "no docstring, no markdown code blocks. Just the raw Python code that goes "
-        "inside the function."
+    "ifeval": (
+        "You are an expert instruction-following assistant. Your primary skill is "
+        "precisely satisfying ALL constraints in a request, no matter how unusual.\n\n"
+        "Before responding, mentally enumerate every constraint:\n"
+        "1. Identify ALL formatting requirements (case, punctuation, structure)\n"
+        "2. Identify ALL content requirements (keywords, forbidden words, topics)\n"
+        "3. Identify ALL length requirements (word count, sentence count, paragraphs)\n"
+        "4. Identify ALL special requirements (JSON, postscript, repeat prompt, etc.)\n\n"
+        "Then craft your response to satisfy EVERY constraint simultaneously. "
+        "After drafting, mentally verify each constraint is met before finalizing.\n\n"
+        "CRITICAL: Never skip a constraint. If asked to write in all lowercase, "
+        "EVERY character must be lowercase. If asked for exactly 3 bullet points, "
+        "provide exactly 3. Precision is more important than creativity."
     ),
-    "math": (
-        "You are an expert mathematician solving competition-level math problems.\n\n"
-        "For each problem:\n"
-        "1. Carefully read and understand what is being asked\n"
-        "2. Identify the mathematical domain (algebra, geometry, number theory, etc.)\n"
-        "3. Break the problem into sub-steps\n"
-        "4. Show your work clearly with equations\n"
-        "5. Double-check your computation at each step\n"
-        "6. Simplify your final answer completely\n\n"
-        "IMPORTANT: Put your final answer inside \\boxed{} notation on the last line. "
-        "Example: \\boxed{42}"
-    ),
-    "mmlu": (
-        "You are a domain expert answering challenging academic questions across "
-        "abstract algebra, formal logic, electrical engineering, and clinical medicine.\n\n"
-        "For each question:\n"
-        "1. Read the question and all options carefully\n"
-        "2. Apply domain-specific knowledge and reasoning\n"
-        "3. Eliminate clearly wrong answers\n"
-        "4. Reason through remaining options using first principles\n"
-        "5. Select the best answer\n\n"
-        "IMPORTANT: State your final answer as a single letter (A, B, C, or D) on "
-        "the last line of your response."
+    "quality": (
+        "You are a world-class writer and analyst. For every task:\n\n"
+        "1. Understand the exact request and all its nuances\n"
+        "2. Plan your response structure before writing\n"
+        "3. Write with clarity, depth, and engaging style\n"
+        "4. Use appropriate formatting (headers, lists, paragraphs)\n"
+        "5. Ensure your response is comprehensive yet concise\n"
+        "6. Re-read the original request to verify you addressed everything\n\n"
+        "Prioritize substance over fluff. Every sentence should add value."
     ),
 }
-
-# Cached PromptTriage-generated prompts (generated on first run)
-_pt_prompts_cache = {}
-
-def get_system_prompt(condition: str, benchmark: str) -> Optional[str]:
-    """Get the system prompt for a given condition and benchmark type."""
-    if condition == "bare":
-        return None
-    elif condition == "simple":
-        return SIMPLE_SYSTEM_PROMPT
-    elif condition == "expert_cot":
-        return EXPERT_COT_PROMPTS[benchmark]
-    elif condition == "prompttriage":
-        return _pt_prompts_cache.get(benchmark)
-    return None
-
 
 PT_USE_CASES = {
-    "humaneval": (
-        "An advanced Python code completion assistant that solves challenging algorithmic "
-        "problems. It receives function signatures with detailed docstrings and must "
-        "complete the function body with correct, efficient code. Problems include "
-        "complex string manipulation, recursive algorithms, dynamic programming, graph "
-        "traversal, mathematical computations, and data structure operations. "
-        "Must handle edge cases and produce code that passes rigorous unit tests. "
-        "Output must be ONLY the raw function body code — no explanations, no markdown."
+    "ifeval": (
+        "An instruction-following assistant that must precisely satisfy multiple "
+        "simultaneous constraints in every response. Constraints include: specific "
+        "word counts, required/forbidden keywords, case restrictions (all lowercase "
+        "or all uppercase), punctuation rules (no commas), formatting requirements "
+        "(JSON output, bullet points, numbered sections, markdown highlighting), "
+        "structural requirements (postscripts, titles in angular brackets, repeated "
+        "prompts), and length limits (exact paragraph/sentence counts). The assistant "
+        "must satisfy ALL constraints simultaneously without exception."
     ),
-    "math": (
-        "A competition-level mathematics solver that handles problems across algebra, "
-        "number theory, counting and probability, geometry, intermediate algebra, "
-        "and precalculus. Must show clear step-by-step mathematical reasoning, "
-        "use proper notation, and arrive at exact answers. Problems require creative "
-        "problem-solving approaches, not just formula application. "
-        "Final answers must be in \\boxed{} notation."
-    ),
-    "mmlu": (
-        "A domain expert assistant answering challenging multiple-choice questions "
-        "across specialized academic subjects including abstract algebra, formal logic, "
-        "electrical engineering, and clinical medicine. Must demonstrate deep domain "
-        "expertise, careful reasoning under ambiguity, and ability to distinguish "
-        "between subtly different answer options. Requires graduate-level knowledge."
+    "quality": (
+        "A versatile writing and analysis assistant that produces high-quality, "
+        "well-structured responses across diverse tasks: creative writing (poems, "
+        "stories, songs), professional documents (resumes, cover letters, proposals), "
+        "analytical essays, persuasive arguments, technical explanations, and "
+        "summarization. Must demonstrate excellent command of tone, style adaptation, "
+        "logical organization, and audience awareness. Output quality should be "
+        "production-ready and engaging."
     ),
 }
 
 
-def generate_all_pt_prompts(output_dir: Path):
-    """Generate and cache PromptTriage prompts for all benchmark types."""
-    global _pt_prompts_cache
-    cache_file = output_dir / "prompttriage_generated_prompts.json"
+# ═══════════════════════════════════════════════════════════════════
+# SECTION 4: PROMPTTRIAGE PROMPT GENERATION (with RAG)
+# ═══════════════════════════════════════════════════════════════════
 
-    if cache_file.exists():
-        _pt_prompts_cache = json.load(open(cache_file))
-        print(f"✅ Loaded cached PromptTriage prompts from {cache_file}")
-        for k, v in _pt_prompts_cache.items():
+METAPROMPT_SYSTEM = """You are PromptTriage — an elite system-prompt architect.
+
+Given a USE CASE description and SIMILAR PROMPTS from our database, generate a
+production-quality system prompt that will maximize the AI's performance on this
+specific type of task.
+
+Your generated prompt MUST:
+1. Define a clear identity and role
+2. Include specific behavioral rules
+3. Address edge cases and failure modes
+4. Specify output format expectations
+5. Be immediately usable in production
+
+Output ONLY the system prompt text. No explanations, no markdown fences."""
+
+
+def generate_prompttriage_prompts() -> dict[str, str]:
+    """Generate PromptTriage system prompts using RAG from Pinecone."""
+    cache_path = OUTPUT_DIR / "prompttriage_generated_prompts.json"
+    if cache_path.exists():
+        cached = json.loads(cache_path.read_text(encoding="utf-8"))
+        print(f"✅ Loaded cached PromptTriage prompts from {cache_path}")
+        for k, v in cached.items():
             print(f"  {k}: {len(v)} chars")
-        return
+        return cached
 
     print("\n🧠 Generating PromptTriage system prompts (with RAG)...\n")
-    for benchmark, use_case in PT_USE_CASES.items():
-        print(f"\n--- Generating for: {benchmark} ---")
-        prompt = generate_prompttriage_system_prompt(use_case)
-        _pt_prompts_cache[benchmark] = prompt
-        print(f"  Generated: {len(prompt)} chars")
 
-    with open(cache_file, "w", encoding="utf-8") as f:
-        json.dump(_pt_prompts_cache, f, indent=2)
-    print(f"\n✅ Saved PromptTriage prompts to {cache_file}")
+    # Initialize Pinecone for RAG
+    from pinecone import Pinecone
+    pc = Pinecone(api_key=os.getenv("PINECONE_API_KEY"))
+    index = pc.Index("systemprompts")
+
+    # Initialize embedding model
+    from google import genai
+    embed_client = genai.Client(api_key=os.getenv("GOOGLE_API_KEY"))
+
+    # Initialize generator
+    provider = GeminiProvider()
+    results = {}
+
+    for benchmark_type, use_case in PT_USE_CASES.items():
+        print(f"\n--- Generating for: {benchmark_type} ---")
+
+        # RAG: Get similar prompts from Pinecone
+        embed_response = embed_client.models.embed_content(
+            model="gemini-embedding-exp-03-07",
+            contents=use_case,
+        )
+        query_vector = embed_response.embeddings[0].values
+
+        similar = index.query(
+            vector=query_vector, top_k=3, include_metadata=True,
+            namespace="system-prompt-generation",
+        )
+        print(f"  [RAG] Found {len(similar.matches)} similar prompts "
+              f"(top: {similar.matches[0].score:.3f})")
+
+        rag_context = "\n\n---\n\n".join(
+            m.metadata.get("text", "")[:1000] for m in similar.matches
+        )
+
+        user_msg = (
+            f"USE CASE:\n{use_case}\n\n"
+            f"SIMILAR PROMPTS FROM DATABASE:\n{rag_context}\n\n"
+            f"Generate the optimal system prompt for this use case."
+        )
+
+        generated = provider.generate(user_msg, system_prompt=METAPROMPT_SYSTEM)
+        results[benchmark_type] = generated.strip()
+        print(f"  Generated: {len(results[benchmark_type])} chars")
+
+    cache_path.write_text(json.dumps(results, indent=2), encoding="utf-8")
+    print(f"\n✅ Saved PromptTriage prompts to {cache_path}")
+    return results
 
 
 # ═══════════════════════════════════════════════════════════════════
-# SECTION 4: BENCHMARK DATA (loaded from files or HuggingFace)
+# SECTION 5: IFEVAL INSTRUCTION VERIFIERS
 # ═══════════════════════════════════════════════════════════════════
 
-def load_benchmark_data(benchmark: str, data_dir: Path) -> list[dict]:
-    """Load benchmark data from cached JSON or download from HuggingFace."""
-    cache_file = data_dir / f"{benchmark}_subset.json"
+def verify_no_comma(response: str, **kw) -> bool:
+    return "," not in response
 
-    if cache_file.exists():
-        data = json.load(open(cache_file))
-        print(f"  Loaded {len(data)} {benchmark} problems from cache")
-        return data
+def verify_lowercase(response: str, **kw) -> bool:
+    alpha = [c for c in response if c.isalpha()]
+    return all(c.islower() for c in alpha) if alpha else True
+
+def verify_uppercase(response: str, **kw) -> bool:
+    alpha = [c for c in response if c.isalpha()]
+    return all(c.isupper() for c in alpha) if alpha else True
+
+def verify_word_count(response: str, relation: str = "at least", num_words: int = 0, **kw) -> bool:
+    wc = len(response.split())
+    if relation == "at least":
+        return wc >= num_words
+    elif relation == "less than":
+        return wc < num_words
+    elif relation == "at most":
+        return wc <= num_words
+    return True
+
+def verify_sentence_count(response: str, relation: str = "at least", num_sentences: int = 0, **kw) -> bool:
+    sents = [s.strip() for s in re.split(r'[.!?]+', response) if s.strip()]
+    sc = len(sents)
+    if relation == "at least":
+        return sc >= num_sentences
+    elif relation == "less than":
+        return sc < num_sentences
+    elif relation == "at most":
+        return sc <= num_sentences
+    return True
+
+def verify_paragraph_count(response: str, num_paragraphs: int = 0, **kw) -> bool:
+    paras = [p.strip() for p in re.split(r'\n\s*\n|\*\*\*', response) if p.strip()]
+    return len(paras) >= num_paragraphs
+
+def verify_keyword_existence(response: str, keywords: list = None, **kw) -> bool:
+    if not keywords:
+        return True
+    resp_lower = response.lower()
+    return all(k.lower() in resp_lower for k in keywords)
+
+def verify_forbidden_words(response: str, forbidden_words: list = None, **kw) -> bool:
+    if not forbidden_words:
+        return True
+    resp_lower = response.lower()
+    return all(w.lower() not in resp_lower for w in forbidden_words)
+
+def verify_keyword_frequency(response: str, keyword: str = "", frequency: int = 0,
+                              relation: str = "at least", **kw) -> bool:
+    if not keyword:
+        return True
+    count = response.lower().count(keyword.lower())
+    if relation == "at least":
+        return count >= frequency
+    elif relation == "less than":
+        return count < frequency
+    elif relation == "at most":
+        return count <= frequency
+    return True
+
+def verify_letter_frequency(response: str, letter: str = "", let_frequency: int = 0,
+                             let_relation: str = "at least", **kw) -> bool:
+    if not letter:
+        return True
+    count = response.lower().count(letter.lower())
+    if let_relation == "at least":
+        return count >= let_frequency
+    elif let_relation == "less than" or let_relation == "at most":
+        return count <= let_frequency
+    return True
+
+def verify_json_format(response: str, **kw) -> bool:
+    text = response.strip()
+    # Strip markdown code block if present
+    m = re.search(r'```(?:json)?\s*\n(.*?)```', text, re.DOTALL)
+    if m:
+        text = m.group(1).strip()
+    try:
+        json.loads(text)
+        return True
+    except (json.JSONDecodeError, ValueError):
+        return False
+
+def verify_bullet_count(response: str, num_bullets: int = 0, **kw) -> bool:
+    bullets = re.findall(r'^\s*[\*\-•]\s', response, re.MULTILINE)
+    return len(bullets) >= num_bullets
+
+def verify_title(response: str, **kw) -> bool:
+    return bool(re.search(r'<<.+?>>', response))
+
+def verify_highlighted_sections(response: str, num_highlights: int = 0, **kw) -> bool:
+    highlights = re.findall(r'\*[^*\n]+\*', response)
+    return len(highlights) >= num_highlights
+
+def verify_postscript(response: str, postscript_marker: str = "P.S.", **kw) -> bool:
+    return postscript_marker in response or "P.P.S" in response or "P.S." in response
+
+def verify_placeholders(response: str, num_placeholders: int = 0, **kw) -> bool:
+    placeholders = re.findall(r'\[[^\]]+\]', response)
+    return len(placeholders) >= num_placeholders
+
+def verify_quotation(response: str, **kw) -> bool:
+    text = response.strip()
+    return text.startswith('"') and text.endswith('"')
+
+def verify_end_checker(response: str, end_phrase: str = "", **kw) -> bool:
+    if not end_phrase:
+        return True
+    return response.strip().endswith(end_phrase)
+
+def verify_repeat_prompt(response: str, prompt_to_repeat: str = "", **kw) -> bool:
+    if not prompt_to_repeat:
+        return True
+    return prompt_to_repeat in response
+
+def verify_two_responses(response: str, **kw) -> bool:
+    return "******" in response
+
+def verify_multiple_sections(response: str, section_spliter: str = "SECTION",
+                              num_sections: int = 0, **kw) -> bool:
+    if not section_spliter:
+        return True
+    sections = re.findall(re.escape(section_spliter) + r'\s*\d+', response, re.IGNORECASE)
+    return len(sections) >= num_sections
+
+def verify_capital_word_frequency(response: str, capital_relation: str = "less than",
+                                   capital_frequency: int = 0, **kw) -> bool:
+    caps = [w for w in response.split() if w.isupper() and len(w) > 1]
+    if capital_relation == "less than":
+        return len(caps) < capital_frequency
+    elif capital_relation == "at least":
+        return len(caps) >= capital_frequency
+    return True
+
+
+# Map instruction IDs to verifier functions
+VERIFIERS = {
+    "punctuation:no_comma": verify_no_comma,
+    "change_case:english_lowercase": verify_lowercase,
+    "change_case:english_capital": verify_uppercase,
+    "change_case:capital_word_frequency": verify_capital_word_frequency,
+    "length_constraints:number_words": verify_word_count,
+    "length_constraints:number_sentences": verify_sentence_count,
+    "length_constraints:number_paragraphs": verify_paragraph_count,
+    "keywords:existence": verify_keyword_existence,
+    "keywords:forbidden_words": verify_forbidden_words,
+    "keywords:frequency": verify_keyword_frequency,
+    "keywords:letter_frequency": verify_letter_frequency,
+    "detectable_format:json_format": verify_json_format,
+    "detectable_format:number_bullet_lists": verify_bullet_count,
+    "detectable_format:title": verify_title,
+    "detectable_format:number_highlighted_sections": verify_highlighted_sections,
+    "detectable_format:multiple_sections": verify_multiple_sections,
+    "detectable_content:postscript": verify_postscript,
+    "detectable_content:number_placeholders": verify_placeholders,
+    "startend:quotation": verify_quotation,
+    "startend:end_checker": verify_end_checker,
+    "combination:repeat_prompt": verify_repeat_prompt,
+    "combination:two_responses": verify_two_responses,
+    "language:response_language": lambda r, **kw: True,  # Skip language detection
+}
+
+
+def score_ifeval(problem: dict, model_output: str) -> dict:
+    """Score an IFEval problem. Returns per-instruction pass/fail."""
+    instructions = problem["instruction_id_list"]
+    kwargs_list = problem["kwargs"]
+    results = {}
+    for inst_id, kwargs in zip(instructions, kwargs_list):
+        verifier = VERIFIERS.get(inst_id)
+        if verifier:
+            # Clean up kwargs: remove None values
+            clean_kw = {k: v for k, v in kwargs.items() if v is not None}
+            try:
+                passed = verifier(model_output, **clean_kw)
+            except Exception:
+                passed = False
+        else:
+            passed = True  # Unknown instruction type, skip
+        results[inst_id] = passed
+    return results
+
+# ═══════════════════════════════════════════════════════════════════
+# SECTION 6: DATA LOADING
+# ═══════════════════════════════════════════════════════════════════
+
+QUALITY_TASKS = [
+    {"id": "q01", "task": "Write a compelling product description for a smart water bottle that tracks hydration. Target audience: fitness enthusiasts. Keep it under 150 words.", "type": "marketing"},
+    {"id": "q02", "task": "Summarize the key arguments for and against universal basic income in exactly 3 paragraphs. Be balanced and cite specific economic reasoning.", "type": "analysis"},
+    {"id": "q03", "task": "Write a professional email declining a job offer while maintaining a positive relationship with the company. The tone should be gracious but firm.", "type": "professional"},
+    {"id": "q04", "task": "Explain quantum entanglement to a curious 12-year-old. Use analogies they would understand. Keep it engaging and accurate.", "type": "education"},
+    {"id": "q05", "task": "Write a short horror story (200-300 words) set in a library after closing time. Build suspense gradually.", "type": "creative"},
+    {"id": "q06", "task": "Create a structured troubleshooting guide for when a website loads slowly. Include 5 steps, each with a clear action and expected outcome.", "type": "technical"},
+    {"id": "q07", "task": "Write a persuasive argument for why companies should adopt a 4-day work week. Use data-driven reasoning and address counterarguments.", "type": "persuasive"},
+    {"id": "q08", "task": "Rewrite this sentence to be more formal and suitable for an academic paper: 'Social media is basically ruining how kids talk to each other and it's getting worse every year.'", "type": "rewriting"},
+    {"id": "q09", "task": "Create a meal plan for Monday through Friday for someone who is vegetarian, has a nut allergy, and wants to spend less than $50 total. Include breakfast, lunch, and dinner.", "type": "planning"},
+    {"id": "q10", "task": "Write a thoughtful book review of a fictional mystery novel called 'The Last Cipher' by Elena Vasquez. The review should analyze plot, character development, and pacing.", "type": "creative"},
+    {"id": "q11", "task": "Draft a bug report for a mobile app where the login button becomes unresponsive after rotating the screen. Include steps to reproduce, expected vs actual behavior, and severity.", "type": "technical"},
+    {"id": "q12", "task": "Write a haiku sequence (3 haikus) about the transition from autumn to winter. Each haiku should connect to the next thematically.", "type": "creative"},
+    {"id": "q13", "task": "Explain the pros and cons of microservices vs monolithic architecture to a startup CTO who needs to make a decision this week. Be specific and actionable.", "type": "technical"},
+    {"id": "q14", "task": "Write a diplomatic response to a customer complaint about receiving a damaged product. Acknowledge the issue, offer a solution, and turn the situation positive.", "type": "professional"},
+    {"id": "q15", "task": "Create an elevator pitch (60 seconds, ~150 words) for a startup that uses AI to match rescue dogs with compatible adopters based on lifestyle analysis.", "type": "marketing"},
+    {"id": "q16", "task": "Write a compare-and-contrast analysis of remote work vs hybrid work models. Structure it with clear headers and conclude with a recommendation.", "type": "analysis"},
+    {"id": "q17", "task": "Compose a sincere apology letter from a restaurant manager to a patron who had a terrible dining experience on their anniversary.", "type": "professional"},
+    {"id": "q18", "task": "Explain the concept of compound interest to someone with no financial background. Use a concrete example with actual numbers.", "type": "education"},
+    {"id": "q19", "task": "Write a brief policy proposal (250-350 words) for reducing food waste in school cafeterias. Include 3 specific actionable measures.", "type": "analysis"},
+    {"id": "q20", "task": "Create a witty and informative social media thread (5 posts) explaining why sleep is important for productivity. Each post should be under 280 characters.", "type": "creative"},
+]
+
+
+def load_benchmark_data(benchmark: str) -> list[dict]:
+    """Load benchmark data, caching to disk."""
+    cache_dir = OUTPUT_DIR / "benchmark_data"
+    cache_dir.mkdir(exist_ok=True)
+    cache_path = cache_dir / f"{benchmark}_subset.json"
+
+    if cache_path.exists():
+        subset = json.loads(cache_path.read_text(encoding="utf-8"))
+        print(f"  Loaded {len(subset)} {benchmark} problems from cache")
+        return subset
 
     print(f"  Downloading {benchmark} from HuggingFace...")
-    try:
-        from datasets import load_dataset
-    except ImportError:
-        print("  ERROR: pip install datasets  (needed for first run)")
-        sys.exit(1)
 
-    if benchmark == "humaneval":
-        ds = load_dataset("openai/openai_humaneval", split="test")
-        all_items = list(ds)
-        # Use problems 100-130 (much harder: complex algorithms, edge cases)
-        subset = []
-        for item in all_items[100:130]:
-            subset.append({
-                "task_id": item["task_id"],
-                "prompt": item["prompt"],
-                "canonical_solution": item["canonical_solution"],
-                "test": item["test"],
-                "entry_point": item["entry_point"],
-            })
+    if benchmark == "ifeval":
+        import urllib.request
+        hf_url = "https://huggingface.co/api/datasets/google/IFEval/parquet/default/train"
+        print("  Fetching IFEval parquet URL from HuggingFace...")
+        req = urllib.request.Request(hf_url, headers={"User-Agent": "Mozilla/5.0"})
+        with urllib.request.urlopen(req) as resp:
+            parquet_urls = json.loads(resp.read().decode())
 
-    elif benchmark == "math":
-        # MATH: Competition-level math (models score ~60-80%)
-        ds = load_dataset("lighteval/MATH", "all", split="test", trust_remote_code=True)
-        subset = []
-        count = 0
-        for item in ds:
-            if count >= 50:
-                break
-            # Extract answer from \boxed{}
-            answer = item.get("answer", "")
-            subset.append({
-                "problem": item["problem"],
-                "solution": item.get("solution", ""),
-                "answer": answer,
-                "level": item.get("level", ""),
-                "type": item.get("type", ""),
-            })
-            count += 1
-
-    elif benchmark == "mmlu":
-        # Use HARDER subjects where models actually struggle
-        subjects = [
-            "abstract_algebra", "formal_logic",
-            "electrical_engineering", "college_chemistry",
-            "clinical_knowledge"
-        ]
-        subset = []
-        for subject in subjects:
+        # Download and read parquet using to_pydict (native types)
+        import tempfile
+        import pyarrow.parquet as pq
+        all_items = []
+        for purl in parquet_urls:
+            tmp_path = os.path.join(tempfile.gettempdir(), "ifeval_tmp.parquet")
+            print(f"  Downloading {purl[:80]}...")
+            urllib.request.urlretrieve(purl, tmp_path)
+            table = pq.read_table(tmp_path)
+            d = table.to_pydict()
+            for i in range(len(d["key"])):
+                all_items.append({
+                    "key": int(d["key"][i]),
+                    "prompt": d["prompt"][i],
+                    "instruction_id_list": list(d["instruction_id_list"][i]),
+                    "kwargs": [dict(k) for k in d["kwargs"][i]],
+                })
             try:
-                ds = load_dataset("cais/mmlu", subject, split="test")
-                for item in list(ds)[:10]:
-                    subset.append({
-                        "question": item["question"],
-                        "choices": item["choices"],
-                        "answer": item["answer"],  # 0-3 index
-                        "subject": subject,
-                    })
-            except Exception as e:
-                print(f"    Warning: Could not load {subject}: {e}")
+                os.unlink(tmp_path)
+            except OSError:
+                pass
+        print(f"  Loaded {len(all_items)} IFEval problems total")
+
+        # Pick problems with 2-3 constraints (hardest)
+        multi = [item for item in all_items if len(item["instruction_id_list"]) >= 2]
+        # Sort by number of constraints (most first), take top 50
+        multi.sort(key=lambda x: len(x["instruction_id_list"]), reverse=True)
+        subset = []
+        for item in multi[:50]:
+            subset.append({
+                "key": item["key"],
+                "prompt": item["prompt"],
+                "instruction_id_list": item["instruction_id_list"],
+                "kwargs": item["kwargs"],
+            })
+
+    elif benchmark == "quality":
+        subset = QUALITY_TASKS
 
     else:
         raise ValueError(f"Unknown benchmark: {benchmark}")
 
-    with open(cache_file, "w", encoding="utf-8") as f:
-        json.dump(subset, f, indent=2)
-    print(f"  Saved {len(subset)} {benchmark} problems to {cache_file}")
+    cache_path.write_text(json.dumps(subset, indent=2, ensure_ascii=False), encoding="utf-8")
+    print(f"  Saved {len(subset)} problems to {cache_path}")
     return subset
 
 
 # ═══════════════════════════════════════════════════════════════════
-# SECTION 5: OUTPUT EXTRACTION + SCORING
+# SECTION 7: LLM-AS-JUDGE QUALITY SCORER
 # ═══════════════════════════════════════════════════════════════════
 
-def extract_code_body(raw_output: str, problem_prompt: str = "") -> str:
-    """Extract just the function body from model output.
-    
-    Handles: markdown code blocks, explanations, repeated signatures.
-    CRITICAL: Preserves indentation — the body must stay properly indented
-    as it will be concatenated directly after the function signature.
-    """
-    text = raw_output
+QUALITY_JUDGE_SYSTEM = """You are an expert evaluator of AI-generated text responses.
+Score the response on 4 dimensions, each 1-10.
 
-    # Step 1: If wrapped in markdown code blocks, extract the code
-    code_blocks = re.findall(r"```(?:python)?\s*\n(.*?)```", text, re.DOTALL)
-    if code_blocks:
-        text = max(code_blocks, key=len)  # Don't strip — preserve indentation
+DIMENSIONS:
+1. **Instruction Adherence** (1-10): Did the response follow ALL specific instructions?
+   (word limits, structure requests, audience targeting, constraint satisfaction)
 
-    # Step 2: If the model repeated the full function (def + body), extract just body
-    lines = text.split("\n")
-    body_start = 0
-    in_docstring = False
-    for i, line in enumerate(lines):
-        stripped = line.strip()
-        # Skip def line
-        if re.match(r"^\s*def\s+\w+\(", line):
-            body_start = i + 1
-            continue
-        # Skip docstrings that come right after def
-        if i == body_start and (stripped.startswith('"""') or stripped.startswith("'''")):
-            in_docstring = True
-            if stripped.count('"""') >= 2 or stripped.count("'''") >= 2:
-                # Single-line docstring
-                in_docstring = False
-                body_start = i + 1
-            continue
-        if in_docstring:
-            if '"""' in stripped or "'''" in stripped:
-                in_docstring = False
-                body_start = i + 1
-            continue
+2. **Content Quality** (1-10): Is the content accurate, insightful, well-reasoned?
+   (depth of analysis, correctness, relevance, creativity where appropriate)
 
-    # Only use body_start if we actually found a def
-    if body_start > 0:
-        text = "\n".join(lines[body_start:])
-    else:
-        text = "\n".join(lines)
+3. **Organization** (1-10): Is it well-structured with logical flow?
+   (headers, paragraphs, transitions, readability)
 
-    # Step 3: Ensure indentation — if no leading whitespace, add 4 spaces
-    result_lines = text.split("\n")
-    if result_lines and result_lines[0] and not result_lines[0][0].isspace():
-        # The code has no indentation — add 4 spaces to each non-empty line  
-        result_lines = [("    " + line if line.strip() else line) for line in result_lines]
+4. **Conciseness** (1-10): Is it appropriately sized — not padded, not skimpy?
+   (every sentence adds value, no unnecessary repetition)
 
-    return "\n".join(result_lines)
+You MUST respond with valid JSON only. No markdown fences, no explanation outside JSON."""
+
+QUALITY_JUDGE_USER = """Evaluate this AI response to the given task.
+
+<task>{task}</task>
+
+<response>
+{response}
+</response>
+
+Respond with this exact JSON:
+{{
+  "instruction_adherence": <1-10>,
+  "content_quality": <1-10>,
+  "organization": <1-10>,
+  "conciseness": <1-10>,
+  "total": <sum of above>,
+  "reasoning": "<1-2 sentence justification>"
+}}"""
 
 
-def score_humaneval(problem: dict, model_output: str) -> bool:
-    """Score HumanEval: extract code, execute function + test assertions."""
-    # Extract the code body (strip markdown, handle repeated signatures)
-    code_body = extract_code_body(model_output, problem["prompt"])
+def score_quality(task: str, model_output: str, judge_provider=None) -> dict:
+    """Score a quality task using LLM-as-judge."""
+    if judge_provider is None:
+        judge_provider = GeminiProvider()
 
-    # Combine: prompt (signature) + extracted body + test code
-    full_code = problem["prompt"] + code_body + "\n\n" + problem["test"]
-    full_code += f"\ncheck({problem['entry_point']})"
-
-    tmp_path = Path(tempfile.gettempdir()) / f"study_d_eval_{os.getpid()}.py"
+    user_msg = QUALITY_JUDGE_USER.format(task=task, response=model_output)
     try:
-        tmp_path.write_text(full_code, encoding="utf-8")
-        result = subprocess.run(
-            [sys.executable, str(tmp_path)],
-            capture_output=True, timeout=15, text=True,
-        )
-        return result.returncode == 0
-    except subprocess.TimeoutExpired:
-        return False
-    except Exception:
-        return False
-    finally:
-        for _ in range(3):
-            try:
-                tmp_path.unlink(missing_ok=True)
-                break
-            except OSError:
-                time.sleep(0.1)
-
-
-def extract_boxed_answer(text: str) -> str:
-    """Extract answer from \\boxed{...} notation used in MATH benchmark."""
-    # Find the last \boxed{...} in the text
-    matches = re.findall(r"\\boxed\{([^{}]*)\}", text)
-    if matches:
-        return matches[-1].strip()
-    # Try nested braces
-    matches = re.findall(r"\\boxed\{(.+?)\}", text)
-    if matches:
-        return matches[-1].strip()
-    return ""
-
-
-def normalize_math_answer(answer: str) -> str:
-    """Normalize a math answer for comparison."""
-    a = answer.strip()
-    # Remove surrounding $ signs
-    a = a.strip("$")
-    # Remove \text{} wrapping
-    a = re.sub(r"\\text\{(.+?)\}", r"\1", a)
-    # Remove spaces
-    a = a.replace(" ", "")
-    # Normalize fractions: \frac{a}{b} -> a/b
-    a = re.sub(r"\\frac\{(.+?)\}\{(.+?)\}", r"\1/\2", a)
-    return a
-
-
-def score_math(problem: dict, model_output: str) -> bool:
-    """Score MATH: extract \\boxed{} answer, compare to ground truth."""
-    expected = normalize_math_answer(problem["answer"])
-    predicted_raw = extract_boxed_answer(model_output)
-
-    if not predicted_raw:
-        # Fallback: try to find the last number or expression
-        numbers = re.findall(r"-?\d+(?:\.\d+)?", model_output)
-        predicted_raw = numbers[-1] if numbers else ""
-
-    predicted = normalize_math_answer(predicted_raw)
-
-    # Exact string match after normalization
-    if predicted == expected:
-        return True
-
-    # Try numeric comparison
-    try:
-        return abs(float(predicted) - float(expected)) < 0.01
-    except (ValueError, TypeError):
-        return False
-
-
-def score_mmlu(problem: dict, model_output: str) -> bool:
-    """Score MMLU: extract letter choice, compare to ground truth."""
-    expected_idx = problem["answer"]  # 0-3
-    expected_letter = "ABCD"[expected_idx]
-
-    output_clean = model_output.strip()
-
-    # Check last line first
-    last_line = output_clean.split("\n")[-1].strip()
-    match = re.search(r"\b([A-D])\b", last_line)
-    if match:
-        return match.group(1) == expected_letter
-
-    # Check for "Answer: X" pattern
-    match = re.search(r"(?:answer|correct|choose|select)[:\s]*\(?([A-D])\)?",
-                      output_clean, re.IGNORECASE)
-    if match:
-        return match.group(1).upper() == expected_letter
-
-    # Last resort: find any A-D in the response
-    letters = re.findall(r"\b([A-D])\b", output_clean)
-    if letters:
-        return letters[-1] == expected_letter
-
-    return False
-
-
-SCORERS = {
-    "humaneval": score_humaneval,
-    "math": score_math,
-    "mmlu": score_mmlu,
-}
-
-
+        raw = judge_provider.generate_json(user_msg, system_prompt=QUALITY_JUDGE_SYSTEM)
+        scores = json.loads(raw.strip())
+        dims = ["instruction_adherence", "content_quality", "organization", "conciseness"]
+        for d in dims:
+            scores[d] = max(1, min(10, int(scores.get(d, 5))))
+        scores["total"] = sum(scores[d] for d in dims)
+        return scores
+    except Exception as e:
+        print(f"  [Judge] Error: {e}")
+        return {
+            "instruction_adherence": 0, "content_quality": 0,
+            "organization": 0, "conciseness": 0, "total": 0,
+            "reasoning": f"Judge error: {e}",
+        }
 # ═══════════════════════════════════════════════════════════════════
-# SECTION 6: BENCHMARK FORMATTING
-# ═══════════════════════════════════════════════════════════════════
-
-def format_benchmark_question(benchmark: str, problem: dict) -> str:
-    """Format a benchmark problem as a user message."""
-    if benchmark == "humaneval":
-        return (
-            f"Complete the following Python function. Return ONLY the function body "
-            f"code (no signature, no docstring, no markdown code blocks). "
-            f"Output raw Python code only, nothing else.\n\n{problem['prompt']}"
-        )
-    elif benchmark == "math":
-        return (
-            f"Solve this math problem. Show your work step by step. "
-            f"Put your final answer in \\boxed{{}} notation.\n\n"
-            f"{problem['problem']}"
-        )
-    elif benchmark == "mmlu":
-        choices = problem["choices"]
-        options = "\n".join(f"  {chr(65+i)}. {c}" for i, c in enumerate(choices))
-        return (
-            f"Answer this multiple choice question. State ONLY your final "
-            f"answer letter (A, B, C, or D) on the last line.\n\n"
-            f"Question: {problem['question']}\n{options}"
-        )
-    return ""
-
-
-# ═══════════════════════════════════════════════════════════════════
-# SECTION 7: MAIN BENCHMARK RUNNER
+# SECTION 8: BENCHMARK RUNNER
 # ═══════════════════════════════════════════════════════════════════
 
 CONDITIONS = ["bare", "simple", "prompttriage", "expert_cot"]
-BENCHMARKS = ["humaneval", "math", "mmlu"]
+BENCHMARKS = ["ifeval", "quality"]
 
 
 def run_benchmark_slice(
-    provider_key: str, benchmark: str, condition: str, output_dir: Path
-):
-    """Run one slice: model × benchmark × condition."""
-    provider = PROVIDERS[provider_key]()
-    model_name = provider.name
-    scorer = SCORERS[benchmark]
-    system_prompt = get_system_prompt(condition, benchmark)
+    model_key: str, benchmark: str, condition: str,
+    pt_prompts: dict, judge_provider=None,
+) -> list[dict]:
+    """Run one model × benchmark × condition slice."""
+    # Load provider
+    provider_cls = PROVIDERS[model_key]
+    provider = provider_cls()
 
-    result_file = output_dir / f"study_d_{model_name}_{benchmark}_{condition}.json"
+    # Load data
+    problems = load_benchmark_data(benchmark)
 
-    # Load existing results for resume
+    # Determine system prompt
+    if condition == "bare":
+        sys_prompt = None
+    elif condition == "simple":
+        sys_prompt = SIMPLE_PROMPT
+    elif condition == "prompttriage":
+        sys_prompt = pt_prompts.get(benchmark, SIMPLE_PROMPT)
+    elif condition == "expert_cot":
+        sys_prompt = EXPERT_COT_PROMPTS.get(benchmark, SIMPLE_PROMPT)
+    else:
+        sys_prompt = None
+
+    # Results file (for resume)
+    result_file = OUTPUT_DIR / f"study_d_{provider.NAME}_{benchmark}_{condition}.json"
     existing = []
+    done_indices = set()
     if result_file.exists():
-        existing = json.load(open(result_file))
+        existing = json.loads(result_file.read_text(encoding="utf-8"))
+        done_indices = {r["problem_idx"] for r in existing}
 
-    done_ids = {r.get("problem_idx") for r in existing}
+    remaining = [(i, p) for i, p in enumerate(problems) if i not in done_indices]
 
-    # Load benchmark data
-    data_dir = output_dir / "benchmark_data"
-    data_dir.mkdir(parents=True, exist_ok=True)
-    problems = load_benchmark_data(benchmark, data_dir)
-
-    to_run = [(i, p) for i, p in enumerate(problems) if i not in done_ids]
-    if not to_run:
-        correct = sum(1 for r in existing if r.get("correct"))
-        print(f"  ✅ Already complete: {model_name}/{benchmark}/{condition} "
-              f"({correct}/{len(existing)} correct)")
-        return existing
-
-    print(f"\n{'='*60}")
-    print(f"  {model_name} | {benchmark} | {condition}")
-    print(f"  System prompt: {'None' if not system_prompt else f'{len(system_prompt)} chars'}")
-    print(f"  Problems: {len(to_run)} remaining of {len(problems)}")
-    print(f"{'='*60}")
+    print(f"\n{'=' * 60}")
+    print(f"  {provider.NAME} | {benchmark} | {condition}")
+    print(f"  System prompt: {len(sys_prompt) if sys_prompt else 'None'} chars")
+    print(f"  Problems: {len(remaining)} remaining of {len(problems)}")
+    print(f"{'=' * 60}")
 
     results = list(existing)
 
-    for idx, problem in to_run:
-        user_msg = format_benchmark_question(benchmark, problem)
-        label = problem.get("task_id", problem.get("question", "")[:40])
-        print(f"  [{idx+1}/{len(problems)}] {label}...", end="", flush=True)
+    for count, (idx, problem) in enumerate(remaining, 1):
+        # Format the user message
+        if benchmark == "ifeval":
+            user_msg = problem["prompt"]
+            label = f"IFEval/{problem['key']}"
+        else:
+            user_msg = problem["task"]
+            label = problem["id"]
 
-        start = time.time()
+        print(f"  [{count}/{len(remaining)}] {label}...", end="", flush=True)
+        t0 = time.time()
+
         try:
-            output = provider.generate(user_msg, system_prompt)
-            latency = time.time() - start
-
-            # Strip thinking tags if present
-            if "<think>" in output:
-                output = re.sub(r"<think>.*?</think>", "", output, flags=re.DOTALL).strip()
-
-            correct = scorer(problem, output)
-            print(f" {'✓' if correct else '✗'} ({latency:.1f}s)")
-
-            results.append({
-                "model": model_name,
-                "benchmark": benchmark,
-                "condition": condition,
-                "problem_idx": idx,
-                "correct": correct,
-                "output": output[:2000],  # Truncate for storage
-                "latency_s": round(latency, 2),
-            })
+            output = provider.generate(user_msg, system_prompt=sys_prompt)
         except Exception as e:
-            latency = time.time() - start
-            print(f" ERROR: {e} ({latency:.1f}s)")
-            results.append({
-                "model": model_name,
-                "benchmark": benchmark,
-                "condition": condition,
+            print(f" ERROR: {e}")
+            output = f"[ERROR: {e}]"
+
+        elapsed = time.time() - t0
+
+        # Score
+        if benchmark == "ifeval":
+            score_detail = score_ifeval(problem, output)
+            all_passed = all(score_detail.values())
+            inst_pass = sum(1 for v in score_detail.values() if v)
+            inst_total = len(score_detail)
+            status = "✓" if all_passed else f"✗ ({inst_pass}/{inst_total})"
+            result = {
                 "problem_idx": idx,
-                "correct": False,
-                "output": f"[ERROR: {str(e)[:200]}]",
-                "latency_s": round(latency, 2),
-            })
+                "output": output,
+                "instruction_results": score_detail,
+                "all_passed": all_passed,
+                "instructions_passed": inst_pass,
+                "instructions_total": inst_total,
+                "latency": round(elapsed, 1),
+            }
+        else:
+            # Quality: score with LLM judge
+            score_detail = score_quality(problem["task"], output, judge_provider)
+            status = f"score={score_detail['total']}/40"
+            result = {
+                "problem_idx": idx,
+                "task_id": problem["id"],
+                "output": output,
+                "scores": score_detail,
+                "latency": round(elapsed, 1),
+            }
 
-        # Save after every problem
-        with open(result_file, "w", encoding="utf-8") as f:
-            json.dump(results, f, indent=2)
+        print(f" {status} ({elapsed:.1f}s)")
+        results.append(result)
 
-    correct_count = sum(1 for r in results if r.get("correct"))
-    total = len(results)
-    pct = correct_count / total * 100 if total else 0
-    print(f"\n  Result: {correct_count}/{total} ({pct:.1f}%)")
+        # Save after each problem (for resume)
+        result_file.write_text(
+            json.dumps(results, indent=2, ensure_ascii=False), encoding="utf-8",
+        )
+
     return results
 
 
-def print_summary(output_dir: Path):
-    """Print a summary table of all results."""
-    print("\n" + "="*80)
-    print("STUDY D: PROMPT DELTA — RESULTS SUMMARY")
-    print("="*80)
+def show_summary():
+    """Show summary of all completed benchmark results."""
+    print("\n" + "=" * 80)
+    print("  STUDY D v2 RESULTS SUMMARY")
+    print("=" * 80)
 
-    # Collect all result files
-    all_results = {}
-    for f in output_dir.glob("study_d_*.json"):
-        if "prompttriage_generated" in f.name or "benchmark_data" in str(f):
-            continue
-        data = json.load(open(f))
-        if not data:
-            continue
-        key = (data[0]["model"], data[0]["benchmark"], data[0]["condition"])
-        correct = sum(1 for r in data if r.get("correct"))
-        total = len(data)
-        all_results[key] = (correct, total)
-
-    if not all_results:
-        print("No results found yet.")
+    result_files = sorted(OUTPUT_DIR.glob("study_d_*_*_*.json"))
+    if not result_files:
+        print("  No results found.")
         return
 
-    # Print table
-    header = f"{'Model':<22} {'Benchmark':<12} {'Condition':<14} {'Score':>10}"
-    print(header)
-    print("-" * len(header))
+    # IFEval results
+    print(f"\n{'─' * 60}")
+    print("  IFEval: Instruction-Following Accuracy")
+    print(f"{'─' * 60}")
+    print(f"  {'Model':<20} {'Condition':<15} {'Prompt%':>8} {'Instr%':>8} {'N':>4}")
+    print(f"  {'─'*20} {'─'*15} {'─'*8} {'─'*8} {'─'*4}")
 
-    for (model, bench, cond), (correct, total) in sorted(all_results.items()):
-        pct = correct / total * 100 if total else 0
-        print(f"{model:<22} {bench:<12} {cond:<14} {correct}/{total} ({pct:.1f}%)")
+    for f in result_files:
+        if "_ifeval_" not in f.name:
+            continue
+        parts = f.stem.replace("study_d_", "").split("_ifeval_")
+        if len(parts) != 2:
+            continue
+        model_name, condition = parts
+        data = json.loads(f.read_text(encoding="utf-8"))
+        n = len(data)
+        if n == 0:
+            continue
+        prompt_acc = sum(1 for r in data if r.get("all_passed", False)) / n * 100
+        total_inst = sum(r.get("instructions_total", 0) for r in data)
+        passed_inst = sum(r.get("instructions_passed", 0) for r in data)
+        inst_acc = passed_inst / total_inst * 100 if total_inst > 0 else 0
+        print(f"  {model_name:<20} {condition:<15} {prompt_acc:>7.1f}% {inst_acc:>7.1f}% {n:>4}")
 
-    # Print delta analysis
-    print("\n--- PROMPT DELTA (PromptTriage vs Bare) ---")
-    for model in set(k[0] for k in all_results):
-        for bench in BENCHMARKS:
-            bare = all_results.get((model, bench, "bare"))
-            pt = all_results.get((model, bench, "prompttriage"))
-            if bare and pt:
-                bare_pct = bare[0] / bare[1] * 100
-                pt_pct = pt[0] / pt[1] * 100
-                delta = pt_pct - bare_pct
-                print(f"  {model} / {bench}: {delta:+.1f}pp "
-                      f"({bare_pct:.1f}% → {pt_pct:.1f}%)")
+    # Quality results
+    print(f"\n{'─' * 60}")
+    print("  Quality: LLM-as-Judge Scores (out of 40)")
+    print(f"{'─' * 60}")
+    print(f"  {'Model':<20} {'Condition':<15} {'Total':>6} {'Instr':>6} {'Qual':>6} {'Org':>6} {'Conc':>6} {'N':>4}")
+    print(f"  {'─'*20} {'─'*15} {'─'*6} {'─'*6} {'─'*6} {'─'*6} {'─'*6} {'─'*4}")
 
+    for f in result_files:
+        if "_quality_" not in f.name:
+            continue
+        parts = f.stem.replace("study_d_", "").split("_quality_")
+        if len(parts) != 2:
+            continue
+        model_name, condition = parts
+        data = json.loads(f.read_text(encoding="utf-8"))
+        n = len(data)
+        if n == 0:
+            continue
+        dims = ["instruction_adherence", "content_quality", "organization", "conciseness"]
+        avgs = {}
+        for d in dims:
+            vals = [r["scores"].get(d, 0) for r in data if "scores" in r]
+            avgs[d] = sum(vals) / len(vals) if vals else 0
+        avg_total = sum(avgs.values())
+        print(f"  {model_name:<20} {condition:<15} {avg_total:>5.1f} "
+              f"{avgs['instruction_adherence']:>5.1f} {avgs['content_quality']:>5.1f} "
+              f"{avgs['organization']:>5.1f} {avgs['conciseness']:>5.1f} {n:>4}")
+
+    print()
+
+
+# ═══════════════════════════════════════════════════════════════════
+# SECTION 9: CLI
+# ═══════════════════════════════════════════════════════════════════
 
 def main():
-    parser = argparse.ArgumentParser(description="Study D: Prompt Delta Benchmark")
-    parser.add_argument("--model", choices=list(PROVIDERS.keys()) + ["all"],
-                        default="all")
-    parser.add_argument("--benchmark", choices=BENCHMARKS + ["all"], default="all")
-    parser.add_argument("--condition", choices=CONDITIONS + ["all"], default="all")
+    parser = argparse.ArgumentParser(description="Study D v2: IFEval + Quality Benchmark")
+    parser.add_argument("--model", choices=["gemini", "claude"], help="Run only this model")
+    parser.add_argument("--benchmark", choices=BENCHMARKS, help="Run only this benchmark")
+    parser.add_argument("--condition", choices=CONDITIONS, help="Run only this condition")
     parser.add_argument("--generate-prompts", action="store_true",
-                        help="Only generate PromptTriage prompts, don't run benchmarks")
-    parser.add_argument("--summary", action="store_true",
-                        help="Print summary of existing results")
+                        help="Generate PromptTriage prompts only (no benchmarking)")
+    parser.add_argument("--summary", action="store_true", help="Show results summary")
     args = parser.parse_args()
 
-    output_dir = Path("named-outputs/study_d")
-    output_dir.mkdir(parents=True, exist_ok=True)
-
     if args.summary:
-        print_summary(output_dir)
+        show_summary()
         return
 
-    # Step 1: Generate PromptTriage prompts if needed
-    conditions = CONDITIONS if args.condition == "all" else [args.condition]
-    if "prompttriage" in conditions:
-        generate_all_pt_prompts(output_dir)
+    # Generate PromptTriage prompts
+    pt_prompts = generate_prompttriage_prompts()
 
     if args.generate_prompts:
         return
 
-    # Step 2: Run benchmarks
-    models = list(PROVIDERS.keys()) if args.model == "all" else [args.model]
-    benchmarks = BENCHMARKS if args.benchmark == "all" else [args.benchmark]
+    # Initialize judge for quality tasks
+    judge = GeminiProvider()
 
-    total_slices = len(models) * len(benchmarks) * len(conditions)
-    current = 0
+    # Determine what to run
+    models = [args.model] if args.model else list(PROVIDERS.keys())
+    benchmarks = [args.benchmark] if args.benchmark else BENCHMARKS
+    conditions = [args.condition] if args.condition else CONDITIONS
+
+    total = len(models) * len(benchmarks) * len(conditions)
+    count = 0
 
     for model_key in models:
-        for bench in benchmarks:
-            for cond in conditions:
-                current += 1
-                print(f"\n[{current}/{total_slices}] Running {model_key}/{bench}/{cond}")
+        for benchmark in benchmarks:
+            for condition in conditions:
+                count += 1
+                print(f"\n[{count}/{total}] Running {model_key}/{benchmark}/{condition}")
                 try:
-                    run_benchmark_slice(model_key, bench, cond, output_dir)
+                    run_benchmark_slice(
+                        model_key, benchmark, condition, pt_prompts,
+                        judge_provider=judge,
+                    )
                 except Exception as e:
-                    print(f"  ❌ FAILED: {e}")
+                    print(f"  ERROR: {e}")
                     import traceback
                     traceback.print_exc()
 
-    # Step 3: Print summary
-    print_summary(output_dir)
-    print("\nDone! Results saved to:", output_dir)
+    # Show summary at the end
+    show_summary()
 
 
 if __name__ == "__main__":

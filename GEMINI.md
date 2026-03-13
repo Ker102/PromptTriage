@@ -18,6 +18,29 @@
 
 ## Recent Changes
 
+### 2026-03-13 - Study D v2: IFEval + Quality Benchmark Rewrite
+
+**Commit Ready**: Yes
+
+#### Benchmark Redesign
+- **Problem**: Previous benchmarks (HumanEval, MATH, MMLU) had ceiling effect — frontier models score 93-100% regardless of prompt
+- **Solution**: Replaced with IFEval (instruction following) + open-ended quality tasks (LLM-as-judge)
+
+#### IFEval Benchmark
+- **50 hardest problems** from `google/IFEval` (2-3 constraints each)
+- **22 automated verifiers**: no_comma, lowercase, uppercase, word_count, sentence_count, paragraph_count, keyword_existence, forbidden_words, keyword_frequency, letter_frequency, json_format, bullet_count, title, highlighted_sections, postscript, placeholders, quotation, end_checker, repeat_prompt, two_responses, multiple_sections, capital_word_frequency
+- **Smoke test**: Gemini bare scored 3/3 on problem 0, 1/2 on problem 1 — good differentiation
+
+#### Quality Benchmark
+- **20 hand-curated tasks**: marketing, analysis, professional, education, creative, technical, persuasive, rewriting, planning
+- **LLM-as-judge**: 4 dimensions (Instruction Adherence, Content Quality, Organization, Conciseness)
+
+#### Technical Changes
+- **`study_d_prompt_delta.py`**: Complete rewrite (~822 lines, 9 sections)
+- **Data loading**: Direct HuggingFace parquet API + pyarrow (no slow `datasets` library import)
+- **Resume support**: Results saved after each problem
+- **CLI**: `--model`, `--benchmark`, `--condition`, `--summary`, `--generate-prompts`
+
 ### 2026-03-12 - Gemini 3.1 Pro Upgrade + Study B Phase 2 Complete
 
 **Commit Ready**: Yes
