@@ -181,6 +181,57 @@ Evaluate how system prompt conditions affect **behavioral quality** across 9 pro
 
 ---
 
+## Study D v2: Quality Benchmark (IFEval + Writing Tasks) ✅ (Re-judged 2026-03-15)
+
+### Objective
+Quantify how much difference a system prompt makes on standard benchmarks: deterministic IFEval (instruction following) and open-ended quality writing tasks (20 diverse prompts).
+
+### Evaluation Setup
+- **Models Evaluated**: Gemini 3.1 Pro, Claude Sonnet 4.6
+- **Conditions**: bare, simple, expert_cot, prompttriage
+- **Benchmarks**: IFEval (50 problems, deterministic pass/fail) + Quality (20 writing tasks, LLM-judged)
+- **Judge (Quality)**: Meta Llama 4 Maverick 17B-128E MoE (re-judged; original Gemini judge give 40/40 to everything)
+- **Quality Rubric**: 4 dimensions × 10 pts each = 40 max (Instruction Adherence, Content Quality, Organization, Conciseness)
+- **Total Evaluations**: 160 quality (8 × 20) + 400 IFEval (8 × 50) = 560
+
+### IFEval Results (Deterministic — No Judge Bias)
+
+| Model | Condition | Prompt-Level Accuracy |
+|-------|-----------|---------------------:|
+| Claude Sonnet 4.6 | bare | 82% |
+| Claude Sonnet 4.6 | simple | 82% |
+| Claude Sonnet 4.6 | expert_cot | **88%** |
+| Claude Sonnet 4.6 | prompttriage | 86% |
+| Gemini 3.1 Pro | bare | 76% |
+| Gemini 3.1 Pro | simple | 78% |
+| Gemini 3.1 Pro | expert_cot | 80% |
+| Gemini 3.1 Pro | prompttriage | **82%** |
+
+### Quality Results (Llama 4 Maverick Re-judged)
+
+| Model | Condition | **Total /40** | Instr | Qual | Org | Conc |
+|-------|-----------|-------------:|------:|-----:|----:|-----:|
+| Claude Sonnet 4.6 | bare | **34.4** | 8.8 | 8.9 | 8.8 | 7.8 |
+| Claude Sonnet 4.6 | expert_cot | **35.0** | 9.0 | 9.1 | 8.9 | 8.1 |
+| Claude Sonnet 4.6 | simple | **35.3** | 9.1 | 8.9 | 9.2 | 8.2 |
+| Claude Sonnet 4.6 | prompttriage | **35.4** | 9.1 | 9.0 | 9.1 | 8.2 |
+| Gemini 3.1 Pro | bare | **35.5** | 9.2 | 9.0 | 9.2 | 8.2 |
+| Gemini 3.1 Pro | expert_cot | **35.6** | 9.2 | 9.0 | 9.1 | 8.3 |
+| Gemini 3.1 Pro | simple | **35.6** | 9.2 | 9.0 | 9.0 | 8.4 |
+| Gemini 3.1 Pro | prompttriage | **35.9** | 9.2 | 9.0 | 9.2 | 8.5 |
+
+### Key Research Findings
+
+1. **IFEval shows clear prompt impact**: PromptTriage adds +6% to Gemini (76→82%) and +4% to Claude (82→86%) on instruction-following. Expert CoT is the strongest for Claude at 88%.
+2. **Quality tasks show tighter clustering**: The spread across conditions is only 1.5 pts (/40) vs ~2 pts (/50) on behavioral tasks. General writing quality is less prompt-sensitive than domain-specific behavioral expertise.
+3. **Conciseness is the most prompt-sensitive dimension**: Bare Claude scores 7.8/10 on conciseness, while prompted conditions reliably score 8.1-8.5. Prompts help models stay concise.
+4. **Gemini outperforms Claude on quality tasks**: Even bare Gemini (35.5) beats prompted Claude conditions (34.4-35.4), suggesting Gemini has an edge on general writing/analysis tasks independent of prompting.
+
+### Estimated Cost: ~$3 (API calls for re-judging)
+### Status: ✅ Complete
+
+---
+
 ## Study C: The Cascade Effect — Prompt Combinations Matrix (Planned)
 
 ### Objective
