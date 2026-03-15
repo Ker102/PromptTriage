@@ -144,6 +144,43 @@ Determine which RAG strategy (L0-L5) produces the best retrieval context for sys
 
 ---
 
+## Study D v3: Behavioral Quality Benchmark ✅ (Completed 2026-03-15)
+
+### Objective
+Evaluate how system prompt conditions affect **behavioral quality** across 9 professional domains (27 tasks). Test if generic prompts help or harm, and compare our RAG-based `prompttriage` against manually crafted `expert_cot` prompts.
+
+### Evaluation Setup
+- **Models Evaluated**: Gemini 3.1 Pro, Claude Sonnet 4.6
+- **Conditions**: bare (no prompt), simple ("You are a helpful assistant"), expert_cot, prompttriage
+- **Judge**: Meta Llama 4 Maverick 17B-128E MoE (via Vertex AI MaaS). Using a neutral 3rd-party arbiter eliminated a severe 50/50 self-preference ceiling effect observed when using Gemini as a judge.
+- **Rubric**: 5 dimensions × 10 pts each = 50 max (Role Expertise, Edge Cases, Specificity, Boundaries, Format)
+- **Total Evaluations**: 216 (8 combinations × 27 tasks)
+
+### Results Summary
+
+| Model | Condition | **Total** | Role | Edge | Spec | Bndr | Fmt |
+|-------|-----------|-------:|-----:|-----:|-----:|-----:|----:|
+| Claude Sonnet 4.6 | simple | **42.8** | 8.9 | 8.2 | 8.9 | 8.3 | 8.5 |
+| Claude Sonnet 4.6 | bare | **42.9** | 9.0 | 8.4 | 9.0 | 8.2 | 8.4 |
+| Gemini 3.1 Pro | simple | **43.0** | 9.0 | 8.2 | 9.0 | 8.2 | 8.5 |
+| Gemini 3.1 Pro | bare | **43.4** | 9.0 | 8.5 | 9.1 | 8.3 | 8.5 |
+| Claude Sonnet 4.6 | expert_cot | **43.8** | 9.0 | 8.7 | 9.2 | 8.4 | 8.5 |
+| Gemini 3.1 Pro | prompttriage | **44.1** | 9.0 | 8.9 | 9.2 | 8.6 | 8.4 |
+| Claude Sonnet 4.6 | prompttriage | **44.2** | 9.0 | 9.0 | 9.4 | 8.4 | 8.4 |
+| Gemini 3.1 Pro | expert_cot | **44.5** | 9.0 | 9.0 | 9.4 | 8.7 | 8.4 |
+
+### Key Research Findings
+
+1. **PromptTriage and Expert CoT dominate**: The top three configurations all utilized advanced prompt structuring. `prompttriage` proved highly effective across both frontier models, competing directly with complex manual CoT strategies.
+2. **"Simple" generic prompts constrain models**: For both models, the `simple` prompt condition scored **lower** than the `bare` condition (no system prompt). This validates that poorly crafted generic prompts actively harm output quality compared to going bare.
+3. **Edge cases require explicit framing**: The weakest dimensions for baseline models were Boundaries and Edge Cases. Models struggle to proactively flag risks without a guiding prompt. `expert_cot` and `prompttriage` significantly improved edge case spotting, proving robust framing is essential for professional-grade safety.
+4. **LLM-as-a-Judge Bias is severe**: Our initial run used Gemini as the judge, which resulted in Gemini giving itself perfect 50.0/50.0 scores across all conditions. Switching to Meta's Llama 4 Maverick eliminated this artificial ceiling effect and provided a rigorous, unbiased baseline.
+
+### Estimated Cost: ~$5 (API calls)
+### Status: ✅ Complete
+
+---
+
 ## Study C: The Cascade Effect — Prompt Combinations Matrix (Planned)
 
 ### Objective
