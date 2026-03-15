@@ -236,6 +236,136 @@ def submit_benchmark_job(client: MLClient):
     return created_job
 
 
+def submit_benchmark_moe_job(client: MLClient):
+    """Submit benchmark job specifically for the retrained MoE adapter."""
+    from datetime import datetime
+
+    job_name = f"study-b-benchmark-moe-{datetime.now().strftime('%Y%m%d-%H%M%S')}"
+
+    env = Environment(
+        name="unsloth-training",
+        image="mcr.microsoft.com/azureml/curated/acft-hf-nlp-gpu:latest",
+        conda_file=CONDA_FILE,
+    )
+
+    # Point directly to the retrained MoE adapter
+    adapter_uri = (
+        f"azureml://datastores/workspaceblobstore/paths/"
+        f"azureml/study-b-qwen3_30b_a3b-20260307-164316/model_output/adapter"
+    )
+    
+    inputs = {
+        "qwen3_30b_a3b": Input(type="uri_folder", path=adapter_uri)
+    }
+
+    # Setup the same expected folder structure
+    setup_cmd = (
+        f"mkdir -p /mnt/adapters/qwen3_30b_a3b && "
+        f"ln -sf ${{{{inputs.qwen3_30b_a3b}}}}/* /mnt/adapters/qwen3_30b_a3b/"
+    )
+
+    job = command(
+        display_name="Study B: Benchmark (MoE only)",
+        experiment_name="prompttriage-study-b",
+        description="Generate system prompts from the retrained qwen3_30b_a3b adapter",
+        compute=CLUSTER_NAME,
+        environment=env,
+        code=NOTEBOOKS_DIR,
+        command=(
+            f"{setup_cmd} && "
+            f"export ADAPTER_BASE=/mnt/adapters "
+            f"export MODELS_TO_RUN=qwen3_30b_a3b "
+            f"OUTPUT_DIR=${{{{outputs.benchmark_output}}}} && "
+            f"python study_b_benchmark.py"
+        ),
+        inputs=inputs,
+        outputs={
+            "benchmark_output": Output(type="uri_folder"),
+        },
+        tags={
+            "study": "B",
+            "phase": "benchmark",
+            "framework": "unsloth",
+            "model": "qwen3_30b_a3b",
+        },
+    )
+    job.name = job_name
+
+    created_job = client.jobs.create_or_update(job)
+    print(f"✅ MoE Benchmark job submitted: {job_name}")
+    print(f"   Studio URL: {created_job.studio_url}")
+    return created_job
+
+
+def submit_study_a_job(client: MLClient):
+    """Submit Study A: RAG Pipeline Comparison benchmark for the Qwen 14B adapter."""
+    from datetime import datetime
+
+    # Verify RAG contexts file exists
+    rag_contexts_path = Path(NOTEBOOKS_DIR) / "named-outputs" / "study_a" / "rag_contexts.json"
+    if not rag_contexts_path.exists():
+        print(f"❌ RAG contexts not found: {rag_contexts_path}")
+        print(f"   Run 'python study_a_precompute_rag.py' first.")
+        sys.exit(1)
+
+    import json
+    n_entries = len(json.loads(rag_contexts_path.read_text(encoding="utf-8")))
+    print(f"✅ Found {n_entries} RAG context entries")
+
+    job_name = f"study-a-rag-benchmark-{datetime.now().strftime('%Y%m%d-%H%M%S')}"
+
+    env = Environment(
+        name="unsloth-training",
+        image="mcr.microsoft.com/azureml/curated/acft-hf-nlp-gpu:latest",
+        conda_file=CONDA_FILE,
+    )
+
+    # Qwen 14B adapter from Study B training
+    adapter_uri = (
+        f"azureml://datastores/workspaceblobstore/paths/"
+        f"azureml/{TRAINING_JOB_IDS['qwen3_14b']}/model_output/adapter"
+    )
+
+    setup_cmd = (
+        "mkdir -p /mnt/adapters/qwen3_14b && "
+        "ln -sf ${inputs.adapter}/* /mnt/adapters/qwen3_14b/"
+    )
+
+    job = command(
+        display_name="Study A: RAG Pipeline Comparison (Qwen3-14B)",
+        experiment_name="prompttriage-study-a",
+        description=f"Generate system prompts with Qwen3-14B + 6 RAG levels ({n_entries} combinations)",
+        compute=CLUSTER_NAME,
+        environment=env,
+        code=NOTEBOOKS_DIR,
+        command=(
+            f"{setup_cmd} && "
+            f"export ADAPTER_PATH=/mnt/adapters/qwen3_14b "
+            f"RAG_DATA=${{{{inputs.rag_data}}}}/rag_contexts.json "
+            f"OUTPUT_DIR=${{{{outputs.study_a_output}}}} && "
+            f"python study_a_cluster.py"
+        ),
+        inputs={
+            "adapter": Input(type="uri_folder", path=adapter_uri),
+            "rag_data": Input(type="uri_folder", path=str(rag_contexts_path.parent)),
+        },
+        outputs={
+            "study_a_output": Output(type="uri_folder"),
+        },
+        tags={
+            "study": "A",
+            "phase": "benchmark",
+            "model": "qwen3_14b",
+        },
+    )
+    job.name = job_name
+
+    created_job = client.jobs.create_or_update(job)
+    print(f"✅ Study A job submitted: {job_name}")
+    print(f"   Studio URL: {created_job.studio_url}")
+    return created_job
+
+
 def check_status(client: MLClient):
     """List recent Study B jobs."""
     print("\n📊 Recent Study B jobs:")
@@ -269,6 +399,10 @@ def main():
     parser.add_argument("--lr", type=float, default=0.0002)
     parser.add_argument("--benchmark", action="store_true",
                         help="Submit benchmark job instead of training")
+    parser.add_argument("--benchmark-moe", action="store_true",
+                        help="Submit benchmark job specifically for the retrained qwen3_30b_a3b")
+    parser.add_argument("--study-a", action="store_true",
+                        help="Submit Study A: RAG Pipeline Comparison benchmark")
     parser.add_argument("--retrain-moe", action="store_true",
                         help="Retrain only qwen3_30b_a3b with early stopping (patience=2)")
     parser.add_argument("--early-stopping", type=int, default=0,
@@ -296,6 +430,16 @@ def main():
     # Benchmark mode
     if args.benchmark:
         submit_benchmark_job(client)
+        return
+
+    # Benchmark MoE mode
+    if args.benchmark_moe:
+        submit_benchmark_moe_job(client)
+        return
+
+    # Study A: RAG Pipeline Comparison
+    if args.study_a:
+        submit_study_a_job(client)
         return
 
     # Retrain MoE mode

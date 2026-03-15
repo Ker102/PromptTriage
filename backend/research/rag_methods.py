@@ -177,7 +177,7 @@ def corrective_rag(query: str, vendor: str = "", top_k: int = 3,
 
     # Check if top results are good enough
     good_docs = [d for d in reranked.documents
-                 if d.get("rerank_score", 0) >= threshold]
+                 if float(d.get("rerank_score", 0)) >= threshold]
 
     if len(good_docs) < 2:
         # Fallback: web search via Gemini grounding
