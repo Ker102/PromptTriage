@@ -20,7 +20,7 @@ VERTEX_PROJECT = os.environ.get("GOOGLE_CLOUD_PROJECT", "modelsandtraining")
 VERTEX_REGION = "us-east5"  # Only region with Llama 4 Maverick
 LLAMA4_MODEL = "meta/llama-4-maverick-17b-128e-instruct-maas"
 
-JUDGE_RUBRIC = """You are an expert evaluator of AI system prompts. Score the following generated system prompt on 5 dimensions, each from 1-10.
+JUDGE_RUBRIC = """Score this system prompt on 5 dimensions (1-10 each).
 
 USER REQUEST: "{user_prompt}"
 TARGET VENDOR: {vendor}
@@ -31,14 +31,14 @@ GENERATED SYSTEM PROMPT:
 {generated_prompt}
 ---
 
-Score each dimension 1-10:
-1. **Structure** (1-10): Is the prompt well-organized with proper formatting for the target vendor? (XML tags for Anthropic, Markdown for OpenAI, hybrid for Google)
-2. **Completeness** (1-10): Does it cover all aspects of the user's request — role, rules, output format, guardrails, domain knowledge?
-3. **Vendor Fidelity** (1-10): Does it follow the conventions and best practices of the target vendor/model?
-4. **Conciseness** (1-10): Is it efficient? Good ratio of useful content to token count? No unnecessary filler?
-5. **Actionability** (1-10): Could this prompt be used immediately in production? Is it specific and practical?
+Dimensions:
+1. Structure (1-10): Well-organized with proper vendor formatting?
+2. Completeness (1-10): Covers role, rules, output format, guardrails?
+3. Vendor_fidelity (1-10): Follows target vendor conventions?
+4. Conciseness (1-10): Efficient content-to-token ratio?
+5. Actionability (1-10): Production-ready and specific?
 
-Respond ONLY with valid JSON:
+Respond with ONLY this JSON, nothing else:
 {{"structure": N, "completeness": N, "vendor_fidelity": N, "conciseness": N, "actionability": N}}"""
 
 
@@ -69,9 +69,10 @@ def judge_with_llama4(prompt_text: str, access_token: str) -> dict:
     }
     payload = {
         "model": LLAMA4_MODEL,
-        "max_tokens": 200,
-        "temperature": 0.1,
+        "max_tokens": 100,
+        "temperature": 0.0,
         "messages": [
+            {"role": "system", "content": "You are a JSON-only scoring API. You MUST respond with ONLY a valid JSON object containing exactly 5 integer scores. No explanations, no text, no markdown — ONLY the JSON object."},
             {"role": "user", "content": prompt_text},
         ],
     }
@@ -82,20 +83,37 @@ def judge_with_llama4(prompt_text: str, access_token: str) -> dict:
     return data["choices"][0]["message"]["content"]
 
 
-def parse_scores(raw_text: str) -> dict:
+def parse_scores(raw_text: str) -> dict | None:
     """Parse JSON scores from judge response."""
-    # Try direct JSON parse
+    raw = raw_text.strip()
+    if raw.startswith('```'):
+        raw = re.sub(r'^```(?:json)?\s*', '', raw)
+        raw = re.sub(r'\s*```$', '', raw)
     try:
-        return json.loads(raw_text)
+        d = json.loads(raw)
+        if all(k in d for k in ['structure', 'completeness', 'vendor_fidelity', 'conciseness', 'actionability']):
+            return d
     except json.JSONDecodeError:
         pass
-    # Extract JSON block from markdown
-    m = re.search(r'\{[^{}]+\}', raw_text, re.DOTALL)
+    m = re.search(r'\{[^{}]*"structure"[^{}]*\}', raw, re.DOTALL)
     if m:
         try:
             return json.loads(m.group())
         except json.JSONDecodeError:
             pass
+    dims = ['structure', 'completeness', 'vendor_fidelity', 'conciseness', 'actionability']
+    scores = {}
+    for dim in dims:
+        patterns = [rf'{dim}["\s:]*\s*(\d+)', rf'{dim.replace("_", " ")}["\s:]*\s*(\d+)']
+        for pat in patterns:
+            m2 = re.search(pat, raw, re.IGNORECASE)
+            if m2:
+                val = int(m2.group(1))
+                if 1 <= val <= 10:
+                    scores[dim] = val
+                    break
+    if len(scores) == 5:
+        return scores
     return None
 
 
@@ -216,11 +234,11 @@ def _print_summary(scored: list):
 
     # Comparison with proprietary baselines
     print(f"\n{'─'*50}")
-    print("Proprietary Baselines (Study B/D):")
-    print("  Gemini 3.1 Pro:       ~43-44/50")
-    print("  Claude Sonnet 4.5:    ~43-44/50")
-    print("  Qwen3-235B base:      ~42/50")
-    print("  Qwen3-14B (no RAG):   ~26/50")
+    print("Proprietary Baselines (Llama 4 Maverick re-judged):")
+    print("  Gemini 3.1 Pro:       42.2/50")
+    print("  Claude Sonnet 4.5:    42.0/50")
+    print("  Qwen3-235B base:      42.4/50")
+    print("  Qwen3-14B (No RAG):   41.8/50")
 
 
 if __name__ == "__main__":
