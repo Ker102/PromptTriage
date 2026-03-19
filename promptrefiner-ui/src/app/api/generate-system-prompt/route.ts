@@ -117,7 +117,7 @@ export async function POST(req: Request) {
         const model = getGeminiModel();
 
         try {
-            recordUsageOrThrow(email, subscriptionPlan);
+            recordUsageOrThrow(email, subscriptionPlan, "normal");
         } catch (usageError) {
             const message =
                 usageError instanceof Error

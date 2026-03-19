@@ -831,7 +831,6 @@ export default function Home() {
                     type="checkbox"
                     className="h-4 w-4 rounded border-[var(--surface-border)] bg-[var(--surface-card-strong)] text-white/80 transition duration-200 ease-out focus:outline-none focus:ring-2 focus:ring-white/30 focus:ring-offset-0 checked:shadow-[0_0_12px_rgba(255,255,255,0.2)]"
                     checked={form.thinkingMode}
-                    disabled={!isPaidPlan}
                     onChange={(event) => setForm((prev) => ({ ...prev, thinkingMode: event.target.checked }))}
                   />
                   <div>
@@ -845,7 +844,7 @@ export default function Home() {
               <p className="mt-2 text-xs text-muted">
                 {isPaidPlan
                   ? "Multi-pass iterative analysis with self-critique for deeper insights."
-                  : "Available on paid plans. Upgrade for deeper, multi-pass analysis."}
+                  : "Multi-pass deep analysis — 2 free uses per day. Normal mode has 3 per day."}
               </p>
             </div>
 

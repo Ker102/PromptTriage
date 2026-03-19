@@ -252,7 +252,7 @@ export async function POST(req: Request) {
     log.decision("GEMINI_MODEL", thinkingMode ? "gemini-2.5-pro (thinking)" : "gemini-2.0-flash (fast)", thinkingMode ? "Thinking mode enabled — deeper multi-pass analysis" : "Fast mode — quick single-pass generation");
 
     try {
-      recordUsageOrThrow(email, subscriptionPlan);
+      recordUsageOrThrow(email, subscriptionPlan, thinkingMode ? "thinking" : "normal");
     } catch (usageError) {
       const message =
         usageError instanceof Error
