@@ -45,17 +45,21 @@ function validateBlueprint(blueprint: PromptBlueprint): string | null {
     return `Unexpected blueprint version: ${blueprint.version}`;
   }
 
-  const requiredStringFields: Array<keyof PromptBlueprint> = [
-    "intent",
-    "audience",
-    "tone",
-    "outputFormat",
-  ];
+  // Backfill empty string fields with sensible defaults instead of hard-failing.
+  // The LLM occasionally omits a field — this keeps the pipeline resilient.
+  const stringDefaults: Partial<Record<keyof PromptBlueprint, string>> = {
+    intent: "Not specified",
+    audience: "General",
+    tone: "Neutral",
+    outputFormat: "Text",
+  };
 
-  for (const field of requiredStringFields) {
-    const value = blueprint[field];
+  for (const [field, fallback] of Object.entries(stringDefaults)) {
+    const key = field as keyof PromptBlueprint;
+    const value = blueprint[key];
     if (typeof value !== "string" || !value.trim()) {
-      return `Blueprint field '${field}' is empty.`;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (blueprint as any)[field] = fallback;
     }
   }
 
