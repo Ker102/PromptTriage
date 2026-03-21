@@ -1,0 +1,144 @@
+{
+  "total_evaluations": 1080,
+  "models": 5,
+  "model_rankings": {
+    "gpt_5.4": 35.23,
+    "nemotron_120b": 34.03,
+    "claude_sonnet_4.6": 27.81,
+    "gemini_3.1_pro": 25.02,
+    "qwen_397b": 24.39
+  },
+  "format_scores": {
+    "text": 28.32,
+    "markdown": 29.16,
+    "xml": 29.31,
+    "json": 29.75,
+    "yaml": 29.83,
+    "hybrid": 29.41
+  },
+  "length_scores": {
+    "short": 32.03,
+    "medium": 29.1,
+    "long": 26.76
+  },
+  "domain_winners": {
+    "e-analy-01": "gpt_5.4",
+    "e-analy-02": "gpt_5.4",
+    "e-code-01": "gpt_5.4",
+    "e-code-02": "gpt_5.4",
+    "e-code-03": "gpt_5.4",
+    "e-extract-01": "nemotron_120b",
+    "e-instruct-01": "gpt_5.4",
+    "e-math-01": "gpt_5.4",
+    "e-qa-01": "gemini_3.1_pro",
+    "e-write-01": "gpt_5.4",
+    "e-write-02": "gpt_5.4",
+    "e-write-03": "gpt_5.4"
+  },
+  "format_by_model": {
+    "claude_sonnet_4.6": {
+      "text": 26.32,
+      "markdown": 28.8,
+      "xml": 27.52,
+      "json": 28.9,
+      "yaml": 27.76,
+      "hybrid": 27.58
+    },
+    "gemini_3.1_pro": {
+      "text": 24.47,
+      "markdown": 24.39,
+      "xml": 25.42,
+      "json": 25.68,
+      "yaml": 25.14,
+      "hybrid": 24.99
+    },
+    "gpt_5.4": {
+      "text": 35.19,
+      "markdown": 34.28,
+      "xml": 35.31,
+      "json": 36.06,
+      "yaml": 34.84,
+      "hybrid": 35.68
+    },
+    "nemotron_120b": {
+      "text": 34.11,
+      "markdown": 34.46,
+      "xml": 33.4,
+      "json": 34.13,
+      "yaml": 34.8,
+      "hybrid": 33.27
+    },
+    "qwen_397b": {
+      "text": 21.5,
+      "markdown": 23.85,
+      "xml": 24.88,
+      "json": 23.99,
+      "yaml": 26.63,
+      "hybrid": 25.51
+    }
+  },
+  "best_combinations": [
+    [
+      "gpt_5.4",
+      "hybrid",
+      "short",
+      36.88
+    ],
+    [
+      "gpt_5.4",
+      "markdown",
+      "short",
+      36.67
+    ],
+    [
+      "gpt_5.4",
+      "json",
+      "short",
+      36.67
+    ],
+    [
+      "gpt_5.4",
+      "yaml",
+      "short",
+      36.62
+    ],
+    [
+      "gpt_5.4",
+      "xml",
+      "short",
+      36.54
+    ]
+  ],
+  "worst_combinations": [
+    [
+      "qwen_397b",
+      "text",
+      "medium",
+      20.88
+    ],
+    [
+      "claude_sonnet_4.6",
+      "text",
+      "long",
+      20.29
+    ],
+    [
+      "qwen_397b",
+      "markdown",
+      "long",
+      19.75
+    ],
+    [
+      "qwen_397b",
+      "xml",
+      "long",
+      19.4
+    ],
+    [
+      "qwen_397b",
+      "text",
+      "long",
+      15.5
+    ]
+  ]
+}
