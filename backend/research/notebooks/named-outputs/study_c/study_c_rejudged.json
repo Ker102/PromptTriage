@@ -1,0 +1,1682 @@
+[
+  {
+    "task_id": "c-code-01",
+    "domain": "code",
+    "model": "gemini_3.1_pro",
+    "condition": "bare",
+    "latency_s": 49.5,
+    "word_count": 505,
+    "jury": {
+      "final_scores": {
+        "task_completion": 3.0,
+        "quality": 7.5,
+        "format_adherence": 7.0,
+        "conciseness": 7.5
+      },
+      "total_median_score": 25.0,
+      "raw_judgments": {
+        "llama": {
+          "task_completion": 0,
+          "quality": 8,
+          "format_adherence": 9,
+          "conciseness": 8
+        },
+        "opus": {
+          "task_completion": 6,
+          "quality": 7,
+          "format_adherence": 5,
+          "conciseness": 7
+        },
+        "selene": {
+          "parse_error": "Selene HTTP 410"
+        }
+      }
+    },
+    "total_score": 25.0,
+    "scores": {
+      "task_completion": 3.0,
+      "quality": 7.5,
+      "format_adherence": 7.0,
+      "conciseness": 7.5
+    },
+    "downstream_output": "Here is a complete, runnable example of a REST API endpoint for user registration using **Node.js** and **Express**. \n\nIt uses standard Regular Expressions (Regex) to handle the validations without needing any external validation libraries.\n\n### The Code (`server.js`)\n\n```javascript\nconst express = require('express');\nconst app = express();\n\n// Middleware to parse JSON bodies\napp.use(express.json());\n\napp.post('/api/register', (req, res) => {\n    const { email, password, age } = req.body;\n    const errors = [];\n\n    // 1. Validate Email Format\n    // Standard regex for basic email validation\n    const emailRegex = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/;\n    if (!email) {\n        errors.push({ field: 'email', error: 'Email is required.' });\n    } else if (!emailRegex.test(email)) {\n        errors.push({ field: 'email', error: 'Invalid email format.' });\n    }\n\n    // 2. Validate Password Strength\n    // (?=.*[0-9])   - At least one number\n    // (?=.*[\\W_])   - At least one special character (non-alphanumeric)\n    // .{8,}         - At least 8 characters long\n    const passwordRegex = /^(?=.*[0-9])(?=.*[\\W_]).{8,}$/;\n    if (!password) {\n        errors.push({ field: 'password', error: 'Password is required.' });\n    } else if (!passwordRegex.test(password)) {\n        errors.push({ \n            field: 'password', \n            error: 'Password must be at least 8 characters long, contain at least 1 number, and 1 special character.' \n        });\n    }\n\n    // 3. Validate Age\n    if (age === undefined || age === null) {\n        errors.push({ field: 'age', error: 'Age is required.' });\n    } else if (typeof age !== 'number') {\n        errors.push({ field: 'age', error: 'Age must be a number.' });\n    } else if (age < 18) {\n        errors.push({ field: 'age', error: 'You must be at least 18 years old to register.' });\n    }\n\n    // If there are validation errors, return a 400 Bad Request\n    if (errors.length > 0) {\n        return res.status(400).json({\n            status: 'error',\n "
+  },
+  {
+    "task_id": "c-code-01",
+    "domain": "code",
+    "model": "gemini_3.1_pro",
+    "condition": "simple",
+    "latency_s": 27.0,
+    "word_count": 573,
+    "jury": {
+      "final_scores": {
+        "task_completion": 4.0,
+        "quality": 7.5,
+        "format_adherence": 7.5,
+        "conciseness": 7.5
+      },
+      "total_median_score": 26.5,
+      "raw_judgments": {
+        "llama": {
+          "task_completion": 0,
+          "quality": 8,
+          "format_adherence": 7,
+          "conciseness": 8
+        },
+        "opus": {
+          "task_completion": 8,
+          "quality": 7,
+          "format_adherence": 8,
+          "conciseness": 7
+        },
+        "selene": {
+          "parse_error": "Selene HTTP 410"
+        }
+      }
+    },
+    "total_score": 26.5,
+    "scores": {
+      "task_completion": 4.0,
+      "quality": 7.5,
+      "format_adherence": 7.5,
+      "conciseness": 7.5
+    },
+    "downstream_output": "Here is a complete example of a REST API endpoint for user registration using **Node.js** and **Express**. \n\nIt includes the requested validations, collects all validation errors (so the user sees everything they need to fix at once), and returns standard HTTP status codes along with structured JSON error responses.\n\n### The Code (`server.js`)\n\n```javascript\nconst express = require('express');\nconst app = express();\n\n// Middleware to parse JSON bodies\napp.use(express.json());\n\napp.post('/api/register', (req, res) => {\n    const { email, password, age } = req.body;\n    const errors = [];\n\n    // 1. Check for missing fields\n    if (!email || !password || age === undefined) {\n        return res.status(400).json({\n            code: \"BAD_REQUEST\",\n            message: \"Email, password, and age are required fields.\"\n        });\n    }\n\n    // 2. Validate Email Format\n    // Standard regex for basic email validation\n    const emailRegex = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/;\n    if (!emailRegex.test(email)) {\n        errors.push({\n            code: \"INVALID_EMAIL\",\n            field: \"email\",\n            message: \"Please provide a valid email address.\"\n        });\n    }\n\n    // 3. Validate Password Strength\n    // (?=.*\\d) -> at least one number\n    // (?=.*[!@#$%^&*(),.?\":{}|<>]) -> at least one special character\n    // .{8,} -> at least 8 characters long\n    const passwordRegex = /^(?=.*\\d)(?=.*[!@#$%^&*(),.?\":{}|<>]).{8,}$/;\n    if (!passwordRegex.test(password)) {\n        errors.push({\n            code: \"WEAK_PASSWORD\",\n            field: \"password\",\n            message: \"Password must be at least 8 characters long, contain at least one number, and one special character.\"\n        });\n    }\n\n    // 4. Validate Age\n    if (typeof age !== 'number' || age < 18) {\n        errors.push({\n            code: \"UNDERAGE\",\n            field: \"age\",\n            message: \"You must be at least 18 years old to register.\"\n        });\n    }\n\n    // 5. Return errors if any validation failed\n    i"
+  },
+  {
+    "task_id": "c-code-01",
+    "domain": "code",
+    "model": "gemini_3.1_pro",
+    "condition": "expert_handcraft",
+    "latency_s": 33.7,
+    "word_count": 846,
+    "jury": {
+      "final_scores": {
+        "task_completion": 4.0,
+        "quality": 8.5,
+        "format_adherence": 6.5,
+        "conciseness": 6.0
+      },
+      "total_median_score": 25.0,
+      "raw_judgments": {
+        "llama": {
+          "task_completion": 1,
+          "quality": 9,
+          "format_adherence": 8,
+          "conciseness": 6
+        },
+        "opus": {
+          "task_completion": 7,
+          "quality": 8,
+          "format_adherence": 5,
+          "conciseness": 6
+        },
+        "selene": {
+          "parse_error": "Selene HTTP 410"
+        }
+      }
+    },
+    "total_score": 25.0,
+    "scores": {
+      "task_completion": 4.0,
+      "quality": 8.5,
+      "format_adherence": 6.5,
+      "conciseness": 6.0
+    },
+    "downstream_output": "Here is a production-ready, strongly-typed REST API endpoint for user registration using **Node.js, Express, TypeScript, and Zod** for strict input validation. \n\nAs a security engineer, I have also included essential security controls that go beyond the basic requirements, such as password maximum length (to prevent bcrypt Denial of Service attacks), secure password hashing, and safe error handling that prevents information leakage.\n\n### The Implementation\n\n```typescript\nimport express, { Request, Response, RequestHandler } from 'express';\nimport { z } from 'zod';\nimport bcrypt from 'bcrypt';\n\nconst router = express.Router();\n\n/**\n * Strict input validation schema using Zod.\n * - Enforces types, formats, and boundary limits.\n * - Max lengths are critical to prevent buffer overflows and DoS attacks.\n */\nconst RegistrationSchema = z.object({\n  email: z\n    .string()\n    .trim()\n    .email({ message: 'Invalid email format' })\n    .max(255, { message: 'Email exceeds maximum allowed length' }),\n  password: z\n    .string()\n    .min(8, { message: 'Password must be at least 8 characters long' })\n    .max(128, { message: 'Password exceeds maximum allowed length' }) // Prevents bcrypt DoS\n    .regex(/[0-9]/, { message: 'Password must contain at least one number' })\n    .regex(/[^a-zA-Z0-9]/, { message: 'Password must contain at least one special character' }),\n  age: z\n    .number()\n    .int({ message: 'Age must be an integer' })\n    .min(18, { message: 'User must be at least 18 years old' })\n    .max(150, { message: 'Invalid age provided' }) // Sanity boundary check\n});\n\n// Type inference for the validated payload\ntype RegistrationPayload = z.infer<typeof RegistrationSchema>;\n\n/**\n * Mock Database Service\n */\nconst mockDb = {\n  findUserByEmail: async (email: string): Promise<boolean> => false,\n  createUser: async (data: any): Promise<void> => { /* Insert into DB */ }\n};\n\n/**\n * POST /api/v1/users/register\n */\nconst registerUser: RequestHandler = async (req: Request, res: Res"
+  },
+  {
+    "task_id": "c-code-01",
+    "domain": "code",
+    "model": "gemini_3.1_pro",
+    "condition": "prompttriage",
+    "latency_s": 25.2,
+    "word_count": 574,
+    "jury": {
+      "final_scores": {
+        "task_completion": 3.5,
+        "quality": 8.0,
+        "format_adherence": 6.5,
+        "conciseness": 6.5
+      },
+      "total_median_score": 24.5,
+      "raw_judgments": {
+        "llama": {
+          "task_completion": 0,
+          "quality": 9,
+          "format_adherence": 8,
+          "conciseness": 7
+        },
+        "opus": {
+          "task_completion": 7,
+          "quality": 7,
+          "format_adherence": 5,
+          "conciseness": 6
+        },
+        "selene": {
+          "parse_error": "Selene HTTP 410"
+        }
+      }
+    },
+    "total_score": 24.5,
+    "scores": {
+      "task_completion": 3.5,
+      "quality": 8.0,
+      "format_adherence": 6.5,
+      "conciseness": 6.5
+    },
+    "downstream_output": "Here is a complete example of a REST API endpoint for user registration using **Node.js** and **Express**. \n\nIt includes all the requested validations and returns standard HTTP status codes along with JSON error messages.\n\n### The Code (`server.js`)\n\n```javascript\nconst express = require('express');\nconst app = express();\n\n// Middleware to parse JSON request bodies\napp.use(express.json());\n\n// Helper Regex patterns\nconst EMAIL_REGEX = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/;\nconst NUMBER_REGEX = /\\d/;\nconst SPECIAL_CHAR_REGEX = /[!@#$%^&*(),.?\":{}|<>]/;\n\napp.post('/api/register', (req, res) => {\n    const { email, password, age } = req.body;\n\n    // 1. Check if all required fields are provided\n    if (!email || !password || age === undefined) {\n        return res.status(400).json({\n            error: \"Bad Request\",\n            message: \"Missing required fields: email, password, and age are required.\"\n        });\n    }\n\n    // 2. Validate Email format\n    if (!EMAIL_REGEX.test(email)) {\n        return res.status(400).json({\n            error: \"Validation Error\",\n            message: \"Invalid email format.\"\n        });\n    }\n\n    // 3. Validate Password strength\n    // Must be at least 8 characters, contain 1 number, and 1 special character\n    if (\n        password.length < 8 || \n        !NUMBER_REGEX.test(password) || \n        !SPECIAL_CHAR_REGEX.test(password)\n    ) {\n        return res.status(400).json({\n            error: \"Validation Error\",\n            message: \"Password must be at least 8 characters long, contain at least one number, and at least one special character.\"\n        });\n    }\n\n    // 4. Validate Age (Must be a number and >= 18)\n    if (typeof age !== 'number' || age < 18) {\n        return res.status(400).json({\n            error: \"Validation Error\",\n            message: \"User must be 18 years of age or older.\"\n        });\n    }\n\n    // --- SUCCESS ---\n    // In a real application, you would hash the password (e.g., using bcrypt) \n    // and save the user to a "
+  },
+  {
+    "task_id": "c-code-02",
+    "domain": "code",
+    "model": "gemini_3.1_pro",
+    "condition": "bare",
+    "latency_s": 19.8,
+    "word_count": 242,
+    "jury": {
+      "final_scores": {
+        "task_completion": 8.5,
+        "quality": 9.0,
+        "format_adherence": 9.0,
+        "conciseness": 8.0
+      },
+      "total_median_score": 34.5,
+      "raw_judgments": {
+        "llama": {
+          "task_completion": 8,
+          "quality": 9,
+          "format_adherence": 9,
+          "conciseness": 8
+        },
+        "opus": {
+          "task_completion": 9,
+          "quality": 9,
+          "format_adherence": 9,
+          "conciseness": 8
+        },
+        "selene": {
+          "parse_error": "Selene HTTP 410"
+        }
+      }
+    },
+    "total_score": 34.5,
+    "scores": {
+      "task_completion": 8.5,
+      "quality": 9.0,
+      "format_adherence": 9.0,
+      "conciseness": 8.0
+    },
+    "downstream_output": "### The Bug\n\nThe bug occurs because you initialized the maximum value `m` to `0`. \n\nWhen you pass an array containing **only negative numbers** (like `[-5, -10, -2]`), none of the elements will ever be greater than `0`. Because the condition `if x > m:` is never met, `m` never gets updated. As a result, the function incorrectly returns the initial value `0` instead of the actual maximum (`-2`).\n\n### The Fix\n\nTo fix this, you should initialize `m` with the **first element of the array** (or negative infinity) rather than an arbitrary number like `0`. \n\nHere is the corrected code:\n\n```python\ndef find_max(arr):\n    if not arr:       # Optional but recommended: handle empty lists\n        return None \n        \n    m = arr[0]        # Initialize 'm' with the first element\n    for x in arr:\n        if x > m:\n            m = x\n    return m\n\nprint(find_max([-5, -10, -2]))  # Output: -2\n```\n\n### Alternative Solutions\n\n**1. Using Negative Infinity:**\nYou can also initialize `m` to negative infinity. This guarantees that any number in the array will be larger than the initial value of `m`.\n```python\ndef find_max(arr):\n    m = float('-inf') \n    for x in arr:\n        if x > m:\n            m = x\n    return m\n```\n\n**2. The \"Pythonic\" Way:**\nUnless you are doing this for a coding exercise to learn loops, the best practice in Python is to simply use the built-in `max()` function, which is highly optimized and handles this logic automatically:\n```python\ndef find_max(arr):\n    return max(arr)\n```"
+  },
+  {
+    "task_id": "c-code-02",
+    "domain": "code",
+    "model": "gemini_3.1_pro",
+    "condition": "simple",
+    "latency_s": 17.8,
+    "word_count": 278,
+    "jury": {
+      "final_scores": {
+        "task_completion": 7.5,
+        "quality": 9.0,
+        "format_adherence": 8.5,
+        "conciseness": 7.5
+      },
+      "total_median_score": 32.5,
+      "raw_judgments": {
+        "llama": {
+          "task_completion": 6,
+          "quality": 9,
+          "format_adherence": 8,
+          "conciseness": 7
+        },
+        "opus": {
+          "task_completion": 9,
+          "quality": 9,
+          "format_adherence": 9,
+          "conciseness": 8
+        },
+        "selene": {
+          "parse_error": "Selene HTTP 410"
+        }
+      }
+    },
+    "total_score": 32.5,
+    "scores": {
+      "task_completion": 7.5,
+      "quality": 9.0,
+      "format_adherence": 8.5,
+      "conciseness": 7.5
+    },
+    "downstream_output": "### The Bug\n\nThe bug is caused by initializing the maximum variable `m` to `0`. \n\nWhen you pass an array containing **only negative numbers** (like `[-5, -10, -2]`), `0` is already greater than all the numbers in the array. Because `-5`, `-10`, and `-2` are never greater than `0`, the `if x > m:` condition is never met. The variable `m` never gets updated, and the function incorrectly returns `0` (which isn't even in the array).\n\n### The Fix\n\nTo fix this, you should initialize `m` to the **first element of the array** (or to negative infinity). This guarantees that `m` starts as a valid number from your dataset.\n\nHere is the corrected code:\n\n```python\ndef find_max(arr):\n    # Optional but recommended: handle empty arrays\n    if not arr:\n        return None \n        \n    # Initialize m to the first element instead of 0\n    m = arr[0] \n    \n    for x in arr:\n        if x > m:\n            m = x\n            \n    return m\n\n# Test\narr = [-5, -10, -2]\nprint(find_max(arr))  # Output: -2\n```\n\n### Alternative Fixes\n\n**1. Using Negative Infinity:**\nIf you don't want to initialize using the first element, you can initialize `m` to negative infinity. This ensures that literally *any* number in the array will be larger than the starting value.\n```python\ndef find_max(arr):\n    m = float('-inf')\n    for x in arr:\n        if x > m:\n            m = x\n    return m\n```\n\n**2. The \"Pythonic\" Way:**\nIn Python, you usually don't need to write a loop to find the maximum value. You can just use the built-in `max()` function, which is highly optimized and handles this logic for you automatically:\n```python\narr = [-5, -10, -2]\nmaximum = max(arr) # Returns -2\n```"
+  },
+  {
+    "task_id": "c-code-02",
+    "domain": "code",
+    "model": "gemini_3.1_pro",
+    "condition": "expert_handcraft",
+    "latency_s": 16.7,
+    "word_count": 307,
+    "jury": {
+      "final_scores": {
+        "task_completion": 7.0,
+        "quality": 8.0,
+        "format_adherence": 6.5,
+        "conciseness": 7.0
+      },
+      "total_median_score": 28.5,
+      "raw_judgments": {
+        "llama": {
+          "task_completion": 8,
+          "quality": 9,
+          "format_adherence": 8,
+          "conciseness": 7
+        },
+        "opus": {
+          "task_completion": 6,
+          "quality": 7,
+          "format_adherence": 5,
+          "conciseness": 7
+        },
+        "selene": {
+          "parse_error": "Selene HTTP 410"
+        }
+      }
+    },
+    "total_score": 28.5,
+    "scores": {
+      "task_completion": 7.0,
+      "quality": 8.0,
+      "format_adherence": 6.5,
+      "conciseness": 7.0
+    },
+    "downstream_output": "### The Bug: Improper Initialization\n\nThe bug is an **improper initialization** of the accumulator variable `m`. By hardcoding `m = 0`, you introduce an artificial upper bound. If the input array consists entirely of negative numbers (as in your test case), the conditional `x > m` is never satisfied. Consequently, the function erroneously returns `0`—a value that isn't even present in the array. \n\nIn algorithm design, an accumulator for a maximum-finding operation must be initialized to either:\n1. The **first element** of the dataset.\n2. The **absolute minimum representable value** (e.g., negative infinity) to act as a proper sentinel value.\n\nAdditionally, your original code lacks a boundary check for an **empty array**, which would currently return `0` instead of raising an appropriate exception.\n\n### The Optimal Fix\n\nThe most robust algorithmic approach is to initialize the maximum tracker to the first element of the array and iterate through the remainder. We also add a guard clause to handle the empty array edge case.\n\n```python\ndef find_max(arr):\n    # Boundary condition: handle empty array\n    if not arr:\n        raise ValueError(\"find_max() arg is an empty sequence\")\n    \n    # Initialize to the first element to avoid artificial bounds\n    m = arr[0]\n    \n    # Iterate through the rest of the array\n    for x in arr[1:]:\n        if x > m:\n            m = x\n            \n    return m\n```\n\n### Alternative (Sentinel Value Approach)\nIf you prefer not to slice the array, you can initialize `m` to negative infinity. This guarantees that any real number in the array will be strictly greater than `m` on the first comparison:\n\n```python\ndef find_max(arr):\n    if not arr:\n        raise ValueError(\"find_max() arg is an empty sequence\")\n        \n    m = float('-inf')\n    for x in arr:\n        if x > m:\n            m = x\n    return m\n```\n\n*(Note: In production Python code, you should always use the built-in C-optimized `max(arr)` function unless you are explicitly practicin"
+  },
+  {
+    "task_id": "c-code-02",
+    "domain": "code",
+    "model": "gemini_3.1_pro",
+    "condition": "prompttriage",
+    "latency_s": 16.7,
+    "word_count": 291,
+    "jury": {
+      "final_scores": {
+        "task_completion": 8.5,
+        "quality": 9.0,
+        "format_adherence": 9.0,
+        "conciseness": 8.5
+      },
+      "total_median_score": 35.0,
+      "raw_judgments": {
+        "llama": {
+          "task_completion": 8,
+          "quality": 9,
+          "format_adherence": 9,
+          "conciseness": 8
+        },
+        "opus": {
+          "task_completion": 9,
+          "quality": 9,
+          "format_adherence": 9,
+          "conciseness": 9
+        },
+        "selene": {
+          "parse_error": "Selene HTTP 410"
+        }
+      }
+    },
+    "total_score": 35.0,
+    "scores": {
+      "task_completion": 8.5,
+      "quality": 9.0,
+      "format_adherence": 9.0,
+      "conciseness": 8.5
+    },
+    "downstream_output": "### The Bug\n\nThe bug is caused by initializing the variable `m` to `0`. \n\nWhen you set `m = 0`, you are assuming that the array will always contain at least one number greater than or equal to zero. If you pass an array of entirely negative numbers like `[-5, -10, -2]`, here is what happens:\n\n1. **First loop:** `x` is `-5`. Is `-5 > 0`? No. `m` stays `0`.\n2. **Second loop:** `x` is `-10`. Is `-10 > 0`? No. `m` stays `0`.\n3. **Third loop:** `x` is `-2`. Is `-2 > 0`? No. `m` stays `0`.\n\nThe function finishes and returns `0`, which is incorrect because `0` isn't even in the list.\n\n### The Fix\n\nTo fix this, you should initialize `m` to the **first element of the array** instead of an arbitrary number like `0`. This guarantees that `m` starts as a valid number from your data.\n\nHere is the corrected code:\n\n```python\ndef find_max(arr):\n    # Handle the edge case of an empty list\n    if not arr:\n        return None \n        \n    m = arr[0]  # Initialize m to the first item in the list\n    \n    for x in arr:\n        if x > m:\n            m = x\n            \n    return m\n\nprint(find_max([-5, -10, -2]))  # Output: -2\n```\n\n### Alternative Fix (Using Negative Infinity)\nAnother common way to fix this in programming is to initialize `m` to negative infinity. This ensures that the very first number checked will always be larger than `m`:\n\n```python\ndef find_max(arr):\n    m = float('-inf') # Represents negative infinity\n    for x in arr:\n        if x > m:\n            m = x\n    return m\n```\n\n*(Note: While it's great to know how to write this algorithm from scratch, in real-world Python programming, you can just use the built-in function by calling `max(arr)`).*"
+  },
+  {
+    "task_id": "c-code-03",
+    "domain": "code",
+    "model": "gemini_3.1_pro",
+    "condition": "bare",
+    "latency_s": 43.0,
+    "word_count": 657,
+    "jury": {
+      "final_scores": {
+        "task_completion": 9.0,
+        "quality": 8.5,
+        "format_adherence": 8.0,
+        "conciseness": 7.5
+      },
+      "total_median_score": 33.0,
+      "raw_judgments": {
+        "llama": {
+          "task_completion": 10,
+          "quality": 9,
+          "format_adherence": 9,
+          "conciseness": 8
+        },
+        "opus": {
+          "task_completion": 8,
+          "quality": 8,
+          "format_adherence": 7,
+          "conciseness": 7
+        },
+        "selene": {
+          "parse_error": "Selene HTTP 410"
+        }
+      }
+    },
+    "total_score": 33.0,
+    "scores": {
+      "task_completion": 9.0,
+      "quality": 8.5,
+      "format_adherence": 8.0,
+      "conciseness": 7.5
+    },
+    "downstream_output": "Here is a complete, reusable React component that meets your requirements. \n\nIt uses `useState` to manage the filter text and sorting configuration, and `useMemo` to efficiently filter and sort the data without mutating the original array or causing unnecessary recalculations.\n\n```jsx\nimport React, { useState, useMemo } from 'react';\n\nconst UserTable = ({ users }) => {\n  const [filterText, setFilterText] = useState('');\n  const [sortConfig, setSortConfig] = useState({ key: null, direction: 'ascending' });\n\n  // Handle sorting logic when a header is clicked\n  const requestSort = (key) => {\n    let direction = 'ascending';\n    if (sortConfig.key === key && sortConfig.direction === 'ascending') {\n      direction = 'descending';\n    }\n    setSortConfig({ key, direction });\n  };\n\n  // useMemo ensures we only recalculate when users, filterText, or sortConfig change\n  const processedUsers = useMemo(() => {\n    // 1. Filter by name\n    let filteredData = users.filter((user) =>\n      user.name.toLowerCase().includes(filterText.toLowerCase())\n    );\n\n    // 2. Sort the filtered data\n    if (sortConfig.key !== null) {\n      filteredData.sort((a, b) => {\n        const aValue = a[sortConfig.key];\n        const bValue = b[sortConfig.key];\n\n        if (aValue < bValue) {\n          return sortConfig.direction === 'ascending' ? -1 : 1;\n        }\n        if (aValue > bValue) {\n          return sortConfig.direction === 'ascending' ? 1 : -1;\n        }\n        return 0;\n      });\n    }\n\n    return filteredData;\n  }, [users, filterText, sortConfig]);\n\n  // Helper to show up/down arrows on the currently sorted column\n  const getSortIndicator = (key) => {\n    if (sortConfig.key === key) {\n      return sortConfig.direction === 'ascending' ? ' ▲' : ' ▼';\n    }\n    return '';\n  };\n\n  return (\n    <div style={{ fontFamily: 'sans-serif', maxWidth: '600px', margin: '0 auto' }}>\n      {/* Filter Input */}\n      <div style={{ marginBottom: '15px' }}>\n        <input\n          type=\"text\"\n          "
+  },
+  {
+    "task_id": "c-code-03",
+    "domain": "code",
+    "model": "gemini_3.1_pro",
+    "condition": "simple",
+    "latency_s": 30.4,
+    "word_count": 641,
+    "jury": {
+      "final_scores": {
+        "task_completion": 8.0,
+        "quality": 8.5,
+        "format_adherence": 8.0,
+        "conciseness": 7.0
+      },
+      "total_median_score": 31.5,
+      "raw_judgments": {
+        "llama": {
+          "task_completion": 8,
+          "quality": 9,
+          "format_adherence": 8,
+          "conciseness": 7
+        },
+        "opus": {
+          "task_completion": 8,
+          "quality": 8,
+          "format_adherence": 8,
+          "conciseness": 7
+        },
+        "selene": {
+          "parse_error": "Selene HTTP 410"
+        }
+      }
+    },
+    "total_score": 31.5,
+    "scores": {
+      "task_completion": 8.0,
+      "quality": 8.5,
+      "format_adherence": 8.0,
+      "conciseness": 7.0
+    },
+    "downstream_output": "Here is a complete, self-contained React component that meets your requirements. \n\nIt uses `useState` to manage the search input and sorting state, and `useMemo` to efficiently filter and sort the data without mutating the original array.\n\n```jsx\nimport React, { useState, useMemo } from 'react';\n\nconst UserTable = ({ users = [] }) => {\n  const [filterText, setFilterText] = useState('');\n  const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });\n\n  // Handle sorting logic\n  const handleSort = (key) => {\n    let direction = 'asc';\n    if (sortConfig.key === key && sortConfig.direction === 'asc') {\n      direction = 'desc';\n    }\n    setSortConfig({ key, direction });\n  };\n\n  // Memoize the filtered and sorted data for performance\n  const processedUsers = useMemo(() => {\n    // 1. Filter by name\n    let filteredData = users.filter((user) =>\n      user.name.toLowerCase().includes(filterText.toLowerCase())\n    );\n\n    // 2. Sort the filtered data\n    if (sortConfig.key) {\n      filteredData.sort((a, b) => {\n        const aValue = a[sortConfig.key];\n        const bValue = b[sortConfig.key];\n\n        if (aValue < bValue) {\n          return sortConfig.direction === 'asc' ? -1 : 1;\n        }\n        if (aValue > bValue) {\n          return sortConfig.direction === 'asc' ? 1 : -1;\n        }\n        return 0;\n      });\n    }\n\n    return filteredData;\n  }, [users, filterText, sortConfig]);\n\n  // Helper to render sort arrows\n  const getSortIndicator = (columnKey) => {\n    if (sortConfig.key !== columnKey) return ' ↕';\n    return sortConfig.direction === 'asc' ? ' ↑' : ' ↓';\n  };\n\n  return (\n    <div style={{ fontFamily: 'sans-serif', maxWidth: '800px', margin: '20px auto' }}>\n      {/* Filter Input */}\n      <div style={{ marginBottom: '15px' }}>\n        <input\n          type=\"text\"\n          placeholder=\"Filter by name...\"\n          value={filterText}\n          onChange={(e) => setFilterText(e.target.value)}\n          style={{\n            padding: '8px',\n  "
+  },
+  {
+    "task_id": "c-code-03",
+    "domain": "code",
+    "model": "gemini_3.1_pro",
+    "condition": "expert_handcraft",
+    "latency_s": 36.9,
+    "word_count": 799,
+    "jury": {
+      "final_scores": {
+        "task_completion": 6.0,
+        "quality": 8.0,
+        "format_adherence": 5.5,
+        "conciseness": 6.0
+      },
+      "total_median_score": 25.5,
+      "raw_judgments": {
+        "llama": {
+          "task_completion": 9,
+          "quality": 9,
+          "format_adherence": 8,
+          "conciseness": 7
+        },
+        "opus": {
+          "task_completion": 3,
+          "quality": 7,
+          "format_adherence": 3,
+          "conciseness": 5
+        },
+        "selene": {
+          "parse_error": "Selene HTTP 410"
+        }
+      }
+    },
+    "total_score": 25.5,
+    "scores": {
+      "task_completion": 6.0,
+      "quality": 8.0,
+      "format_adherence": 5.5,
+      "conciseness": 6.0
+    },
+    "downstream_output": "Here is a robust, production-ready React component written in TypeScript. \n\nAs a Staff Engineer, I've designed this component with the following principles in mind:\n1. **Performance**: Filtering and sorting are wrapped in a `useMemo` hook. We filter *before* sorting to reduce the number of items the sorting algorithm needs to process.\n2. **Accessibility (a11y)**: Interactive headers use semantic `<button>` elements inside `<th>` tags. We also utilize the `aria-sort` attribute to announce the current sort state to screen readers, and a linked `<label>` for the search input.\n3. **Reusability**: The table accepts a `columns` configuration array, making it easy to reuse this component for different data shapes in the future without changing the internal logic.\n4. **Robust Sorting**: String comparisons use `localeCompare` for accurate alphabetical sorting, and we handle potential `null` or `undefined` values gracefully.\n\n### The Component (`UserTable.tsx`)\n\n```tsx\nimport React, { useState, useMemo } from 'react';\n\nexport interface User {\n  id: string | number;\n  name: string;\n  email: string;\n  role: string;\n  [key: string]: any;\n}\n\nexport interface ColumnConfig<T> {\n  key: keyof T;\n  label: string;\n  sortable?: boolean;\n}\n\ninterface UserTableProps {\n  users: User[];\n  columns: ColumnConfig<User>[];\n}\n\ntype SortDirection = 'asc' | 'desc';\n\ninterface SortConfig<T> {\n  key: keyof T;\n  direction: SortDirection;\n}\n\nexport const UserTable: React.FC<UserTableProps> = ({ users, columns }) => {\n  const [filterText, setFilterText] = useState('');\n  const [sortConfig, setSortConfig] = useState<SortConfig<User> | null>(null);\n\n  // Handle column header clicks\n  const handleSort = (key: keyof User) => {\n    setSortConfig((currentSort) => {\n      if (currentSort && currentSort.key === key) {\n        // Toggle direction if clicking the same column\n        return {\n          key,\n          direction: currentSort.direction === 'asc' ? 'desc' : 'asc',\n        };\n      }\n      // Default "
+  },
+  {
+    "task_id": "c-code-03",
+    "domain": "code",
+    "model": "gemini_3.1_pro",
+    "condition": "prompttriage",
+    "latency_s": 28.9,
+    "word_count": 637,
+    "jury": {
+      "final_scores": {
+        "task_completion": 8.0,
+        "quality": 8.5,
+        "format_adherence": 6.75,
+        "conciseness": 7.5
+      },
+      "total_median_score": 30.75,
+      "raw_judgments": {
+        "llama": {
+          "task_completion": 9,
+          "quality": 9,
+          "format_adherence": 8.5,
+          "conciseness": 8
+        },
+        "opus": {
+          "task_completion": 7,
+          "quality": 8,
+          "format_adherence": 5,
+          "conciseness": 7
+        },
+        "selene": {
+          "parse_error": "Selene HTTP 410"
+        }
+      }
+    },
+    "total_score": 30.75,
+    "scores": {
+      "task_completion": 8.0,
+      "quality": 8.5,
+      "format_adherence": 6.75,
+      "conciseness": 7.5
+    },
+    "downstream_output": "Here is a complete, reusable React component that meets your requirements. \n\nIt uses the `useState` hook to manage the filter text and sorting configuration, and the `useMemo` hook to efficiently filter and sort the data without mutating the original array.\n\n### `UserTable.jsx`\n\n```jsx\nimport React, { useState, useMemo } from 'react';\n\nconst UserTable = ({ users = [] }) => {\n  const [filterText, setFilterText] = useState('');\n  const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });\n\n  // Handle clicking on a column header\n  const handleSort = (key) => {\n    let direction = 'asc';\n    // If clicking the same column, toggle direction. Otherwise, default to ascending.\n    if (sortConfig.key === key && sortConfig.direction === 'asc') {\n      direction = 'desc';\n    }\n    setSortConfig({ key, direction });\n  };\n\n  // useMemo ensures we only recalculate when users, filterText, or sortConfig change\n  const processedUsers = useMemo(() => {\n    // 1. Filter by name\n    let filteredData = users.filter((user) =>\n      user.name.toLowerCase().includes(filterText.toLowerCase())\n    );\n\n    // 2. Sort the filtered data\n    if (sortConfig.key) {\n      filteredData.sort((a, b) => {\n        const aValue = a[sortConfig.key];\n        const bValue = b[sortConfig.key];\n\n        if (aValue < bValue) {\n          return sortConfig.direction === 'asc' ? -1 : 1;\n        }\n        if (aValue > bValue) {\n          return sortConfig.direction === 'asc' ? 1 : -1;\n        }\n        return 0;\n      });\n    }\n\n    return filteredData;\n  }, [users, filterText, sortConfig]);\n\n  // Helper function to render sort indicators (arrows)\n  const getSortIndicator = (key) => {\n    if (sortConfig.key === key) {\n      return sortConfig.direction === 'asc' ? ' ▲' : ' ▼';\n    }\n    return '';\n  };\n\n  return (\n    <div style={{ fontFamily: 'sans-serif', maxWidth: '800px', margin: '0 auto' }}>\n      {/* Filter Input */}\n      <div style={{ marginBottom: '16px' }}>\n        <input\n          ty"
+  },
+  {
+    "task_id": "c-write-01",
+    "domain": "writing",
+    "model": "gemini_3.1_pro",
+    "condition": "bare",
+    "latency_s": 19.4,
+    "word_count": 304,
+    "jury": {
+      "final_scores": {
+        "task_completion": 8.0,
+        "quality": 8.5,
+        "format_adherence": 7.5,
+        "conciseness": 8.0
+      },
+      "total_median_score": 32.0,
+      "raw_judgments": {
+        "llama": {
+          "task_completion": 9,
+          "quality": 9,
+          "format_adherence": 9,
+          "conciseness": 8
+        },
+        "opus": {
+          "task_completion": 7,
+          "quality": 8,
+          "format_adherence": 6,
+          "conciseness": 8
+        },
+        "selene": {
+          "parse_error": "Selene HTTP 410"
+        }
+      }
+    },
+    "total_score": 32.0,
+    "scores": {
+      "task_completion": 8.0,
+      "quality": 8.5,
+      "format_adherence": 7.5,
+      "conciseness": 8.0
+    },
+    "downstream_output": "**Subject: 🚀 Stop guessing. Start generating perfect system prompts with PromptTriage.**\n\n*(Alternative Subject Lines)*\n*   *Meet PromptTriage: Automate your prompt engineering today*\n*   *Boost your AI output quality by 18% with PromptTriage*\n*   *Hours of prompt engineering, solved in seconds.*\n\nHi [First Name],\n\nBuilding AI-powered features is exciting. Endlessly tweaking system prompts to get the model to behave exactly how you want? Not so much. \n\nIf you’re tired of the trial-and-error cycle of prompt engineering, we have something for you. \n\nToday, we are thrilled to announce the launch of **PromptTriage**—a new SaaS platform that automatically generates the perfect system prompts for your AI applications. \n\nBuilt specifically for AI developers and product teams, PromptTriage takes your basic instructions and translates them into highly optimized, edge-case-resistant system prompts in seconds. \n\n**Why developers are switching to PromptTriage:**\n\n*   ⏱️ **Save hours of engineering time:** Stop wrestling with words. Skip the manual tweaking, testing, and rewriting. PromptTriage gives you production-ready prompts instantly, so you can get back to writing actual code.\n*   📈 **Improve downstream quality by 18%:** Better prompts mean better products. In our beta testing, applications powered by PromptTriage saw an average **18% improvement** in output accuracy, consistency, and overall quality. \n*   🧠 **Model-agnostic optimization:** Whether you are building on GPT-4, Claude 3, or open-source models, PromptTriage formats the prompt to leverage the specific strengths of your chosen LLM.\n\nStop treating prompt engineering like a guessing game. Let PromptTriage handle the context window so you can focus on building a great user experience. \n\nReady to see the difference a perfect prompt makes? \n\n**[Link/Button: Try PromptTriage for Free Today]**\n\nIf you have any questions or want a quick demo of how it works, just reply directly to this email. We’d love to hear what you’"
+  },
+  {
+    "task_id": "c-write-01",
+    "domain": "writing",
+    "model": "gemini_3.1_pro",
+    "condition": "simple",
+    "latency_s": 18.6,
+    "word_count": 294,
+    "jury": {
+      "final_scores": {
+        "task_completion": 7.5,
+        "quality": 8.5,
+        "format_adherence": 7.0,
+        "conciseness": 8.0
+      },
+      "total_median_score": 31.0,
+      "raw_judgments": {
+        "llama": {
+          "task_completion": 9,
+          "quality": 9,
+          "format_adherence": 9,
+          "conciseness": 8
+        },
+        "opus": {
+          "task_completion": 6,
+          "quality": 8,
+          "format_adherence": 5,
+          "conciseness": 8
+        },
+        "selene": {
+          "parse_error": "Selene HTTP 410"
+        }
+      }
+    },
+    "total_score": 31.0,
+    "scores": {
+      "task_completion": 7.5,
+      "quality": 8.5,
+      "format_adherence": 7.0,
+      "conciseness": 8.0
+    },
+    "downstream_output": "Here is a draft for the product launch email. I have included a few subject line options so you can choose the one that best fits your brand's voice. \n\n***\n\n**Subject Line Options:**\n*   🚀 Stop guessing your system prompts. Meet PromptTriage.\n*   Save hours on prompt engineering (+18% better AI output)\n*   Introducing PromptTriage: Perfect system prompts, automatically.\n*   The end of trial-and-error prompt engineering is here.\n\n***\n\n**Email Body:**\n\nHi [Name],\n\nIf you’re building AI applications, you already know the most frustrating bottleneck in the development cycle: **prompt engineering.** \n\nWriting, testing, tweaking, and re-testing system prompts to get the exact behavior you need is a tedious process that eats up valuable engineering hours. \n\nThat’s why we built **PromptTriage**—a new SaaS tool that automatically generates the perfect system prompt for your specific use case, in seconds. \n\nInstead of relying on trial and error, PromptTriage uses advanced optimization to craft prompts that make your AI models more accurate, reliable, and aligned with your goals. \n\n**With PromptTriage, you can:**\n*   ⏱️ **Get your time back:** Save hours of manual prompt tweaking and debugging every single week. \n*   🎯 **Generate perfect prompts instantly:** Simply describe your use case, and our engine outputs a highly optimized system prompt ready for production.\n*   📈 **Boost downstream quality:** In our testing, PromptTriage-generated prompts improved downstream AI output quality and accuracy by an average of **18%**.\n\nStop wrestling with your system prompts and get back to actually building your product. \n\nReady to see the difference an optimized prompt makes? \n\n**[Link/Button: Try PromptTriage for Free Today]**\n\nIf you have any questions or want to see a live demo, just reply directly to this email. We’d love to show you around. \n\nHappy building,\n\n**[Your Name/Founder Name]**\n[Your Title], PromptTriage\n[Link to Website]"
+  },
+  {
+    "task_id": "c-write-01",
+    "domain": "writing",
+    "model": "gemini_3.1_pro",
+    "condition": "expert_handcraft",
+    "latency_s": 18.1,
+    "word_count": 167,
+    "jury": {
+      "final_scores": {
+        "task_completion": 8.0,
+        "quality": 8.5,
+        "format_adherence": 8.0,
+        "conciseness": 8.5
+      },
+      "total_median_score": 33.0,
+      "raw_judgments": {
+        "llama": {
+          "task_completion": 9,
+          "quality": 9,
+          "format_adherence": 9,
+          "conciseness": 8
+        },
+        "opus": {
+          "task_completion": 7,
+          "quality": 8,
+          "format_adherence": 7,
+          "conciseness": 9
+        },
+        "selene": {
+          "parse_error": "Selene HTTP 410"
+        }
+      }
+    },
+    "total_score": 33.0,
+    "scores": {
+      "task_completion": 8.0,
+      "quality": 8.5,
+      "format_adherence": 8.0,
+      "conciseness": 8.5
+    },
+    "downstream_output": "**Subject:** Stop guessing your system prompts. \n\nHi [Name],\n\nYou’re an AI developer, not a prompt whisperer. But right now, you’re probably spending hours tweaking system instructions just to get a predictable JSON output. \n\nTrial and error isn't a scalable engineering strategy. \n\nThat’s why we built **PromptTriage**. It’s a developer-first engine that automatically generates production-ready system prompts based on your exact use case and schema requirements. \n\nNo marketing fluff. Just predictable AI outputs. Here is what you get:\n\n*   **Zero manual tuning:** Describe your goal, and PromptTriage generates the optimal system prompt in seconds. \n*   **Reclaim engineering hours:** Stop wrestling with edge cases, context windows, and hallucinations. Get back to writing actual code.\n*   **Measurable quality bumps:** In our beta, developers saw an **18% improvement** in downstream output accuracy and strict schema adherence.\n\nStop treating prompt engineering like a dark art. Treat it like software. \n\n**[Try PromptTriage for Free]**\n\nWant to see how it works under the hood? **[Read the docs here]**.\n\nBest,\n\n[Your Name]  \n[Your Title], PromptTriage"
+  },
+  {
+    "task_id": "c-write-01",
+    "domain": "writing",
+    "model": "gemini_3.1_pro",
+    "condition": "prompttriage",
+    "latency_s": 18.5,
+    "word_count": 329,
+    "jury": {
+      "final_scores": {
+        "task_completion": 7.5,
+        "quality": 8.5,
+        "format_adherence": 7.0,
+        "conciseness": 8.0
+      },
+      "total_median_score": 31.0,
+      "raw_judgments": {
+        "llama": {
+          "task_completion": 9,
+          "quality": 9,
+          "format_adherence": 9,
+          "conciseness": 8
+        },
+        "opus": {
+          "task_completion": 6,
+          "quality": 8,
+          "format_adherence": 5,
+          "conciseness": 8
+        },
+        "selene": {
+          "parse_error": "Selene HTTP 410"
+        }
+      }
+    },
+    "total_score": 31.0,
+    "scores": {
+      "task_completion": 7.5,
+      "quality": 8.5,
+      "format_adherence": 7.0,
+      "conciseness": 8.0
+    },
+    "downstream_output": "Here is a draft for the product launch email. I’ve included a few subject line options so you can choose the one that best fits your brand's voice. \n\n***\n\n**Subject Line Options:**\n*   Option 1: 🚀 Stop guessing. Start generating perfect system prompts.\n*   Option 2: Meet PromptTriage: Put your prompt engineering on autopilot.\n*   Option 3: Save hours on prompt engineering (+18% better AI output)\n*   Option 4: Introducing PromptTriage: The end of trial-and-error prompting.\n\n***\n\n**Email Body:**\n\nHi [Name],\n\nLet’s face it: prompt engineering is often just glorified trial and error. You spend hours tweaking instructions, testing edge cases, and crossing your fingers that the LLM doesn't hallucinate in production. \n\nYou should be building core features, not wrestling with adjectives. \n\nThat’s why we built **PromptTriage**—a new SaaS platform that automatically generates perfect, production-ready system prompts for AI developers. \n\nSimply describe what you need your AI agent to do, and PromptTriage’s engine will instantly engineer a highly optimized, edge-case-resistant system prompt. \n\n**With PromptTriage, you can:**\n*   ⏳ **Save Hours of Engineering Time:** Skip the playground iteration loop. Get a perfect prompt on the first try and get back to shipping.\n*   📈 **Boost Downstream Quality by 18%:** Our generated prompts are structurally optimized for modern LLMs, proven to reduce hallucinations and improve output accuracy by an average of 18%.\n*   🛠️ **Standardize Your AI:** Keep your system prompts organized, version-controlled, and consistent across your entire application.\n\nStop wasting engineering cycles on prompt tweaking. Let PromptTriage handle the context window so you can focus on the code.\n\n**[Generate Your First Perfect Prompt for Free]** *(Link to signup/app)*\n\nIf you have any questions or want to see a live demo, just reply to this email. We’d love to show you what PromptTriage can do for your stack.\n\nHappy building,\n\n[Your Name/Founder Name]  \n[Your Title]"
+  },
+  {
+    "task_id": "c-write-02",
+    "domain": "writing",
+    "model": "gemini_3.1_pro",
+    "condition": "bare",
+    "latency_s": 32.5,
+    "word_count": 1063,
+    "jury": {
+      "final_scores": {
+        "task_completion": 8.0,
+        "quality": 9.0,
+        "format_adherence": 7.5,
+        "conciseness": 7.5
+      },
+      "total_median_score": 32.0,
+      "raw_judgments": {
+        "llama": {
+          "task_completion": 9,
+          "quality": 9,
+          "format_adherence": 8,
+          "conciseness": 7
+        },
+        "opus": {
+          "task_completion": 7,
+          "quality": 9,
+          "format_adherence": 7,
+          "conciseness": 8
+        },
+        "selene": {
+          "parse_error": "Selene HTTP 410"
+        }
+      }
+    },
+    "total_score": 32.0,
+    "scores": {
+      "task_completion": 8.0,
+      "quality": 9.0,
+      "format_adherence": 7.5,
+      "conciseness": 7.5
+    },
+    "downstream_output": "**Title: Demystifying RAG: The Secret Sauce Behind Enterprise AI (A Guide for Product Managers)**\n\nImagine this: You’ve just integrated a state-of-the-art Large Language Model (LLM) into your company’s customer support portal. You ask it, *\"What is our company's refund policy for the new Pro Tier?\"* \n\nThe AI replies with a beautifully written, highly convincing, and completely fabricated answer. \n\nAs a Product Manager, this is your nightmare. You know LLMs are incredibly smart, but they have a fatal flaw: they don’t know *your* proprietary data, and when they don't know the answer, they tend to confidently guess (hallucinate). \n\nYou might think the solution is to train a custom AI model from scratch. But before you ask your engineering team for a million-dollar budget and six months of compute time, you need to know about **RAG**.\n\nRAG, or **Retrieval-Augmented Generation**, is the industry-standard architecture for building reliable, data-aware AI products. Here is everything you need to know about how it works, why it’s better than the alternatives, and how to use it to build better products.\n\n---\n\n### The Analogy: The Closed-Book vs. Open-Book Exam\n\nTo understand RAG, think about taking a university exam.\n\nUsing a standard LLM (like ChatGPT out-of-the-box) is like taking a **closed-book exam**. The AI has read the entire internet up to a certain date, but now it has to rely entirely on its memory. If it forgets a detail, it might panic and make something up. Furthermore, it hasn't read the textbook you published *yesterday*.\n\nRAG turns this into an **open-book exam**. \n\nInstead of relying on the AI’s memory, RAG gives the AI a highly efficient research assistant. When a user asks a question, the assistant runs to your company’s filing cabinet, grabs the exact documents needed to answer the question, hands them to the AI, and says: *\"Answer the user's question using ONLY the information in these documents.\"*\n\n---\n\n### How RAG Works: Step-by-Step\n\nLet’s break down "
+  },
+  {
+    "task_id": "c-write-02",
+    "domain": "writing",
+    "model": "gemini_3.1_pro",
+    "condition": "simple",
+    "latency_s": 31.6,
+    "word_count": 1063,
+    "jury": {
+      "final_scores": {
+        "task_completion": 8.0,
+        "quality": 9.0,
+        "format_adherence": 8.0,
+        "conciseness": 8.0
+      },
+      "total_median_score": 33.0,
+      "raw_judgments": {
+        "llama": {
+          "task_completion": 9,
+          "quality": 9,
+          "format_adherence": 9,
+          "conciseness": 8
+        },
+        "opus": {
+          "task_completion": 7,
+          "quality": 9,
+          "format_adherence": 7,
+          "conciseness": 8
+        },
+        "selene": {
+          "parse_error": "Selene HTTP 410"
+        }
+      }
+    },
+    "total_score": 33.0,
+    "scores": {
+      "task_completion": 8.0,
+      "quality": 9.0,
+      "format_adherence": 8.0,
+      "conciseness": 8.0
+    },
+    "downstream_output": "**Title: Demystifying RAG: The Secret Sauce Behind Enterprise AI (A Product Manager’s Guide)**\n\nIf you’re a Product Manager working with AI right now, you’ve likely run into a frustrating wall. You’ve integrated a Large Language Model (LLM) like GPT-4 into your product. It’s incredibly smart, writes beautifully, and understands complex instructions. \n\nBut there’s a catch: It doesn’t know anything about *your* business. \n\nIf a user asks your new AI chatbot about a product feature you released yesterday, or a specific customer’s billing history, the LLM will either apologize for not knowing, or worse, it will confidently hallucinate a completely fake answer. \n\nYou could try to \"teach\" the model your data by fine-tuning it, but that is wildly expensive, requires constant updating, and raises massive data privacy concerns. \n\nEnter **Retrieval-Augmented Generation (RAG)**. \n\nRAG is the architecture that bridges the gap between the general intelligence of an LLM and the specific, proprietary data of your product. Here is everything you need to know about RAG, without a single line of code.\n\n---\n\n### The Analogy: The Open-Book Exam\n\nTo understand RAG, think about taking a university exam.\n\nA standard LLM is taking a **closed-book exam**. It has to rely entirely on what it memorized during its training months or years ago. If it forgets a detail, it might try to guess (hallucinate) to get partial credit.\n\nRAG turns that into an **open-book exam**. \n\nWith RAG, before the AI answers the question, it is allowed to walk over to your company’s filing cabinet, pull out the exact documents relevant to the question, read them, and *then* write its answer based on those documents. \n\n### How RAG Works (The 4-Step Flow)\n\nWhen your engineering team builds a RAG pipeline, they are essentially building a highly intelligent search engine attached to an LLM. Here is the user journey:\n\n**1. The User Query**\nThe user types a question into your product. *(e.g., \"What is your refund policy for"
+  },
+  {
+    "task_id": "c-write-02",
+    "domain": "writing",
+    "model": "gemini_3.1_pro",
+    "condition": "expert_handcraft",
+    "latency_s": 30.6,
+    "word_count": 891,
+    "jury": {
+      "final_scores": {
+        "task_completion": 9.5,
+        "quality": 9.0,
+        "format_adherence": 9.0,
+        "conciseness": 8.0
+      },
+      "total_median_score": 35.5,
+      "raw_judgments": {
+        "llama": {
+          "task_completion": 10,
+          "quality": 9,
+          "format_adherence": 9,
+          "conciseness": 8
+        },
+        "opus": {
+          "task_completion": 9,
+          "quality": 9,
+          "format_adherence": 9,
+          "conciseness": 8
+        },
+        "selene": {
+          "parse_error": "Selene HTTP 410"
+        }
+      }
+    },
+    "total_score": 35.5,
+    "scores": {
+      "task_completion": 9.5,
+      "quality": 9.0,
+      "format_adherence": 9.0,
+      "conciseness": 8.0
+    },
+    "downstream_output": "# Demystifying RAG: How to Give Your AI Product a Perfect Memory\n\nAs a Product Manager, you already know that Artificial Intelligence (AI) is transforming how we build software. You’ve likely used tools like ChatGPT and thought, *\"How can we put this inside our product to answer our users' questions?\"*\n\nBut when you actually try to build this feature, you hit a wall. The AI gives outdated answers. It doesn't know anything about your company's private data. Worse, it sometimes confidently makes things up. \n\nTo fix this, your engineering team might suggest something called **RAG**. \n\nIf you’re wondering what RAG is, why your engineers are talking about it, and how it solves your product's AI problems, you’re in the right place. Let’s break it down.\n\n---\n\n## The Problem: The \"Closed-Book Exam\" Dilemma\n\nTo understand RAG, we first need to understand the limitations of standard Large Language Models (LLMs)—the core technology behind tools like ChatGPT. \n\nThink of a standard LLM as a brilliant, highly articulate intern who has read millions of books, but is now locked in a room without internet access. If you ask them a question, they have to answer entirely from memory. \n\nThis leads to three major product risks:\n1. **The Training Cutoff:** The AI only knows information up to the date it was created. If it was trained in 2023, it knows nothing about 2024.\n2. **Lack of Private Knowledge:** The AI has never read your company’s internal wikis, customer data, or proprietary manuals. \n3. **Hallucinations:** This is an industry term for when an AI doesn't know the answer, but instead of saying \"I don't know,\" it confidently makes up a completely fake answer. \n\nIf your product relies on an AI taking a \"closed-book exam\" from memory, your users will eventually get wrong, outdated, or irrelevant answers.\n\n---\n\n## The Solution: Enter RAG (Retrieval-Augmented Generation)\n\n**RAG** stands for **Retrieval-Augmented Generation**. \n\nIf a standard AI is taking a closed-book exam, **RAG tu"
+  },
+  {
+    "task_id": "c-write-02",
+    "domain": "writing",
+    "model": "gemini_3.1_pro",
+    "condition": "prompttriage",
+    "latency_s": 34.1,
+    "word_count": 1179,
+    "jury": {
+      "final_scores": {
+        "task_completion": 7.5,
+        "quality": 9.0,
+        "format_adherence": 8.0,
+        "conciseness": 8.0
+      },
+      "total_median_score": 32.5,
+      "raw_judgments": {
+        "llama": {
+          "task_completion": 9,
+          "quality": 9,
+          "format_adherence": 9,
+          "conciseness": 8
+        },
+        "opus": {
+          "task_completion": 6,
+          "quality": 9,
+          "format_adherence": 7,
+          "conciseness": 8
+        },
+        "selene": {
+          "parse_error": "Selene HTTP 410"
+        }
+      }
+    },
+    "total_score": 32.5,
+    "scores": {
+      "task_completion": 7.5,
+      "quality": 9.0,
+      "format_adherence": 8.0,
+      "conciseness": 8.0
+    },
+    "downstream_output": "**Title: The Product Manager’s Guide to RAG: How to Make AI Smart About Your Own Data**\n\nYou’ve seen the magic of Large Language Models (LLMs) like ChatGPT. You’ve probably even brainstormed ways to integrate them into your product. But as a Product Manager, you’ve likely run into a massive roadblock: \n\n*LLMs don’t know anything about your company.* \n\nIf a user asks your new AI chatbot, \"What is my specific account balance?\" or \"How does your enterprise pricing work?\", the LLM will either confidently hallucinate a wrong answer or politely apologize that it doesn't know. \n\nYou could try to teach the AI everything about your business, but that’s incredibly expensive and hard to maintain. \n\nEnter **RAG (Retrieval-Augmented Generation)**. It is currently the most popular, cost-effective, and reliable way to build AI products that actually understand your proprietary data. Here is everything you need to know about RAG, without a single line of code.\n\n---\n\n### The Core Problem: The \"Closed-Book\" Test\nTo understand RAG, you first need to understand how standard LLMs work. \n\nWhen you ask ChatGPT a question, it relies entirely on the data it was trained on months or years ago. It is taking a **closed-book test**. If it doesn't know the answer, it might try to guess (hallucinate) because it is designed to generate text that *sounds* correct.\n\nFor consumer products, a hallucination is a funny quirk. For enterprise products, a hallucination is a churn-inducing liability. \n\n### The Solution: The \"Open-Book\" Test (What is RAG?)\nRAG changes the rules of the game. Instead of forcing the AI to take a closed-book test, RAG turns it into an **open-book test**. \n\nRAG stands for **Retrieval-Augmented Generation**. Let’s break down what that actually means in plain English:\n\n1. **Retrieval:** When a user asks a question, the system searches your private database for relevant information.\n2. **Augmented:** The system takes the user's question *and* the information it just found, and combi"
+  },
+  {
+    "task_id": "c-write-03",
+    "domain": "writing",
+    "model": "gemini_3.1_pro",
+    "condition": "bare",
+    "latency_s": 19.3,
+    "word_count": 460,
+    "jury": {
+      "final_scores": {
+        "task_completion": 8.5,
+        "quality": 9.0,
+        "format_adherence": 8.0,
+        "conciseness": 7.5
+      },
+      "total_median_score": 33.0,
+      "raw_judgments": {
+        "llama": {
+          "task_completion": 9,
+          "quality": 9,
+          "format_adherence": 8,
+          "conciseness": 8
+        },
+        "opus": {
+          "task_completion": 8,
+          "quality": 9,
+          "format_adherence": 8,
+          "conciseness": 7
+        },
+        "selene": {
+          "parse_error": "Selene HTTP 410"
+        }
+      }
+    },
+    "total_score": 33.0,
+    "scores": {
+      "task_completion": 8.5,
+      "quality": 9.0,
+      "format_adherence": 8.0,
+      "conciseness": 7.5
+    },
+    "downstream_output": "Here are a few options for your user-facing changelog, depending on the tone of your brand. \n\n### Option 1: Modern & Engaging (Great for SaaS, B2C, or creative tools)\n\n**🚀 What's New in Version 2.0!**\n*Release Date: [Insert Date]*\n\nWelcome to Version 2.0! We are thrilled to roll out our biggest update yet. This release is packed with highly requested features designed to make your workflow faster, smoother, and easier on the eyes. \n\n**✨ New Features**\n*   🌙 **Dark Mode is Here:** You asked, we listened! Give your eyes a rest and work comfortably in low-light environments with our beautiful new Dark Mode. You can toggle it on right now in your Settings.\n*   ⚡ **Lightning-Fast Exports:** Time is money. We’ve completely rebuilt our export engine under the hood, making your file exports up to **5x faster** than before. Less waiting, more doing.\n*   📊 **CSV Import Support:** Bring your data in seamlessly. You can now upload CSV files directly into your workspace, making data migration and setup an absolute breeze.\n\n**🛠️ Bug Fixes & Improvements**\n*   **Login Timeouts:** We squashed a pesky bug that was causing unexpected timeouts during the login process. Getting into your account is now smooth and reliable.\n\nThank you for your continued feedback and support! Update your app today to experience v2.0. Have questions or feedback? Drop us a line at [Support Email/Link].\n\n***\n\n### Option 2: Clean & Professional (Great for enterprise, B2B, or utility software)\n\n**Release Notes: Version 2.0**\n*Date: [Insert Date]*\n\nWe are excited to announce the release of Version 2.0. This major update introduces significant performance enhancements and new tools to streamline your data management.\n\n**What’s New:**\n*   **Dark Mode:** We have introduced a Dark Mode interface to reduce eye strain and improve visibility in low-light conditions. This can be enabled via the Settings menu.\n*   **5x Faster Exports:** Our export processing has been fully optimized. Users will now experience export sp"
+  },
+  {
+    "task_id": "c-write-03",
+    "domain": "writing",
+    "model": "gemini_3.1_pro",
+    "condition": "simple",
+    "latency_s": 17.4,
+    "word_count": 505,
+    "jury": {
+      "final_scores": {
+        "task_completion": 8.5,
+        "quality": 9.0,
+        "format_adherence": 8.0,
+        "conciseness": 7.0
+      },
+      "total_median_score": 32.5,
+      "raw_judgments": {
+        "llama": {
+          "task_completion": 9,
+          "quality": 9,
+          "format_adherence": 9,
+          "conciseness": 8
+        },
+        "opus": {
+          "task_completion": 8,
+          "quality": 9,
+          "format_adherence": 7,
+          "conciseness": 6
+        },
+        "selene": {
+          "parse_error": "Selene HTTP 410"
+        }
+      }
+    },
+    "total_score": 32.5,
+    "scores": {
+      "task_completion": 8.5,
+      "quality": 9.0,
+      "format_adherence": 8.0,
+      "conciseness": 7.0
+    },
+    "downstream_output": "Here are a few options for the changelog, ranging from fun and engaging to standard and professional. Choose the one that best fits your brand's voice!\n\n### Option 1: Engaging & Enthusiastic (Best for most modern software/SaaS)\n\n**🚀 What’s New in Version 2.0!**\n*Release Date: [Insert Date]*\n\nWelcome to Version 2.0! This is a massive update focused on saving you time, giving you more flexibility, and making the app easier on the eyes. Here is what’s new:\n\n**✨ New Features**\n*   🌙 **Dark Mode is Here:** You asked, we listened! Give your eyes a rest and work comfortably in low-light environments with our sleek new Dark Mode. *(Toggle it on in Settings > Appearance).*\n*   ⚡ **Lightning-Fast Exports:** Time is money. We’ve completely overhauled our export engine, making your data exports up to **5x faster**. Spend less time waiting and more time doing.\n*   📊 **CSV Import Support:** Moving your data just got a whole lot easier. You can now seamlessly bring in your existing data by uploading a CSV file, getting you set up in seconds.\n\n**🛠️ Bug Fixes & Improvements**\n*   **Squashed the Login Bug:** We resolved an annoying issue where some users were experiencing unexpected timeouts while trying to log in. Accessing your account is now smooth and reliable.\n\nThank you for your continued feedback! Update your app today to enjoy these new features. \n\n***\n\n### Option 2: Clean & Professional (Best for B2B or enterprise software)\n\n**Release Notes: Version 2.0**\n*Release Date: [Insert Date]*\n\nWe are excited to announce the release of Version 2.0. This major update introduces highly requested features designed to improve your workflow efficiency and user experience. \n\n**New Features & Enhancements:**\n*   **Dark Mode:** A new dark theme is now available, providing a high-contrast, low-glare interface ideal for extended use or low-light environments. \n*   **Accelerated Exports:** We have optimized our backend processing. Users will now experience export speeds up to 5x faster than pre"
+  },
+  {
+    "task_id": "c-write-03",
+    "domain": "writing",
+    "model": "gemini_3.1_pro",
+    "condition": "expert_handcraft",
+    "latency_s": 13.0,
+    "word_count": 222,
+    "jury": {
+      "final_scores": {
+        "task_completion": 8.5,
+        "quality": 9.0,
+        "format_adherence": 8.5,
+        "conciseness": 8.5
+      },
+      "total_median_score": 34.5,
+      "raw_judgments": {
+        "llama": {
+          "task_completion": 9,
+          "quality": 9,
+          "format_adherence": 8,
+          "conciseness": 8
+        },
+        "opus": {
+          "task_completion": 8,
+          "quality": 9,
+          "format_adherence": 9,
+          "conciseness": 9
+        },
+        "selene": {
+          "parse_error": "Selene HTTP 410"
+        }
+      }
+    },
+    "total_score": 34.5,
+    "scores": {
+      "task_completion": 8.5,
+      "quality": 9.0,
+      "format_adherence": 8.5,
+      "conciseness": 8.5
+    },
+    "downstream_output": "🎉 **Welcome to Version 2.0!** \n\nWe are absolutely thrilled to roll out v2.0! This major milestone is all about giving you more control, saving you valuable time, and making your day-to-day experience in our platform smoother than ever. \n\nHere is what is new and improved in this release:\n\n### 🚀 Major Features\n*   **Sleek New Dark Mode:** You asked, we listened! You can now switch to Dark Mode to reduce eye strain, save battery life, and work more comfortably in low-light environments. *(Toggle this anytime in your Account Settings).*\n*   **Seamless CSV Imports:** Say goodbye to manual data entry. You can now bulk-import your existing data directly into the platform using our new CSV Import tool, making onboarding and data migration a breeze.\n\n### ⚡ Improvements\n*   **5x Faster Exports:** We have completely overhauled our export engine. Your reports and data downloads are now up to 5 times faster, meaning less time waiting on loading bars and more time focusing on your actual work.\n\n### 🛠️ Bug Fixes\n*   **Stable Sessions:** We squashed a frustrating bug that was causing unexpected login timeouts. Your active sessions will now remain stable and securely connected without unnecessary interruptions. \n\n***\n\n*Thank you for your continued feedback! If you have any questions or need help navigating the new features, our support team is always here for you.*"
+  },
+  {
+    "task_id": "c-write-03",
+    "domain": "writing",
+    "model": "gemini_3.1_pro",
+    "condition": "prompttriage",
+    "latency_s": 15.9,
+    "word_count": 292,
+    "jury": {
+      "final_scores": {
+        "task_completion": 8.5,
+        "quality": 9.0,
+        "format_adherence": 9.0,
+        "conciseness": 8.0
+      },
+      "total_median_score": 34.5,
+      "raw_judgments": {
+        "llama": {
+          "task_completion": 9,
+          "quality": 9,
+          "format_adherence": 9,
+          "conciseness": 8
+        },
+        "opus": {
+          "task_completion": 8,
+          "quality": 9,
+          "format_adherence": 9,
+          "conciseness": 8
+        },
+        "selene": {
+          "parse_error": "Selene HTTP 410"
+        }
+      }
+    },
+    "total_score": 34.5,
+    "scores": {
+      "task_completion": 8.5,
+      "quality": 9.0,
+      "format_adherence": 9.0,
+      "conciseness": 8.0
+    },
+    "downstream_output": "Here is a user-facing changelog designed to be engaging, clear, and focused on the value these updates bring to your users. \n\n***\n\n# 🚀 What's New in Version 2.0!\n**Release Date:** [Insert Date]\n\nWe are thrilled to announce the release of **Version 2.0**! This is a major milestone, and we’ve packed it with some of your most highly requested features. This update is all about saving you time, streamlining your workflow, and making the app a little easier on the eyes. \n\nHere is what’s new:\n\n### ✨ New Features\n\n*   🌙 **Hello, Dark Mode!**\n    You asked, we listened. Give your eyes a rest with our sleek, newly designed Dark Mode. Perfect for late-night work sessions or just giving your workspace a fresh, modern look. *(You can toggle this on right now in your Settings).*\n*   ⚡ **Lightning-Fast Exports (5x Faster!)**\n    Say goodbye to waiting around. We’ve completely rebuilt our export engine under the hood. Your reports and files will now export up to **5 times faster**, so you can grab your data and get back to what matters. \n*   📊 **CSV Import Support**\n    Getting your data into the app just got a whole lot easier. You can now bulk-import your existing data directly using CSV files, saving you hours of manual data entry. \n\n### 🛠️ Bug Fixes & Improvements\n\n*   **Squashed: Login Timeouts**\n    We tracked down and resolved a frustrating bug that was causing unexpected timeouts during the login process. Your login experience should now be smooth, stable, and uninterrupted. \n\n***\n\n**Ready to explore?** \nUpdate to v2.0 today to check out the new features! As always, thank you for your continued feedback and support. If you have any questions or run into any issues, reach out to us at [Insert Support Email/Link]."
+  },
+  {
+    "task_id": "c-analy-01",
+    "domain": "analysis",
+    "model": "gemini_3.1_pro",
+    "condition": "bare",
+    "latency_s": 29.5,
+    "word_count": 923,
+    "jury": {
+      "final_scores": {
+        "task_completion": 8.0,
+        "quality": 8.0,
+        "format_adherence": 7.25,
+        "conciseness": 7.0
+      },
+      "total_median_score": 30.25,
+      "raw_judgments": {
+        "llama": {
+          "task_completion": 9,
+          "quality": 9,
+          "format_adherence": 8.5,
+          "conciseness": 8
+        },
+        "opus": {
+          "task_completion": 7,
+          "quality": 7,
+          "format_adherence": 6,
+          "conciseness": 6
+        },
+        "selene": {
+          "parse_error": "Selene HTTP 410"
+        }
+      }
+    },
+    "total_score": 30.25,
+    "scores": {
+      "task_completion": 8.0,
+      "quality": 8.0,
+      "format_adherence": 7.25,
+      "conciseness": 7.0
+    },
+    "downstream_output": "When building an e-commerce shopping cart system, choosing between PostgreSQL (SQL) and MongoDB (NoSQL) is a classic architectural decision. Both are highly capable, but they approach data differently. \n\nTo determine which is \"better,\" we have to look at the specific characteristics of a shopping cart: **high read/write volume, flexible data structures (product variants), temporary lifespan, and the eventual need to convert to a finalized order.**\n\nHere is a detailed comparison of how PostgreSQL and MongoDB handle a shopping cart system, followed by the verdict.\n\n---\n\n### 1. PostgreSQL (Relational / SQL)\n\nIn a traditional Postgres setup, a cart system usually involves multiple tables: `Cart`, `Cart_Items`, and foreign keys linking to `Users` and `Products`. \n\n**Pros for a Shopping Cart:**\n*   **ACID Compliance:** Postgres guarantees strict data consistency. When a user checks out, converting the cart into an Order, deducting inventory, and processing payment must happen in a flawless transaction. Postgres excels here.\n*   **Data Integrity:** Foreign keys ensure that a user cannot add a product to their cart that has been deleted from the database.\n*   **The `JSONB` Superpower:** Modern Postgres supports `JSONB` columns. This means you can store structured relational data (User ID, Cart ID) alongside unstructured NoSQL-style data (custom product configurations, sizes, colors) in the exact same database.\n*   **Complex Analytics:** If your marketing team wants to know, *\"How many users abandoned carts containing red shoes priced over $50 in the last week?\"* Postgres handles this complex joining and querying effortlessly.\n\n**Cons for a Shopping Cart:**\n*   **Schema Rigidity:** If you don't use `JSONB`, altering tables to accommodate new product attributes can be cumbersome.\n*   **Scaling:** Scaling Postgres horizontally (adding more servers to handle Black Friday traffic) is notoriously difficult compared to NoSQL. You usually have to scale vertically (buying a bigger, "
+  },
+  {
+    "task_id": "c-analy-01",
+    "domain": "analysis",
+    "model": "gemini_3.1_pro",
+    "condition": "simple",
+    "latency_s": 28.8,
+    "word_count": 914,
+    "jury": {
+      "final_scores": {
+        "task_completion": 8.5,
+        "quality": 8.5,
+        "format_adherence": 7.5,
+        "conciseness": 7.5
+      },
+      "total_median_score": 32.0,
+      "raw_judgments": {
+        "llama": {
+          "task_completion": 10,
+          "quality": 9,
+          "format_adherence": 9,
+          "conciseness": 8
+        },
+        "opus": {
+          "task_completion": 7,
+          "quality": 8,
+          "format_adherence": 6,
+          "conciseness": 7
+        },
+        "selene": {
+          "parse_error": "Selene HTTP 410"
+        }
+      }
+    },
+    "total_score": 32.0,
+    "scores": {
+      "task_completion": 8.5,
+      "quality": 8.5,
+      "format_adherence": 7.5,
+      "conciseness": 7.5
+    },
+    "downstream_output": "Comparing PostgreSQL (SQL) and MongoDB (NoSQL) for a shopping cart system is a classic database architecture debate. Both are highly capable, but they approach data modeling, scaling, and consistency in fundamentally different ways.\n\nHere is a deep dive into how they compare, followed by a verdict on which is \"better\" for an e-commerce shopping cart.\n\n---\n\n### 1. PostgreSQL (The Relational / SQL Approach)\n\nIn Postgres, a shopping cart is typically modeled using at least two tables: a `carts` table (tracking the user/session) and a `cart_items` table (tracking the products, quantities, and prices). \n\n**Pros:**\n* **ACID Compliance:** Postgres guarantees strict data integrity. When a user adds an item, updates a quantity, and applies a discount, you can wrap this in a transaction. If any step fails, the whole operation rolls back.\n* **Seamless Transition to Checkout:** A shopping cart eventually becomes an `Order`. Because orders, payments, and inventory *must* be strictly relational and ACID-compliant, having your cart in Postgres makes the transition from \"Cart\" to \"Order\" incredibly smooth.\n* **JSONB Support:** Postgres has excellent support for unstructured data via `JSONB`. If products have highly variable attributes (e.g., a laptop has RAM/CPU specs, while a t-shirt has size/color), you can store these in a JSONB column within your relational table, giving you NoSQL-like flexibility inside a SQL database.\n* **Data Consistency:** You don't store the product name or price in the cart; you store the `product_id` and join it to the `products` table. If a product's price changes, the cart automatically reflects the new price upon the next query.\n\n**Cons:**\n* **Complex Queries:** Fetching a complete cart requires `JOIN` operations (joining Carts, Cart Items, and Products).\n* **Rigid Schema:** While JSONB helps, the core structure requires upfront schema design and migrations when making structural changes.\n\n---\n\n### 2. MongoDB (The Document / NoSQL Approach)\n\nIn MongoD"
+  },
+  {
+    "task_id": "c-analy-01",
+    "domain": "analysis",
+    "model": "gemini_3.1_pro",
+    "condition": "expert_handcraft",
+    "latency_s": 33.5,
+    "word_count": 855,
+    "jury": {
+      "final_scores": {
+        "task_completion": 9.0,
+        "quality": 9.0,
+        "format_adherence": 9.0,
+        "conciseness": 8.0
+      },
+      "total_median_score": 35.0,
+      "raw_judgments": {
+        "llama": {
+          "task_completion": 9,
+          "quality": 9,
+          "format_adherence": 9,
+          "conciseness": 8
+        },
+        "opus": {
+          "task_completion": 9,
+          "quality": 9,
+          "format_adherence": 9,
+          "conciseness": 8
+        },
+        "selene": {
+          "parse_error": "Selene HTTP 410"
+        }
+      }
+    },
+    "total_score": 35.0,
+    "scores": {
+      "task_completion": 9.0,
+      "quality": 9.0,
+      "format_adherence": 9.0,
+      "conciseness": 8.0
+    },
+    "downstream_output": "As a Principal Cloud Architect, I evaluate database selections by first isolating the **access patterns** and **lifecycle** of the data. \n\nA shopping cart is a unique bounded context in e-commerce. It is highly ephemeral, write-heavy (users constantly add, remove, or update quantities), requires low-latency reads, and demands high availability. If a cart system goes down or slows down, revenue drops immediately. However, until the user clicks \"Checkout,\" the data does not strictly require the rigorous, multi-table ACID compliance of a financial ledger.\n\nHere is the architectural evaluation of PostgreSQL versus MongoDB for a shopping cart system, evaluated across your requested pillars.\n\n---\n\n### 1. PostgreSQL (Relational / SQL)\n\nIn Postgres, you would typically model a cart either relationally (a `carts` table and a `cart_items` table) or by utilizing its powerful `JSONB` column type to store the cart state.\n\n*   **Data Consistency:** Postgres provides strict, multi-table ACID compliance. If your architecture requires the cart to synchronously lock inventory or validate against a pricing table in real-time, Postgres guarantees absolute consistency. \n*   **Scalability:** Postgres scales vertically (scaling up compute/memory) exceptionally well. However, because carts are write-heavy, you will eventually hit the limits of a single primary write node. Horizontal write scaling (sharding) in Postgres is notoriously complex and requires extensions like Citus or heavy application-level routing.\n*   **Latency:** Very low latency for standard operations. However, if modeled relationally, fetching a cart requires `JOIN` operations between `carts`, `cart_items`, and potentially `products`. Under extreme load (e.g., Black Friday), these joins consume significant CPU, potentially increasing latency.\n*   **Operational Overhead:** Highly mature tooling, but schema migrations can be rigid. If you need to add dynamic product attributes (e.g., custom engraving text, dynamic bundle ID"
+  },
+  {
+    "task_id": "c-analy-01",
+    "domain": "analysis",
+    "model": "gemini_3.1_pro",
+    "condition": "prompttriage",
+    "latency_s": 31.2,
+    "word_count": 845,
+    "jury": {
+      "final_scores": {
+        "task_completion": 8.5,
+        "quality": 9.0,
+        "format_adherence": 8.5,
+        "conciseness": 7.5
+      },
+      "total_median_score": 33.5,
+      "raw_judgments": {
+        "llama": {
+          "task_completion": 9,
+          "quality": 9,
+          "format_adherence": 9,
+          "conciseness": 8
+        },
+        "opus": {
+          "task_completion": 8,
+          "quality": 9,
+          "format_adherence": 8,
+          "conciseness": 7
+        },
+        "selene": {
+          "parse_error": "Selene HTTP 410"
+        }
+      }
+    },
+    "total_score": 33.5,
+    "scores": {
+      "task_completion": 8.5,
+      "quality": 9.0,
+      "format_adherence": 8.5,
+      "conciseness": 7.5
+    },
+    "downstream_output": "When building an e-commerce shopping cart system, choosing between PostgreSQL (SQL) and MongoDB (NoSQL) comes down to understanding the nature of shopping cart data. \n\nA shopping cart is highly dynamic, read/write-heavy, often transient (abandoned carts), and requires a flexible data structure to handle various product types.\n\nHere is a detailed comparison of how both databases handle a shopping cart system, followed by a verdict on which is \"better.\"\n\n---\n\n### 1. Data Modeling & Schema\n\n**PostgreSQL (Relational)**\nIn Postgres, you typically normalize the data. A shopping cart would require at least three tables: `Cart`, `Cart_Items`, and `Products`.\n*   **Pros:** Strict data integrity. If a product is deleted from the catalog, foreign keys ensure the cart handles it gracefully.\n*   **Cons:** Fetching a user’s cart requires `JOIN` operations. While Postgres is incredibly fast, joining multiple tables for every cart load adds overhead. (Note: Postgres *does* support `JSONB`, allowing you to store the cart items as a JSON array, bridging the gap with NoSQL).\n\n**MongoDB (Document)**\nIn MongoDB, a shopping cart maps perfectly to a single JSON-like document. \n```json\n{\n  \"cart_id\": \"123\",\n  \"user_id\": \"456\",\n  \"items\": [\n    { \"product_id\": \"A1\", \"name\": \"Shirt\", \"qty\": 2, \"size\": \"L\" },\n    { \"product_id\": \"B2\", \"name\": \"Laptop\", \"qty\": 1, \"ram\": \"16GB\" }\n  ],\n  \"updated_at\": \"2023-10-27T10:00:00Z\"\n}\n```\n*   **Pros:** Fetching the cart is a single, blazing-fast read operation. The schema is flexible, meaning a shirt (needs a \"size\" attribute) and a laptop (needs a \"RAM\" attribute) can easily coexist in the same array without complex table structures.\n*   **Cons:** Data duplication. If you embed product names and prices in the cart document, and the price changes in the main catalog, the cart holds stale data (though this is often desired until the checkout phase).\n\n### 2. Performance & Scalability\n\n**PostgreSQL**\n*   **Performance:** Excellent for complex queries and tr"
+  },
+  {
+    "task_id": "c-analy-02",
+    "domain": "analysis",
+    "model": "gemini_3.1_pro",
+    "condition": "bare",
+    "latency_s": 31.2,
+    "word_count": 1108,
+    "jury": {
+      "final_scores": {
+        "task_completion": 8.0,
+        "quality": 8.5,
+        "format_adherence": 8.5,
+        "conciseness": 7.5
+      },
+      "total_median_score": 32.5,
+      "raw_judgments": {
+        "llama": {
+          "task_completion": 9,
+          "quality": 9,
+          "format_adherence": 9,
+          "conciseness": 8
+        },
+        "opus": {
+          "task_completion": 7,
+          "quality": 8,
+          "format_adherence": 8,
+          "conciseness": 7
+        },
+        "selene": {
+          "parse_error": "Selene HTTP 410"
+        }
+      }
+    },
+    "total_score": 32.5,
+    "scores": {
+      "task_completion": 8.0,
+      "quality": 8.5,
+      "format_adherence": 8.5,
+      "conciseness": 7.5
+    },
+    "downstream_output": "Here is a comprehensive competitive analysis of **GitHub Copilot** vs. **Cursor**, focusing on their core philosophies, features, and key differentiators.\n\n---\n\n# Executive Summary\nThe battle between GitHub Copilot and Cursor represents a fundamental shift in AI-assisted development. **GitHub Copilot** is the incumbent giant—an AI *plugin* designed to augment your existing workflow within your preferred IDE. **Cursor** is the disruptive challenger—an AI-first *IDE* (forked from VS Code) built from the ground up around artificial intelligence. \n\nWhile Copilot excels in enterprise trust, ecosystem integration, and broad IDE support, Cursor currently leads in deep codebase understanding, multi-file editing, and model flexibility (specifically the ability to use Anthropic’s Claude 3.5 Sonnet).\n\n---\n\n# 1. Core Philosophy & Architecture (The Biggest Differentiator)\n\n### GitHub Copilot: The Omnipresent Plugin\n*   **Architecture:** Copilot is an extension. It lives inside VS Code, Visual Studio, IntelliJ, Xcode, and Neovim. \n*   **Philosophy:** \"Bring AI to where the developer already works.\" \n*   **Limitation:** Because it is a plugin, it is restricted by the API limitations of the host IDE. It cannot easily manipulate the entire editor UI, terminal, or orchestrate complex multi-file changes without friction.\n\n### Cursor: The AI-Native IDE\n*   **Architecture:** Cursor is a standalone application. It is a hard fork of VS Code, meaning it supports all VS Code extensions, themes, and keybindings.\n*   **Philosophy:** \"Build the editor around the AI.\"\n*   **Advantage:** Because the Cursor team controls the entire application, they can build AI features deeply into the UI. AI isn't just a sidebar or autocomplete; it can read terminal errors, navigate between files, and rewrite entire project structures seamlessly.\n\n---\n\n# 2. Key Differentiators\n\n### A. Context Awareness & Codebase Understanding\n*   **Cursor (Winner):** Cursor’s `@` symbol is its killer feature. You can type `@` "
+  },
+  {
+    "task_id": "c-analy-02",
+    "domain": "analysis",
+    "model": "gemini_3.1_pro",
+    "condition": "simple",
+    "latency_s": 31.1,
+    "word_count": 996,
+    "jury": {
+      "final_scores": {
+        "task_completion": 8.0,
+        "quality": 8.5,
+        "format_adherence": 8.0,
+        "conciseness": 8.0
+      },
+      "total_median_score": 32.5,
+      "raw_judgments": {
+        "llama": {
+          "task_completion": 9,
+          "quality": 9,
+          "format_adherence": 9,
+          "conciseness": 8
+        },
+        "opus": {
+          "task_completion": 7,
+          "quality": 8,
+          "format_adherence": 7,
+          "conciseness": 8
+        },
+        "selene": {
+          "parse_error": "Selene HTTP 410"
+        }
+      }
+    },
+    "total_score": 32.5,
+    "scores": {
+      "task_completion": 8.0,
+      "quality": 8.5,
+      "format_adherence": 8.0,
+      "conciseness": 8.0
+    },
+    "downstream_output": "Here is a comprehensive competitive analysis of **GitHub Copilot** vs. **Cursor**, focusing on their core philosophies, feature sets, and key differentiators.\n\n---\n\n# Executive Summary\nWhile both GitHub Copilot and Cursor are powered by advanced Large Language Models (LLMs) to accelerate software development, their fundamental approaches differ. **GitHub Copilot** is an **extension** designed to bring AI into your existing workflow across various IDEs. **Cursor** is a **standalone IDE** (a fork of VS Code) built from the ground up with AI as its core interface. \n\nCurrently, the developer community generally views Copilot as the safe, enterprise-grade standard, while Cursor is widely considered the cutting-edge tool for power users.\n\n---\n\n## 1. Core Philosophy & Architecture\n\n*   **GitHub Copilot (The Plugin Model):** Microsoft and GitHub’s approach is to meet developers where they are. Copilot exists as a plugin for VS Code, Visual Studio, JetBrains (IntelliJ, PyCharm), and Neovim. It acts as an assistant *inside* your traditional coding environment.\n*   **Cursor (The Native AI IDE Model):** Cursor’s creators believed that bolting AI onto existing IDEs limits its potential. They forked VS Code to build an environment where AI dictates the UI/UX. Because it is a VS Code fork, it supports all VS Code extensions, themes, and keybindings, making migration frictionless for VS Code users.\n\n---\n\n## 2. Key Differentiators: Where Cursor Wins\n\n### A. Codebase Context & Indexing (RAG)\n*   **Cursor:** Cursor indexes your *entire* codebase using Retrieval-Augmented Generation (RAG). You can ask the chat, \"Where is the authentication logic?\" and it will scan all files to find it. Furthermore, Cursor uses the `@` symbol, allowing you to explicitly tag specific files, folders, official documentation (e.g., `@React Docs`), or even web links as context for the AI.\n*   **Copilot:** Copilot relies heavily on the files you currently have open in your editor and adjacent tabs. While GitH"
+  },
+  {
+    "task_id": "c-analy-02",
+    "domain": "analysis",
+    "model": "gemini_3.1_pro",
+    "condition": "expert_handcraft",
+    "latency_s": 35.0,
+    "word_count": 1062,
+    "jury": {
+      "final_scores": {
+        "task_completion": 8.0,
+        "quality": 8.5,
+        "format_adherence": 8.0,
+        "conciseness": 7.5
+      },
+      "total_median_score": 32.0,
+      "raw_judgments": {
+        "llama": {
+          "task_completion": 9,
+          "quality": 9,
+          "format_adherence": 9,
+          "conciseness": 8
+        },
+        "opus": {
+          "task_completion": 7,
+          "quality": 8,
+          "format_adherence": 7,
+          "conciseness": 7
+        },
+        "selene": {
+          "parse_error": "Selene HTTP 410"
+        }
+      }
+    },
+    "total_score": 32.0,
+    "scores": {
+      "task_completion": 8.0,
+      "quality": 8.5,
+      "format_adherence": 8.0,
+      "conciseness": 7.5
+    },
+    "downstream_output": "Here is a competitive analysis of GitHub Copilot and Cursor, evaluated through the lens of workflow integration, cognitive load reduction, and architectural feature depth.\n\n---\n\n### Executive Summary: The Paradigm Shift\nThe fundamental differentiator between GitHub Copilot and Cursor is architectural: **Copilot is an additive extension, while Cursor is an AI-native environment.** \n\nCopilot operates within the constraints of host IDE APIs (VS Code, JetBrains, Visual Studio), providing AI assistance as a layer *on top* of your existing workflow. Cursor, a hard fork of VS Code, integrates AI into the editor’s core event loop. This allows Cursor to manipulate the UI, manage file buffers, and handle context in ways that an extension simply cannot, shifting the developer from a \"typist\" to an \"orchestrator.\"\n\n---\n\n### 1. Architectural Approach & Workflow Integration\n\n#### GitHub Copilot: The Extension Model\n*   **Broad Compatibility:** Copilot’s greatest strength is its ubiquity. It integrates into VS Code, IntelliJ, Visual Studio, and Neovim. For enterprise teams with fragmented tooling (e.g., Java devs on IntelliJ, frontend devs on VS Code), Copilot provides a unified AI baseline.\n*   **Workflow:** Copilot relies heavily on a linear workflow. It excels at \"ghost text\" autocomplete and side-panel chat. However, because it is sandboxed as an extension, applying complex, multi-file code generated in the chat panel often requires manual copy-pasting or clicking \"apply to editor\" file-by-file.\n\n#### Cursor: The AI-Native Fork\n*   **Deep Editor Integration:** Because Cursor controls the entire IDE, it bypasses extension API limits. It can read the terminal output, predict where your cursor will move next, and render custom UI elements (like inline diffs) seamlessly.\n*   **Workflow:** Cursor introduces a non-linear workflow. Features like **Composer (Cmd+I)** allow developers to prompt the IDE to build a feature, and Cursor will autonomously open, edit, and save multiple files"
+  },
+  {
+    "task_id": "c-analy-02",
+    "domain": "analysis",
+    "model": "gemini_3.1_pro",
+    "condition": "prompttriage",
+    "latency_s": 31.2,
+    "word_count": 940,
+    "jury": {
+      "final_scores": {
+        "task_completion": 8.0,
+        "quality": 8.5,
+        "format_adherence": 8.5,
+        "conciseness": 8.0
+      },
+      "total_median_score": 33.0,
+      "raw_judgments": {
+        "llama": {
+          "task_completion": 9,
+          "quality": 9,
+          "format_adherence": 9,
+          "conciseness": 8
+        },
+        "opus": {
+          "task_completion": 7,
+          "quality": 8,
+          "format_adherence": 8,
+          "conciseness": 8
+        },
+        "selene": {
+          "parse_error": "Selene HTTP 410"
+        }
+      }
+    },
+    "total_score": 33.0,
+    "scores": {
+      "task_completion": 8.0,
+      "quality": 8.5,
+      "format_adherence": 8.5,
+      "conciseness": 8.0
+    },
+    "downstream_output": "Here is a comprehensive competitive analysis of **GitHub Copilot** vs. **Cursor**, focusing on their core philosophies, feature sets, and key differentiators.\n\n---\n\n# Competitive Analysis: GitHub Copilot vs. Cursor\n\n## Executive Summary\nWhile both GitHub Copilot and Cursor are leading AI-assisted coding tools, they represent fundamentally different approaches to the developer experience. **GitHub Copilot** is an *extension* designed to bring AI into your existing workflow and IDE. **Cursor** is an *AI-first IDE* (a fork of VS Code) built from the ground up around artificial intelligence. \n\nCurrently, Copilot dominates the enterprise market due to its deep GitHub integration and Microsoft backing, while Cursor has captured the mindshare of power users and startups due to its superior context awareness, multi-file editing capabilities, and model flexibility (specifically its integration of Anthropic's Claude 3.5 Sonnet).\n\n---\n\n## 1. The Fundamental Difference: Form Factor\n*   **GitHub Copilot:** An **Extension**. It plugs into VS Code, Visual Studio, JetBrains (IntelliJ, PyCharm), and Neovim. It is designed to be a passive assistant that lives inside your current environment.\n*   **Cursor:** A **Standalone IDE**. It is a customized fork of VS Code. Because it controls the entire editor environment, it can manipulate the UI, file system, and terminal in ways an extension simply cannot. *(Note: Because it is a VS Code fork, all existing VS Code extensions, themes, and keybindings work natively in Cursor).*\n\n---\n\n## 2. Key Differentiators\n\n### A. Model Flexibility (The \"Claude\" Advantage)\n*   **Copilot:** Locked into the Microsoft/OpenAI ecosystem. It relies primarily on customized versions of GPT-4o. \n*   **Cursor:** Model-agnostic. Users can seamlessly toggle between OpenAI (GPT-4o, o1-preview), Anthropic (Claude 3.5 Sonnet), and Google (Gemini). \n    *   *Why this matters:* Currently, **Claude 3.5 Sonnet** is widely considered by developers to be vastly superior to GP"
+  },
+  {
+    "task_id": "c-mix-01",
+    "domain": "mixed",
+    "model": "gemini_3.1_pro",
+    "condition": "bare",
+    "latency_s": 28.3,
+    "word_count": 782,
+    "jury": {
+      "final_scores": {
+        "task_completion": 8.0,
+        "quality": 8.5,
+        "format_adherence": 8.0,
+        "conciseness": 7.5
+      },
+      "total_median_score": 32.0,
+      "raw_judgments": {
+        "llama": {
+          "task_completion": 9,
+          "quality": 9,
+          "format_adherence": 9,
+          "conciseness": 8
+        },
+        "opus": {
+          "task_completion": 7,
+          "quality": 8,
+          "format_adherence": 7,
+          "conciseness": 7
+        },
+        "selene": {
+          "parse_error": "Selene HTTP 410"
+        }
+      }
+    },
+    "total_score": 32.0,
+    "scores": {
+      "task_completion": 8.0,
+      "quality": 8.5,
+      "format_adherence": 8.0,
+      "conciseness": 7.5
+    },
+    "downstream_output": "Here is a comprehensive onboarding flow specification for a new mobile banking app. It balances a frictionless user experience with strict financial compliance (AML/KYC).\n\n---\n\n# 📱 Product Specification: Mobile Banking Onboarding Flow\n\n## 1. Overview & Objectives\n*   **Goal:** Convert downloaded apps into fully verified, funded, and active bank accounts.\n*   **Estimated Time to Complete:** 3–5 minutes.\n*   **UX Principles:** Transparency (explain *why* we need data), Reassurance (highlight security), and Progress Visibility (use a progress bar).\n\n---\n\n## 2. Step-by-Step User Flow & Required Inputs\n\n### Step 1: Welcome & Authentication Setup\n*   **Screen:** Splash screen with a brief value proposition carousel.\n*   **User Inputs:**\n    *   Mobile Phone Number.\n    *   Email Address.\n*   **Security Check:** 6-digit OTP (One-Time Password) sent via SMS to verify device possession.\n\n### Step 2: Basic Personal Information\n*   **Screen:** \"Tell us about yourself.\" (Include a tooltip explaining that federal law requires this information).\n*   **User Inputs:**\n    *   Full Legal Name (First, Middle, Last).\n    *   Date of Birth (Must be 18+).\n    *   Residential Address (No PO Boxes allowed).\n    *   Social Security Number (SSN) or National Tax ID.\n\n### Step 3: KYC & Identity Verification (The Security Check)\n*   **Screen:** \"Let’s verify your identity.\"\n*   **User Inputs / Actions:**\n    *   **Document Scan:** User selects ID type (Driver’s License, State ID, or Passport). Uses device camera to capture the front and back of the document.\n    *   **Liveness Check (Selfie):** User takes a real-time selfie or completes a brief head-movement exercise (e.g., \"Look left, look right\").\n*   **Backend Security Checks (KYC/AML):**\n    *   *Optical Character Recognition (OCR):* Extracts text from the ID and matches it against the inputs from Step 2.\n    *   *Document Authenticity:* Checks for holograms, micro-printing, and edge detection to ensure the ID is not forged.\n    *   *Biome"
+  },
+  {
+    "task_id": "c-mix-01",
+    "domain": "mixed",
+    "model": "gemini_3.1_pro",
+    "condition": "simple",
+    "latency_s": 24.5,
+    "word_count": 668,
+    "jury": {
+      "final_scores": {
+        "task_completion": 8.5,
+        "quality": 8.5,
+        "format_adherence": 8.5,
+        "conciseness": 8.0
+      },
+      "total_median_score": 33.5,
+      "raw_judgments": {
+        "llama": {
+          "task_completion": 9,
+          "quality": 9,
+          "format_adherence": 9,
+          "conciseness": 8
+        },
+        "opus": {
+          "task_completion": 8,
+          "quality": 8,
+          "format_adherence": 8,
+          "conciseness": 8
+        },
+        "selene": {
+          "parse_error": "Selene HTTP 410"
+        }
+      }
+    },
+    "total_score": 33.5,
+    "scores": {
+      "task_completion": 8.5,
+      "quality": 8.5,
+      "format_adherence": 8.5,
+      "conciseness": 8.0
+    },
+    "downstream_output": "Here is a comprehensive onboarding flow specification for a new mobile banking app. This spec is designed to balance a frictionless user experience with strict regulatory compliance.\n\n---\n\n# 📱 Product Specification: Mobile Banking App Onboarding Flow\n\n## **Overview**\nThe onboarding flow is designed to take a user from app download to a fully verified, funded, and active bank account in under 5 minutes. The process is divided into four phases: Initial Setup, Identity Verification (KYC), Security Configuration, and Welcome.\n\n---\n\n## **Phase 1: Account Creation & Required User Inputs**\n*Goal: Collect the minimum required data to establish a profile and initiate background checks.*\n\n**1. Contact Information**\n*   **Mobile Phone Number:** (Triggers an immediate SMS OTP for phone verification).\n*   **Email Address:** (Triggers a background email verification link).\n\n**2. Personal Information**\n*   **Full Legal Name:** First, Middle (optional), and Last Name (must match government ID).\n*   **Date of Birth:** (User must be 18+; date picker format).\n*   **Residential Address:** Street, City, State, Zip Code (PO Boxes are not permitted; address auto-complete API used to reduce friction).\n\n**3. Financial & Regulatory Information**\n*   **Social Security Number (SSN) / National ID:** (Input masked by default for security).\n*   **Employment Status:** (Dropdown: Employed, Self-Employed, Student, Retired, Unemployed).\n*   **Primary Source of Funds:** (Dropdown: Salary, Savings, Investments, etc. - *Required for Anti-Money Laundering (AML) compliance*).\n\n---\n\n## **Phase 2: Security Checks & KYC (Know Your Customer)**\n*Goal: Verify the user’s identity, prevent fraud, and comply with federal banking regulations (CIP/AML).*\n\n**1. Document Verification**\n*   **Action:** User is prompted to scan a government-issued ID (Driver’s License, State ID, or Passport).\n*   **Tech:** OCR (Optical Character Recognition) extracts data from the ID to ensure it matches the inputs from Phase 1. Checks "
+  },
+  {
+    "task_id": "c-mix-01",
+    "domain": "mixed",
+    "model": "gemini_3.1_pro",
+    "condition": "expert_handcraft",
+    "latency_s": 29.6,
+    "word_count": 883,
+    "jury": {
+      "final_scores": {
+        "task_completion": 7.0,
+        "quality": 8.0,
+        "format_adherence": 6.5,
+        "conciseness": 7.5
+      },
+      "total_median_score": 29.0,
+      "raw_judgments": {
+        "llama": {
+          "task_completion": 9,
+          "quality": 9,
+          "format_adherence": 8,
+          "conciseness": 8
+        },
+        "opus": {
+          "task_completion": 5,
+          "quality": 7,
+          "format_adherence": 5,
+          "conciseness": 7
+        },
+        "selene": {
+          "parse_error": "Selene HTTP 410"
+        }
+      }
+    },
+    "total_score": 29.0,
+    "scores": {
+      "task_completion": 7.0,
+      "quality": 8.0,
+      "format_adherence": 6.5,
+      "conciseness": 7.5
+    },
+    "downstream_output": "Here is a comprehensive onboarding flow specification designed to balance a frictionless, high-conversion user experience with rigorous, bank-grade KYC/AML compliance. \n\n---\n\n# 📱 Mobile Banking App: Onboarding Flow Specification\n\n**Design Philosophy:** Progressive disclosure. We will collect low-friction data first to create a sunk-cost investment, followed by high-friction KYC data, cushioned by transparent, trust-building microcopy explaining *why* the data is needed.\n\n## Phase 1: The Hook & Account Initialization\n*Goal: Capture the user’s intent and establish a secure communication channel.*\n\n### Step 1: Welcome & Phone Verification\n*   **User Input:** Mobile Phone Number.\n*   **Security Check:** Device fingerprinting (background) + SMS OTP (One-Time Password) to verify possession of the device.\n*   **Microcopy:** *\"Let’s get started. Enter your mobile number to secure your account.\"*\n*   **UX Detail:** Auto-focus on the number pad. Auto-read OTP from SMS (OS permitting) to eliminate manual entry.\n\n### Step 2: Email & Password Setup\n*   **User Input:** Email Address, Secure Password.\n*   **Security Check:** Email syntax validation, password strength meter (checking against breached password databases in the background).\n*   **Microcopy:** *\"What’s your best email? We’ll use this for important account updates.\"*\n\n## Phase 2: Identity & Compliance (The KYC/AML Core)\n*Goal: Satisfy Customer Identification Program (CIP) and Anti-Money Laundering (AML) regulations without causing user drop-off.*\n\n### Step 3: Legal Identity\n*   **User Input:** Legal First and Last Name, Date of Birth.\n*   **Security Check:** Age verification (must be 18+).\n*   **Microcopy:** *\"To comply with federal banking regulations, we need your legal name and date of birth exactly as they appear on your government ID.\"*\n*   **UX Detail:** Use a native date-picker for DOB to prevent formatting errors.\n\n### Step 4: Residential Address\n*   **User Input:** Home Address (No PO Boxes allowed per AML rul"
+  },
+  {
+    "task_id": "c-mix-01",
+    "domain": "mixed",
+    "model": "gemini_3.1_pro",
+    "condition": "prompttriage",
+    "latency_s": 28.5,
+    "word_count": 850,
+    "jury": {
+      "final_scores": {
+        "task_completion": 8.0,
+        "quality": 8.5,
+        "format_adherence": 8.0,
+        "conciseness": 7.5
+      },
+      "total_median_score": 32.0,
+      "raw_judgments": {
+        "llama": {
+          "task_completion": 9,
+          "quality": 9,
+          "format_adherence": 9,
+          "conciseness": 8
+        },
+        "opus": {
+          "task_completion": 7,
+          "quality": 8,
+          "format_adherence": 7,
+          "conciseness": 7
+        },
+        "selene": {
+          "parse_error": "Selene HTTP 410"
+        }
+      }
+    },
+    "total_score": 32.0,
+    "scores": {
+      "task_completion": 8.0,
+      "quality": 8.5,
+      "format_adherence": 8.0,
+      "conciseness": 7.5
+    },
+    "downstream_output": "Here is a comprehensive onboarding flow specification for a new mobile banking app (let's call it **NovaBank**). \n\nThis flow is designed to balance a frictionless user experience (UX) with strict regulatory compliance and security.\n\n---\n\n# 📱 NovaBank: Onboarding Flow Specification\n\n**Objective:** Convert downloaded app users into fully verified, funded, and active account holders in under 5 minutes.\n**Design Principles:** Transparency (explain *why* we need info), Security (bank-grade encryption), and Momentum (keep the user moving forward).\n\n---\n\n## Phase 1: Account Creation & Authentication\n*Goal: Capture basic contact info and secure the user's login credentials.*\n\n**Step 1: Welcome & Value Proposition**\n*   **UI:** 3 swipeable screens highlighting key features (e.g., \"Zero Fees,\" \"Early Direct Deposit,\" \"24/7 Support\").\n*   **User Input:** Tap \"Get Started.\"\n\n**Step 2: Phone Verification**\n*   **User Input:** Enter Mobile Number.\n*   **System Action:** Sends a 6-digit SMS OTP (One-Time Password).\n*   **User Input:** Enter OTP.\n*   **Security Check:** Device fingerprinting begins; checks for VoIP or virtual numbers (fraud prevention).\n\n**Step 3: Email & Security Setup**\n*   **User Input:** Enter Email Address.\n*   **User Input:** Create a 6-digit App PIN.\n*   **User Input:** Opt-in for Biometrics (FaceID / TouchID).\n*   **Security Check:** Password/PIN strength validation (rejects 111111, 123456).\n\n---\n\n## Phase 2: Identity Verification (KYC / AML)\n*Goal: Comply with federal Know Your Customer (KYC) and Anti-Money Laundering (AML) regulations while minimizing user drop-off.*\n*(UX Note: A brief interstitial screen appears here stating: \"To keep your money safe and comply with federal law, we need to verify your identity. This takes less than 2 minutes.\")*\n\n**Step 4: Personal Information**\n*   **User Input:** Legal First, Middle, and Last Name.\n*   **User Input:** Date of Birth (DOB).\n*   **Security Check:** Age verification (must be 18+).\n\n**Step 5: Residential Ad"
+  },
+  {
+    "task_id": "c-mix-02",
+    "domain": "mixed",
+    "model": "gemini_3.1_pro",
+    "condition": "bare",
+    "latency_s": 38.8,
+    "word_count": 895,
+    "jury": {
+      "final_scores": {
+        "task_completion": 8.0,
+        "quality": 9.0,
+        "format_adherence": 8.0,
+        "conciseness": 7.5
+      },
+      "total_median_score": 32.5,
+      "raw_judgments": {
+        "llama": {
+          "task_completion": 9,
+          "quality": 9,
+          "format_adherence": 9,
+          "conciseness": 8
+        },
+        "opus": {
+          "task_completion": 7,
+          "quality": 9,
+          "format_adherence": 7,
+          "conciseness": 7
+        },
+        "selene": {
+          "parse_error": "Selene HTTP 410"
+        }
+      }
+    },
+    "total_score": 32.5,
+    "scores": {
+      "task_completion": 8.0,
+      "quality": 9.0,
+      "format_adherence": 8.0,
+      "conciseness": 7.5
+    },
+    "downstream_output": "Designing a monitoring and alerting strategy for a 5-API microservices architecture requires balancing visibility with actionable alerts. If you alert on everything, you will cause **alert fatigue**, and engineers will start ignoring them. \n\nThe industry standard for this is based on Google’s Site Reliability Engineering (SRE) principles, specifically focusing on **Symptom-Based Alerting** and the **Four Golden Signals**.\n\nHere is a comprehensive strategy for your system.\n\n---\n\n### Part 1: What Metrics to Track\nFor a 5-API system, you need a layered approach to metrics: Application (The Golden Signals), Infrastructure, and Business.\n\n#### 1. The Four Golden Signals (Application Layer)\nTrack these for **each** of the 5 APIs individually, as well as for the system as a whole (e.g., at the API Gateway).\n*   **Latency:** The time it takes to service a request. \n    *   *Track:* Percentiles (**p50, p90, p99**). Never rely solely on averages, as they hide outliers.\n*   **Traffic:** A measure of how much demand is being placed on your system.\n    *   *Track:* Requests Per Second (RPS) or Transactions Per Second (TPS).\n*   **Errors:** The rate of requests that fail.\n    *   *Track:* HTTP 5xx errors (server errors). Also track specific HTTP 4xx errors (like 429 Too Many Requests or 401 Unauthorized) if spikes indicate a security issue or misconfigured client.\n*   **Saturation:** How \"full\" your service is.\n    *   *Track:* Thread pool utilization, database connection pool usage, and memory heap usage.\n\n#### 2. Infrastructure Metrics\nWhile you shouldn't necessarily *page* on these, they are crucial for dashboards and root-cause analysis.\n*   **Compute:** CPU utilization, Memory usage, Disk I/O, Network I/O.\n*   **Database/Cache:** Query latency, active connections, slow queries, cache hit/miss ratio.\n*   **Message Queues (if applicable):** Queue depth/lag (how many messages are waiting to be processed).\n\n#### 3. Business Metrics\nOften overlooked, but the most important. If CP"
+  },
+  {
+    "task_id": "c-mix-02",
+    "domain": "mixed",
+    "model": "gemini_3.1_pro",
+    "condition": "simple",
+    "latency_s": 30.8,
+    "word_count": 902,
+    "jury": {
+      "final_scores": {
+        "task_completion": 8.5,
+        "quality": 9.0,
+        "format_adherence": 8.0,
+        "conciseness": 7.0
+      },
+      "total_median_score": 32.5,
+      "raw_judgments": {
+        "llama": {
+          "task_completion": 9,
+          "quality": 9,
+          "format_adherence": 8,
+          "conciseness": 7
+        },
+        "opus": {
+          "task_completion": 8,
+          "quality": 9,
+          "format_adherence": 8,
+          "conciseness": 7
+        },
+        "selene": {
+          "parse_error": "Selene HTTP 410"
+        }
+      }
+    },
+    "total_score": 32.5,
+    "scores": {
+      "task_completion": 8.5,
+      "quality": 9.0,
+      "format_adherence": 8.0,
+      "conciseness": 7.0
+    },
+    "downstream_output": "Designing a monitoring and alerting strategy for a 5-API microservices architecture requires balancing deep visibility with actionable alerts. If you alert on everything, your on-call engineers will suffer from **alert fatigue** and ignore critical issues. \n\nHere is a comprehensive strategy based on Site Reliability Engineering (SRE) best practices, specifically utilizing Google’s **Four Golden Signals** and a **Symptom-Based Alerting** philosophy.\n\n---\n\n### Part 1: What Metrics to Track (The Monitoring Strategy)\n\nFor a microservices system, you need to monitor at three levels: the Infrastructure, the Application (APIs), and the Business logic. \n\n#### 1. The Four Golden Signals (Application Level)\nFor *each* of the 5 APIs, you must track:\n*   **Latency:** The time it takes to service a request. \n    *   *Track:* p50 (median), p90, and p99 percentiles. **Do not rely on averages**, as they hide outliers.\n*   **Traffic:** The demand placed on your system.\n    *   *Track:* Requests Per Second (RPS) or Transactions Per Second (TPS).\n*   **Errors:** The rate of requests that fail.\n    *   *Track:* HTTP 5xx errors (server faults). Also track HTTP 4xx errors, but treat them separately (4xx usually means client error, 5xx means your API is broken).\n*   **Saturation:** How \"full\" your service is.\n    *   *Track:* CPU utilization, memory usage, database connection pool limits, and thread pool exhaustion.\n\n#### 2. Distributed Tracing (Microservice Specific)\nBecause a single user request might travel through API 1 → API 3 → API 5, standard logging is not enough.\n*   **Correlation IDs:** Inject a unique `Trace-ID` at the API gateway/entry point and pass it in the headers to all downstream APIs.\n*   **Span Metrics:** Track the time spent in each specific API during a single transaction to easily identify which of the 5 APIs is the bottleneck.\n\n#### 3. Infrastructure & Dependency Metrics\n*   **Database/Cache:** Query latency, slow queries, connection counts, and replication lag.\n* "
+  },
+  {
+    "task_id": "c-mix-02",
+    "domain": "mixed",
+    "model": "gemini_3.1_pro",
+    "condition": "expert_handcraft",
+    "latency_s": 29.0,
+    "word_count": 949,
+    "jury": {
+      "final_scores": {
+        "task_completion": 8.0,
+        "quality": 9.0,
+        "format_adherence": 7.5,
+        "conciseness": 7.0
+      },
+      "total_median_score": 31.5,
+      "raw_judgments": {
+        "llama": {
+          "task_completion": 9,
+          "quality": 9,
+          "format_adherence": 8,
+          "conciseness": 7
+        },
+        "opus": {
+          "task_completion": 7,
+          "quality": 9,
+          "format_adherence": 7,
+          "conciseness": 7
+        },
+        "selene": {
+          "parse_error": "Selene HTTP 410"
+        }
+      }
+    },
+    "total_score": 31.5,
+    "scores": {
+      "task_completion": 8.0,
+      "quality": 9.0,
+      "format_adherence": 7.5,
+      "conciseness": 7.0
+    },
+    "downstream_output": "Listen to me carefully, because getting this wrong is how you burn out your engineering team in six months. \n\nMost teams build monitoring backwards. They track CPU, memory, and disk I/O, and then they set up alerts that page an engineer at 3:00 AM because \"API-3 CPU hit 85%.\" The engineer wakes up, checks the dashboard, sees the system auto-scaled and users are fine, closes the alert, and goes back to sleep. \n\nThat is a **false positive**. Do that enough times, and your team develops alert fatigue. When a real outage happens, they’ll ignore it. \n\nAs an SRE, I don't care about your CPU. I care about the user. We are going to build a symptom-based monitoring strategy centered entirely around **RED metrics**, and we are going to use **Error Budget Burn Rates** to page people. \n\nHere is the blueprint for your 5-API microservices system.\n\n---\n\n### Part 1: What We Track (The RED Metrics)\n\nFor every single one of your 5 APIs, you will instrument your API gateway, service mesh, or application code to track these three things. Nothing more is needed for top-level alerting.\n\n**1. Rate (Traffic)**\n*   **What it is:** Requests per second (RPS).\n*   **Why we track it:** It gives context. Is the error spike happening during peak traffic, or did traffic suddenly drop to zero? (A sudden drop to zero is a massive red flag—it means upstream routing is broken or clients can't reach you).\n\n**2. Errors (Reliability)**\n*   **What it is:** The rate of failed requests. Specifically, HTTP 5xx responses. \n*   **Why we track it:** This is direct user pain. \n*   *Note on 4xx errors:* Do not page on 4xx errors by default. If a user inputs a bad password (401) or requests a missing resource (404), that is the client's fault, not your system's. Only track 4xx if it indicates a systemic issue (e.g., a sudden spike in 403s because a service account token expired).\n\n**3. Duration (Latency)**\n*   **What it is:** How long requests take. \n*   **The Golden Rule:** **Never use averages.** Averages hide o"
+  },
+  {
+    "task_id": "c-mix-02",
+    "domain": "mixed",
+    "model": "gemini_3.1_pro",
+    "condition": "prompttriage",
+    "latency_s": 28.4,
+    "word_count": 860,
+    "jury": {
+      "final_scores": {
+        "task_completion": 8.5,
+        "quality": 9.0,
+        "format_adherence": 8.5,
+        "conciseness": 7.5
+      },
+      "total_median_score": 33.5,
+      "raw_judgments": {
+        "llama": {
+          "task_completion": 9,
+          "quality": 9,
+          "format_adherence": 9,
+          "conciseness": 8
+        },
+        "opus": {
+          "task_completion": 8,
+          "quality": 9,
+          "format_adherence": 8,
+          "conciseness": 7
+        },
+        "selene": {
+          "parse_error": "Selene HTTP 410"
+        }
+      }
+    },
+    "total_score": 33.5,
+    "scores": {
+      "task_completion": 8.5,
+      "quality": 9.0,
+      "format_adherence": 8.5,
+      "conciseness": 7.5
+    },
+    "downstream_output": "Designing a monitoring and alerting strategy for a 5-API microservices architecture requires balancing visibility with the need to prevent **alert fatigue**. \n\nThe industry standard approach is to monitor based on **Google’s Four Golden Signals** (Latency, Traffic, Errors, Saturation) and alert based on **Symptoms** (user impact) rather than **Causes** (infrastructure quirks).\n\nHere is a comprehensive strategy for your system.\n\n---\n\n### Part 1: What Metrics to Track\nYou should track metrics across three layers: the Application (API) layer, the Infrastructure layer, and the Business layer.\n\n#### 1. Application Layer (The RED Method)\nFor each of the 5 APIs, track these metrics per endpoint:\n*   **Rate (Traffic):** Requests per second (RPS). This helps identify traffic spikes or sudden drops (which can indicate an upstream failure).\n*   **Errors:** \n    *   **5xx Error Rate:** Server-side errors (e.g., crashes, timeouts).\n    *   **4xx Error Rate:** Client-side errors. (Usually not actionable for your team, but a sudden spike in 401/403s might indicate an expired certificate or broken auth service).\n*   **Duration (Latency):** Measure response times using percentiles: **p50, p90, and p99**. *Never use averages*, as they hide extreme outliers. You want to know the experience of your slowest 1% of requests (p99).\n\n#### 2. Infrastructure Layer (Saturation)\nTrack the resources underlying your APIs (Containers, EC2 instances, Kubernetes pods) and their dependencies (Databases, Caches):\n*   **Compute:** CPU utilization, Memory usage, Network I/O.\n*   **Dependencies:** Database connection pool utilization, query execution times, message queue depth (if APIs communicate asynchronously).\n*   **Runtime:** Garbage collection pauses (Java/Go/C#), thread pool exhaustion, or event loop lag (Node.js).\n\n#### 3. Microservices Specifics\nBecause you have 5 APIs that likely communicate with one another, you must implement:\n*   **Distributed Tracing:** Pass a `X-Correlation-ID` header thro"
+  }
+]
