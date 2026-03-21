@@ -1,0 +1,34 @@
+{
+  "overall": {
+    "bare": 72.11538461538461,
+    "expert_handcraft": 73.5576923076923,
+    "prompttriage": 76.0576923076923,
+    "simple": 76.55
+  },
+  "by_domain": {
+    "code_defaults": {
+      "bare": 74.16666666666667,
+      "expert_handcraft": 87.91666666666667,
+      "prompttriage": 81.25,
+      "simple": 87.08333333333333
+    },
+    "formatting": {
+      "bare": 78.75,
+      "expert_handcraft": 71.04166666666667,
+      "prompttriage": 82.08333333333333,
+      "simple": 76.45833333333333
+    },
+    "persona": {
+      "bare": 88.33333333333333,
+      "expert_handcraft": 89.16666666666667,
+      "prompttriage": 91.25,
+      "simple": 90.0
+    },
+    "reasoning": {
+      "bare": 53.4375,
+      "expert_handcraft": 52.96875,
+      "prompttriage": 56.25,
+      "simple": 56.07142857142857
+    }
+  }
+}
