@@ -314,16 +314,13 @@ Plus metadata:
 
 ## 🤝 Contributing
 
-**Contributions are warmly welcome — and so are issues!** Whether you've found a bug, have a feature idea, or just want to improve the docs, we'd love to hear from you.
+This is an early-stage project and I'm currently the only developer — so if you spot something broken, confusing, or just have an idea, **please don't be shy!**
 
-- 🐛 **Found a problem?** [Open an issue](https://github.com/Ker102/PromptTriage/issues/new) — no issue is too small!
-- 💡 **Have an idea?** Start a [discussion](https://github.com/Ker102/PromptTriage/discussions) or file a feature request
-- 🔧 **Want to contribute code?** PRs of all sizes are welcome — from typo fixes to new features
+- 🐛 **Something broken?** [Open an issue](https://github.com/Ker102/PromptTriage/issues/new) — even a one-liner helps
+- 💡 **Got an idea?** [Start a discussion](https://github.com/Ker102/PromptTriage/discussions) or drop a feature request
+- 🔧 **Want to contribute code?** PRs are welcome, big or small
 
-Check out our [Contributing Guidelines](CONTRIBUTING.md) for:
-- Development setup & prerequisites
-- Pull request process
-- Coding standards & conventions
+See the [Contributing Guidelines](CONTRIBUTING.md) for setup instructions and conventions.
 
 ## 🔒 Security
 

@@ -29,3 +29,6 @@ Thumbs.db
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+moe_retrain_output/
+*.bak
