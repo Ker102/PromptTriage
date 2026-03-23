@@ -135,6 +135,7 @@ function formatPlanLabel(plan?: string | null): string | null {
 export default function Home() {
   const navLinks = [
     { label: "Refiner", href: "#prompt-refiner" },
+    { label: "Research", href: "/research" },
     { label: "Pricing", href: "/pricing" },
   ];
 
