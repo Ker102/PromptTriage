@@ -36,7 +36,17 @@ The platform excels at **system prompt generation** by referencing a curated cor
 - **Pinecone RAG Architecture**: 28K+ vectors for fast semantic retrieval of similar high-quality prompts
 - **Modality-Specific Prompts**: Dedicated metaprompts for Text, Image, Video, and System Prompt generation—each optimized for their domain
 - **MCP Tool Integration**: Context7 integration provides live documentation lookup for current library APIs
-- **Fine-Tuning Ready**: Curated datasets prepared for model fine-tuning (Gemini 1.5 Flash tuning supported)
+- **Fine-Tuning Ready**: Curated datasets prepared for Unsloth QLoRA and custom model fine-tuning
+
+## 🔬 Backed by 28K+ Scale Research
+
+PromptTriage isn't just a wrapper—it's built on our proprietary empirical research. We analyzed **28,000 production system prompts** to extract what actually drives frontier model reasoning:
+
+- **The 50-Word Rule (Study E):** Short prompts (<50 words, 80.1/100) consistently outperform long, bloated prompts (>300 words, 66.9/100). PromptTriage structures instructions into ruthless, boundary-focused directives.
+- **The Format Scaffold (Study E):** Forcing models into JSON or YAML schemas acts as a cognitive scaffold, mathematically improving reasoning quality over plain text output.
+- **The "Expert" Trap (Study C):** 80% of production prompts start with "Act as an expert." Our data proves this provides zero performance lift. PromptTriage strips out emotional appeals and persona bloat in favor of hard, negative constraints.
+
+---
 
 ## ✨ Features
 
@@ -72,6 +82,7 @@ The platform excels at **system prompt generation** by referencing a curated cor
 - **Output Format Selector**: Force outputs into JSON, XML, Markdown, or tabular formats
 - **Desired Output Specification**: Tell the AI what format your *target model* should respond in
 - **Thinking Mode**: Enable deep analysis with extended reasoning for complex prompts
+- **Fast Mode (Non-Thinking)**: Powered by `TriageAgent 14B` (our fine-tuned Qwen 3.0 14B model) for rapid iteration
 
 ### 🔌 **MCP Tool Integration**
 - **Context7**: Live documentation lookup for current library APIs (Next.js 15, React 19, LangChain, etc.)
@@ -235,10 +246,11 @@ The platform integrates with MCP tools for real-time context:
 - **[Pinecone](https://www.pinecone.io/)**: Vector database (28K+ embeddings)
 
 ### AI & RAG
-- **Google Gemini API**: Generation with `gemini-2.5-pro-preview-05-06`
-- **Gemini Embeddings**: `gemini-embedding-001` (768d) for vector similarity
+- **Thinking Mode**: Deep reasoning powered by `gemini-3.1-pro`
+- **Fast Mode**: Standard generation powered by our fine-tuned `TriageAgent 14B` (Qwen 3.0 14B)
+- **Advanced Configuration**: Corrective RAG (CRAG) architecture with Brave Search fallback
+- **Retrieval Engine**: `GTE-ModernBERT` embeddings for state-of-the-art vector similarity across 28K+ vectors
 - **9 Modality Metaprompts**: Text, Image, Video, System Prompt specializations
-- **Fine-Tuning Ready**: Datasets prepared for `gemini-1.5-flash-001-tuning`
 
 ### MCP Tools
 - **Context7**: Live library documentation lookup
@@ -302,15 +314,14 @@ Plus metadata:
 - [x] Pipeline logging (PipelineLogger)
 
 ### 🔜 In Progress
-- [ ] Fine-tuned model deployment (Gemini 1.5 Flash)
+- [ ] Open-sourcing the 28K Prompts empirical dataset
+- [ ] Deploying predictive Prompt Performance Analytics based on Study E findings
 - [ ] Public API with rate limiting
-- [ ] Prompt history and versioning
 
 ### 📋 Planned
+- [ ] Automated A/B testing and format permutation generator
 - [ ] Multi-LLM provider support (OpenAI, Anthropic)
-- [ ] Prompt performance analytics
-- [ ] Template marketplace
-- [ ] Collaborative prompt editing
+- [ ] Unsloth QLoRA tuning pipelines for enterprise clients
 
 ## 🤝 Contributing
 
